@@ -1,30 +1,34 @@
-let React = require('React'),
-  Style = require('../style'),
-  Pressable = require('./Pressable');
+let React = require('react-native'),
+  Style = require('../style');
 
 let {
   View,
-  Text
+  Text,
+  TouchableOpacity
 } = React;
 
-let TopBar = React.createClass({
+let Header = React.createClass({
   render: function () {
     return (
-      <View>
-        <Pressable style={style.backButton} onPress={this.onBack}>
+      <View style={style.bar}>
+        <View style={style.backButton}>
           { this.props.showBack &&
-            <Text>Back</Text> }
-        </Pressable>
-
-        <View>
-          { this.props.title &&
-            <Text>{this.props.title}</Text> }
+            <TouchableOpacity onPress={this.onBack}>
+              <Text>Back</Text>
+            </TouchableOpacity> }
         </View>
 
-        <Pressable onPress={this.onClose}>
+        <View style={style.title}>
+          { this.props.title &&
+            <Text style={style.titleText}>{this.props.title}</Text> }
+        </View>
+
+        <View style={style.closeButton}>
           { this.props.showClose &&
-            <Text>X</Text> }
-        </Pressable>
+            <TouchableOpacity onPress={this.onClose}>
+                <Text>X</Text>
+            </TouchableOpacity> }
+        </View>
       </View>
     )
   },
@@ -38,12 +42,33 @@ let TopBar = React.createClass({
   }
 });
 
-let style = Style.create({
-  backButton: {
+var size = 50;
 
+let style = Style.create({
+  bar: {
+    backgroundColor: Style.values.midGray,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingTop: 12
   },
-  title: {},
-  closeButton: {}
+  backButton: {
+    width: size,
+    height: size,
+    flex: 0,
+  },
+  title: {
+    flex: 1,
+  },
+  titleText: {
+    color: 'white',
+    textAlign: 'center'
+  },
+  closeButton: {
+    width: size,
+    height: size,
+    flex: 0,
+  }
 })
 
-module.exports = TopBar;
+module.exports = Header;

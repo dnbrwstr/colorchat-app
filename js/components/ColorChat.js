@@ -40,7 +40,7 @@ let ColorChat = React.createClass({
           },
           transformTranslate: {
             from: {x: 0, y: Dimensions.get('window').height, z: 0},
-            to: {x: 0, y: Dimensions.get('window').height / 6, z: 0},
+            to: {x: 0, y: 0, z: 0},
             min: 0,
             max: 1,
             type: 'linear',

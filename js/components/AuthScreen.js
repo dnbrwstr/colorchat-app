@@ -4,7 +4,8 @@ let React = require('react-native'),
   Style = require('../style'),
   LoaderButton = require('./LoaderButton'),
   ConfirmCodeScreen = require('./ConfirmCodeScreen'),
-  ErrorMessage = require('./ErrorMessage');
+  ErrorMessage = require('./ErrorMessage'),
+  Header = require('./Header');
 
 let {
   Text,
@@ -21,30 +22,35 @@ let AuthScreen = React.createClass({
   }),
 
   render: function() {
-    let buttonStyles = this.state.buttonActive ? [styles.bottomButton, styles.bottomButtonActive] : styles.bottomButton;
-
     return (
-      <View style={styles.container}>
+      <View style={style.container}>
+        <Header title="Setup" />
 
-        <View style={styles.screenContent}>
+        <View style={style.screenContent}>
+          <Text style={style.welcomeMessage}>
+            Color Chat will send you 
+            an SMS message to verify 
+            your phone number.
+          </Text>
+
           { this.state.errorMessage &&
             <ErrorMessage
               key={this.state.errorMessage}
               message={this.state.errorMessage}
               onRemove={this.onClearError} /> }
 
-          <View style={styles.inputContainerStyle}>
-            <View style={styles.countryCodeWrapper}>
+          <View style={style.inputContainerStyle}>
+            <View style={style.countryCodeWrapper}>
               <TextInput
-                style={styles.countryCodeInput}
+                style={style.countryCodeInput}
                 value="1"
                 keyboardType="phone-pad" autoFocus={true}
                 onChangeText={(countryCode) => this.setState({countryCode})} />
-              <Text style={styles.countryCodePlus}>+</Text>
+              <Text style={style.countryCodePlus}>+</Text>
             </View>
 
             <TextInput
-              style={styles.numberInput}
+              style={style.numberInput}
               placeholder="Phone Number"
               keyboardType="phone-pad"
               onChangeText={(phoneNumber) => this.setState({phoneNumber})} />
@@ -52,6 +58,7 @@ let AuthScreen = React.createClass({
         </View>
 
         <LoaderButton
+          style={style.submit}
           loading={this.state.loading}
           onPress={this.onSubmitNumber}
           messages={{
@@ -110,10 +117,10 @@ let AuthScreen = React.createClass({
   }
 });
 
-let styles = Style.create({
+let style = Style.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'stretch',
     backgroundColor: '#EFEFEF'
   },
@@ -132,6 +139,12 @@ let styles = Style.create({
     mixins: [Style.mixins.inputBase],
     alignSelf: 'stretch',
     flex: 1
+  },
+  welcomeMessage: {
+    mixins: [Style.mixins.textBase],
+    margin: 5,
+    marginTop: 10,
+    width: 250
   },
   countryCodePlus: {
     mixins: [Style.mixins.textBase],

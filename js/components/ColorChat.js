@@ -87,7 +87,7 @@ let ColorChat = React.createClass({
     };
 
     return (
-      <Component {...props} />
+      <Component {...route.passProps} navigator={navigator} />
     );
   }
 });

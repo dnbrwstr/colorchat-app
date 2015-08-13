@@ -6,7 +6,6 @@ let {
   Text
 } = React;
 
-
 let LoaderButton = React.createClass({
   getInitialState: () => ({
     active: false
@@ -22,7 +21,7 @@ let LoaderButton = React.createClass({
     );
   },
 
-  getButtonStyles: function () { 
+  getButtonStyles: function () {
     return [
       styles.button,
       this.state.active && styles.buttonActive,

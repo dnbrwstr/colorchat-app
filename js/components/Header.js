@@ -11,10 +11,12 @@ let Header = React.createClass({
   render: function () {
     return (
       <View style={style.bar}>
-        <View style={style.backButton}>
+        <View style={style.backButtonContainer}>
           { this.props.showBack &&
-            <TouchableOpacity onPress={this.onBack}>
-              <Text>Back</Text>
+            <TouchableOpacity onPress={this.onBack} activeStyle={style.backButtonActive}>
+              <View style={style.backButton}>
+                <Text style={style.backButtonText}>Back</Text>
+              </View>
             </TouchableOpacity> }
         </View>
 
@@ -47,18 +49,29 @@ var size = 50;
 let style = Style.create({
   bar: {
     backgroundColor: Style.values.midGray,
-    alignItems: 'center',
+    height: size,
+    alignItems: 'stretch',
     justifyContent: 'center',
     flexDirection: 'row',
-    paddingTop: 12
+    paddingTop: 16
+  },
+  backButtonContainer: {
+    width: size,
   },
   backButton: {
-    width: size,
-    height: size,
-    flex: 0,
+    flex: 1,
+    justifyContent: 'center'
+  },
+  backButtonActive: {
+    backgroundColor: '#888888'
+  },
+  backButtonText: {
+    color: 'white',
+    textAlign: 'center'
   },
   title: {
     flex: 1,
+    justifyContent: 'center',
   },
   titleText: {
     color: 'white',
@@ -67,7 +80,6 @@ let style = Style.create({
   closeButton: {
     width: size,
     height: size,
-    flex: 0,
   }
 })
 

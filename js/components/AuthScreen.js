@@ -5,26 +5,32 @@ let React = require('react-native'),
   LoaderButton = require('./LoaderButton'),
   ConfirmCodeScreen = require('./ConfirmCodeScreen'),
   ErrorMessage = require('./ErrorMessage'),
-  Header = require('./Header');
+  Pressable = require('./Pressable'),
+  Header = require('./Header'),
+  CountryPickerScreen = require('./CountryPickerScreen');
 
 let {
   Text,
   TextInput,
   View,
+  ScrollView
 } = React;
 
 let AuthScreen = React.createClass({
-  getInitialState: () => ({
-    countryCode: '1',
-    phoneNumber: '',
-    buttonActive: false,
-    errorMessage: null
-  }),
+  getInitialState: function () {
+    return {
+      countryCode: this.props.code || '1',
+      country: this.props.country || 'United States',
+      phoneNumber: '',
+      buttonActive: false,
+      errorMessage: null
+    };
+  },
 
   render: function() {
     return (
-      <View style={style.container}>
-        <Header title="Setup" />
+      <View style={style.container} ref="container">
+        <Header title="Setup"/>
 
         <View style={style.screenContent}>
           <Text style={style.welcomeMessage}>
@@ -39,17 +45,23 @@ let AuthScreen = React.createClass({
               message={this.state.errorMessage}
               onRemove={this.onClearError} /> }
 
+          <Pressable onPress={this.showCountryPicker}>
+            <Text style={style.countryInput} >{this.state.country}</Text>
+          </Pressable>
+
           <View style={style.inputContainerStyle}>
             <View style={style.countryCodeWrapper}>
               <TextInput
+                ref="countryCodeInput"
                 style={style.countryCodeInput}
-                value="1"
-                keyboardType="phone-pad" autoFocus={true}
+                value={this.state.countryCode}
+                keyboardType="phone-pad"
                 onChangeText={(countryCode) => this.setState({countryCode})} />
               <Text style={style.countryCodePlus}>+</Text>
             </View>
 
             <TextInput
+              ref="numberInput"
               style={style.numberInput}
               placeholder="Phone Number"
               keyboardType="phone-pad"
@@ -67,6 +79,16 @@ let AuthScreen = React.createClass({
           }} />
       </View>
     );
+  },
+
+  showCountryPicker: function () {
+    this.refs.countryCodeInput.blur();
+    this.refs.numberInput.blur();
+
+    this.props.navigator.push({
+      component: CountryPickerScreen,
+      title: ''
+    });
   },
 
   onSubmitNumber: function () {
@@ -118,6 +140,9 @@ let AuthScreen = React.createClass({
 });
 
 let style = Style.create({
+  scroll: {
+    flex: 1
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -134,6 +159,15 @@ let style = Style.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
     margin: 5
+  },
+  countryInput: {
+    mixins: [Style.mixins.inputBase],
+    margin: 5,
+    marginBottom: 0
+  },
+  countryInputActive: {
+    color: 'white',
+    backgroundColor: 'black'
   },
   numberInput: {
     mixins: [Style.mixins.inputBase],
@@ -155,7 +189,7 @@ let style = Style.create({
     backgroundColor: 'transparent'
   },
   countryCodeWrapper: {
-    width: 60,
+    width: 80,
     flex: 0,
     margin: 0,
     padding: 0

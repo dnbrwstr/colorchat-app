@@ -1,4 +1,4 @@
-var countryData = [
+var countries = [
   {
     "label": "Afghanistan",
     "code": 93
@@ -14,7 +14,7 @@ var countryData = [
   },{
     "label": "Angola",
     "code": 244
-  }{
+  },{
     "label": "Antigua and Barbuda",
     "code": 1268
   },{
@@ -71,10 +71,10 @@ var countryData = [
   },{
     "label": "Botswana",
     "code": 267
-  }{
+  },{
     "label": "Brazil",
     "code": 55
-  }{
+  },{
     "label": "Brunei",
     "code": 673
   },{
@@ -619,3 +619,5 @@ var countryData = [
     "code": 381
   }
 ];
+
+module.exports = countries;

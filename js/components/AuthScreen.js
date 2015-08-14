@@ -1,13 +1,16 @@
-let React = require('react-native'),
-  merge = require('merge'),
-  AuthService = require('../AuthService'),
-  Style = require('../style'),
-  LoaderButton = require('./LoaderButton'),
-  ConfirmCodeScreen = require('./ConfirmCodeScreen'),
-  ErrorMessage = require('./ErrorMessage'),
-  Pressable = require('./Pressable'),
-  Header = require('./Header'),
-  CountryPickerScreen = require('./CountryPickerScreen');
+import React from 'react-native';
+import { connect } from 'react-redux/native';
+import merge from 'merge';
+import AuthService from '../AuthService';
+import Style from '../style';
+import LoaderButton from './LoaderButton'
+import ConfirmCodeScreen from './ConfirmCodeScreen';
+import ErrorMessage from './ErrorMessage';
+import Pressable from './Pressable';
+import Header from './Header';
+import CountryPickerScreen from './CountryPickerScreen';
+import { selectRegistrationState } from '../selectors/RegistrationSelectors';
+import * as RegistrationActions from '../actions/RegistrationActions';
 
 let {
   Text,
@@ -16,18 +19,17 @@ let {
   ScrollView
 } = React;
 
+let {
+  updateData,
+  registerPhoneNumber,
+  clearRegistrationError
+} = RegistrationActions;
+
 let AuthScreen = React.createClass({
-  getInitialState: function () {
-    return {
-      countryCode: this.props.code || '1',
-      country: this.props.country || 'United States',
-      phoneNumber: '',
-      buttonActive: false,
-      errorMessage: null
-    };
-  },
 
   render: function() {
+    let { dispatch, phoneNumberError } = this.props;
+
     return (
       <View style={style.container} ref="container">
         <Header title="Setup"/>
@@ -39,14 +41,15 @@ let AuthScreen = React.createClass({
             your phone number.
           </Text>
 
-          { this.state.errorMessage &&
+          { phoneNumberError ?
             <ErrorMessage
-              key={this.state.errorMessage}
-              message={this.state.errorMessage}
-              onRemove={this.onClearError} /> }
+              message={this.props.phoneNumberError}
+              onRemove={() =>
+                dispatch(clearRegistrationError())
+              } /> : null }
 
           <Pressable onPress={this.showCountryPicker}>
-            <Text style={style.countryInput} >{this.state.country}</Text>
+            <Text style={style.countryInput} >{this.props.country}</Text>
           </Pressable>
 
           <View style={style.inputContainerStyle}>
@@ -54,9 +57,11 @@ let AuthScreen = React.createClass({
               <TextInput
                 ref="countryCodeInput"
                 style={style.countryCodeInput}
-                value={this.state.countryCode}
+                value={this.props.countryCode}
                 keyboardType="phone-pad"
-                onChangeText={(countryCode) => this.setState({countryCode})} />
+                onChangeText={(countryCode) =>
+                  dispatch(updateData({countryCode}))
+                } />
               <Text style={style.countryCodePlus}>+</Text>
             </View>
 
@@ -65,13 +70,15 @@ let AuthScreen = React.createClass({
               style={style.numberInput}
               placeholder="Phone Number"
               keyboardType="phone-pad"
-              onChangeText={(phoneNumber) => this.setState({phoneNumber})} />
+              onChangeText={(phoneNumber) =>
+                dispatch(updateData({phoneNumber}))
+              } />
           </View>
         </View>
 
         <LoaderButton
           style={style.submit}
-          loading={this.state.loading}
+          loading={this.props.loading}
           onPress={this.onSubmitNumber}
           messages={{
             base: 'Send message',
@@ -96,24 +103,22 @@ let AuthScreen = React.createClass({
       loading: true
     });
 
-    let filterInput = (input) => input.replace(/[^0-9]/g, '');
-    let countryCode = filterInput(this.state.countryCode);
-    let phoneNumber = filterInput(this.state.phoneNumber);
-    let number = '+' + countryCode + phoneNumber;
+    this.props.dispatch(registerPhoneNumber());
 
-    AuthService.confirmPhoneNumber(number).then((res) => {
-      this.setState({
-        loading: false
-      });
+    // AuthService.confirmPhoneNumber(number).then((res) => {
+    //   this.setState({
+    //     loading: false
+    //   });
+
 
       // if (res.ok) {
-        this.props.navigator.push({
-          component: ConfirmCodeScreen,
-          title: '',
-          passProps: {
-            number: number
-          }
-        });
+        // this.props.navigator.push({
+        //   component: ConfirmCodeScreen,
+        //   title: '',
+        //   passProps: {
+        //     number: number
+        //   }
+        // });
       // } else {
       //   let messages = {
       //     400: 'Invalid phone number',
@@ -129,13 +134,7 @@ let AuthScreen = React.createClass({
     //     loading: false,
     //     errorMessage: 'Unable to connect to server'
     //   });
-    })
-  },
-
-  onClearError: function () {
-    this.setState({
-      errorMessage: null
-    });
+    // })
   }
 });
 
@@ -202,4 +201,4 @@ let style = Style.create({
   }
 });
 
-module.exports = AuthScreen;
+export default connect(selectRegistrationState)(AuthScreen);

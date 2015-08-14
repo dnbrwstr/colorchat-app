@@ -1,8 +1,9 @@
-let React = require('react-native'),
-  AuthScreen = require('./AuthScreen'),
-  Style = require('../style');
-
-var buildStyleInterpolator = require('react-native/Libraries/Utilities/buildStyleInterpolator')
+import React from 'react-native';
+import { Provider } from 'react-redux/native';
+import AuthScreen from './AuthScreen';
+import Style from '../style';
+import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
+import store from '../store';
 
 let {
   Dimensions,
@@ -87,7 +88,9 @@ let ColorChat = React.createClass({
     };
 
     return (
-      <Component {...route.passProps} navigator={navigator} />
+      <Provider store={store}>
+        { () => <Component {...route.passProps} navigator={navigator} /> }
+      </Provider>
     );
   }
 });

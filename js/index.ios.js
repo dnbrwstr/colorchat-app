@@ -1,9 +1,5 @@
-let React = require('react-native'),
-  ColorChat = require('./components/ColorChat');
-
-let {
-  AppRegistry,
-  Stylesheet
-} = React;
+import 'regenerator/runtime';
+import { AppRegistry } from 'react-native';
+import ColorChat from './components/ColorChat';
 
 AppRegistry.registerComponent('ColorChat', () => ColorChat);

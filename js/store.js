@@ -1,9 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import registration from './reducers/registration'
+import navigation from './reducers/navigation';
 
 let reducers = {
-  registration
+  registration,
+  navigation
 };
 
 let createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);

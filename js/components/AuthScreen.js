@@ -11,6 +11,7 @@ import Header from './Header';
 import CountryPickerScreen from './CountryPickerScreen';
 import { selectRegistrationState } from '../selectors/RegistrationSelectors';
 import * as RegistrationActions from '../actions/RegistrationActions';
+import { navigateTo } from '../actions/NavigationActions';
 
 let {
   Text,
@@ -28,7 +29,7 @@ let {
 let AuthScreen = React.createClass({
 
   render: function() {
-    let { dispatch, phoneNumberError } = this.props;
+    let { dispatch, error } = this.props;
 
     return (
       <View style={style.container} ref="container">
@@ -41,14 +42,16 @@ let AuthScreen = React.createClass({
             your phone number.
           </Text>
 
-          { phoneNumberError ?
+          { error ?
             <ErrorMessage
-              message={this.props.phoneNumberError}
+              message={error.toString()}
               onRemove={() =>
                 dispatch(clearRegistrationError())
               } /> : null }
 
-          <Pressable onPress={this.showCountryPicker}>
+          <Pressable onPress={() =>
+            dispatch(navigateTo('countryPicker'))
+          }>
             <Text style={style.countryInput} >{this.props.country}</Text>
           </Pressable>
 
@@ -104,37 +107,6 @@ let AuthScreen = React.createClass({
     });
 
     this.props.dispatch(registerPhoneNumber());
-
-    // AuthService.confirmPhoneNumber(number).then((res) => {
-    //   this.setState({
-    //     loading: false
-    //   });
-
-
-      // if (res.ok) {
-        // this.props.navigator.push({
-        //   component: ConfirmCodeScreen,
-        //   title: '',
-        //   passProps: {
-        //     number: number
-        //   }
-        // });
-      // } else {
-      //   let messages = {
-      //     400: 'Invalid phone number',
-      //     500: 'Something went wrong'
-      //   };
-
-      //   this.setState({
-      //     errorMessage: messages[res.status]
-      //   });
-      // }
-    // }).catch((e) => {
-    //   this.setState({
-    //     loading: false,
-    //     errorMessage: 'Unable to connect to server'
-    //   });
-    // })
   }
 });
 

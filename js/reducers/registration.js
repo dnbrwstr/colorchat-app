@@ -1,10 +1,4 @@
-let handlers = {
-  updatePhoneNumber: (state, action) => ({
-    ...state,
-    code: action.countryCode,
-    number: action.phoneNumber
-  })
-};
+import createRoutingReducer from '../lib/createRoutingReducer';
 
 let initialState = {
   country: 'United States',
@@ -14,9 +8,38 @@ let initialState = {
   confirmationCode: '',
   confirmCodeError: '',
   loading: false
+};
+
+let handleRegistrationRequest = (state, action) => {
+  console.log('redcing', state, action)
+  if (action.state === 'started') {
+    return {
+      ...state,
+      loading: true
+    }
+  } else if (action.state == 'complete') {
+    return {
+      ...state,
+      loading: false
+    }
+  } else if (action.state == 'failed') {
+    return {
+      ...state,
+      loading: false,
+      error: action.error
+    }
+  }
 }
 
-export default (state, action) => {
-  return handlers[action.type] ?
-    handlers[action.type](state, action) : (state || initialState)
-}
+let handlers = {
+  registerPhoneNumber: (state, action) => handleRegistrationRequest(state, action),
+
+  submitConfirmationCode: (state, action) => handleRegistrationRequest(state, action),
+
+  updateData: (state, action) => ({
+    ...state,
+    ...action.data
+  })
+};
+
+export default createRoutingReducer(handlers, initialState);

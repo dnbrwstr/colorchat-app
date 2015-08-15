@@ -1,8 +1,11 @@
-let React = require('react-native'),
-  Header = require('./Header'),
-  countries = require('../countries'),
-  Pressable = require('./Pressable'),
-  Style = require('../style');
+import React from 'react-native';
+import { connect } from 'react-redux/native';
+import Header from './Header';
+import countries from '../countries';
+import Pressable from './Pressable';
+import { updateData } from '../actions/RegistrationActions';
+import { navigateBack } from '../actions/NavigationActions';
+import Style from '../style';
 
 let {
   ListView,
@@ -32,9 +35,13 @@ let CountryPickerScreen = React.createClass({
   },
 
   render: function () {
+    let { dispatch } = this.props;
+
     return (
       <View style={style.container}>
-        <Header title="Select a country" showBack={true} onBack={this.onClose}/>
+        <Header title="Select a country" showBack={true} onBack={() => 
+          dispatch(navigateBack())
+        }/>
         <ListView
           removeClippedSubviews={true}
           automaticallyAdjustContentInsets={false}
@@ -76,18 +83,14 @@ let CountryPickerScreen = React.createClass({
   },
 
   onSelect: function (country) {
-    this.props.navigator.replacePreviousAndPop({
-      component: require('./AuthScreen'),
-      title: 'Auth',
-      passProps: {
-        country: country.label,
-        code: country.code
-      }
-    });
-  },
+    let { dispatch } = this.props;
 
-  onClose: function () {
-    this.props.navigator.pop();
+    dispatch(updateData({
+      country: country.label,
+      countryCode: country.code
+    }));
+
+    dispatch(navigateBack());
   }
 });
 
@@ -111,4 +114,4 @@ var style = Style.create({
   }
 });
 
-module.exports = CountryPickerScreen;
+module.exports = connect(state => state.registration)(CountryPickerScreen);

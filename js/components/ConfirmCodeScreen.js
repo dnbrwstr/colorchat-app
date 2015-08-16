@@ -1,7 +1,12 @@
-let React = require('react-native'),
-  Style = require('../style'),
-  LoaderButton = require('./LoaderButton'),
-  AuthService = require('../AuthService');
+import React from 'react-native';
+import { connect } from 'react-redux/native';
+import Style from '../style';
+import LoaderButton from './LoaderButton';
+import AuthService from '../AuthService';
+import ErrorMessage from './ErrorMessage';
+import { navigateBack } from '../actions/NavigationActions';
+import { submitConfirmationCode, updateData } from '../actions/RegistrationActions';
+import Header from './Header';
 
 let {
   View,
@@ -15,51 +20,63 @@ let ConfirmCodeScreen = React.createClass({
   }),
 
   render: function () {
+    let { dispatch, error } = this.props;
+
     return (
       <View style={style.container}>
-        <TextInput
-          style={style.input}
-          onChangeText={(code) => this.setState({code})} />
-        <LoaderButton
-          loading={this.state.loading}
-          onPress={this.onConfirmCode}
-          messages={{
-            base: 'Confirm code',
-            loading: 'Loading...'
-          }} />
+        <Header title="Confirm code" showBack={true} onBack={() =>
+          dispatch(navigateBack())
+        } />
+
+        <View style={style.screenContent}>
+          { error ?
+            <ErrorMessage
+              message={error.toString()}
+              onRemove={() =>
+                dispatch(updateData({
+                  error: ''
+                }))
+              } /> : null }
+
+          <TextInput
+            placeholder="SMS Code"
+            style={style.input}
+            value={this.props.confirmationCode}
+            onChangeText={(confirmationCode) =>
+              dispatch(updateData({ confirmationCode }))
+            } />
+
+          <LoaderButton
+            loading={this.props.loading}
+            onPress={() =>
+              dispatch(submitConfirmationCode())
+            }
+            messages={{
+              base: 'Confirm code',
+              loading: 'Loading...'
+            }} />
+        </View>
       </View>
     )
-  },
-
-  onConfirmCode: function () {
-    this.setState({
-      loading: true
-    });
-
-    AuthService.confirmCode(this.state.code, this.props.number).then((res) => {
-      this.setState({
-        loading: false
-      });
-
-      if (res.ok) {
-        console.log('ypp');
-      }
-    });
   }
 });
 
 var style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    backgroundColor: '#EFEFEF'
+  },
+  screenContent: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
     justifyContent: 'center',
-    alignItems: 'stretch'
   },
   input: {
     mixins: [Style.mixins.inputBase],
-    margin: 5,
-    marginBottom: 0
+    margin: 5
   }
 })
 
-module.exports = ConfirmCodeScreen;
+module.exports = connect(state => state.registration)(ConfirmCodeScreen);

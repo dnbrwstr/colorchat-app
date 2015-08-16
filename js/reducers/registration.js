@@ -4,23 +4,23 @@ let initialState = {
   country: 'United States',
   countryCode: '1',
   phoneNumber: '',
-  phoneNumberError: '',
   confirmationCode: '',
-  confirmCodeError: '',
+  error: false,
   loading: false
 };
 
 let handleRegistrationRequest = (state, action) => {
-  console.log('redcing', state, action)
   if (action.state === 'started') {
     return {
       ...state,
-      loading: true
+      loading: true,
+      error: false
     }
   } else if (action.state == 'complete') {
     return {
       ...state,
-      loading: false
+      loading: false,
+      error: false
     }
   } else if (action.state == 'failed') {
     return {

@@ -73,6 +73,7 @@ let AuthScreen = React.createClass({
               style={style.numberInput}
               placeholder="Phone Number"
               keyboardType="phone-pad"
+              value={this.props.phoneNumber}
               onChangeText={(phoneNumber) =>
                 dispatch(updateData({phoneNumber}))
               } />
@@ -111,9 +112,6 @@ let AuthScreen = React.createClass({
 });
 
 let style = Style.create({
-  scroll: {
-    flex: 1
-  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',

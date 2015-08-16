@@ -4,7 +4,7 @@ import AuthScreen from './AuthScreen';
 import CountryPickerScreen from './CountryPickerScreen';
 import ConfirmCodeScreen from './ConfirmCodeScreen';
 import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
-import store from '../store';
+import MainScreen from './MainScreen';
 
 let {
   Dimensions,
@@ -15,10 +15,15 @@ let {
 
 let Router = React.createClass({
   render: function () {
-    return <Navigator ref="navigator"
-      configureScene={this.configureScene}
-      renderScene={this.renderScene}
-      initialRoute={this.props.route} />
+    let props = {
+      ref: "navigator",
+      configureScene: this.configureScene,
+      renderScene: this.renderScene,
+      initialRoute: this.props.route,
+      initialRouteStack: this.props.history
+    };
+
+    return <Navigator {...props} />
   },
 
   componentWillUpdate: function (nextProps, nextState) {
@@ -86,14 +91,15 @@ let Router = React.createClass({
     let pageComponents = {
       registration: AuthScreen,
       countryPicker: CountryPickerScreen,
-      confirmCode: ConfirmCodeScreen
+      confirmCode: ConfirmCodeScreen,
+      main: MainScreen
     };
 
     let Component = pageComponents[route.title];
 
     return (
-      <Provider store={store}>
-        { () => <Component {...route.passProps} /> }
+      <Provider store={this.props.store}>
+        { () => <Component ref="testing" {...route.passProps} /> }
       </Provider>
     );
   }

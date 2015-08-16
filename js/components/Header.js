@@ -11,11 +11,11 @@ let Header = React.createClass({
   render: function () {
     return (
       <View style={style.bar}>
-        <View style={style.backButtonContainer}>
+        <View style={style.buttonContainer}>
           { this.props.showBack &&
-            <TouchableOpacity onPress={this.onBack} activeStyle={style.backButtonActive}>
-              <View style={style.backButton}>
-                <Text style={style.backButtonText}>Back</Text>
+            <TouchableOpacity onPress={this.onBack} activeStyle={style.buttonActive}>
+              <View style={style.button}>
+                <Text style={style.buttonText}>Back</Text>
               </View>
             </TouchableOpacity> }
         </View>
@@ -25,10 +25,12 @@ let Header = React.createClass({
             <Text style={style.titleText}>{this.props.title}</Text> }
         </View>
 
-        <View style={style.closeButton}>
+        <View style={style.buttonContainer}>
           { this.props.showClose &&
-            <TouchableOpacity onPress={this.onClose}>
-                <Text>X</Text>
+            <TouchableOpacity onPress={this.onClose} activeStyle={style.buttonActive}>
+              <View style={style.button}>
+                <Text style={style.buttonText}>X</Text>
+              </View>
             </TouchableOpacity> }
         </View>
       </View>
@@ -55,17 +57,17 @@ let style = Style.create({
     flexDirection: 'row',
     paddingTop: 16
   },
-  backButtonContainer: {
+  buttonContainer: {
     width: size,
   },
-  backButton: {
+  button: {
     flex: 1,
     justifyContent: 'center'
   },
-  backButtonActive: {
+  buttonActive: {
     backgroundColor: '#888888'
   },
-  backButtonText: {
+  buttonText: {
     color: 'white',
     textAlign: 'center'
   },
@@ -76,10 +78,6 @@ let style = Style.create({
   titleText: {
     color: 'white',
     textAlign: 'center'
-  },
-  closeButton: {
-    width: size,
-    height: size,
   }
 })
 

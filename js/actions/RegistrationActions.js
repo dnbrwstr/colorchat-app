@@ -9,6 +9,18 @@ let postJSON = (url, data) => fetch(url, {
   body: JSON.stringify(data)
 });
 
+let errorMessages = {
+  500: 'Something went wrong',
+  404: 'Unable to connect to server',
+  400: 'Invalid input',
+  403: 'Unauthorized'
+};
+
+let sanitizeNumber = number => number.replace(/[^0-9]/g, '');
+
+let formatPhoneNumber = (countryCode, number) =>
+  `+${[countryCode, number].map(sanitizeNumber).join('')}`;
+
 export let updateData = newData => ({
   type: 'updateData',
   data: newData
@@ -17,7 +29,7 @@ export let updateData = newData => ({
 export let registerPhoneNumber = number => async (dispatch, getState) => {
   let state = getState();
   let { countryCode, phoneNumber } = state.registration;
-  let fullNumber = `+${countryCode}${phoneNumber}`;
+  let fullNumber = formatPhoneNumber(countryCode, phoneNumber);
 
   try {
     dispatch({
@@ -29,13 +41,6 @@ export let registerPhoneNumber = number => async (dispatch, getState) => {
     let res = await postJSON(serverRoot + '/auth', {
       number: fullNumber
     });
-
-    let errorMessages = {
-      500: 'Something went wrong',
-      404: 'Unable to connect to server',
-      400: 'Invalid input',
-      403: 'Unauthorized'
-    }
 
     if (res.ok) {
       dispatch({
@@ -59,21 +64,32 @@ export let registerPhoneNumber = number => async (dispatch, getState) => {
 };
 
 export let submitConfirmationCode = (code, number) => async (dispatch, getState) => {
-  dispatch({
-    type: 'submitConfirmationCode',
-    state: 'started'
-  });
-
   try {
-    await postJSON(serverRoot + '/auth/confirm', {
-      number: number,
-      code: code
-    });
+    let { phoneNumber, countryCode, confirmationCode } = getState().registration;
+    let fullNumber = formatPhoneNumber(countryCode, phoneNumber);
 
     dispatch({
       type: 'submitConfirmationCode',
-      state: 'complete'
+      state: 'started'
     });
+
+    let res = await postJSON(serverRoot + '/auth/confirm', {
+      number: fullNumber,
+      code: confirmationCode
+    });
+
+    if (res.ok) {
+      dispatch({
+        type: 'submitConfirmationCode',
+        state: 'complete'
+      });
+    } else {
+      dispatch({
+        type: 'registerPhoneNumber',
+        state: 'failed',
+        error: errorMessages[res.status]
+      });
+    }
   } catch (e) {
     dispatch({
       type: 'submitConfirmationCode',

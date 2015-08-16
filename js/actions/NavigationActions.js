@@ -16,8 +16,16 @@ export let navigateTo = (a, b) => {
   };
 }
 
-export let navigateBack = (route) => (dispatch, getState) => dispatch({
-  type: 'navigateTo',
-  route: route || getState().navigation.history.slice(0).pop(),
-  reverse: true
-});
+export let navigateBack = (route) => (dispatch, getState) => {
+  if (!route) {
+    let { history } = getState().navigation;
+    let currentRoute = getState().navigation.route;
+    route = history[history.indexOf(currentRoute) - 1];
+  }
+
+  return dispatch({
+    type: 'navigateTo',
+    route: route,
+    reverse: true
+  });
+}

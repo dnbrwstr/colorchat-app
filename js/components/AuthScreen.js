@@ -12,6 +12,7 @@ import CountryPickerScreen from './CountryPickerScreen';
 import { selectRegistrationState } from '../selectors/RegistrationSelectors';
 import * as RegistrationActions from '../actions/RegistrationActions';
 import { navigateTo } from '../actions/NavigationActions';
+import DecoupledInput from './DecoupledInput';
 
 let {
   Text,
@@ -37,8 +38,8 @@ let AuthScreen = React.createClass({
 
         <View style={style.screenContent}>
           <Text style={style.welcomeMessage}>
-            Color Chat will send you 
-            an SMS message to verify 
+            Color Chat will send you
+            an SMS message to verify
             your phone number.
           </Text>
 
@@ -49,34 +50,26 @@ let AuthScreen = React.createClass({
                 dispatch(clearRegistrationError())
               } /> : null }
 
-          <Pressable onPress={() =>
-            dispatch(navigateTo('countryPicker'))
-          }>
+          <Pressable onPress={this.showCountryPicker}>
             <Text style={style.countryInput} >{this.props.country}</Text>
           </Pressable>
 
           <View style={style.inputContainerStyle}>
             <View style={style.countryCodeWrapper}>
-              <TextInput
+              <DecoupledInput
                 ref="countryCodeInput"
                 style={style.countryCodeInput}
-                value={this.props.countryCode}
-                keyboardType="phone-pad"
-                onChangeText={(countryCode) =>
-                  dispatch(updateData({countryCode}))
-                } />
+                initialValue={this.props.countryCode}
+                keyboardType="phone-pad" />
               <Text style={style.countryCodePlus}>+</Text>
             </View>
 
-            <TextInput
+            <DecoupledInput
               ref="numberInput"
               style={style.numberInput}
               placeholder="Phone Number"
               keyboardType="phone-pad"
-              value={this.props.phoneNumber}
-              onChangeText={(phoneNumber) =>
-                dispatch(updateData({phoneNumber}))
-              } />
+              initialValue={this.props.phoneNumber} />
           </View>
         </View>
 
@@ -95,19 +88,23 @@ let AuthScreen = React.createClass({
   showCountryPicker: function () {
     this.refs.countryCodeInput.blur();
     this.refs.numberInput.blur();
-
-    this.props.navigator.push({
-      component: CountryPickerScreen,
-      title: ''
-    });
+    this.updateData();
+    this.props.dispatch(navigateTo('countryPicker'));
   },
 
   onSubmitNumber: function () {
-    this.setState({
-      loading: true
-    });
-
+    this.updateData();
     this.props.dispatch(registerPhoneNumber());
+  },
+
+  updateData: function () {
+    let phoneNumber = this.refs.numberInput.getValue();
+    let countryCode = this.refs.countryCodeInput.getValue();
+
+    this.props.dispatch(updateData({
+      phoneNumber,
+      countryCode
+    }));
   }
 });
 

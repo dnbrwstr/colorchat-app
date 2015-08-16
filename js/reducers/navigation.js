@@ -14,9 +14,7 @@ let initialState = {
 
 let handlers = {
   registerPhoneNumber: function (state, action) {
-    // if (action.state == 'complete') {
-    if (action.state == 'complete' || action.state == 'failed') {
-      console.log(state);
+    if (action.state == 'complete') {
       return this.navigateTo(state, {
         route: {
           title: 'confirmCode'
@@ -44,12 +42,8 @@ let handlers = {
     let newRoute = action.route;
     let newHistory;
 
-    console.log(newRoute, route);
-
     if (newRoute.title !== route.title || newRoute.data !== route.data) {
-      console.log(1);
       if (action.reverse) {
-        console.log('2a')
         invariant(
           history.indexOf(newRoute) !== -1,
           'Can\'t pop to a nonexistant route'
@@ -57,11 +51,8 @@ let handlers = {
 
         newHistory = history.slice(0, history.indexOf(newRoute) + 1);
       } else {
-        console.log('2b')
         newHistory = [...history, newRoute];
       }
-      console.log(3);
-      console.log(newRoute);
 
       return {
         ...state,

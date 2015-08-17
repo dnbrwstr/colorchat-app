@@ -6,9 +6,11 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "bluebird": "^2.9.34",
     "invariant": "^2.1.0",
     "merge": "^1.2.0",
     "react-native": "^0.8.0",
+    "react-native-addressbook": "^1.2.0",
     "react-redux": "^0.8.2",
     "redux": "^1.0.0-rc",
     "redux-thunk": "^0.1.0",

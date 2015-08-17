@@ -16,13 +16,13 @@ let handleRegistrationRequest = (state, action) => {
       loading: true,
       error: false
     }
-  } else if (action.state == 'complete') {
+  } else if (action.state === 'complete') {
     return {
       ...state,
       loading: false,
       error: false
     }
-  } else if (action.state == 'failed') {
+  } else if (action.state === 'failed') {
     return {
       ...state,
       loading: false,

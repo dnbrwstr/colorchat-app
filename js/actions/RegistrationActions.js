@@ -1,13 +1,5 @@
 import { serverRoot } from '../config';
-
-let postJSON = (url, data) => fetch(url, {
-  method: 'post',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(data)
-});
+import { postJSON } from '../lib/RequestHelpers';
 
 let errorMessages = {
   500: 'Something went wrong',

@@ -98,9 +98,7 @@ let Router = React.createClass({
     let Component = pageComponents[route.title];
 
     return (
-      <Provider store={this.props.store}>
-        { () => <Component ref="testing" {...route.passProps} /> }
-      </Provider>
+      <Component {...route.data} />
     );
   }
 });

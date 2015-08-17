@@ -7,6 +7,7 @@ import ErrorMessage from './ErrorMessage';
 import { navigateBack } from '../actions/NavigationActions';
 import { submitConfirmationCode, updateData } from '../actions/RegistrationActions';
 import Header from './Header';
+import DecoupledInput from './DecoupledInput';
 
 let {
   View,
@@ -38,19 +39,15 @@ let ConfirmCodeScreen = React.createClass({
                 }))
               } /> : null }
 
-          <TextInput
+          <DecoupledInput
+            ref="confirmationCodeInput"
             placeholder="SMS Code"
             style={style.input}
-            value={this.props.confirmationCode}
-            onChangeText={(confirmationCode) =>
-              dispatch(updateData({ confirmationCode }))
-            } />
+            initialValue={this.props.confirmationCode} />
 
           <LoaderButton
             loading={this.props.loading}
-            onPress={() =>
-              dispatch(submitConfirmationCode())
-            }
+            onPress={this.onSubmit}
             messages={{
               base: 'Confirm code',
               loading: 'Loading...'
@@ -58,6 +55,13 @@ let ConfirmCodeScreen = React.createClass({
         </View>
       </View>
     )
+  },
+
+  onSubmit: function () {
+    this.refs.confirmationCodeInput.blur();
+    let confirmationCode = this.refs.confirmationCodeInput.getValue();
+    this.props.dispatch(updateData({ confirmationCode }));
+    this.props.dispatch(submitConfirmationCode());
   }
 });
 

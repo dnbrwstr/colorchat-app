@@ -79,9 +79,12 @@ export let submitConfirmationCode = (code, number) => async (dispatch, getState)
     });
 
     if (res.ok) {
+      let json = await res.json();
+
       dispatch({
         type: 'submitConfirmationCode',
-        state: 'complete'
+        state: 'complete',
+        data: json
       });
     } else {
       dispatch({

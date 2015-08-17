@@ -2,16 +2,8 @@ import { AsyncStorage } from 'react-native';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import saveStateMiddleware from './saveStateMiddleware';
-import registration from '../reducers/registration';
-import navigation from '../reducers/navigation';
-import auth from '../reducers/auth';
+import * as reducers from '../reducers';
 import { rehydrate } from '../config';
-
-let reducers = {
-  registration,
-  navigation,
-  auth
-};
 
 let createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,

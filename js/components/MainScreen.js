@@ -4,6 +4,7 @@ import ContactsScreen from './ContactsScreen';
 import MessagesScreen from './MessagesScreen';
 import Pressable from './Pressable';
 import Style from '../style';
+import { SlideFromLeft, SlideFromRight} from '../lib/SceneConfigs';
 
 let {
   View,
@@ -44,6 +45,7 @@ let MainScreen = React.createClass({
             ref="navigator"
             initialRoute={initialRouteStack[0]}
             initialRouteStack={initialRouteStack}
+            configureScene={this.configureScene}
             renderScene={this.renderScene} />
         </View>
 
@@ -68,18 +70,23 @@ let MainScreen = React.createClass({
     );
   },
 
-  configureScene: function () {},
+  configureScene: function (route) {
+    return {
+      contacts: SlideFromLeft,
+      messages: SlideFromRight
+    }[route.title];
+  },
 
-  renderScene: function () {
+  renderScene: function (route) {
     let pageComponents = {
       contacts: ContactsScreen,
       messages: MessagesScreen
     }
 
-    let Component = pageComponents[this.state.route.title];
+    let Component = pageComponents[route.title];
 
     return (
-      <Component {...this.state.route.data} />
+      <Component {...route.data} />
     )
   }
 });

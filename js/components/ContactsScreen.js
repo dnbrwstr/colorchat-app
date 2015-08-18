@@ -27,7 +27,7 @@ let ContactsScreen = React.createClass({
   },
 
   renderImportPrompt: function () {
-    let dispatch = this.props.dispatch;
+    let { dispatch } = this.props;
 
     return (
       <View style={importStyle.container}>
@@ -60,10 +60,7 @@ let ContactsScreen = React.createClass({
 
 let style = Style.create({
   container: {
-    flex: 1,
-    backgroundColor: 'maroon',
-    alignItems: 'center',
-    justifyContent: 'center'
+    flex: 1
   }
 });
 

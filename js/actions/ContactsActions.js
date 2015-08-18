@@ -3,11 +3,6 @@ import { postAuthenticatedJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
 
 export let importContacts = (opts) => async (dispatch, getState) => {
-  dispatch({
-    type: 'importContacts',
-    state: 'started'
-  });
-
   let onPermissionDenied = () => {
     dispatch({
       type: 'importContacts',
@@ -20,20 +15,31 @@ export let importContacts = (opts) => async (dispatch, getState) => {
     let contacts = await AddressBook.getContactsAsync();
     let numbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
     let token = getState().auth.token;
+    let matches;
 
-    let matches = await postAuthenticatedJSON(serverRoot + '/match', { numbers }, token);
-    matches.forEach((m) => contacts[m.index] = {
-      ...contacts[m.index],
-      matched: true,
-      id: m.userId
-    });
+    try {
+      let res = await postAuthenticatedJSON(serverRoot + '/match', { numbers }, token);
+      matches = await res.json();
+    } catch (e) {
+      dispatch({
+        type: 'importContacts',
+        state: 'failed',
+        error: 'Unable to match contacts with server'
+      });
+    }
 
     dispatch({
       type: 'importContacts',
       state: 'complete',
-      contacts: contacts
+      contacts: contacts,
+      matches: matches
     });
   };
+
+  dispatch({
+    type: 'importContacts',
+    state: 'started'
+  });
 
   let permission = await AddressBook.checkPermissionAsync();
 

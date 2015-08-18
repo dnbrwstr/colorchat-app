@@ -8,6 +8,7 @@ let handlers = {
   submitConfirmationCode: (state, action) => {
     if (action.state == 'complete') {
       return {
+        ...state,
         token: action.data.token
       }
     } else {

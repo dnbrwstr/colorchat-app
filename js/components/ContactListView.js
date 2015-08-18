@@ -38,7 +38,10 @@ export default ContactListView = React.createClass({
 
   renderContact: function (contact) {
     return (
-      <View>
+      <View style={[
+          style.contact,
+          contact.matched && style.contactMatched
+        ]}>
         <Text>{contact.firstName} {contact.lastName}</Text>
       </View>
     )
@@ -50,5 +53,12 @@ export default ContactListView = React.createClass({
 });
 
 let style = Style.create({
-
+  contact: {
+    backgroundColor: 'white',
+    padding: 10,
+    flex: 1
+  },
+  contactMatched: {
+    backgroundColor: 'green'
+  }
 });

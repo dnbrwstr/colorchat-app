@@ -3,6 +3,7 @@ import { Provider, connect } from 'react-redux/native';
 import AuthScreen from './AuthScreen';
 import CountryPickerScreen from './CountryPickerScreen';
 import ConfirmCodeScreen from './ConfirmCodeScreen';
+import ConversationScreen from './ConversationScreen';
 import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
 import MainScreen from './MainScreen';
 import { FromBottom } from '../lib/SceneConfigs'
@@ -43,7 +44,8 @@ let Router = React.createClass({
       registration: AuthScreen,
       countryPicker: CountryPickerScreen,
       confirmCode: ConfirmCodeScreen,
-      main: MainScreen
+      main: MainScreen,
+      conversation: ConversationScreen
     };
 
     let Component = pageComponents[route.title];

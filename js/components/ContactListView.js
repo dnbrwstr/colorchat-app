@@ -38,17 +38,25 @@ export default ContactListView = React.createClass({
 
   renderContact: function (contact) {
     return (
-      <View style={[
-          style.contact,
-          contact.matched && style.contactMatched
-        ]}>
-        <Text>{contact.firstName} {contact.lastName}</Text>
-      </View>
+      <Pressable onPress={() => this.onSelectContact(contact) }>
+        <View style={[
+            style.contact,
+            contact.matched && style.contactMatched
+          ]}>
+          <Text>{contact.firstName} {contact.lastName}</Text>
+        </View>
+      </Pressable>
     )
   },
 
   renderSeperator: function () {
     return (<View style={style.separator} />)
+  },
+
+  onSelectContact: function (contact) {
+    if (this.props.onSelect) {
+      this.props.onSelect(contact);
+    }
   }
 });
 

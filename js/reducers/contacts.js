@@ -4,7 +4,7 @@ let initialState = {
   imported: false,
   importInProgress: false,
   importError: null,
-  contacts: null
+  data: null
 };
 
 let handlers = {
@@ -40,7 +40,7 @@ let handlers = {
         imported: true,
         importInProgress: false,
         importError: null,
-        contacts: contacts
+        data: contacts
       }
     } else if (action.state === 'failed') {
       return {
@@ -48,7 +48,7 @@ let handlers = {
         imported: false,
         importInProgress: false,
         importError: action.error,
-        contacts: null
+        data: null
       }
     }
   }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux/native';
 import Pressable from './Pressable';
 import ContactListView from './ContactListView';
 import { importContacts } from '../actions/ContactsActions';
+import { navigateTo } from '../actions/NavigationActions';
 
 let {
   View,
@@ -48,13 +49,18 @@ let ContactsScreen = React.createClass({
   renderContactsList: function () {
     return (
       <ContactListView
-        contacts={this.props.contacts}
+        contacts={this.props.data}
         onSelect={this.onSelectContact} />
     );
   },
 
-  onSelectContact: function () {
-
+  onSelectContact: function (contact) {
+    this.props.dispatch(navigateTo('conversation', {
+      data: {
+        userId: contact.id,
+        contactId: contact.recordID
+      }
+    }));
   }
 });
 

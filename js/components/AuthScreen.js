@@ -9,7 +9,7 @@ import ErrorMessage from './ErrorMessage';
 import Pressable from './Pressable';
 import Header from './Header';
 import CountryPickerScreen from './CountryPickerScreen';
-import { selectRegistrationState } from '../selectors/RegistrationSelectors';
+import { selectRegistrationState } from '../lib/Selectors';
 import * as RegistrationActions from '../actions/RegistrationActions';
 import { navigateTo } from '../actions/NavigationActions';
 import DecoupledInput from './DecoupledInput';

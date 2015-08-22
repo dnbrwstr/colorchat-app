@@ -8,7 +8,7 @@
 {
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.2:8081/js/index.ios.bundle"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.5:8081/js/index.ios.bundle"];
 
   // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 

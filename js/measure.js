@@ -5,4 +5,4 @@ module.exports = (ref) => new Promise((resolve, reject) =>
     (x, y, width, height, left, top) => resolve({
       x, y, width, height, left, top
     })
-  ))
+  ));

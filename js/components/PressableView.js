@@ -5,14 +5,41 @@ let {
   View
 } = React;
 
-let PressableView = React.createClass({
+let touchablePropKeys = [
+  'accessible',
+  'onPress',
+  'onLongPress',
+  'delayPressIn',
+  'delayPressOut',
+  'delayLongPress'
+];
 
+let sortProps = props =>
+  Object.keys(props).reduce((memo, key) => {
+    if (touchablePropKeys.indexOf(key) !== -1) {
+      memo.touchableProps[key] = props[key];
+    } else {
+      memo.viewProps[key] = props[key];
+    }
+
+    return memo;
+  }, {
+    touchableProps: {},
+    viewProps: {}
+  });
+
+let PressableView = React.createClass({
   getInitialState: () => ({ active: false }),
 
   render: function () {
+    let { touchableProps, viewProps } = sortProps(this.props);
+
     return (
-      <TouchableWithoutFeedback {...this.props} onPressIn={this.onPressIn} onPressOut={this.onPressOut}>
-        <View style={this.getStyle()} onLayout={this.props.onLayout}>
+      <TouchableWithoutFeedback
+        {...touchableProps}
+        onPressIn={this.onPressIn}
+        onPressOut={this.onPressOut}>
+        <View {...viewProps} style={this.getStyle()}>
           { this.props.children }
         </View>
       </TouchableWithoutFeedback>

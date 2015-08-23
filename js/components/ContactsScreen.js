@@ -1,7 +1,7 @@
 import React from 'react-native';
 import Style from '../style';
 import { connect } from 'react-redux/native';
-import Pressable from './Pressable';
+import PressableView from './PressableView';
 import ContactListView from './ContactListView';
 import { importContacts } from '../actions/ContactsActions';
 import { navigateTo } from '../actions/NavigationActions';
@@ -37,11 +37,12 @@ let ContactsScreen = React.createClass({
           No information from your address book is stored on our servers.
         </Text>
 
-        <Pressable onPress={() => dispatch(importContacts())}>
-          <View style={importStyle.button}>
-            <Text style={importStyle.buttonText}>Import Contacts</Text>
-          </View>
-        </Pressable>
+        <PressableView
+          onPress={() => dispatch(importContacts())}
+          style={importStyle.button}
+        >
+          <Text style={importStyle.buttonText}>Import Contacts</Text>
+        </PressableView>
       </View>
     );
   },

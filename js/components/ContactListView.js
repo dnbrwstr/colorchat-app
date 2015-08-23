@@ -1,5 +1,5 @@
 import React from 'react-native';
-import Pressable from './Pressable';
+import PressableView from './PressableView';
 import Style from '../style';
 
 let {
@@ -37,15 +37,17 @@ export default ContactListView = React.createClass({
   },
 
   renderContact: function (contact) {
+    let contactStyle = [
+      style.contact,
+      contact.matched && style.contactMatched
+    ];
+
     return (
-      <Pressable onPress={() => this.onSelectContact(contact) }>
-        <View style={[
-            style.contact,
-            contact.matched && style.contactMatched
-          ]}>
-          <Text>{contact.firstName} {contact.lastName}</Text>
-        </View>
-      </Pressable>
+      <PressableView
+        onPress={() => this.onSelectContact(contact) }
+        style={contactStyle}>
+        <Text>{contact.firstName} {contact.lastName}</Text>
+      </PressableView>
     )
   },
 

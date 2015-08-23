@@ -10,7 +10,6 @@ let {
 
 
 let SimpleColorPicker = React.createClass({
-
   getInitialState: () => ({
     value: hsl2hex({ h: 180, s: 75, l: 50 })
   }),

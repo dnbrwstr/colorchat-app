@@ -6,9 +6,8 @@ import Style from '../style';
 import LoaderButton from './LoaderButton'
 import ConfirmCodeScreen from './ConfirmCodeScreen';
 import ErrorMessage from './ErrorMessage';
-import Pressable from './Pressable';
+import PressableView from './PressableView';
 import Header from './Header';
-import CountryPickerScreen from './CountryPickerScreen';
 import { selectRegistrationState } from '../lib/Selectors';
 import * as RegistrationActions from '../actions/RegistrationActions';
 import { navigateTo } from '../actions/NavigationActions';
@@ -50,9 +49,9 @@ let AuthScreen = React.createClass({
                 dispatch(clearRegistrationError())
               } /> : null }
 
-          <Pressable onPress={this.showCountryPicker}>
+          <PressableView onPress={this.showCountryPicker}>
             <Text style={style.countryInput} >{this.props.country}</Text>
-          </Pressable>
+          </PressableView>
 
           <View style={style.inputContainerStyle}>
             <View style={style.countryCodeWrapper}>

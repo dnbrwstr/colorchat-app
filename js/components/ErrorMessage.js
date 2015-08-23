@@ -25,7 +25,7 @@ let ErrorMessage = React.createClass({
     };
 
     return (
-      <TouchableWithoutFeedback onPressIn={this.onPressIn} onPressOut={this.onPressOut}>
+      <TouchableWithoutFeedback onPress={this.onPress}>
         <Animated.View style={animatedStyle} onLayout={this.onLayoutView}>
           <View style={style.message} ref="contentView">
             <Text style={style.text} ref="text">{this.props.message}</Text>
@@ -49,9 +49,7 @@ let ErrorMessage = React.createClass({
     });
   },
 
-  onPressIn: function () {},
-
-  onPressOut: function () {
+  onPress: function () {
     Animated.spring(this.state.height, {
       toValue: 0,
       duration: 50

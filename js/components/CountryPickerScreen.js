@@ -2,7 +2,7 @@ import React from 'react-native';
 import { connect } from 'react-redux/native';
 import Header from './Header';
 import countries from '../countries';
-import Pressable from './Pressable';
+import PressableView from './PressableView';
 import { updateData } from '../actions/RegistrationActions';
 import { navigateBack } from '../actions/NavigationActions';
 import Style from '../style';
@@ -39,7 +39,7 @@ let CountryPickerScreen = React.createClass({
 
     return (
       <View style={style.container}>
-        <Header title="Select a country" showBack={true} onBack={() => 
+        <Header title="Select a country" showBack={true} onBack={() =>
           dispatch(navigateBack())
         }/>
         <ListView
@@ -59,24 +59,19 @@ let CountryPickerScreen = React.createClass({
 
   renderCountry: function (country) {
     return (
-      <Pressable activeStyle={style.countryActive} onPress={this.onSelect.bind(this, country)}>
-        <View style={style.country}>
-          <Text style={style.countryText}>{country.label}</Text>
-        </View>
-      </Pressable>
+      <PressableView
+        style={style.country}
+        activeStyle={style.countryActive}
+        onPress={this.onSelect.bind(this, country)}
+      >
+        <Text style={style.countryText}>{country.label}</Text>
+      </PressableView>
     );
   },
 
   renderCountryHeader: function (id) {
     return (
-      <View style={{
-        padding: 15,
-        paddingVertical: 5,
-        backgroundColor: 'white',
-        borderWidth: 1,
-        borderColor: 'transparent',
-        borderBottomColor: Style.values.midGray
-      }}>
+      <View style={style.countryHeader}>
         <Text style={style.countryText}>{id}</Text>
       </View>
     );
@@ -102,6 +97,14 @@ var style = Style.create({
   separator: {
     height: 1,
     backgroundColor: Style.values.midGray
+  },
+  countryHeader: {
+    padding: 15,
+    paddingVertical: 5,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    borderBottomColor: Style.values.midGray
   },
   country: {
     padding: 15

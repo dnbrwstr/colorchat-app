@@ -1,7 +1,7 @@
 import React from 'react-native';
 import invariant from 'invariant';
 import Style from '../style';
-import Pressable from './Pressable'
+import PressableView from './PressableView'
 import { SlideFromLeft, SlideFromRight} from '../lib/SceneConfigs';
 
 let {
@@ -45,15 +45,16 @@ export default TabBar = React.createClass({
 
         <View style={style.navBar}>
           { this.props.items.map((item) =>
-            <Pressable onPress={()=> { this.onSelectItem(item) }}>
-              <View style={style.navBarItem}>
-                <Text style={[
-                  style.navBarText,
-                  ( item.title == this.props.currentItem &&
-                    style.navBarTextActive )
-                ]}>{item.title}</Text>
-              </View>
-            </Pressable>
+            <PressableView
+              onPress={()=> { this.onSelectItem(item) }}
+              style={style.navBarItem}
+            >
+              <Text style={[
+                style.navBarText,
+                ( item.title == this.props.currentItem &&
+                  style.navBarTextActive )
+              ]}>{item.title}</Text>
+            </PressableView>
           ) }
         </View>
       </View>

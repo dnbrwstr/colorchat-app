@@ -1,6 +1,8 @@
 let React = require('react-native'),
   Style = require('../style');
 
+import PressableView from './PressableView';
+
 let {
   View,
   Text,
@@ -13,11 +15,13 @@ let Header = React.createClass({
       <View style={style.bar}>
         <View style={style.buttonContainer}>
           { this.props.showBack &&
-            <TouchableOpacity onPress={this.onBack} activeStyle={style.buttonActive}>
-              <View style={style.button}>
-                <Text style={style.buttonText}>Back</Text>
-              </View>
-            </TouchableOpacity> }
+            <PressableView
+              onPress={this.onBack}
+              style={style.button}
+              activeStyle={style.buttonActive}
+            >
+              <Text style={style.buttonText}>Back</Text>
+            </PressableView> }
         </View>
 
         <View style={style.title}>
@@ -27,11 +31,13 @@ let Header = React.createClass({
 
         <View style={style.buttonContainer}>
           { this.props.showClose &&
-            <TouchableOpacity onPress={this.onClose} activeStyle={style.buttonActive}>
-              <View style={style.button}>
-                <Text style={style.buttonText}>X</Text>
-              </View>
-            </TouchableOpacity> }
+            <PressableView
+              onPress={this.onClose}
+              style={style.button}
+              activeStyle={style.buttonActive}
+            >
+              <Text style={style.buttonText}>X</Text>
+            </PressableView> }
         </View>
       </View>
     )

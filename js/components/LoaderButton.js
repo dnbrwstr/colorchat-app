@@ -1,6 +1,8 @@
 let React = require('react-native'),
   Style = require('../style');
 
+import PressableView from './PressableView';
+
 let {
   View,
   Text
@@ -13,18 +15,19 @@ let LoaderButton = React.createClass({
 
   render: function () {
     return (
-      <View style={this.getButtonStyles()}
-        onStartShouldSetResponder={this.onTouchStart}
-        onResponderRelease={this.onTouchEnd}>
+      <PressableView
+        style={this.getButtonStyles()}
+        activeStyle={styles.buttonActive}
+        onPress={this.onPress}
+      >
         <Text style={styles.text}>{ this.getMessage() }</Text>
-      </View>
+      </PressableView>
     );
   },
 
   getButtonStyles: function () {
     return [
       styles.button,
-      this.state.active && styles.buttonActive,
       this.props.loading && styles.buttonLoading
     ]
   },
@@ -34,19 +37,7 @@ let LoaderButton = React.createClass({
       this.props.messages.loading : this.props.messages.base;
   },
 
-  onTouchStart: function () {
-    this.setState({
-      active: true
-    });
-
-    return true;
-  },
-
-  onTouchEnd: function () {
-    this.setState({
-      active: false
-    });
-
+  onPress: function () {
     if (this.props.onPress) this.props.onPress();
   }
 });

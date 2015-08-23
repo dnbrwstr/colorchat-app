@@ -57,7 +57,12 @@ let NewMessage = React.createClass({
 
   renderButton: function () {
     return (
-      <PressableView onLayout={this.setBaseSize} style={style.button} onPress={this.onStartAdd} ref="button">
+      <PressableView
+        onLayout={this.setBaseSize}
+        style={style.button}
+        onPress={this.onStartAdd}
+        ref="button"
+      >
         <Text style={style.buttonText}>+</Text>
       </PressableView>
     );

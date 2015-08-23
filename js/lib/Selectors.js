@@ -15,9 +15,9 @@ export let conversationScreenSelector = (state, ownProps) => ({
 
 // Selectors
 
-let selectRegistrationData = state => state.registration;
+let selectSignupData = state => state.signup;
 
-export let selectRegistrationState = createSelector(
-  selectRegistrationData,
-  (registration) => registration
+export let selectSignupState = createSelector(
+  selectSignupData,
+  (signup) => signup
 );

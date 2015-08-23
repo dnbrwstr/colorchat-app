@@ -20,7 +20,7 @@ export let updateData = newData => ({
 
 export let registerPhoneNumber = number => async (dispatch, getState) => {
   let state = getState();
-  let { countryCode, phoneNumber } = state.registration;
+  let { countryCode, phoneNumber } = state.signup;
   let fullNumber = formatPhoneNumber(countryCode, phoneNumber);
 
   try {
@@ -57,7 +57,7 @@ export let registerPhoneNumber = number => async (dispatch, getState) => {
 
 export let submitConfirmationCode = (code, number) => async (dispatch, getState) => {
   try {
-    let { phoneNumber, countryCode, confirmationCode } = getState().registration;
+    let { phoneNumber, countryCode, confirmationCode } = getState().signup;
     let fullNumber = formatPhoneNumber(countryCode, phoneNumber);
 
     dispatch({
@@ -94,6 +94,6 @@ export let submitConfirmationCode = (code, number) => async (dispatch, getState)
   }
 };
 
-export let clearRegistrationError = () => ({
-  type: 'clearRegistrationError'
+export let clearSignupError = () => ({
+  type: 'clearSignupError'
 });

@@ -1,6 +1,6 @@
 import React from 'react-native';
 import { Provider, connect } from 'react-redux/native';
-import AuthScreen from './AuthScreen';
+import SignupStartScreen from './SignupStartScreen';
 import CountryPickerScreen from './CountryPickerScreen';
 import ConfirmCodeScreen from './ConfirmCodeScreen';
 import ConversationScreen from './ConversationScreen';
@@ -41,7 +41,7 @@ let Router = React.createClass({
 
   renderScene: function (route, navigator) {
     let pageComponents = {
-      registration: AuthScreen,
+      signup: SignupStartScreen,
       countryPicker: CountryPickerScreen,
       confirmCode: ConfirmCodeScreen,
       main: MainScreen,

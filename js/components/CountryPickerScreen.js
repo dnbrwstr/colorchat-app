@@ -3,7 +3,7 @@ import { connect } from 'react-redux/native';
 import Header from './Header';
 import countries from '../countries';
 import PressableView from './PressableView';
-import { updateData } from '../actions/RegistrationActions';
+import { updateData } from '../actions/SignupActions';
 import { navigateBack } from '../actions/NavigationActions';
 import Style from '../style';
 
@@ -117,4 +117,4 @@ var style = Style.create({
   }
 });
 
-module.exports = connect(state => state.registration)(CountryPickerScreen);
+module.exports = connect(state => state.signup)(CountryPickerScreen);

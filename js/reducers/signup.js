@@ -9,7 +9,7 @@ let initialState = {
   loading: false
 };
 
-let handleRegistrationRequest = (state, action) => {
+let handleSignupRequest = (state, action) => {
   if (action.state === 'started') {
     return {
       ...state,
@@ -32,9 +32,9 @@ let handleRegistrationRequest = (state, action) => {
 }
 
 let handlers = {
-  registerPhoneNumber: (state, action) => handleRegistrationRequest(state, action),
+  registerPhoneNumber: (state, action) => handleSignupRequest(state, action),
 
-  submitConfirmationCode: (state, action) => handleRegistrationRequest(state, action),
+  submitConfirmationCode: (state, action) => handleSignupRequest(state, action),
 
   updateData: (state, action) => ({
     ...state,

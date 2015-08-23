@@ -8,8 +8,8 @@ import ConfirmCodeScreen from './ConfirmCodeScreen';
 import ErrorMessage from './ErrorMessage';
 import PressableView from './PressableView';
 import Header from './Header';
-import { selectRegistrationState } from '../lib/Selectors';
-import * as RegistrationActions from '../actions/RegistrationActions';
+import { selectSignupState } from '../lib/Selectors';
+import * as SignupActions from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
 import DecoupledInput from './DecoupledInput';
 
@@ -23,11 +23,10 @@ let {
 let {
   updateData,
   registerPhoneNumber,
-  clearRegistrationError
-} = RegistrationActions;
+  clearSignupError
+} = SignupActions;
 
-let AuthScreen = React.createClass({
-
+let SignupStartScreen = React.createClass({
   render: function() {
     let { dispatch, error } = this.props;
 
@@ -46,7 +45,7 @@ let AuthScreen = React.createClass({
             <ErrorMessage
               message={error.toString()}
               onRemove={() =>
-                dispatch(clearRegistrationError())
+                dispatch(clearSignupError())
               } /> : null }
 
           <PressableView onPress={this.showCountryPicker}>
@@ -167,4 +166,4 @@ let style = Style.create({
   }
 });
 
-export default connect(selectRegistrationState)(AuthScreen);
+export default connect(selectSignupState)(SignupStartScreen);

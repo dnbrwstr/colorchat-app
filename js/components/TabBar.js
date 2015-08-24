@@ -13,13 +13,13 @@ let {
 export default TabBar = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
-    if (nextProps.currentItem !== this.props.currentItem) {
-      this.refs.navigator.jumpTo(this.getRouteForTitle(nextProps.currentItem));
+    if (nextProps.currentItemId !== this.props.currentItemId) {
+      this.refs.navigator.jumpTo(this.getRouteForId(nextProps.currentItemId));
     }
   },
 
-  getRouteForTitle: function (title) {
-    let res = this.props.items.filter(route => route.title == title);
+  getRouteForId: function (id) {
+    let res = this.props.items.filter(route => route.id == id);
 
     invariant(
       res.length,
@@ -37,7 +37,7 @@ export default TabBar = React.createClass({
         <View style={style.container}>
           <Navigator
             ref="navigator"
-            initialRoute={this.getRouteForTitle(this.props.currentItem)}
+            initialRoute={this.getRouteForId(this.props.currentItemId)}
             initialRouteStack={initialRouteStack}
             configureScene={this.configureScene}
             renderScene={this.renderScene} />
@@ -51,7 +51,7 @@ export default TabBar = React.createClass({
             >
               <Text style={[
                 style.navBarText,
-                ( item.title == this.props.currentItem &&
+                ( item.id == this.props.currentItemId &&
                   style.navBarTextActive )
               ]}>{item.title}</Text>
             </PressableView>

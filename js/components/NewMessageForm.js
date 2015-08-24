@@ -1,4 +1,5 @@
 import React from 'react-native';
+import { find } from 'ramda';
 import PressableView from './PressableView';
 import SimpleColorPicker from './SimpleColorPicker';
 import AdvancedColorPicker from './AdvancedColorPicker';
@@ -13,26 +14,25 @@ let {
 let menuItems = [
   {
     label: 'Simple',
+    slug: 'simple',
     component: SimpleColorPicker
   },
   {
     label: 'Advanced',
+    slug: 'advanced',
     component: AdvancedColorPicker
   },
   {
     label: 'Recent',
+    slug: 'recent',
     component: RecentColorPicker
   }
 ];
 
 let NewMessageForm = React.createClass({
-  getInitialState: () => ({
-    picker: menuItems[0]
-  }),
-
   render: function () {
-    let { picker } = this.state;
-    let Picker = picker.component;
+    let slug = this.props.colorPicker;
+    let Picker = find(i => i.slug === slug)(menuItems).component;
 
     return (
       <View style={style.container}>
@@ -40,11 +40,11 @@ let NewMessageForm = React.createClass({
           { menuItems.map(item => (
             <PressableView style={[
               toggle.item,
-              picker === item && toggle.itemSelected
-            ]} onPress={() => this.onSelectPicker(item) }>
+              slug === item.slug && toggle.itemSelected
+            ]} onPress={() => this.props.onSelectPicker(item.slug) }>
               <Text style={[
                 toggle.itemText,
-                picker === item && toggle.itemSelectedText
+                slug === item.slug && toggle.itemSelectedText
               ]}>{item.label}</Text>
             </PressableView>
           )) }
@@ -72,12 +72,6 @@ let NewMessageForm = React.createClass({
 
   onSubmit: function () {
     if (this.props.onSubmit) this.props.onSubmit(this.refs.picker.getValue())
-  },
-
-  onSelectPicker: function (picker) {
-    this.setState({
-      picker: picker
-    });
   }
 });
 

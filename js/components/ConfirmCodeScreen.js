@@ -6,6 +6,7 @@ import AuthService from '../AuthService';
 import ErrorMessage from './ErrorMessage';
 import { navigateBack } from '../actions/NavigationActions';
 import { submitConfirmationCode, updateData } from '../actions/SignupActions';
+import { confirmationCodeScreenSelector } from '../lib/Selectors'
 import Header from './Header';
 import DecoupledInput from './DecoupledInput';
 
@@ -83,4 +84,4 @@ var style = Style.create({
   }
 })
 
-module.exports = connect(state => state.signup)(ConfirmCodeScreen);
+module.exports = connect(confirmationCodeScreenSelector)(ConfirmCodeScreen);

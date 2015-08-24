@@ -11,56 +11,21 @@ let {
 } = React;
 
 let NewMessage = React.createClass({
-  getInitialState: () => ({
-    adding: false,
-    formHeight: null,
-    formOpacity: 1
-  }),
-
-  setBaseSize: async function () {
-    let baseSize = await measure(this.refs.button);
-
-    this.setState({
-      baseHeight: baseSize.height,
-      formHeight: new Animated.Value(baseSize.height)
-    });
-  },
-
-  componentDidUpdate: async function (prevProps, prevState) {
-    if (prevState.adding !== this.state.adding) {
-      if (this.state.adding) {
-        let size = await measure(this.refs.form);
-
-        Animated.parallel([
-          Animated.spring(this.state.formHeight, {
-            toValue: 300,
-            friction: 15,
-            tension: 200
-          })
-        ]).start();
-      }
-    }
-  },
 
   render: function () {
     return (
       <View style={style.container}>
-        { this.renderContent() }
+        { this.props.composing && this.renderForm() }
+        { !this.props.composing && this.renderButton() }
       </View>
     );
-  },
-
-  renderContent: function () {
-    return this.state.adding ?
-      this.renderForm() : this.renderButton()
   },
 
   renderButton: function () {
     return (
       <PressableView
-        onLayout={this.setBaseSize}
         style={style.button}
-        onPress={this.onStartAdd}
+        onPress={this.props.onStartComposing}
         ref="button"
       >
         <Text style={style.buttonText}>+</Text>
@@ -70,42 +35,14 @@ let NewMessage = React.createClass({
 
   renderForm: function () {
     return (
-      <Animated.View style={{
-        overflow: 'hidden',
-        height: this.state.formHeight,
-        opacity: this.state.formOpacity
-      }}>
-        <NewMessageForm
-          ref="form"
-          onSubmit={this.onSendMessage}
-          onHide={this.onCancelAdd} />
-      </Animated.View>
+      <NewMessageForm
+        ref="form"
+        colorPicker={this.props.colorPicker}
+        onSelectPicker={this.props.onSelectPicker}
+        onSubmit={this.props.onSendMessage}
+        onHide={this.props.onStopComposing} />
     );
   },
-
-  onSendMessage: function () {
-    if (this.props.onSendMessage) this.props.onSendMessage();
-  },
-
-  onStartAdd: function () {
-    this.setState({
-      adding: true
-    });
-  },
-
-  onCancelAdd: function () {
-    Animated.parallel([
-      Animated.spring(this.state.formHeight, {
-        toValue: this.state.baseHeight,
-        friction: 20,
-        tension: 400
-      })
-    ]).start();
-
-    setTimeout(() => this.setState({
-      adding: false
-    }), 200)
-  }
 });
 
 let style = Style.create({

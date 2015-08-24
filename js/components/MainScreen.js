@@ -4,6 +4,8 @@ import ContactsScreen from './ContactsScreen';
 import MessagesScreen from './MessagesScreen';
 import Style from '../style';
 import TabBar from './TabBar';
+import { changeMainTab } from '../actions/AppActions';
+import { mainScreenSelector } from '../lib/Selectors';
 
 let {
   View,
@@ -12,25 +14,25 @@ let {
 } = React;
 
 let tabBarItems = [{
+  id: 0,
   title: 'Contacts',
   component: ContactsScreen
 }, {
+  id: 1,
   title: 'Messages',
   component: MessagesScreen
 }];
 
 let MainScreen = React.createClass({
-  getInitialState: () => ({
-    selectedTab: 'Contacts'
-  }),
-
   render: function () {
+    let { dispatch } = this.props;
+
     return (
       <View style={style.container}>
         <TabBar
           items={tabBarItems}
-          currentItem={this.state.selectedTab}
-          onSelectItem={(item)=> this.setState({selectedTab: item.title})} />
+          currentItemId={this.props.currentTabId}
+          onSelectItem={ item => dispatch(changeMainTab(item)) } />
       </View>
     );
   }
@@ -44,8 +46,4 @@ let style = Style.create({
   }
 });
 
-export default connect(state => ({
-  route: state.navigation.route,
-  contacts: state.contacts,
-  conversation: state.conversations
-}))(MainScreen);
+export default connect(mainScreenSelector)(MainScreen);

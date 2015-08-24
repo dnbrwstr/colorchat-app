@@ -8,7 +8,7 @@ import ConfirmCodeScreen from './ConfirmCodeScreen';
 import ErrorMessage from './ErrorMessage';
 import PressableView from './PressableView';
 import Header from './Header';
-import { selectSignupState } from '../lib/Selectors';
+import { signupScreenSelector } from '../lib/Selectors';
 import * as SignupActions from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
 import DecoupledInput from './DecoupledInput';
@@ -166,4 +166,4 @@ let style = Style.create({
   }
 });
 
-export default connect(selectSignupState)(SignupStartScreen);
+export default connect(signupScreenSelector)(SignupStartScreen);

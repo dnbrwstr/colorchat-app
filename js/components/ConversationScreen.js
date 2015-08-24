@@ -7,10 +7,17 @@ import MessageList from './MessageList';
 import NewMessage from './NewMessage';
 import { navigateBack } from '../actions/NavigationActions';
 import { conversationScreenSelector } from '../lib/Selectors'
+import * as AppActions from '../actions/AppActions';
 
 let {
   View
 } = React;
+
+let {
+  startComposingMessage,
+  stopComposingMessage,
+  selectColorPicker
+} = AppActions;
 
 let ConversationScreen = React.createClass({
   render: function () {
@@ -23,9 +30,26 @@ let ConversationScreen = React.createClass({
           showBack={true}
           onBack={() => dispatch(navigateBack())} />
           <MessageList messages={this.props.messages} />
-          <NewMessage />
+          <NewMessage
+            onStartComposing={this.onStartComposing}
+            onStopComposing={this.onStopComposing}
+            onSelectPicker={this.onSelectPicker}
+            colorPicker={this.props.colorPicker}
+            composing={this.props.composing} />
       </View>
     );
+  },
+
+  onStartComposing: function () {
+    this.props.dispatch(startComposingMessage());
+  },
+
+  onStopComposing: function () {
+    this.props.dispatch(stopComposingMessage());
+  },
+
+  onSelectPicker: function (value) {
+    this.props.dispatch(selectColorPicker(value));
   }
 });
 

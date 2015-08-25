@@ -2,7 +2,7 @@ import invariant from 'invariant';
 import createRoutingReducer from '../lib/createRoutingReducer';
 
 let initialRoute = {
-  title: 'signup',
+  title: 'main',
   data: {},
 };
 

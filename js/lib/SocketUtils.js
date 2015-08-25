@@ -12,7 +12,7 @@ let createSocketClient = (authToken) => {
   }
 
   return io(serverRoot, options);
-}
+};
 
 export let init = (authToken, dispatch) => {
   if (client) {
@@ -20,8 +20,8 @@ export let init = (authToken, dispatch) => {
   }
 
   client = createSocketClient(authToken);
+
   client.on('message', (data, cb) => {
-    console.log('message');
     dispatch(receiveMessage(data));
     cb();
   });
@@ -30,7 +30,7 @@ export let init = (authToken, dispatch) => {
     dispatch(receivePendingMessages(data));
     cb();
   });
-}
+};
 
 export let sendMessage = (messageData, cb) =>
   client.emit('message', messageData, cb);

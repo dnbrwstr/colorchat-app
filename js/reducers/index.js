@@ -4,6 +4,7 @@ import navigation from './navigation';
 import signup from './signup';
 import messages from './messages';
 import ui from './ui';
+import conversations from './conversations';
 
 export {
   user,
@@ -11,5 +12,6 @@ export {
   navigation,
   signup,
   messages,
-  ui
+  ui,
+  conversations
 };

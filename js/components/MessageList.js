@@ -78,7 +78,6 @@ let MessageList = React.createClass({
      // if (!messageData.id && !messageData.clientId) {
      //  debugger;
      // }
-     console.log(messageData.id)
     return (
       <Message
         fromCurrentUser={fromCurrentUser}

@@ -3,5 +3,6 @@ export default {
   logState: false,
   saveState: true,
   rehydrate: true,
+  rehydrateBlacklist: [],
   seedAddressBook: true
 };

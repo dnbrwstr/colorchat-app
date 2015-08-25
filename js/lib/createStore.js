@@ -3,7 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import saveStateMiddleware from './saveStateMiddleware';
 import * as reducers from '../reducers';
-import { rehydrate } from '../config';
+import { rehydrate, rehydrateBlacklist } from '../config';
 
 let createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
@@ -16,8 +16,15 @@ export default finalCreateStore = async () => {
   if (rehydrate) {
     let appStateString = await AsyncStorage.getItem('appState');
     appState = JSON.parse(appStateString);
-    let { history } = appState.navigation;
-    appState.navigation.route = history[history.length - 1];
+
+    if (rehydrateBlacklist) {
+      rehydrateBlacklist.forEach(key => delete appState[key]);
+    }
+
+    if (appState.navigation) {
+      let { history } = appState.navigation;
+      appState.navigation.route = history[history.length - 1];
+    }
   }
 
   return createStoreWithMiddleware(combineReducers(reducers), appState);

@@ -58,8 +58,7 @@ let ContactsScreen = React.createClass({
   onSelectContact: function (contact) {
     this.props.dispatch(navigateTo('conversation', {
       data: {
-        userId: contact.id,
-        contactId: contact.recordID
+        contactId: contact.id
       }
     }));
   }

@@ -14,7 +14,7 @@ export let importContacts = (opts) => async (dispatch, getState) => {
   let onPermissionGranted = async () => {
     let contacts = await AddressBook.getContactsAsync();
     let numbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
-    let token = getState().auth.token;
+    let token = getState().user.token;
     let matches;
 
     try {

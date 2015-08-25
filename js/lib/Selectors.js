@@ -4,13 +4,14 @@ import { createSelector } from 'reselect';
 // Selector creaters
 
 export let createConversationSelector = userId => state =>
-  state.messages.filter(m => m.to === userId || m.from === userId);
+  state.messages.filter(m => m.recipientId === userId || m.senderId === userId);
 
 export let createContactSelector = contactId => state =>
-  state.contacts.data.filter(c => c.recordID === contactId)[0];
+  state.contacts.data.filter(c => c.id === contactId)[0];
 
 export let conversationScreenSelector = (state, ownProps) => ({
   ...state.ui.conversation,
+  user: state.user,
   contact: createContactSelector(ownProps.contactId)(state),
   messages: createConversationSelector(ownProps.contactId)(state)
 });
@@ -32,4 +33,5 @@ export let confirmationCodeScreenSelector = createSelector([
 
 export let mainScreenSelector = state => ({
   ...state.ui.main,
+  user: state.user
 });

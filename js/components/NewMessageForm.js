@@ -71,7 +71,9 @@ let NewMessageForm = React.createClass({
   },
 
   onSubmit: function () {
-    if (this.props.onSubmit) this.props.onSubmit(this.refs.picker.getValue())
+    if (this.props.onSubmit) this.props.onSubmit({
+      color: this.refs.picker.getValue()
+    })
   }
 });
 

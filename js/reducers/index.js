@@ -1,4 +1,4 @@
-import auth from './auth';
+import user from './user';
 import contacts from './contacts';
 import navigation from './navigation';
 import signup from './signup';
@@ -6,7 +6,7 @@ import messages from './messages';
 import ui from './ui';
 
 export {
-  auth,
+  user,
   contacts,
   navigation,
   signup,

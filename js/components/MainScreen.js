@@ -6,6 +6,7 @@ import Style from '../style';
 import TabBar from './TabBar';
 import { changeMainTab } from '../actions/AppActions';
 import { mainScreenSelector } from '../lib/Selectors';
+import { init as initSocketUtils } from '../lib/SocketUtils';
 
 let {
   View,
@@ -24,6 +25,10 @@ let tabBarItems = [{
 }];
 
 let MainScreen = React.createClass({
+  componentDidMount: function () {
+    initSocketUtils(this.props.user.token, this.props.dispatch);
+  },
+
   render: function () {
     let { dispatch } = this.props;
 

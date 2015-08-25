@@ -9,7 +9,7 @@ let handlers = {
     if (action.state == 'complete') {
       return {
         ...state,
-        token: action.data.token
+        ...action.data.user
       }
     } else {
       return state;

@@ -1,11 +1,13 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
+import { merge } from 'ramda';
 import { createSelector } from 'reselect';
 import Style from '../style';
 import Header from './Header';
 import MessageList from './MessageList';
 import NewMessage from './NewMessage';
 import { navigateBack } from '../actions/NavigationActions';
+import { sendMessage } from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors'
 import * as AppActions from '../actions/AppActions';
 
@@ -29,8 +31,11 @@ let ConversationScreen = React.createClass({
           title={contact.firstName + ' ' + contact.lastName}
           showBack={true}
           onBack={() => dispatch(navigateBack())} />
-          <MessageList messages={this.props.messages} />
+          <MessageList
+            messages={this.props.messages}
+            user={this.props.user} />
           <NewMessage
+            onSendMessage={this.onSendMessage}
             onStartComposing={this.onStartComposing}
             onStopComposing={this.onStopComposing}
             onSelectPicker={this.onSelectPicker}
@@ -38,6 +43,14 @@ let ConversationScreen = React.createClass({
             composing={this.props.composing} />
       </View>
     );
+  },
+
+  onSendMessage: function (message) {
+    let finalMessage = merge(message, {
+      recipientId: this.props.contact.id
+    });
+
+    this.props.dispatch(sendMessage(finalMessage));
   },
 
   onStartComposing: function () {

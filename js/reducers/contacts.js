@@ -23,6 +23,12 @@ let handlers = {
         id: m.userId
       });
 
+      contacts.forEach(c => {
+        if (c.phoneNumbers && c.phoneNumbers[0] && c.phoneNumbers[0].number === "1-913-603-6891") {
+          c.firstName = "Testy";
+        }
+      });
+
       let makeSortHash = o =>
         (o.matched ? 'a' : 'z') + o.firstName + o.lastName;
 

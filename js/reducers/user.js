@@ -5,6 +5,13 @@ let initialState = {
 };
 
 let handlers = {
+  authError: (state, action) => {
+    return {
+      ...state,
+      token: null
+    };
+  },
+
   submitConfirmationCode: (state, action) => {
     if (action.state == 'complete') {
       return {

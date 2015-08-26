@@ -13,6 +13,14 @@ let initialState = {
 };
 
 let handlers = {
+  authError: function (state, action) {
+    return this.navigateTo(state, {
+      route: {
+        title: 'signup'
+      }
+    });
+  },
+
   registerPhoneNumber: function (state, action) {
     if (action.state == 'complete') {
       return this.navigateTo(state, {

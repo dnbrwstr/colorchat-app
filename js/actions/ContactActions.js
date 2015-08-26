@@ -13,12 +13,12 @@ export let importContacts = (opts) => async (dispatch, getState) => {
 
   let onPermissionGranted = async () => {
     let contacts = await AddressBook.getContactsAsync();
-    let numbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
+    let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
     let token = getState().user.token;
     let matches;
 
     try {
-      let res = await postAuthenticatedJSON(serverRoot + '/match', { numbers }, token);
+      let res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, token);
       matches = await res.json();
     } catch (e) {
       dispatch({

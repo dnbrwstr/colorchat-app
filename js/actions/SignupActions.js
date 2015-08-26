@@ -27,11 +27,11 @@ export let registerPhoneNumber = number => async (dispatch, getState) => {
     dispatch({
       type: 'registerPhoneNumber',
       state: 'started',
-      number: fullNumber
+      phoneNumber: fullNumber
     });
 
     let res = await postJSON(serverRoot + '/auth', {
-      number: fullNumber
+      phoneNumber: fullNumber
     });
 
     if (res.ok) {
@@ -66,7 +66,7 @@ export let submitConfirmationCode = (code, number) => async (dispatch, getState)
     });
 
     let res = await postJSON(serverRoot + '/auth/confirm', {
-      number: fullNumber,
+      phoneNumber: fullNumber,
       code: confirmationCode
     });
 

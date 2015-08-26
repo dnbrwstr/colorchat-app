@@ -16,7 +16,6 @@ let handlers = {
       };
     } else if (action.state === 'complete') {
       let { contacts, matches } = action;
-
       matches.forEach((m) => contacts[m.index] = {
         ...contacts[m.index],
         matched: true,
@@ -51,10 +50,8 @@ let handlers = {
     } else if (action.state === 'failed') {
       return {
         ...state,
-        imported: false,
         importInProgress: false,
         importError: action.error,
-        data: null
       }
     }
   }

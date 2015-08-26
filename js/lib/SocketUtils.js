@@ -23,12 +23,12 @@ export let init = (authToken, dispatch) => {
 
   client.on('message', (data, cb) => {
     dispatch(receiveMessage(data));
-    cb();
+    if (cb) cb();
   });
 
   client.on('pending', (data, cb) => {
     dispatch(receivePendingMessages(data));
-    cb();
+    if (cb) cb();
   });
 };
 

@@ -3,7 +3,7 @@ import Style from '../style';
 import { connect } from 'react-redux/native';
 import PressableView from './PressableView';
 import ContactListView from './ContactListView';
-import { importContacts } from '../actions/ContactsActions';
+import { importContacts } from '../actions/ContactActions';
 import { navigateTo } from '../actions/NavigationActions';
 
 let {

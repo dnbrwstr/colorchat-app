@@ -14,7 +14,7 @@ export let receiveMessage = message => {
 };
 
 export let receivePendingMessages = messages => {
-  return { 
+  return {
     type: 'receivePendingMessages',
     messages: messages
   }

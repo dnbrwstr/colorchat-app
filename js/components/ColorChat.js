@@ -24,7 +24,7 @@ let ColorChat = React.createClass({
     } else {
       return (
         <Provider store={this.state.store}>
-          { () => <Router store={this.state.store} /> }
+          { () => <Router /> }
         </Provider>
       );
     }

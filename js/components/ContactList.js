@@ -8,7 +8,7 @@ let {
   Text
 } = React;
 
-export default ContactListView = React.createClass({
+export default ContactList = React.createClass({
   getInitialState: function () {
     return {
       dataSource: this.getDataSource()

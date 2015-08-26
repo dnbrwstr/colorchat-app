@@ -2,7 +2,7 @@ import React from 'react-native';
 import Style from '../style';
 import { connect } from 'react-redux/native';
 import PressableView from './PressableView';
-import ContactListView from './ContactListView';
+import ContactList from './ContactList';
 import { importContacts } from '../actions/ContactActions';
 import { navigateTo } from '../actions/NavigationActions';
 
@@ -49,7 +49,7 @@ let ContactsScreen = React.createClass({
 
   renderContactsList: function () {
     return (
-      <ContactListView
+      <ContactList
         contacts={this.props.data}
         onSelect={this.onSelectContact} />
     );

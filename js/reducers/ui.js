@@ -1,4 +1,4 @@
-import { assocPath } from 'ramda'
+import { assocPath, assoc } from 'ramda'
 import createRoutingReducer from '../lib/createRoutingReducer';
 import merge from 'merge';
 
@@ -18,7 +18,9 @@ let initialState = {
     currentTabId: 0,
   },
   contacts: {
-
+    imported: false,
+    importInProgress: false,
+    importError: null
   },
   inbox: {
 
@@ -61,11 +63,36 @@ let handlers = {
   changeMainTab: (state, action) =>
     assocPath(['main', 'currentTabId'], action.tabId, state),
 
+  importContacts: (state, action) => {
+    let assocContacts = data =>
+      assoc('contacts', merge(state.contacts, data), state);
+
+    if (action.state === 'started') {
+      return assocContacts({
+        importInProgress: true
+      });
+    } else if (action.state === 'complete') {
+      return assocContacts({
+        imported: true,
+        importInProgress: false,
+        importError: null
+      });
+    } else if (action.state == 'failed') {
+      return assocContacts({
+        importInProgress: false,
+        importError: action.error
+      });
+    } else {
+      return state;
+    }
+  },
+
   toggleComposingMessage: (state, action) =>
     assocPath(['conversation', 'composing'], action.value, state),
 
   selectColorPicker: (state, action) =>
     assocPath(['conversation', 'colorPicker'], action.value, state)
+
 };
 
 export default createRoutingReducer(handlers, initialState);

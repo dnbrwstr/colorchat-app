@@ -50,7 +50,7 @@ let ContactsScreen = React.createClass({
   renderContactsList: function () {
     return (
       <ContactList
-        contacts={this.props.data}
+        contacts={this.props.contacts}
         onSelect={this.onSelectContact} />
     );
   },
@@ -82,6 +82,9 @@ let importStyle = Style.create({
   }
 })
 
-let selectContacts = state => state.contacts;
+let selectContacts = state => ({
+  contacts: state.contacts,
+  ...state.ui.contacts
+});
 
 export default connect(selectContacts)(ContactsScreen);

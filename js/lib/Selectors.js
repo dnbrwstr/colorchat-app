@@ -1,14 +1,13 @@
 import { merge, find, propEq } from 'ramda';
 import { createSelector } from 'reselect';
 
-
 // Selector creaters
 
 export let createConversationSelector = userId => state =>
   state.messages.filter(m => m.recipientId === userId || m.senderId === userId);
 
 export let createContactSelector = contactId => state =>
-  state.contacts.data.filter(c => c.id === contactId)[0];
+  state.contacts.filter(c => c.id === contactId)[0];
 
 // Selectors
 
@@ -21,7 +20,7 @@ export let conversationScreenSelector = (state, ownProps) => ({
 
 export let messagesScreenSelector = (state, ownProps) => {
   let conversations = state.conversations.map(c => {
-    let contact = find(propEq('id', c.recipientId), state.contacts.data);
+    let contact = find(propEq('id', c.recipientId), state.contacts);
 
     return {
       ...c,

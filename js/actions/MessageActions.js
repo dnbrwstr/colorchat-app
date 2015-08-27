@@ -1,4 +1,4 @@
-import { merge } from 'ramda';
+import { merge, find, propEq, anyPass, filter } from 'ramda';
 import { postJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
 import { sendMessage as sendMessageOverSocket } from '../lib/SocketUtils';
@@ -20,16 +20,28 @@ export let receivePendingMessages = messages => {
   }
 };
 
+export let sendEnqueuedMessages = () => async (dispatch, getState) => {
+  let filterFn = anyPass([propEq('state', 'failed')]);
+  let messages = filter(filterFn, getState().messages);
+  return messages.map(m => sendMessage(m)(dispatch, getState));
+}
+
 export let sendMessage = message => async (dispatch, getState) => {
   let senderId = getState().user.id;
   let clientId = generateClientId();
   let clientTimestamp = new Date();
+  let tempMessage;
 
-  let tempMessage = merge(message, {
-    clientId,
-    clientTimestamp,
-    senderId
-  });
+  // Check if we're resending
+  if (!message.clientId) {
+    tempMessage = merge(message, {
+      clientId,
+      clientTimestamp,
+      senderId
+    });
+  } else {
+    tempMessage = message;
+  }
 
   dispatch({
     type: 'sendMessage',
@@ -37,8 +49,19 @@ export let sendMessage = message => async (dispatch, getState) => {
     message: tempMessage
   });
 
+  let messageTimeout = setTimeout(function () {
+    dispatch({
+      type: 'sendMessage',
+      state: 'failed',
+      message: tempMessage,
+      error: 'Sending timed out'
+    });
+  }, 6000);
+
   try {
     sendMessageOverSocket(tempMessage, function (data) {
+      clearTimeout(messageTimeout);
+
       dispatch({
         type: 'sendMessage',
         state: 'complete',
@@ -46,6 +69,8 @@ export let sendMessage = message => async (dispatch, getState) => {
       });
     });
   } catch (e) {
+    clearTimeout(messageTimeout);
+
     dispatch({
       type: 'sendMessage',
       state: 'failed',

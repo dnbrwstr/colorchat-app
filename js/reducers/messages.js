@@ -28,18 +28,17 @@ let addOrReplaceExisting = (message, collection) => {
 
 let handlers = {
   sendMessage: function (state, action) {
-    let  message = merge(action.message, {
+    let message = merge(action.message, {
       state: action.state
+    }, action.state === 'failed' && {
+      error: action.error
     });
 
-    if (action.state === 'started') {
-      return append(message, state)
-    } else if (action.state === 'failed') {
-      let messageIndex = findIndexForClientId(message.clientId, state);
-      let finalMessage = merge(messageIndex, { error: action.error });
-      return replaceAtIndex(messageIndex, finalMessage, state);
-    } else if (action.state === 'complete') {
-      let messageIndex = findIndexForClientId(message.clientId, state);
+    let messageIndex = findIndexForClientId(message.clientId, state);
+
+    if (messageIndex == -1) {
+      return append(message, state);
+    } else {
       return replaceAtIndex(messageIndex, message, state);
     }
   },

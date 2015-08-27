@@ -43,6 +43,18 @@ let handlers = {
     }
   },
 
+  sendMessageBatch: function (state, action) {
+    action.messages.forEach(m => {
+      let action = merge(action, {
+        message: m
+      });
+
+      state = this.sendMessage(state, action)
+    });
+
+    return state;
+  },
+
   receiveMessage: function (state, action) {
     return addOrReplaceExisting(action.message, state);
   },

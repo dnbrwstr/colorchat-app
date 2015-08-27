@@ -1,4 +1,4 @@
-import { merge, find, propEq } from 'ramda';
+import { merge, find, propEq, filter } from 'ramda';
 import { createSelector } from 'reselect';
 
 // Selector creaters
@@ -30,6 +30,14 @@ export let messagesScreenSelector = (state, ownProps) => {
 
   return {
     conversations: conversations
+  }
+};
+
+export let socketServiceSelector = state => {
+  let messages = filter(propEq('state', 'enqueued'), state.messages);
+  return {
+    messages: messages,
+    token: state.user.token
   }
 };
 

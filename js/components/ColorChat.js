@@ -2,7 +2,8 @@ import React, { View } from 'react-native';
 import { Provider } from 'react-redux/native';
 import Router from './Router';
 import createStore from '../lib/createStore';
-import * as SocketUtils from '../lib/SocketUtils';
+import createSocketService from '../lib/createSocketService';
+// import createConnectivityService from '../lib/createConnectivityService';
 
 let ColorChat = React.createClass({
   getInitialState: () => ({
@@ -12,10 +13,9 @@ let ColorChat = React.createClass({
   componentDidMount: async function () {
     let store = await createStore();
 
-    SocketUtils.init(store);
-
     this.setState({
-      store: store
+      store: store,
+      socketService: createSocketService(store)
     });
   },
 

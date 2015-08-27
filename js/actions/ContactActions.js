@@ -17,8 +17,21 @@ export let importContacts = (opts) => async (dispatch, getState) => {
     let token = getState().user.token;
     let matches;
 
+    if (!token) {
+      return dispatch({
+        'type': 'authError'
+      });
+    }
+
     try {
       let res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, token);
+
+      if (res.status === 403) {
+        return dispatch({
+          type: 'authError'
+        });
+      }
+
       matches = await res.json();
 
       dispatch({
@@ -31,7 +44,7 @@ export let importContacts = (opts) => async (dispatch, getState) => {
       dispatch({
         type: 'importContacts',
         state: 'failed',
-        error: 'Unable to match contacts with server'
+        error: 'Unable to match connect to server'
       });
     }
   };

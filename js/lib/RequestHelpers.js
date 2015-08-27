@@ -1,8 +1,13 @@
 export let postJSON = (url, data) =>
   fetch(url, post(json(data)));
 
-export let postAuthenticatedJSON = (url, data, token) =>
-  fetch(url, post(json(data, authenticated(token))));
+export let postAuthenticatedJSON = (url, data, token) => {
+  if (!token) {
+    throw new Error('Token required send authenticated request');
+  }
+
+  return fetch(url, post(json(data, authenticated(token))));
+}
 
 export let json = (data, requestObj={}) => ({
   ...requestObj,

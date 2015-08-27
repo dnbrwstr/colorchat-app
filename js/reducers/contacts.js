@@ -1,3 +1,4 @@
+import sort from 'ramda';
 import createRoutingReducer from '../lib/createRoutingReducer';
 
 let initialState = [];
@@ -13,19 +14,9 @@ let handlers = {
       id: m.userId
     });
 
-    let makeSortHash = o =>
-      (o.matched ? 'a' : 'z') + o.firstName + o.lastName;
-
-    contacts = contacts.sort(function (a, b) {
-      let hashA = makeSortHash(a);
-      let hashB = makeSortHash(b);
-
-      if (hashA < hashB) return -1;
-      else if (hashA > hashB) return 1;
-      else return 0;
-    });
-
-    return contacts;
+    return sort(c => {
+      return (c.matched ? 'a' : 'z') + c.firstName + c.lastName;
+    }, contacts);
   }
 }
 

@@ -45,16 +45,11 @@ export default TabBar = React.createClass({
 
         <View style={style.navBar}>
           { this.props.items.map((item) =>
-            <PressableView
-              onPress={()=> { this.onSelectItem(item) }}
-              style={style.navBarItem}
-            >
               <Text style={[
                 style.navBarText,
                 ( item.id == this.props.currentItemId &&
                   style.navBarTextActive )
               ]}>{item.title}</Text>
-            </PressableView>
           ) }
         </View>
       </View>

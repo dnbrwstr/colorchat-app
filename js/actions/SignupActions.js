@@ -40,10 +40,12 @@ export let registerPhoneNumber = number => async (dispatch, getState) => {
         state: 'complete'
       });
     } else {
+      let error = await res.text();
+
       dispatch({
         type: 'registerPhoneNumber',
         state: 'failed',
-        error: errorMessages[res.status]
+        error: error
       });
     }
   } catch (e) {

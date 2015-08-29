@@ -2,7 +2,8 @@ import React from 'react-native';
 
 let {
   TouchableWithoutFeedback,
-  View
+  View,
+  Animated
 } = React;
 
 let touchablePropKeys = [
@@ -39,16 +40,16 @@ let PressableView = React.createClass({
         {...touchableProps}
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}>
-        <View {...viewProps} style={this.getStyle()}>
+        <Animated.View {...viewProps} style={this.getStyle()}>
           { this.props.children }
-        </View>
+        </Animated.View>
       </TouchableWithoutFeedback>
     );
   },
 
   getStyle: function () {
     let baseStyle= this.props.style;
-    let style = baseStyle instanceof Array ? baseStyle : [baseStyle];
+    let style = baseStyle instanceof Array ? baseStyle.slice(0) : [baseStyle];
 
     if (this.state.active) {
       style.push(this.props.activeStyle);

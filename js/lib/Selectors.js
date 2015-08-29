@@ -41,12 +41,13 @@ export let socketServiceSelector = state => {
   }
 };
 
+let selectSignupUIData = state => state.ui.signup;
 let selectSignupData = state => state.signup;
-let mergeArgs = (...args) => merge.apply(null, [{}].concat(args))
+let mergeArgs = (...args) => merge.apply(null, args);
 
 export let signupScreenSelector = createSelector([
   selectSignupData,
-  state => state.ui.signup
+  selectSignupUIData
 ], mergeArgs);
 
 export let confirmationCodeScreenSelector = createSelector([

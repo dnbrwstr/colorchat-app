@@ -3,9 +3,17 @@ import { connect } from 'react-redux/native';
 import Header from './Header';
 import countries from '../countries';
 import PressableView from './PressableView';
+import BaseText from './BaseText';
 import { updateData } from '../actions/SignupActions';
 import { navigateBack } from '../actions/NavigationActions';
 import Style from '../style';
+
+let groupedCountries = countries.reduce((memo, country) => {
+  let letter = country.label[0].toUpperCase();
+  if (!memo[letter]) memo[letter] = [];
+  memo[letter].push(country);
+  return memo;
+}, {});
 
 let {
   ListView,
@@ -16,13 +24,6 @@ let {
 
 let CountryPickerScreen = React.createClass({
   getInitialState: function () {
-    let countryData = countries.reduce((memo, country) => {
-      let letter = country.label[0].toUpperCase();
-      if (!memo[letter]) memo[letter] = [];
-      memo[letter].push(country);
-      return memo;
-    }, {});
-
     let dataSource = new ListView.DataSource({
       sectionHeaderHasChanged: (s1, s2) => false,
       rowHasChanged: (r1, r2) => false,
@@ -30,7 +31,7 @@ let CountryPickerScreen = React.createClass({
     });
 
     return {
-      countryDataSource: dataSource.cloneWithRowsAndSections(countryData)
+      countryDataSource: dataSource.cloneWithRowsAndSections(groupedCountries)
     };
   },
 
@@ -43,6 +44,9 @@ let CountryPickerScreen = React.createClass({
           dispatch(navigateBack())
         }/>
         <ListView
+          initialListSize={12}
+          pageSize={1}
+          scrollRenderAheadDistance={100}
           removeClippedSubviews={true}
           automaticallyAdjustContentInsets={false}
           dataSource={this.state.countryDataSource}
@@ -57,14 +61,24 @@ let CountryPickerScreen = React.createClass({
     return (<View style={style.separator} />)
   },
 
-  renderCountry: function (country) {
+
+  renderCountry: function (country, sectionId, rowId) {
+    let isFirst = rowId === '0';
+    let isLast = (groupedCountries[sectionId].length - 1).toString() === rowId;
+
+    let styles = [
+      style.country,
+      isFirst && style.firstCountry,
+      isLast && style.lastCountry
+    ];
+
     return (
       <PressableView
-        style={style.country}
+        style={styles}
         activeStyle={style.countryActive}
         onPress={this.onSelect.bind(this, country)}
       >
-        <Text style={style.countryText}>{country.label}</Text>
+        <BaseText style={style.countryText}>{country.label}</BaseText>
       </PressableView>
     );
   },
@@ -72,7 +86,9 @@ let CountryPickerScreen = React.createClass({
   renderCountryHeader: function (id) {
     return (
       <View style={style.countryHeader}>
-        <Text style={style.countryText}>{id}</Text>
+        <View style={style.countryHeaderInner}>
+          <BaseText style={style.countryText}>{id}</BaseText>
+        </View>
       </View>
     );
   },
@@ -99,15 +115,22 @@ var style = Style.create({
     backgroundColor: Style.values.midGray
   },
   countryHeader: {
-    padding: 15,
-    paddingVertical: 5,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'transparent',
+  },
+  countryHeaderInner: {
+    paddingHorizontal: 24,
+    paddingVertical: 3,
+    borderBottomWidth: 1,
     borderBottomColor: Style.values.midGray
   },
   country: {
-    padding: 15
+    paddingHorizontal: 24,
+    paddingVertical: 9
+  },
+  firstCountry: {
+    paddingTop: 18
+  },
+  lastCountry: {
+    paddingBottom: 27
   },
   countryText: {
     color: Style.values.midGray

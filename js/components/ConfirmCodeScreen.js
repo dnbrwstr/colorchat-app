@@ -2,7 +2,6 @@ import React from 'react-native';
 import { connect } from 'react-redux/native';
 import Style from '../style';
 import LoaderButton from './LoaderButton';
-import AuthService from '../AuthService';
 import ErrorMessage from './ErrorMessage';
 import { navigateBack } from '../actions/NavigationActions';
 import { submitConfirmationCode, updateData } from '../actions/SignupActions';
@@ -38,7 +37,7 @@ let ConfirmCodeScreen = React.createClass({
                 dispatch(updateData({
                   error: ''
                 }))
-              } /> : null }
+            } /> : null }
 
           <DecoupledInput
             ref="confirmationCodeInput"
@@ -79,7 +78,6 @@ var style = Style.create({
     justifyContent: 'center',
   },
   input: {
-    mixins: [Style.mixins.inputBase],
     margin: 5
   }
 })

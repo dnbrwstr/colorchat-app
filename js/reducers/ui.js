@@ -1,6 +1,5 @@
-import { assocPath, assoc } from 'ramda'
+import { assocPath, assoc, adjust, merge } from 'ramda'
 import createRoutingReducer from '../lib/createRoutingReducer';
-import merge from 'merge';
 
 let initialState = {
   signup: {
@@ -46,19 +45,22 @@ let handleRequest = (prop, state, action) => {
     }
   }[action.state];
 
-  let val = merge({}, state[prop], newValues);
-  let mergeVal = {}
-  mergeVal[prop] = val;
-
-  return merge({}, state, mergeVal);
+  let ret = assoc(prop, merge(state[prop], newValues), state);
+  return ret;
 }
 
 let handlers = {
   registerPhoneNumber: (state, action) =>
     handleRequest('signup', state, action),
 
+  clearSignupError: (state, action) =>
+    assocPath(['signup', 'error'], null, state),
+
   submitConfirmationCode: (state, action) =>
     handleRequest('submitConfirmationCode', state, action),
+
+  clearConfirmationCodeError: (state, action) =>
+    assocPath(['confirmatonCode', 'error'], null, state),
 
   changeMainTab: (state, action) =>
     assocPath(['main', 'currentTabId'], action.tabId, state),

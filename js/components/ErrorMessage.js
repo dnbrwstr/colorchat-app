@@ -1,78 +1,106 @@
-let React = require('react-native'),
-  Style = require('../style'),
-  measure = require('../measure');
+import React  from 'react-native';
+import Style  from '../style';
+import measure  from '../measure';
+import PressableView from './PressableView';
 
 let {
   View,
   Text,
-  TouchableWithoutFeedback,
   Animated,
-  NativeMethodsMixin
+  Easing
 } = React;
 
 let ErrorMessage = React.createClass({
-  mixins: [NativeMethodsMixin],
 
   getInitialState: () => ({
-    height: new Animated.Value(0)
+    height: new Animated.Value(0),
+    opacity: new Animated.Value(0)
   }),
 
+  animateIn: async function () {
+    let size = await measure(this.refs.text);
+    Animated.parallel([
+      Animated.timing(this.state.height, {
+        duration: 150,
+        toValue: size.height,
+        easing: Easing.bounce(Easing.ease)
+      }),
+      Animated.timing(this.state.opacity, {
+        duration: 250,
+        toValue: 1,
+        delay: 300,
+        easing: Easing.out(Easing.ease)
+      })
+    ]).start();
+  },
+
+  animateOut: function (cb) {
+    Animated.parallel([
+      Animated.timing(this.state.height, {
+        duration: 150,
+        toValue: 0,
+        delay: 300,
+        easing: Easing.out(Easing.ease)
+      }),
+      Animated.timing(this.state.opacity, {
+        duration: 250,
+        toValue: 0,
+        delay: 0,
+        easing: Easing.out(Easing.ease)
+      })
+    ]).start(cb);
+  },
+
+  componentWillUpdate: function (nextProps, nextState) {
+    nextState.closing && this.onRemove();
+  },
+
   render: function () {
-    let animatedStyle = {
-      height: this.state.height,
-      overflow: 'hidden',
-      flex: 1
-    };
+    let styles = [
+      style.message,
+      {
+        height: this.state.height,
+        opacity: this.state.opacity
+      }
+    ];
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
-        <Animated.View style={animatedStyle} onLayout={this.onLayoutView}>
-          <View style={style.message} ref="contentView">
-            <Text style={style.text} ref="text">{this.props.message}</Text>
-          </View>
-        </Animated.View>
-      </TouchableWithoutFeedback>
+      <PressableView
+        onPress={this.onPress}
+        style={styles}
+        activeStyle={style.messageActive}
+        ref="contentView"
+      >
+        <Text style={style.text} onLayout={this.animateIn} ref="text">{this.props.message}</Text>
+      </PressableView>
     );
   },
 
-  onLayoutView: function () {
-    if (this.state.entered) return;
-
-    this.setState({
-      entered: true
-    });
-
-    measure(this.refs.contentView).then((p) => {
-      Animated.spring(this.state.height, {
-        toValue: p.height,
-      }).start();
-    });
-  },
-
   onPress: function () {
-    Animated.spring(this.state.height, {
-      toValue: 0,
-      duration: 50
-    }).start(() => {
+    this.animateOut(() => {
       if (this.props.onRemove) this.props.onRemove();
-    });
+    })
   }
 });
 
+let textPadding = 10;
+
 let style = Style.create({
   message: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    flex: 1,
-    marginLeft: 5,
-    marginRight: 5,
+    flex: 0,
+    opacity: 0,
+    marginLeft: -textPadding,
+    marginRight: -textPadding,
     backgroundColor: 'black',
+    overflow: 'hidden'
+  },
+  messageActive: {
+    backgroundColor: '#333'
   },
   text: {
     mixins: [Style.mixins.textBase],
-    padding: 5,
+    padding: textPadding * .6,
+    paddingHorizontal: textPadding,
     color: 'white'
   }
 });

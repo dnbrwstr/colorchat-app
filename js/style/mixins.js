@@ -1,23 +1,13 @@
-let values = require('./values');
+import values from './values';
 
 let textBase = {
-  fontFamily: 'Courier',
-  fontSize: 16,
+  fontFamily: 'Source Code Pro',
+  fontSize: 18,
   color: values.midGray
 };
 
-let inputBase = {
-  mixins: [textBase],
-  height: 40,
-  borderColor: values.midGray,
-  borderWidth: 1,
-  padding: values.basePadding,
-  margin: 0
-};
-
 let mixins = {
-  textBase: textBase,
-  inputBase: inputBase
+  textBase: textBase
 };
 
 module.exports = mixins;

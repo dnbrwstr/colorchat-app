@@ -1,4 +1,4 @@
-import React, { View } from 'react-native';
+import React, { View, StatusBarIOS } from 'react-native';
 import { Provider } from 'react-redux/native';
 import Router from './Router';
 import createStore from '../lib/createStore';
@@ -17,6 +17,8 @@ let ColorChat = React.createClass({
       store: store,
       socketService: createSocketService(store)
     });
+
+    StatusBarIOS.setStyle('light-content');
   },
 
   render: function () {

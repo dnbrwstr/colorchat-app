@@ -13,7 +13,7 @@ let Base = {
   gestures: null,
   defaultTransitionVelocity: 3,
   springFriction: 20,
-  springTension: 400,
+  springTension: 200,
 };
 
 let BaseLeftToRightGesture = {
@@ -58,27 +58,24 @@ export let FromBottom = {
         from: {x: 0, y: screenHeight, z: 0},
         to: {x: 0, y: 0, z: 0}
       },
-      translateY: {
-        ...TransformPropBase,
-        from: screenHeight,
-        to: 0
-      },
-      scaleX: {
-        value: 1,
-        type: 'constant',
-      },
-      scaleY: {
-        value: 1,
-        type: 'constant',
-      }
+      // translateY: {
+      //   ...TransformPropBase,
+      //   from: screenHeight,
+      //   to: 0
+      // },
+      // scaleX: {
+      //   value: 1,
+      //   type: 'constant',
+      // },
+      // scaleY: {
+      //   value: 1,
+      //   type: 'constant',
+      // }
     }),
     out: buildStyleInterpolator({
       opacity: {
-        ...TransformPropBase,
-        from: 1,
-        to : .7,
-        extrapolate: false,
-        round: 100
+        value: 1,
+        type: 'constant',
       }
     })
   }

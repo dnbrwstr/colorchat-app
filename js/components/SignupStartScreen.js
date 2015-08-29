@@ -1,23 +1,24 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
 import merge from 'merge';
-import AuthService from '../AuthService';
 import Style from '../style';
-import LoaderButton from './LoaderButton'
-import ConfirmCodeScreen from './ConfirmCodeScreen';
+import LoaderButton from './LoaderButton';
 import ErrorMessage from './ErrorMessage';
 import PressableView from './PressableView';
 import Header from './Header';
+import BaseText from './BaseText';
 import { signupScreenSelector } from '../lib/Selectors';
 import * as SignupActions from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
 import DecoupledInput from './DecoupledInput';
+import KeyboardMixin from './mixins/KeyboardMixin';
 
 let {
   Text,
   TextInput,
   View,
-  ScrollView
+  ScrollView,
+  Animated
 } = React;
 
 let {
@@ -27,19 +28,31 @@ let {
 } = SignupActions;
 
 let SignupStartScreen = React.createClass({
+  mixins: [KeyboardMixin],
+
   render: function() {
     let { dispatch, error } = this.props;
 
+    let buttonStyle = [
+      style.container,
+      {
+        flex: 0,
+        transform: [
+          { translateY: this.state.animatedKeyboardHeight }
+        ]
+      }
+    ];
+
     return (
       <View style={style.container} ref="container">
-        <Header title="Setup"/>
+        <Header title="Setup" />
 
         <View style={style.screenContent}>
-          <Text style={style.welcomeMessage}>
+          <BaseText style={style.welcomeMessage}>
             Color Chat will send you
             an SMS message to verify
-            your phone number.
-          </Text>
+            your phone number
+          </BaseText>
 
           { error ?
             <ErrorMessage
@@ -48,51 +61,58 @@ let SignupStartScreen = React.createClass({
                 dispatch(clearSignupError())
               } /> : null }
 
-          <PressableView onPress={this.showCountryPicker}>
-            <Text style={style.countryInput} >{this.props.country}</Text>
+          <PressableView style={style.countryInput} onPress={this.showCountryPicker}>
+            <BaseText style={style.countryInputText}>{this.props.country}</BaseText>
+            <BaseText style={style.countryInputArrow}>&darr;</BaseText>
           </PressableView>
 
-          <View style={style.inputContainerStyle}>
+          <View style={style.inputContainer}>
             <View style={style.countryCodeWrapper}>
               <DecoupledInput
                 ref="countryCodeInput"
                 style={style.countryCodeInput}
                 initialValue={this.props.countryCode}
                 keyboardType="phone-pad" />
-              <Text style={style.countryCodePlus}>+</Text>
+              <BaseText style={style.countryCodePlus}>+</BaseText>
             </View>
 
-            <DecoupledInput
-              ref="numberInput"
-              style={style.numberInput}
-              placeholder="Phone Number"
-              keyboardType="phone-pad"
-              initialValue={this.props.phoneNumber} />
+            <View style={style.numberInputWrapper}>
+              <DecoupledInput
+                ref="numberInput"
+                style={style.numberInput}
+                placeholder="Phone Number"
+                keyboardType="phone-pad"
+                initialValue={this.props.phoneNumber} />
+            </View>
           </View>
         </View>
 
-        <LoaderButton
-          style={style.submit}
-          loading={this.props.loading}
-          onPress={this.onSubmitNumber}
-          messages={{
-            base: 'Send message',
-            loading: 'Loading...'
-          }} />
+        <Animated.View style={buttonStyle}>
+          <LoaderButton
+            style={style.submit}
+            loading={this.props.loading}
+            onPress={this.onSubmitNumber}
+            message="Send message" />
+          </Animated.View>
       </View>
     );
   },
 
   showCountryPicker: function () {
-    this.refs.countryCodeInput.blur();
-    this.refs.numberInput.blur();
+    this.hideKeyboard();
     this.updateData();
     this.props.dispatch(navigateTo('countryPicker'));
   },
 
   onSubmitNumber: function () {
+    this.hideKeyboard();
     this.updateData();
     this.props.dispatch(registerPhoneNumber());
+  },
+
+  hideKeyboard: function () {
+    this.refs.countryCodeInput.blur();
+    this.refs.numberInput.blur();
   },
 
   updateData: function () {
@@ -106,6 +126,18 @@ let SignupStartScreen = React.createClass({
   }
 });
 
+let outerPadding = 24;
+
+let grayBottomBorder = {
+  borderBottomWidth: Style.values.borderWidth,
+  borderBottomColor: Style.values.midGray
+};
+
+let inputBase = {
+  height: 44,
+  paddingTop: 10,
+};
+
 let style = Style.create({
   container: {
     flex: 1,
@@ -114,54 +146,68 @@ let style = Style.create({
     backgroundColor: '#EFEFEF'
   },
   screenContent: {
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    padding: outerPadding,
+    paddingTop: 22
   },
-  inputContainerStyle: {
+  welcomeMessage: {
+    marginBottom: 16,
+    marginTop: 0
+  },
+  inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    margin: 5
+    marginBottom: 5
   },
   countryInput: {
-    mixins: [Style.mixins.inputBase],
-    margin: 5,
-    marginBottom: 0
+    mixins: [inputBase, grayBottomBorder],
+    paddingTop: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 5
   },
   countryInputActive: {
     color: 'white',
     backgroundColor: 'black'
   },
-  numberInput: {
-    mixins: [Style.mixins.inputBase],
+  countryInputText: {
+    flex: 1,
+    paddingTop: 13
+  },
+  countryInputArrow: {
+    flex: 0,
+    paddingTop: 13
+  },
+  numberInputWrapper: {
+    mixins: [grayBottomBorder],
     alignSelf: 'stretch',
-    flex: 1
+    flex: 1,
   },
-  welcomeMessage: {
-    mixins: [Style.mixins.textBase],
-    margin: 5,
-    marginTop: 10,
-    width: 250
-  },
-  countryCodePlus: {
-    mixins: [Style.mixins.textBase],
-    position: 'absolute',
-    top: 11,
-    bottom: 0,
-    left: 15,
-    backgroundColor: 'transparent'
+  numberInput: {
+    mixins: [inputBase, Style.mixins.textBase],
   },
   countryCodeWrapper: {
-    width: 80,
+    mixins: [grayBottomBorder],
+    width: 60,
     flex: 0,
     margin: 0,
-    padding: 0
+    padding: 0,
+    marginRight: 12
+  },
+  countryCodePlus: {
+    position: 'absolute',
+    top: 15,
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'transparent'
   },
   countryCodeInput: {
-    mixins: [Style.mixins.inputBase],
-    paddingLeft: 24,
-    marginRight: 5,
+    mixins: [inputBase, Style.mixins.textBase],
+    paddingLeft: 12,
     color: Style.values.midGray
   }
 });

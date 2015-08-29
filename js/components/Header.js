@@ -52,7 +52,7 @@ let Header = React.createClass({
   }
 });
 
-var size = 50;
+var size = 60;
 
 let style = Style.create({
   bar: {
@@ -74,6 +74,7 @@ let style = Style.create({
     backgroundColor: '#888888'
   },
   buttonText: {
+    mixins: [Style.mixins.textBase],
     color: 'white',
     textAlign: 'center'
   },
@@ -82,6 +83,7 @@ let style = Style.create({
     justifyContent: 'center',
   },
   titleText: {
+    mixins: [Style.mixins.textBase],
     color: 'white',
     textAlign: 'center'
   }

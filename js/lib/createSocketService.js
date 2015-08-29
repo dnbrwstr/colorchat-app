@@ -1,4 +1,4 @@
-import io from 'socket.io-client/socket.io.js';
+import io from 'socket.io-client/socket.io';
 import { merge } from 'ramda';
 import { serverRoot } from '../config';
 import createService from '../lib/createService';

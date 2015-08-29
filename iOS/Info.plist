@@ -2,6 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SourceCodePro-Black.otf</string>
+		<string>SourceCodePro-Bold.otf</string>
+		<string>SourceCodePro-ExtraLight.otf</string>
+		<string>SourceCodePro-It.otf</string>
+		<string>SourceCodePro-LightIt.otf</string>
+		<string>SourceCodePro-MediumIt.otf
+</string>
+		<string>SourceCodePro-Semibold.otf
+</string>
+		<string>SourceCodePro-BlackIt.otf
+</string>
+		<string>SourceCodePro-BoldIt.otf
+</string>
+		<string>SourceCodePro-ExtraLightIt.otf</string>
+		<string>SourceCodePro-Light.otf</string>
+		<string>SourceCodePro-Medium.otf</string>
+		<string>SourceCodePro-Regular.otf</string>
+		<string>SourceCodePro-SemiboldIt.otf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

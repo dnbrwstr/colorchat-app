@@ -2,6 +2,7 @@ import React  from 'react-native';
 import Style  from '../style';
 import measure  from '../measure';
 import PressableView from './PressableView';
+import BaseText from './BaseText';
 
 let {
   View,
@@ -71,7 +72,7 @@ let ErrorMessage = React.createClass({
         activeStyle={style.messageActive}
         ref="contentView"
       >
-        <Text style={style.text} onLayout={this.animateIn} ref="text">{this.props.message}</Text>
+        <BaseText style={style.text} onLayout={this.animateIn} ref="text">{this.props.message}</BaseText>
       </PressableView>
     );
   },
@@ -89,8 +90,6 @@ let style = Style.create({
   message: {
     flex: 0,
     opacity: 0,
-    marginLeft: -textPadding,
-    marginRight: -textPadding,
     backgroundColor: 'black',
     overflow: 'hidden'
   },
@@ -98,7 +97,6 @@ let style = Style.create({
     backgroundColor: '#333'
   },
   text: {
-    mixins: [Style.mixins.textBase],
     padding: textPadding * .6,
     paddingHorizontal: textPadding,
     color: 'white'

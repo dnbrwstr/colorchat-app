@@ -45,6 +45,12 @@ let handleRequest = (prop, state, action) => {
     }
   }[action.state];
 
+  if (action.state === 'failed') {
+    newValues.error = {
+      'Network request failed': 'Unable to reach server'
+    }[action.error] || action.error
+  }
+
   let ret = assoc(prop, merge(state[prop], newValues), state);
   return ret;
 }

@@ -10,28 +10,29 @@ let errorMessages = {
 
 let sanitizeNumber = number => number.replace(/[^0-9]/g, '');
 
-let formatPhoneNumber = (countryCode, number) =>
-  `+${[countryCode, number].map(sanitizeNumber).join('')}`;
+let formatPhoneNumber = (countryCode, baseNumber) =>
+  `+${[countryCode, baseNumber].map(sanitizeNumber).join('')}`;
 
 export let updateData = newData => ({
   type: 'updateData',
   data: newData
 });
 
-export let registerPhoneNumber = number => async (dispatch, getState) => {
+export let registerPhoneNumber = () => async (dispatch, getState) => {
   let state = getState();
-  let { countryCode, phoneNumber } = state.signup;
-  let fullNumber = formatPhoneNumber(countryCode, phoneNumber);
+  let { countryCode, baseNumber } = state.signup;
+  let phoneNumber = formatPhoneNumber(countryCode, baseNumber);
 
   try {
     dispatch({
       type: 'registerPhoneNumber',
       state: 'started',
-      phoneNumber: fullNumber
+      phoneNumber: phoneNumber
     });
 
     let res = await postJSON(serverRoot + '/auth', {
-      phoneNumber: fullNumber
+      baseNumber: baseNumber,
+      countryCode: countryCode
     });
 
     if (res.ok) {
@@ -41,26 +42,25 @@ export let registerPhoneNumber = number => async (dispatch, getState) => {
       });
     } else {
       let error = await res.text();
-
       dispatch({
         type: 'registerPhoneNumber',
         state: 'failed',
         error: error
       });
     }
-  } catch (e) {
+  } catch (err) {
     dispatch({
       type: 'registerPhoneNumber',
       state: 'failed',
-      error: e.toString()
+      error: err.message
     });
   }
 };
 
-export let submitConfirmationCode = (code, number) => async (dispatch, getState) => {
+export let submitConfirmationCode = () => async (dispatch, getState) => {
   try {
-    let { phoneNumber, countryCode, confirmationCode } = getState().signup;
-    let fullNumber = formatPhoneNumber(countryCode, phoneNumber);
+    let { baseNumber, countryCode, confirmationCode } = getState().signup;
+    let phoneNumber = formatPhoneNumber(countryCode, baseNumber);
 
     dispatch({
       type: 'submitConfirmationCode',
@@ -68,7 +68,7 @@ export let submitConfirmationCode = (code, number) => async (dispatch, getState)
     });
 
     let res = await postJSON(serverRoot + '/auth/confirm', {
-      phoneNumber: fullNumber,
+      phoneNumber: phoneNumber,
       code: confirmationCode
     });
 

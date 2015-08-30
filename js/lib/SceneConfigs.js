@@ -50,6 +50,8 @@ let TransformPropBase = {
 
 export let FromBottom = {
   ...Base,
+  springFriction: 20,
+  springTension: 120,
   animationInterpolators: {
     into: buildStyleInterpolator({
       ...ConstantOpacity,
@@ -58,24 +60,13 @@ export let FromBottom = {
         from: {x: 0, y: screenHeight, z: 0},
         to: {x: 0, y: 0, z: 0}
       },
-      // translateY: {
-      //   ...TransformPropBase,
-      //   from: screenHeight,
-      //   to: 0
-      // },
-      // scaleX: {
-      //   value: 1,
-      //   type: 'constant',
-      // },
-      // scaleY: {
-      //   value: 1,
-      //   type: 'constant',
-      // }
     }),
     out: buildStyleInterpolator({
-      opacity: {
-        value: 1,
-        type: 'constant',
+      ...ConstantOpacity,
+      transformTranslate: {
+        ...TransformPropBase,
+        from: {x: 0, y: 0, z: 0},
+        to: {x: 0, y: -screenHeight, z: 0}
       }
     })
   }
@@ -153,4 +144,4 @@ export let SlideFromLeft = {
       }
     })
   }
-}
+};

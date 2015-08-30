@@ -1,5 +1,6 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
+import Color from 'color';
 import merge from 'merge';
 import Style from '../style';
 import LoaderButton from './LoaderButton';
@@ -61,7 +62,11 @@ let SignupStartScreen = React.createClass({
                 dispatch(clearSignupError())
               } /> : null }
 
-          <PressableView style={style.countryInput} onPress={this.showCountryPicker}>
+          <PressableView 
+            style={style.countryInput} 
+            activeStyle={style.countryInputActive} 
+            onPress={this.showCountryPicker}
+          >
             <BaseText style={style.countryInputText}>{this.props.country}</BaseText>
             <BaseText style={style.countryInputArrow}>&darr;</BaseText>
           </PressableView>
@@ -78,11 +83,11 @@ let SignupStartScreen = React.createClass({
 
             <View style={style.numberInputWrapper}>
               <DecoupledInput
-                ref="numberInput"
+                ref="baseNumberInput"
                 style={style.numberInput}
                 placeholder="Phone Number"
                 keyboardType="phone-pad"
-                initialValue={this.props.phoneNumber} />
+                initialValue={this.props.baseNumber} />
             </View>
           </View>
         </View>
@@ -112,15 +117,15 @@ let SignupStartScreen = React.createClass({
 
   hideKeyboard: function () {
     this.refs.countryCodeInput.blur();
-    this.refs.numberInput.blur();
+    this.refs.baseNumberInput.blur();
   },
 
   updateData: function () {
-    let phoneNumber = this.refs.numberInput.getValue();
+    let baseNumber = this.refs.baseNumberInput.getValue();
     let countryCode = this.refs.countryCodeInput.getValue();
 
     this.props.dispatch(updateData({
-      phoneNumber,
+      baseNumber,
       countryCode
     }));
   }
@@ -172,7 +177,7 @@ let style = Style.create({
   },
   countryInputActive: {
     color: 'white',
-    backgroundColor: 'black'
+    backgroundColor: Color('#EFEFEF').darken(.1).hexString()
   },
   countryInputText: {
     flex: 1,

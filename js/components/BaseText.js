@@ -8,12 +8,10 @@ let {
 let BaseText = React.createClass({
   render: function () {
     return (
-      <Text style={[
+      <Text {...this.props} style={[
         style.text,
         this.props.style
-      ]}>
-        { this.props.children }
-      </Text>
+      ]} />
     );
   }
 });

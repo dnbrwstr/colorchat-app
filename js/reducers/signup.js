@@ -3,7 +3,7 @@ import createRoutingReducer from '../lib/createRoutingReducer';
 let initialState = {
   country: 'United States',
   countryCode: '1',
-  phoneNumber: '',
+  baseNumber: '',
   confirmationCode: ''
 };
 

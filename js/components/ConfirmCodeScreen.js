@@ -8,20 +8,33 @@ import { submitConfirmationCode, updateData, clearConfirmCodeError } from '../ac
 import { confirmationCodeScreenSelector } from '../lib/Selectors'
 import Header from './Header';
 import DecoupledInput from './DecoupledInput';
+import KeyboardMixin from './mixins/KeyboardMixin';
 
 let {
   View,
   Text,
-  TextInput
+  TextInput,
+  Animated
 } = React;
 
 let ConfirmCodeScreen = React.createClass({
+  mixins: [KeyboardMixin],
+
   getInitialState: () => ({
     loading: false
   }),
 
   render: function () {
     let { dispatch, error, loading } = this.props;
+
+    let buttonStyle = [
+      {
+        flex: 0,
+        transform: [
+          { translateY: this.state.animatedKeyboardHeight }
+        ]
+      }
+    ];
 
     return (
       <View style={style.container}>
@@ -48,11 +61,13 @@ let ConfirmCodeScreen = React.createClass({
           </View>
         </View>
 
-        <LoaderButton
-          loading={loading}
-          onPress={this.onSubmit}
-          message="Confirm code"
-        />
+        <Animated.View style={buttonStyle}>
+          <LoaderButton
+            loading={loading}
+            onPress={this.onSubmit}
+            message="Confirm code"
+          />
+        </Animated.View>
       </View>
     )
   },

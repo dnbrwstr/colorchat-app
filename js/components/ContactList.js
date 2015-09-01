@@ -1,6 +1,8 @@
 import React from 'react-native';
+import Color from 'color';
 import PressableView from './PressableView';
 import Style from '../style';
+import BaseText from './BaseText';
 
 let {
   View,
@@ -37,16 +39,17 @@ export default ContactList = React.createClass({
   },
 
   renderContact: function (contact) {
-    let contactStyle = [
-      style.contact,
-      contact.matched && style.contactMatched
-    ];
-
     return (
       <PressableView
         onPress={() => this.onSelectContact(contact) }
-        style={contactStyle}>
-        <Text>{contact.firstName} {contact.lastName}</Text>
+        style={style.contact}
+        activeStyle={style.contactActive}
+      >
+        <View style={{flex: 1, paddingRight: 10}}>
+          <BaseText numberOfLines={1}>{contact.firstName} {contact.lastName}</BaseText>
+        </View>
+        { !contact.matched &&
+          <BaseText style={style.inviteButton}>Invite</BaseText>}
       </PressableView>
     )
   },
@@ -62,13 +65,28 @@ export default ContactList = React.createClass({
   }
 });
 
+let { midGray } = Style.values;
+
 let style = Style.create({
   contact: {
     backgroundColor: 'white',
-    padding: 10,
-    flex: 1
+    padding: 12,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  contactActive: {
+    backgroundColor: '#EFEFEF'
   },
   contactMatched: {
     backgroundColor: 'green'
+  },
+  inviteButton: {
+    backgroundColor: midGray,
+    color: 'white',
+    fontSize: 12,
+    padding: 4,
+    flex: 0
   }
 });

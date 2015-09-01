@@ -2,7 +2,7 @@ import values from './values';
 
 let textBase = {
   fontFamily: 'Source Code Pro',
-  fontSize: 18,
+  fontSize: 16,
   color: values.midGray
 };
 

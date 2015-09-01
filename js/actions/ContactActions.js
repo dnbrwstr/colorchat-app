@@ -1,4 +1,5 @@
-import AddressBook from 'react-native-addressbook'
+import { RNMessageComposer as Composer } from 'NativeModules';
+import AddressBook from 'react-native-addressbook';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
 
@@ -15,7 +16,7 @@ export let importContacts = (opts) => async (dispatch, getState) => {
     let contacts = await AddressBook.getContactsAsync();
     let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
     let token = getState().user.token;
-    let matches;
+    let res;
 
     if (!token) {
       return dispatch({
@@ -24,29 +25,29 @@ export let importContacts = (opts) => async (dispatch, getState) => {
     }
 
     try {
-      let res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, token);
-
-      if (res.status === 403) {
-        return dispatch({
-          type: 'authError'
-        });
-      }
-
-      matches = await res.json();
-
-      dispatch({
-        type: 'importContacts',
-        state: 'complete',
-        contacts: contacts,
-        matches: matches
-      });
+      res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, token);
     } catch (e) {
-      dispatch({
+      return dispatch({
         type: 'importContacts',
         state: 'failed',
-        error: 'Unable to match connect to server'
+        error: 'Unable to connect to server'
       });
     }
+
+    if (res.status === 403) {
+      return dispatch({
+        type: 'authError'
+      });
+    }
+
+    let matches = await res.json();
+
+    dispatch({
+      type: 'importContacts',
+      state: 'complete',
+      contacts: contacts,
+      matches: matches
+    });
   };
 
   dispatch({
@@ -71,4 +72,16 @@ export let importContacts = (opts) => async (dispatch, getState) => {
   } else {
     onPermissionGranted();
   }
+}
+
+export let sendInvite = contact => (dispatch, getState) => {
+  // Get invite link from server
+  // fetch...
+  let link = 'https://invite';
+  let message = 'Join me on Color Chat ' + link;
+
+  Composer.composeMessageWithArgs({
+    recipients: [contact.phoneNumbers[0].number],
+    messageText: message
+  });
 }

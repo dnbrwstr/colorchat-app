@@ -44,15 +44,26 @@ export default TabBar = React.createClass({
         </View>
 
         <View style={style.navBar}>
-          { this.props.items.map((item) =>
-              <Text style={[
-                style.navBarText,
-                ( item.id == this.props.currentItemId &&
-                  style.navBarTextActive )
-              ]}>{item.title}</Text>
-          ) }
+          { this.props.items.map(this.renderItem) }
         </View>
       </View>
+    );
+  },
+
+  renderItem: function (item) {
+    let active = item.id == this.props.currentItemId;
+    let textStyle = [
+      style.navBarText,
+      active && style.navBarTextActive
+    ];
+
+    return (
+      <PressableView
+        style={style.navBarItem}
+        onPress={() => this.onSelectItem(item)}
+      >
+        <Text style={textStyle}>{item.title}</Text>
+      </PressableView>
     );
   },
 
@@ -82,15 +93,22 @@ export default TabBar = React.createClass({
   }
 });
 
+let {
+  textBase,
+  outerWrapperBase
+} = Style.mixins;
+
 let style = Style.create({
   outerContainer: {
+    ...outerWrapperBase,
     flex: 1,
   },
   container: {
     flex: 1
   },
   navBar: {
-    height: 80,
+    flex: 0,
+    height: 50,
     backgroundColor: '#EFEFEF',
     flexDirection: 'row',
   },
@@ -98,7 +116,7 @@ let style = Style.create({
     flex: 1,
     justifyContent: 'center',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   navBarText: {
     mixins: [Style.mixins.textBase],

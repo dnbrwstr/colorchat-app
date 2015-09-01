@@ -53,6 +53,7 @@
 		C8E3AA9F1B8F955A00818930 /* SourceCodePro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8E3AA911B8F955900818930 /* SourceCodePro-Semibold.otf */; };
 		C8E3AAA01B8F955A00818930 /* SourceCodePro-SemiboldIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8E3AA921B8F955900818930 /* SourceCodePro-SemiboldIt.otf */; };
 		C8E3AAA71B8FB79C00818930 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8E3AAA61B8FB76E00818930 /* libRNKeyboardEvents.a */; };
+		C8F650861B964FFE00BF9AAB /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F650851B964FE000BF9AAB /* libRNMessageComposer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +155,13 @@
 			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
 			remoteInfo = RNKeyboardEvents;
 		};
+		C8F650841B964FE000BF9AAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C23F08041AFAB5C100312C72;
+			remoteInfo = RNMessageComposer;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -208,6 +216,7 @@
 		C8E3AA911B8F955900818930 /* SourceCodePro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Semibold.otf"; sourceTree = "<group>"; };
 		C8E3AA921B8F955900818930 /* SourceCodePro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-SemiboldIt.otf"; sourceTree = "<group>"; };
 		C8E3AAA11B8FB76E00818930 /* RNKeyboardEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeyboardEvents.xcodeproj; path = "node_modules/react-native-keyboardevents/RNKeyboardEvents.xcodeproj"; sourceTree = "<group>"; };
+		C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMessageComposer.xcodeproj; path = "node_modules/react-native-keyboardevents/../react-native-message-composer/RNMessageComposer.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +242,7 @@
 				C878D4631B7AA3940041C35C /* CoreGraphics.framework in Frameworks */,
 				C878D4611B7AA38B0041C35C /* CFNetwork.framework in Frameworks */,
 				C878D45F1B7AA3860041C35C /* AudioToolbox.framework in Frameworks */,
+				C8F650861B964FFE00BF9AAB /* libRNMessageComposer.a in Frameworks */,
 				C8E3AAA71B8FB79C00818930 /* libRNKeyboardEvents.a in Frameworks */,
 				C82B16ED1B824F33005E9BF9 /* libRCTAddressBook.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -361,6 +371,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */,
 				C8E3AAA11B8FB76E00818930 /* RNKeyboardEvents.xcodeproj */,
 				C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -461,6 +472,14 @@
 			isa = PBXGroup;
 			children = (
 				C8E3AAA61B8FB76E00818930 /* libRNKeyboardEvents.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8F650741B964FE000BF9AAB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8F650851B964FE000BF9AAB /* libRNMessageComposer.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -586,6 +605,10 @@
 					ProductGroup = C8E3AAA21B8FB76E00818930 /* Products */;
 					ProjectRef = C8E3AAA11B8FB76E00818930 /* RNKeyboardEvents.xcodeproj */;
 				},
+				{
+					ProductGroup = C8F650741B964FE000BF9AAB /* Products */;
+					ProjectRef = C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -685,6 +708,13 @@
 			fileType = archive.ar;
 			path = libRNKeyboardEvents.a;
 			remoteRef = C8E3AAA51B8FB76E00818930 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C8F650851B964FE000BF9AAB /* libRNMessageComposer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMessageComposer.a;
+			remoteRef = C8F650841B964FE000BF9AAB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

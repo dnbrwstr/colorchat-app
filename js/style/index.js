@@ -1,4 +1,5 @@
-let React = require('react-native');
+import React from 'react-native';
+import Color from 'color';
 
 let { StyleSheet } = React;
 
@@ -31,6 +32,10 @@ let makeStyle = function (style) {
 let Style = {
   create: (style) => StyleSheet.create(makeStyles(style)),
   mixins: require('./mixins'),
+  util: {
+    lighten: (hexString, amount) => Color(hexString).lighten(amount).hexString(),
+    darken: (hexString, amount) => Color(hexString).darken(amount).hexString()
+  },
   values: require('./values')
 };
 

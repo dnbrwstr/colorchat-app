@@ -1,10 +1,12 @@
 import React from 'react-native';
+import Color from 'color';
 import Style from '../style';
 import { connect } from 'react-redux/native';
 import PressableView from './PressableView';
 import ContactList from './ContactList';
-import { importContacts } from '../actions/ContactActions';
+import { importContacts, sendInvite } from '../actions/ContactActions';
 import { navigateTo } from '../actions/NavigationActions';
+import BaseText from './BaseText';
 
 let {
   View,
@@ -15,6 +17,7 @@ let ContactsScreen = React.createClass({
   render: function () {
     return (
       <View style={style.container}>
+        <View style={style.topBar}></View>
         { this.props.imported ?
           this.renderContactsList() : this.renderImportPrompt() }
       </View>
@@ -32,16 +35,15 @@ let ContactsScreen = React.createClass({
 
     return (
       <View style={importStyle.container}>
-        <Text style={importStyle.messageText}>
-          ColorChat uses your contacts to determine which of your friends are also using ColorChat.
-          No information from your address book is stored on our servers.
-        </Text>
+        <BaseText style={importStyle.messageText}>
+          We need access to your contacts show you which friends are also using the app
+        </BaseText>
 
         <PressableView
           onPress={() => dispatch(importContacts())}
           style={importStyle.button}
         >
-          <Text style={importStyle.buttonText}>Import Contacts</Text>
+          <BaseText style={importStyle.buttonText}>Import Contacts</BaseText>
         </PressableView>
       </View>
     );
@@ -56,29 +58,52 @@ let ContactsScreen = React.createClass({
   },
 
   onSelectContact: function (contact) {
-    this.props.dispatch(navigateTo('conversation', {
-      data: {
-        contactId: contact.id
-      }
-    }));
+    if (contact.matched) {
+      this.props.dispatch(navigateTo('conversation', {
+        data: { contactId: contact.id }
+      }));
+    } else {
+      this.props.dispatch(sendInvite(contact))
+    }
   }
 });
 
+let { midGray } = Style.values;
+
+let {
+  contentWrapperBase
+} = Style.mixins;
+
 let style = Style.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
+  },
+  topBar: {
+    height: 20,
+    backgroundColor: midGray
   }
 });
 
 let importStyle = Style.create({
+  container: {
+    ...contentWrapperBase,
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: midGray
+  },
+  messageText: {
+    color: 'white',
+    marginBottom: 24
+  },
   button: {
     backgroundColor: 'white',
     flex: 0,
-    padding: 15,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   buttonText: {
-    flex: 1,
-    backgroundColor: 'blue'
   }
 })
 

@@ -1,4 +1,4 @@
-import sort from 'ramda';
+import { sortBy } from 'ramda';
 import createRoutingReducer from '../lib/createRoutingReducer';
 
 let initialState = [];
@@ -14,9 +14,11 @@ let handlers = {
       id: m.userId
     });
 
-    return sort(c => {
+    let results = sortBy(c => {
       return (c.matched ? 'a' : 'z') + c.firstName + c.lastName;
     }, contacts);
+
+    return results;
   }
 }
 

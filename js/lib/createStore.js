@@ -11,21 +11,26 @@ let createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 
 export default finalCreateStore = async () => {
-  let appState = {};
+  let store = createStoreWithMiddleware(combineReducers(reducers));
 
   if (rehydrate) {
     let appStateString = await AsyncStorage.getItem('appState');
-    appState = JSON.parse(appStateString);
+    let appState = JSON.parse(appStateString);
 
     if (rehydrateBlacklist) {
       rehydrateBlacklist.forEach(key => delete appState[key]);
     }
 
-    if (appState.navigation) {
-      let { history } = appState.navigation;
-      appState.navigation.route = history[history.length - 1];
-    }
+    store.dispatch({
+      type: 'init',
+      appState: appState
+    });
+  } else {
+    store.dispatch({
+      type: 'init',
+      appState: {}
+    });
   }
 
-  return createStoreWithMiddleware(combineReducers(reducers), appState);
+  return store;
 }

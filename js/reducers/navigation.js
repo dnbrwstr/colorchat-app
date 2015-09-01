@@ -13,6 +13,29 @@ let initialState = {
 };
 
 let handlers = {
+  init: function (state, action) {
+    let { appState } = action;
+    let route;
+
+    if (!appState.user || !appState.user.token) {
+      route = {
+        title: 'signup'
+      };
+    } else if (appState.navigation && appState.navigation.history.length) {
+      let { history } = appState.navigation;
+      route = history[history.length - 1];
+    } else {
+      route = {
+        title: 'main'
+      };
+    }
+
+    return {
+      history: [route],
+      route: route
+    };
+  },
+
   authError: function (state, action) {
     return this.navigateTo(state, {
       route: {
@@ -74,4 +97,8 @@ let handlers = {
   }
 };
 
-export default createRoutingReducer(handlers, initialState);
+export default createRoutingReducer({
+  key: 'navigation',
+  handlers,
+  initialState
+});

@@ -63,9 +63,9 @@ let handlers = {
     assocPath(['signup', 'error'], null, state),
 
   submitConfirmationCode: (state, action) =>
-    handleRequest('submitConfirmationCode', state, action),
+    handleRequest('confirmationCode', state, action),
 
-  clearConfirmationCodeError: (state, action) =>
+  clearConfirmCodeError: (state, action) =>
     assocPath(['confirmatonCode', 'error'], null, state),
 
   changeMainTab: (state, action) =>
@@ -103,4 +103,8 @@ let handlers = {
 
 };
 
-export default createRoutingReducer(handlers, initialState);
+export default createRoutingReducer({
+  key: 'ui',
+  handlers,
+  initialState
+});

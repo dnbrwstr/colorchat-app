@@ -1,12 +1,22 @@
+import { merge } from 'ramda';
 import { serverRoot } from '../config';
 import { postJSON } from '../lib/RequestHelpers';
 
-let errorMessages = {
+let baseErrorMessages = {
   500: 'Something went wrong',
   404: 'Unable to connect to server',
   400: 'Invalid input',
   403: 'Unauthorized'
 };
+
+let registrationErrorMessages = merge(baseErrorMessages, {
+
+});
+
+let confirmationCodeErrorMessages = merge(baseErrorMessages, {
+  400: 'Please enter your confirmation code',
+  403: 'Not a valid confirmation code'
+});
 
 let sanitizeNumber = number => number.replace(/[^0-9]/g, '');
 
@@ -41,7 +51,7 @@ export let registerPhoneNumber = () => async (dispatch, getState) => {
         state: 'complete'
       });
     } else {
-      let error = await res.text();
+      let error = registrationErrorMessages[res.status];
       dispatch({
         type: 'registerPhoneNumber',
         state: 'failed',
@@ -81,10 +91,11 @@ export let submitConfirmationCode = () => async (dispatch, getState) => {
         data: json
       });
     } else {
+      let error = confirmationCodeErrorMessages[res.status];
       dispatch({
-        type: 'registerPhoneNumber',
+        type: 'submitConfirmationCode',
         state: 'failed',
-        error: errorMessages[res.status]
+        error: error
       });
     }
   } catch (e) {
@@ -97,5 +108,9 @@ export let submitConfirmationCode = () => async (dispatch, getState) => {
 };
 
 export let clearSignupError = () => ({
+  type: 'clearSignupError'
+});
+
+export let clearConfirmCodeError = () => ({
   type: 'clearSignupError'
 });

@@ -14,4 +14,8 @@ let handlers = {
   })
 };
 
-export default createRoutingReducer(handlers, initialState);
+export default createRoutingReducer({
+  key: 'signup',
+  handlers,
+  initialState
+});

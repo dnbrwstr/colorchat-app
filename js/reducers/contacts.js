@@ -20,4 +20,8 @@ let handlers = {
   }
 }
 
-export default createRoutingReducer(handlers, initialState);
+export default createRoutingReducer({
+  key: 'contacts',
+  handlers,
+  initialState
+});

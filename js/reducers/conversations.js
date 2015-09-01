@@ -51,4 +51,8 @@ let handlers = {
   }
 };
 
-export default createRoutingReducer(handlers, initialState);
+export default createRoutingReducer({
+  key: 'conversations',
+  handlers,
+  initialState
+});

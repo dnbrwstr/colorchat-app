@@ -50,9 +50,11 @@ export let signupScreenSelector = createSelector([
   selectSignupUIData
 ], mergeArgs);
 
+let selectConfirmationCodeUIData = state => state.ui.confirmationCode;
+
 export let confirmationCodeScreenSelector = createSelector([
   selectSignupData,
-  state => state.ui.confirmPhoneNumber
+  selectConfirmationCodeUIData
 ], mergeArgs);
 
 export let mainScreenSelector = state => ({

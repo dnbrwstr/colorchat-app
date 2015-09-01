@@ -4,7 +4,7 @@ import Style from '../style';
 import LoaderButton from './LoaderButton';
 import ErrorMessage from './ErrorMessage';
 import { navigateBack } from '../actions/NavigationActions';
-import { submitConfirmationCode, updateData } from '../actions/SignupActions';
+import { submitConfirmationCode, updateData, clearConfirmCodeError } from '../actions/SignupActions';
 import { confirmationCodeScreenSelector } from '../lib/Selectors'
 import Header from './Header';
 import DecoupledInput from './DecoupledInput';
@@ -21,7 +21,7 @@ let ConfirmCodeScreen = React.createClass({
   }),
 
   render: function () {
-    let { dispatch, error } = this.props;
+    let { dispatch, error, loading } = this.props;
 
     return (
       <View style={style.container}>
@@ -34,25 +34,25 @@ let ConfirmCodeScreen = React.createClass({
             <ErrorMessage
               message={error.toString()}
               onRemove={() =>
-                dispatch(updateData({
+                dispatch(clearConfirmCodeError({
                   error: ''
                 }))
             } /> : null }
 
-          <DecoupledInput
-            ref="confirmationCodeInput"
-            placeholder="SMS Code"
-            style={style.input}
-            initialValue={this.props.confirmationCode} />
-
-          <LoaderButton
-            loading={this.props.loading}
-            onPress={this.onSubmit}
-            messages={{
-              base: 'Confirm code',
-              loading: 'Loading...'
-            }} />
+          <View style={style.inputWrapper}>
+            <DecoupledInput
+              ref="confirmationCodeInput"
+              placeholder="SMS Code"
+              style={style.input}
+              initialValue={this.props.confirmationCode} />
+          </View>
         </View>
+
+        <LoaderButton
+          loading={loading}
+          onPress={this.onSubmit}
+          message="Confirm code"
+        />
       </View>
     )
   },
@@ -65,20 +65,26 @@ let ConfirmCodeScreen = React.createClass({
   }
 });
 
+let {
+  inputBase,
+  grayBottomBorder,
+  outerWrapperBase,
+  contentWrapperBase
+} = Style.mixins;
+
 var style = Style.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    backgroundColor: '#EFEFEF'
+    ...outerWrapperBase
   },
   screenContent: {
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'center',
+    ...contentWrapperBase,
+    paddingTop: 12,
+  },
+  inputWrapper: {
+    ...grayBottomBorder,
   },
   input: {
-    margin: 5
+    ...inputBase,
   }
 })
 

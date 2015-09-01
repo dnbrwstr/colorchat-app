@@ -62,9 +62,9 @@ let SignupStartScreen = React.createClass({
                 dispatch(clearSignupError())
               } /> : null }
 
-          <PressableView 
-            style={style.countryInput} 
-            activeStyle={style.countryInputActive} 
+          <PressableView
+            style={style.countryInput}
+            activeStyle={style.countryInputActive}
             onPress={this.showCountryPicker}
           >
             <BaseText style={style.countryInputText}>{this.props.country}</BaseText>
@@ -98,7 +98,7 @@ let SignupStartScreen = React.createClass({
             loading={this.props.loading}
             onPress={this.onSubmitNumber}
             message="Send message" />
-          </Animated.View>
+        </Animated.View>
       </View>
     );
   },
@@ -131,31 +131,21 @@ let SignupStartScreen = React.createClass({
   }
 });
 
-let outerPadding = 24;
-
-let grayBottomBorder = {
-  borderBottomWidth: Style.values.borderWidth,
-  borderBottomColor: Style.values.midGray
-};
-
-let inputBase = {
-  height: 44,
-  paddingTop: 10,
-};
+let { outerPadding } = Style.values;
+let {
+  inputBase,
+  grayBottomBorder,
+  outerWrapperBase,
+  textBase,
+  contentWrapperBase
+} = Style.mixins;
 
 let style = Style.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    backgroundColor: '#EFEFEF'
+    ...outerWrapperBase
   },
   screenContent: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
-    padding: outerPadding,
+    ...contentWrapperBase,
     paddingTop: 22
   },
   welcomeMessage: {
@@ -169,7 +159,8 @@ let style = Style.create({
     marginBottom: 5
   },
   countryInput: {
-    mixins: [inputBase, grayBottomBorder],
+    ...inputBase,
+    ...grayBottomBorder,
     paddingTop: 0,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -188,15 +179,16 @@ let style = Style.create({
     paddingTop: 13
   },
   numberInputWrapper: {
-    mixins: [grayBottomBorder],
+    ...grayBottomBorder,
     alignSelf: 'stretch',
     flex: 1,
   },
   numberInput: {
-    mixins: [inputBase, Style.mixins.textBase],
+    ...inputBase,
+    ...textBase
   },
   countryCodeWrapper: {
-    mixins: [grayBottomBorder],
+    ...grayBottomBorder,
     width: 60,
     flex: 0,
     margin: 0,
@@ -211,9 +203,9 @@ let style = Style.create({
     backgroundColor: 'transparent'
   },
   countryCodeInput: {
-    mixins: [inputBase, Style.mixins.textBase],
-    paddingLeft: 12,
-    color: Style.values.midGray
+    ...inputBase,
+    ...textBase,
+    paddingLeft: 12
   }
 });
 

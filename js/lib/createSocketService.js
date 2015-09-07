@@ -1,9 +1,8 @@
 import io from 'socket.io-client/socket.io';
-import { merge } from 'ramda';
 import { serverRoot } from '../config';
 import createService from '../lib/createService';
 import { socketServiceSelector } from './Selectors';
-import { receiveMessage, receivePendingMessages, sendEnqueuedMessages } from '../actions/MessageActions';
+import { receiveMessages, sendEnqueuedMessages } from '../actions/MessageActions';
 
 let client, store, token;
 let active = false;
@@ -53,13 +52,8 @@ let socketServiceBase = {
       this.sendEnqueuedMessages();
     });
 
-    client.on('message', (data, cb) => {
-      this.props.dispatch(receiveMessage(data));
-      if (cb) cb();
-    });
-
-    client.on('pending', (data, cb) => {
-      this.props.dispatch(receivePendingMessages(data));
+    client.on('messagedata', (data, cb) => {
+      this.props.dispatch(receiveMessages(data));
       if (cb) cb();
     });
 
@@ -90,46 +84,38 @@ let socketServiceBase = {
   },
 
   send: function (data) {
-    let toSend;
+    let messageData;
     // Dispatch happens synchronously, so if we're sending
     // a number of messages we have to mark them all 'started'
     // at the same time to avoid duplicate sends
     if (data instanceof Array) {
-      this.props.dispatch({
-        type: 'sendMessageBatch',
-        state: 'started',
-        messages: data
-      });
-
-      toSend = data;
+      messageData = data;
     } else {
-      this.props.dispatch({
-        type: 'sendMessage',
-        state: 'started',
-        message: data
-      });
-
-      toSend = [data];
+      messageData = [data];
     }
 
-    toSend.forEach(m => {
-      let messageTimeout = setTimeout(function () {
-        dispatch({
-          type: 'sendMessage',
-          state: 'failed',
-          message: m,
-          error: 'Sending timed out'
-        });
-      }, 6000);
+    this.props.dispatch({
+      type: 'sendMessages',
+      state: 'started',
+      messages: messageData
+    });
 
-      this.client.emit('message', m, (message) => {
-        clearTimeout(messageTimeout);
+    let messageTimeout = setTimeout(function () {
+      dispatch({
+        type: 'sendMessages',
+        state: 'failed',
+        messages: messageData,
+        error: 'Sending timed out'
+      });
+    }, 6000);
 
-        this.props.dispatch({
-          type: 'sendMessage',
-          state: 'complete',
-          message: merge(m, message)
-        });
+    this.client.emit('messagedata', messageData, (sentMessages) => {
+      clearTimeout(messageTimeout);
+
+      this.props.dispatch({
+        type: 'sendMessages',
+        state: 'complete',
+        messages: sentMessages
       });
     });
   }

@@ -1,4 +1,4 @@
-import { findIndex, propEq, append, adjust, merge } from 'ramda';
+import { findIndex, propEq, append, adjust, merge, sortBy, last } from 'ramda';
 import createRoutingReducer from '../lib/createRoutingReducer';
 
 let initialState = [];
@@ -6,12 +6,21 @@ let initialState = [];
 let createOrUpdateConversation = (conversation, state) => {
   let finder = propEq('recipientId', conversation.recipientId);
   let index = findIndex(finder, state);
+  let newState;
 
   if (index === -1) {
-    return append(conversation, state);
+    newState = append(conversation, state);
   } else {
-    return adjust(i => merge(i, conversation), index, state);
+    newState = adjust(i => merge(i, conversation), index, state);
   }
+
+  return sortBy(c => {
+    if (c.lastMessage) {
+      return -new Date(c.lastMessage.createdAt) || new Date(c.lastMessage.clientTimestamp)
+    } else {
+      return -new Date(0);
+    }
+  }, newState);
 }
 
 let handlers = {
@@ -25,17 +34,21 @@ let handlers = {
     }
   },
 
-  sendMessage: function (state, action) {
+  sendMessages: function (state, action) {
+    if (!action.messages.length) return state;
+
     return createOrUpdateConversation({
-      recipientId: action.message.recipientId,
-      lastMessage: action.message
+      recipientId: last(action.messages).recipientId,
+      lastMessage: last(action.messages)
     }, state);
   },
 
-  receiveMessage: function (state, action) {
+  receiveMessages: function (state, action) {
+    if (!action.messages.length) return state;
+
     return createOrUpdateConversation({
-      recipientId: action.message.senderId,
-      lastMessage: action.message
+      recipientId: last(action.messages).senderId,
+      lastMessage: last(action.messages)
     }, state);
   },
 

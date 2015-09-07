@@ -27,42 +27,30 @@ let addOrReplaceExisting = (message, collection) => {
 };
 
 let handlers = {
-  sendMessage: function (state, action) {
-    let message = merge(action.message, {
-      state: action.state
-    }, action.state === 'failed' && {
-      error: action.error
-    });
+  sendMessages: function (state, action) {
+    let messages = action.messages.map(m => merge(m, {
+        state: action.state
+      }, action.state === 'failed' && {
+        error: action.error
+      })
+    );
 
-    let messageIndex = findIndexForClientId(message.clientId, state);
+    messages.forEach(m => {
+      let messageIndex = findIndexForClientId(m.clientId, state);
 
-    if (messageIndex == -1) {
-      return append(message, state);
-    } else {
-      return replaceAtIndex(messageIndex, message, state);
-    }
-  },
-
-  sendMessageBatch: function (state, action) {
-    action.messages.forEach(m => {
-      let action = merge(action, {
-        message: m
-      });
-
-      state = this.sendMessage(state, action)
+      if (messageIndex == -1) {
+        state = append(m, state);
+      } else {
+        state = replaceAtIndex(messageIndex, m, state);
+      }
     });
 
     return state;
   },
 
-  receiveMessage: function (state, action) {
-    return addOrReplaceExisting(action.message, state);
-  },
-
-  receivePendingMessages: function (state, action) {
-    let messages = state;
-    action.messages.forEach(m => messages = addOrReplaceExisting(m, messages));
-    return messages;
+  receiveMessages: function (state, action) {
+    action.messages.forEach(m => state = addOrReplaceExisting(m, state));
+    return state;
   }
 };
 

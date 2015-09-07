@@ -14,7 +14,7 @@ let initialState = {
 
   },
   main: {
-    currentTabId: 0,
+    currentTabTitle: 'Contacts',
   },
   contacts: {
     imported: false,
@@ -68,8 +68,8 @@ let handlers = {
   clearConfirmCodeError: (state, action) =>
     assocPath(['confirmatonCode', 'error'], null, state),
 
-  changeMainTab: (state, action) =>
-    assocPath(['main', 'currentTabId'], action.tabId, state),
+  setMainTab: (state, action) =>
+    assocPath(['main', 'currentTabTitle'], action.tabTitle, state),
 
   importContacts: (state, action) => {
     let assocContacts = data =>

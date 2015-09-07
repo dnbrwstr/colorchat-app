@@ -11,19 +11,18 @@ let {
 } = React;
 
 export default TabBar = React.createClass({
-
   componentWillReceiveProps: function (nextProps) {
-    if (nextProps.currentItemId !== this.props.currentItemId) {
-      this.refs.navigator.jumpTo(this.getRouteForId(nextProps.currentItemId));
+    if (nextProps.currentItemTitle !== this.props.currentItemTitle) {
+      this.refs.navigator.jumpTo(this.getRouteForTitle(nextProps.currentItemTitle));
     }
   },
 
-  getRouteForId: function (id) {
-    let res = this.props.items.filter(route => route.id == id);
+  getRouteForTitle: function (title) {
+    let res = this.props.items.filter(route => route.title == title);
 
     invariant(
       res.length,
-      'Tried to find a nonexistant route'
+      'Tried to find a nonexistant tab'
     );
 
     return res[0];
@@ -37,7 +36,7 @@ export default TabBar = React.createClass({
         <View style={style.container}>
           <Navigator
             ref="navigator"
-            initialRoute={this.getRouteForId(this.props.currentItemId)}
+            initialRoute={this.getRouteForTitle(this.props.currentItemTitle)}
             initialRouteStack={initialRouteStack}
             configureScene={this.configureScene}
             renderScene={this.renderScene} />
@@ -51,16 +50,23 @@ export default TabBar = React.createClass({
   },
 
   renderItem: function (item) {
-    let active = item.id == this.props.currentItemId;
+    let selected = item.title == this.props.currentItemTitle;
+    
+    let wrapperStyle = [
+      style.navBarItem,
+      selected && style.navBarItemSelected
+    ];
+
     let textStyle = [
       style.navBarText,
-      active && style.navBarTextActive
+      selected && style.navBarTextSelected
     ];
 
     return (
       <PressableView
-        style={style.navBarItem}
+        style={wrapperStyle}
         onPress={() => this.onSelectItem(item)}
+        activeStyle={style.navBarItemActive}
       >
         <Text style={textStyle}>{item.title}</Text>
       </PressableView>
@@ -108,8 +114,8 @@ let style = Style.create({
   },
   navBar: {
     flex: 0,
-    height: 50,
-    backgroundColor: '#EFEFEF',
+    height: 60,
+    backgroundColor: '#E0E0E0',
     flexDirection: 'row',
   },
   navBarItem: {
@@ -118,11 +124,14 @@ let style = Style.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  navBarItemSelected: {
+    backgroundColor: '#EFEFEF'
+  },
   navBarText: {
-    mixins: [Style.mixins.textBase],
+    ...textBase,
     textAlign: 'center'
   },
-  navBarTextActive: {
+  navBarTextSelected: {
     color: 'black'
   }
 });

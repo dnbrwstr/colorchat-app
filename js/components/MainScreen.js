@@ -4,7 +4,7 @@ import ContactsScreen from './ContactsScreen';
 import MessagesScreen from './MessagesScreen';
 import Style from '../style';
 import TabBar from './TabBar';
-import { changeMainTab } from '../actions/AppActions';
+import { setMainTab } from '../actions/AppActions';
 import { mainScreenSelector } from '../lib/Selectors';
 
 let {
@@ -31,8 +31,8 @@ let MainScreen = React.createClass({
       <View style={style.container}>
         <TabBar
           items={tabBarItems}
-          currentItemId={this.props.currentTabId}
-          onSelectItem={ item => dispatch(changeMainTab(item)) } />
+          currentItemTitle={this.props.currentTabTitle}
+          onSelectItem={ item => dispatch(setMainTab(item.title)) } />
       </View>
     );
   }

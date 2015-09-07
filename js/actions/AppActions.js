@@ -1,7 +1,9 @@
-export let changeMainTab = (newTab) => ({
-  type: 'changeMainTab',
-  tabId: newTab.id
-});
+export let setMainTab = (tabTitle) => {
+  return {
+    type: 'setMainTab',
+    tabTitle: tabTitle
+  };
+};
 
 export let startComposingMessage = () => ({
   type: 'toggleComposingMessage',

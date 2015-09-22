@@ -1,8 +1,8 @@
 export default {
-  serverRoot: 'http://192.168.1.5:3000',
+  serverRoot: 'https://colorchat-server.color.slow.so',
   logState: false,
   saveState: true,
   rehydrate: true,
-  rehydrateBlacklist: [],
+  rehydrateBlacklist: ['ui'],
   seedAddressBook: true
 };

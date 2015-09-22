@@ -1,4 +1,5 @@
 export let navigateTo = (a, b) => {
+  debugger
   let route;
 
   if (typeof a === 'string') {
@@ -17,6 +18,7 @@ export let navigateTo = (a, b) => {
 }
 
 export let navigateBack = (route) => (dispatch, getState) => {
+  debugger
   if (!route) {
     let { history } = getState().navigation;
     let currentRoute = getState().navigation.route;

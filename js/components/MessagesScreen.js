@@ -2,8 +2,11 @@ import React from 'react-native';
 import { connect } from 'react-redux/native';
 import { messagesScreenSelector } from '../lib/Selectors';
 import { navigateTo } from '../actions/NavigationActions';
+import { setMainTab } from '../actions/AppActions';
 import Style from '../style';
 import ConversationList from './ConversationList';
+import BaseText from './BaseText';
+import PressableView from './PressableView';
 
 let {
   View,
@@ -14,9 +17,28 @@ let MessagesScreen = React.createClass({
   render: function () {
     return (
       <View style={style.container}>
-        <ConversationList
-          conversations={this.props.conversations}
-          onSelect={this.onSelectConversation} />
+        { this.props.conversations.length ?
+          <ConversationList
+            conversations={this.props.conversations}
+            onSelect={this.onSelectConversation}
+          />
+        :
+          <View style={style.emptyMessageWrapper}>
+            <BaseText style={style.emptyMessage}>
+              Select a contact to
+            </BaseText>
+            <BaseText style={style.emptyMessage}>
+              start a conversation
+            </BaseText>
+
+            <PressableView
+              style={style.contactsButton}
+              onPress={this.onPressContactsButton}
+            >
+              <BaseText style={style.contactsButtonText}>View contacts</BaseText>
+            </PressableView>
+          </View>
+        }
       </View>
     );
   },
@@ -27,13 +49,40 @@ let MessagesScreen = React.createClass({
         contactId: conversation.contact.id
       }
     }));
+  },
+
+  onPressContactsButton: function () {
+    this.props.dispatch(setMainTab('Contacts'))
   }
 });
 
+let {
+  contentWrapperBase
+} = Style.mixins;
+
 let style = Style.create({
   container: {
-    backgroundColor: 'cyan',
     flex: 1,
+    backgroundColor: '#FFF',
+  },
+  emptyMessageWrapper: {
+    ...contentWrapperBase,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  emptyMessage: {
+    textAlign: 'center'
+  },
+  contactsButton: {
+    backgroundColor: Style.values.midGray,
+    padding: 12,
+    marginTop: 18,
+    flex: 0
+  },
+  contactsButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    flex: 0
   }
 });
 

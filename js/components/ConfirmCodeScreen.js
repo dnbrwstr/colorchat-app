@@ -7,7 +7,6 @@ import { navigateBack } from '../actions/NavigationActions';
 import { submitConfirmationCode, updateData, clearConfirmCodeError } from '../actions/SignupActions';
 import { confirmationCodeScreenSelector } from '../lib/Selectors'
 import Header from './Header';
-import DecoupledInput from './DecoupledInput';
 import KeyboardMixin from './mixins/KeyboardMixin';
 
 let {
@@ -27,14 +26,12 @@ let ConfirmCodeScreen = React.createClass({
   render: function () {
     let { dispatch, error, loading } = this.props;
 
-    let buttonStyle = [
-      {
-        flex: 0,
-        transform: [
-          { translateY: this.state.animatedKeyboardHeight }
-        ]
-      }
-    ];
+    let buttonStyle = [{
+      flex: 0,
+      transform: [
+        { translateY: this.state.animatedKeyboardHeight }
+      ]
+    }];
 
     return (
       <View style={style.container}>
@@ -53,11 +50,13 @@ let ConfirmCodeScreen = React.createClass({
             } /> : null }
 
           <View style={style.inputWrapper}>
-            <DecoupledInput
+            <TextInput
               ref="confirmationCodeInput"
               placeholder="SMS Code"
               style={style.input}
-              initialValue={this.props.confirmationCode} />
+              value={this.props.confirmationCode}
+              onChangeText={ confirmationCode => {dispatch(updateData({ confirmationCode }))}}
+              keyboardType="phone-pad" />
           </View>
         </View>
 
@@ -74,8 +73,6 @@ let ConfirmCodeScreen = React.createClass({
 
   onSubmit: function () {
     this.refs.confirmationCodeInput.blur();
-    let confirmationCode = this.refs.confirmationCodeInput.getValue();
-    this.props.dispatch(updateData({ confirmationCode }));
     this.props.dispatch(submitConfirmationCode());
   }
 });

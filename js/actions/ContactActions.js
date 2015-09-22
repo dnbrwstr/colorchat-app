@@ -16,7 +16,7 @@ export let importContacts = (opts) => async (dispatch, getState) => {
     let contacts = await AddressBook.getContactsAsync();
     let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
     let token = getState().user.token;
-    let res;
+    let res, matches;
 
     if (!token) {
       return dispatch({
@@ -26,6 +26,7 @@ export let importContacts = (opts) => async (dispatch, getState) => {
 
     try {
       res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, token);
+      matches = await res.json();
     } catch (e) {
       return dispatch({
         type: 'importContacts',
@@ -33,14 +34,11 @@ export let importContacts = (opts) => async (dispatch, getState) => {
         error: 'Unable to connect to server'
       });
     }
-
     if (res.status === 403) {
       return dispatch({
         type: 'authError'
       });
     }
-
-    let matches = await res.json();
 
     dispatch({
       type: 'importContacts',
@@ -83,5 +81,7 @@ export let sendInvite = contact => (dispatch, getState) => {
   Composer.composeMessageWithArgs({
     recipients: [contact.phoneNumbers[0].number],
     messageText: message
+  }, function () {
+    // Throws if there's no callback
   });
 }

@@ -17,7 +17,6 @@ let ContactsScreen = React.createClass({
   render: function () {
     return (
       <View style={style.container}>
-        <View style={style.topBar}></View>
         { this.props.imported ?
           this.renderContactsList() : this.renderImportPrompt() }
       </View>
@@ -78,10 +77,6 @@ let style = Style.create({
   container: {
     flex: 1,
     backgroundColor: 'white'
-  },
-  topBar: {
-    height: 20,
-    backgroundColor: midGray
   }
 });
 

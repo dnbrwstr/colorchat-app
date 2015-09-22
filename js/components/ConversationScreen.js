@@ -30,17 +30,20 @@ let ConversationScreen = React.createClass({
         <Header
           title={contact.firstName + ' ' + contact.lastName}
           showBack={true}
-          onBack={() => dispatch(navigateBack())} />
+          onBack={() => dispatch(navigateBack())}
+        />
           <MessageList
             messages={this.props.messages}
-            user={this.props.user} />
+            user={this.props.user}
+          />
           <NewMessage
             onSendMessage={this.onSendMessage}
             onStartComposing={this.onStartComposing}
             onStopComposing={this.onStopComposing}
             onSelectPicker={this.onSelectPicker}
             colorPicker={this.props.colorPicker}
-            composing={this.props.composing} />
+            composing={this.props.composing}
+          />
       </View>
     );
   },

@@ -18,7 +18,7 @@ let ColorChat = React.createClass({
       socketService: createSocketService(store)
     });
 
-    StatusBarIOS.setStyle('light-content');
+    StatusBarIOS.setHidden(true);
   },
 
   render: function () {

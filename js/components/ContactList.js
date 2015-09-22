@@ -70,7 +70,10 @@ let { midGray } = Style.values;
 let style = Style.create({
   contact: {
     backgroundColor: 'white',
-    padding: 12,
+    borderBottomColor: '#EFEFEF',
+    borderBottomWidth: 1,
+    height: Style.values.rowHeight,
+    paddingHorizontal: 12,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

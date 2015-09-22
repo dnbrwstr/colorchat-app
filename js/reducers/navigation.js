@@ -15,23 +15,27 @@ let initialState = {
 let handlers = {
   init: function (state, action) {
     let { appState } = action;
-    let route;
+    let route, history;
 
-    if (!appState.user || !appState.user.token) {
+    if (appState.navigation && appState.navigation.history.length) {
+      history = appState.navigation.history;
+      route = history[history.length - 1];
+    } else if (!appState.user || !appState.user.token) {
       route = {
         title: 'signup'
       };
-    } else if (appState.navigation && appState.navigation.history.length) {
-      let { history } = appState.navigation;
-      route = history[history.length - 1];
     } else {
       route = {
         title: 'main'
       };
     }
 
+    if (!history) {
+      history = [route]
+    }
+
     return {
-      history: [route],
+      history: history,
       route: route
     };
   },

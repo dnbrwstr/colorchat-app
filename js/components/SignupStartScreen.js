@@ -11,7 +11,6 @@ import BaseText from './BaseText';
 import { signupScreenSelector } from '../lib/Selectors';
 import * as SignupActions from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
-import DecoupledInput from './DecoupledInput';
 import KeyboardMixin from './mixins/KeyboardMixin';
 
 let {
@@ -73,21 +72,23 @@ let SignupStartScreen = React.createClass({
 
           <View style={style.inputContainer}>
             <View style={style.countryCodeWrapper}>
-              <DecoupledInput
+              <TextInput
                 ref="countryCodeInput"
                 style={style.countryCodeInput}
-                initialValue={this.props.countryCode}
+                value={this.props.countryCode}
+                onChangeText={countryCode => { this.updateData({ countryCode }) }}
                 keyboardType="phone-pad" />
               <BaseText style={style.countryCodePlus}>+</BaseText>
             </View>
 
             <View style={style.numberInputWrapper}>
-              <DecoupledInput
+              <TextInput
                 ref="baseNumberInput"
                 style={style.numberInput}
                 placeholder="Phone Number"
                 keyboardType="phone-pad"
-                initialValue={this.props.baseNumber} />
+                onChangeText={baseNumber => { this.updateData({ baseNumber }) }}
+                value={this.props.baseNumber} />
             </View>
           </View>
         </View>
@@ -105,13 +106,11 @@ let SignupStartScreen = React.createClass({
 
   showCountryPicker: function () {
     this.hideKeyboard();
-    this.updateData();
     this.props.dispatch(navigateTo('countryPicker'));
   },
 
   onSubmitNumber: function () {
     this.hideKeyboard();
-    this.updateData();
     this.props.dispatch(registerPhoneNumber());
   },
 
@@ -120,14 +119,8 @@ let SignupStartScreen = React.createClass({
     this.refs.baseNumberInput.blur();
   },
 
-  updateData: function () {
-    let baseNumber = this.refs.baseNumberInput.getValue();
-    let countryCode = this.refs.countryCodeInput.getValue();
-
-    this.props.dispatch(updateData({
-      baseNumber,
-      countryCode
-    }));
+  updateData: function (newData) {
+    this.props.dispatch(updateData(newData));
   }
 });
 
@@ -185,7 +178,6 @@ let style = Style.create({
   },
   numberInput: {
     ...inputBase,
-    ...textBase
   },
   countryCodeWrapper: {
     ...grayBottomBorder,
@@ -204,7 +196,6 @@ let style = Style.create({
   },
   countryCodeInput: {
     ...inputBase,
-    ...textBase,
     paddingLeft: 12
   }
 });

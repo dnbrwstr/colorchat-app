@@ -14,6 +14,7 @@
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"ColorChat"
+                                               initialProperties: nil
                                                    launchOptions:launchOptions];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -37,7 +38,7 @@
 }
 
 -(void)setupParse {
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"animals" ofType:@"plist"];
+  NSString *path = [[NSBundle mainBundle] pathForResource:@"Parse" ofType:@"plist"];
   NSDictionary *parseCreds = [NSDictionary dictionaryWithContentsOfFile:path];
   [Parse setApplicationId:[parseCreds objectForKey:@"Application ID"] clientKey:[parseCreds objectForKey:@"Client Key"]];
 }

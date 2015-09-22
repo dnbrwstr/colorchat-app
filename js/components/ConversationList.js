@@ -1,11 +1,12 @@
+import Color from 'color';
 import React from 'react-native';
 import Style from '../style';
 import PressableView from './PressableView';
+import BaseText from './BaseText';
 
 let {
   View,
-  ListView,
-  Text
+  ListView
 } = React;
 
 export default ConversationList = React.createClass({
@@ -55,7 +56,13 @@ export default ConversationList = React.createClass({
 
   renderConversation: function (conversation) {
     let { contact, lastMessage } = conversation;
-    let color = lastMessage ? lastMessage.color : null;
+    let color = lastMessage ? lastMessage.color : 'white';
+    let textColor = Color(color).luminosity() > .5 ?
+      'black' : 'white'
+
+    let textStyle = {
+      color: textColor
+    };
 
     let conversationStyles = [{
         backgroundColor: color
@@ -68,7 +75,7 @@ export default ConversationList = React.createClass({
         style={conversationStyles}
         onPress={() => this.onSelect(conversation)}
       >
-        <Text>{contact.firstName} {contact.lastName}</Text>
+        <BaseText style={textStyle}>{contact.firstName} {contact.lastName}</BaseText>
       </PressableView>
     );
   },
@@ -80,7 +87,9 @@ export default ConversationList = React.createClass({
 
 let style = Style.create({
   conversation: {
-    padding: 12,
-    flex: 1
+    paddingHorizontal: 12,
+    height: Style.values.rowHeight,
+    flex: 1,
+    justifyContent: 'center'
   }
 });

@@ -34,8 +34,8 @@ let Message = React.createClass({
 let style = Style.create({
   message: {
     flex: 0,
-    height: 60
+    height: Style.values.rowHeight
   }
-})
+});
 
 export default Message;

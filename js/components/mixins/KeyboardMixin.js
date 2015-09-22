@@ -1,14 +1,4 @@
-import { Animated, Easing } from 'react-native';
-import KeyboardEvents from 'react-native-keyboardevents';
-
-let keyboard = KeyboardEvents.Emitter;
-
-let {
-  KeyboardWillShowEvent,
-  KeyboardDidShowEvent,
-  KeyboardWillHideEvent,
-  KeyboadDidHideEvent
-} = KeyboardEvents;
+import { Animated, Easing, DeviceEventEmitter } from 'react-native';
 
 let KeyboardMixin = {
   getInitialState: function () {
@@ -19,25 +9,30 @@ let KeyboardMixin = {
   },
 
   componentDidMount: function () {
-    keyboard.on(KeyboardWillShowEvent, (frames) => {
+    var showListener = DeviceEventEmitter.addListener('keyboardWillShow', (frames) => {
       Animated.timing(this.state.animatedKeyboardHeight, {
-        toValue: -frames.end.height,
+        toValue: -frames.endCoordinates.height,
         duration: 175,
         easing: Easing.out(Easing.ease)
       }).start();
     });
 
-    keyboard.on(KeyboardWillHideEvent, frames => {
+    var hideListener = DeviceEventEmitter.addListener('keyboardWillHide', frames => {
       Animated.timing(this.state.animatedKeyboardHeight, {
         toValue: 0,
         duration: 200
       }).start();
     });
+
+    this.setState({
+      keyboardShowListener: showListener,
+      keyboardHideListener: hideListener
+    });
   },
 
   componentWillUnmount: function () {
-    keyboard.off(KeyboardWillShowEvent);
-    keyboard.off(KeyboardDidShowEvent);
+    this.state.keyboardShowListener.remove();
+    this.state.keyboardHideListener.remove();
   }
 };
 

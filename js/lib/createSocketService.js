@@ -21,7 +21,9 @@ let authErrors = [
 
 let socketServiceBase = {
   onDidInitialize: function () {
-    this.client = this.createClient();
+    if (this.props.token) {
+      this.client = this.createClient();
+    }
   },
 
   onDidUpdate: function (prevProps) {

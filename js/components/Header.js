@@ -61,7 +61,7 @@ let style = Style.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     flexDirection: 'row',
-    paddingTop: 16
+    paddingTop: 0
   },
   buttonContainer: {
     width: size,

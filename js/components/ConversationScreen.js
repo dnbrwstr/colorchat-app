@@ -25,10 +25,13 @@ let ConversationScreen = React.createClass({
   render: function () {
     let { contact, dispatch } = this.props;
 
+    let name = [contact.firstName, contact.lastName]
+      .filter(n => !!n).join(' ');
+
     return (
       <View style={style.container}>
         <Header
-          title={contact.firstName + ' ' + contact.lastName}
+          title={name}
           showBack={true}
           onBack={() => dispatch(navigateBack())}
         />

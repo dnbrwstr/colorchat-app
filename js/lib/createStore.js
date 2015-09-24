@@ -12,27 +12,27 @@ let createStoreWithMiddleware = applyMiddleware(
 
 export default finalCreateStore = async () => {
   let store = createStoreWithMiddleware(combineReducers(reducers));
+  let appState = {};
+  let appStateString = await AsyncStorage.getItem('appState');
 
-  if (rehydrate) {
-    let appStateString = await AsyncStorage.getItem('appState');
-    let appState = JSON.parse(appStateString);
-
-    if (rehydrateBlacklist) {
-      rehydrateBlacklist.forEach(key => {
-        appState[key] && delete appState[key]
-      });
+  if (rehydrate && appStateString) {
+    try {
+      appState = JSON.parse(appStateString);
+    } catch (e) {
+      console.log('Unable to rehydrate app state');
     }
+  }
 
-    store.dispatch({
-      type: 'init',
-      appState: appState
-    });
-  } else {
-    store.dispatch({
-      type: 'init',
-      appState: {}
+  if (rehydrateBlacklist) {
+    rehydrateBlacklist.forEach(key => {
+      appState[key] && delete appState[key]
     });
   }
 
+  store.dispatch({
+    type: 'init',
+    appState: appState
+  });
+
   return store;
-}
+};

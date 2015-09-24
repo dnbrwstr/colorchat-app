@@ -1,4 +1,5 @@
 import io from 'socket.io-client/socket.io';
+import React from 'react-native';
 import { serverRoot } from '../config';
 import createService from '../lib/createService';
 import { socketServiceSelector } from './Selectors';
@@ -6,6 +7,8 @@ import { receiveMessages, sendEnqueuedMessages } from '../actions/MessageActions
 
 let client, store, token;
 let active = false;
+
+let { InteractionManager } = React;
 
 let getSocketOptions = token => ({
   transports: ['websocket'],
@@ -86,6 +89,7 @@ let socketServiceBase = {
   },
 
   send: function (data) {
+    let { dispatch } = this.props;
     let messageData;
     // Dispatch happens synchronously, so if we're sending
     // a number of messages we have to mark them all 'started'
@@ -96,7 +100,7 @@ let socketServiceBase = {
       messageData = [data];
     }
 
-    this.props.dispatch({
+    dispatch({
       type: 'sendMessages',
       state: 'started',
       messages: messageData
@@ -114,10 +118,14 @@ let socketServiceBase = {
     this.client.emit('messagedata', messageData, (sentMessages) => {
       clearTimeout(messageTimeout);
 
-      this.props.dispatch({
-        type: 'sendMessages',
-        state: 'complete',
-        messages: sentMessages
+      InteractionManager.runAfterInteractions(() => {
+        sentMessages.forEach((m, i) => m.clientId = messageData[i].clientId);
+
+        dispatch({
+          type: 'sendMessages',
+          state: 'complete',
+          messages: sentMessages
+        });
       });
     });
   }

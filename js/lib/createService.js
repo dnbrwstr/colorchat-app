@@ -23,12 +23,17 @@ export default createService = (store) => (serviceObject, selector) => {
   });
 
   let props = getProps();
+  let timeout;
 
   store.subscribe(getState => {
+    let oldProps = props;
     let newProps = getProps();
     service.props = newProps;
-    service.onDidUpdate(props);
     props = newProps;
+
+    setTimeout(() => {
+      service.onDidUpdate(oldProps);
+    }, 0);
   });
 
   let service = merge({

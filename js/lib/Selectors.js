@@ -21,21 +21,31 @@ export let createContactSelector = contactId => state =>
 
 // Selectors
 
-export let conversationScreenSelector = (state, ownProps) => ({
-  ...state.ui.conversation,
-  user: state.user,
-  contact: createContactSelector(ownProps.contactId)(state),
-  messages: createConversationSelector(ownProps.contactId)(state)
-});
+export let conversationScreenSelector = createSelector([
+    state => state.ui.conversation,
+    state => state.user,
+    (state, ownProps) => createContactSelector(ownProps.contactId)(state),
+    (state, ownProps) => createConversationSelector(ownProps.contactId)(state)
+  ],
+  (ui, user, contact, messages) => {
+    return {
+      ...ui,
+      user: user,
+      contact: contact,
+      messages: messages
+    }
+  }
+);
 
 export let messagesScreenSelector = (state, ownProps) => {
-  let conversations = state.conversations.map(c => {
+  let conversations = [];
+  state.conversations.forEach(c => {
     let contact = find(propEq('id', c.recipientId), state.contacts);
 
-    return {
+    if (contact) conversations.push({
       ...c,
       contact
-    };
+    });
   });
 
   return {

@@ -21,6 +21,10 @@ let NewMessage = React.createClass({
     );
   },
 
+  shouldComponentUpdate: function (nextProps, nextState) {
+    return this.props.composing !== nextProps.composing;
+  },
+
   renderButton: function () {
     return (
       <PressableView

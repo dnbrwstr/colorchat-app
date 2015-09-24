@@ -18,7 +18,9 @@ export default finalCreateStore = async () => {
     let appState = JSON.parse(appStateString);
 
     if (rehydrateBlacklist) {
-      rehydrateBlacklist.forEach(key => delete appState[key]);
+      rehydrateBlacklist.forEach(key => {
+        appState[key] && delete appState[key]
+      });
     }
 
     store.dispatch({

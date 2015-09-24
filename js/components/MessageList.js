@@ -16,7 +16,9 @@ let MessageList = React.createClass({
     }
 
     let dataSource = new ListView.DataSource({
-      rowHasChanged: (a, b) => a.clientId !== b.clientId,
+      rowHasChanged: (a, b) => {
+        return (a.clientId || a.id) !== (b.clientId || b.id)
+      },
       getRowData
     });
 
@@ -30,10 +32,12 @@ let MessageList = React.createClass({
     if (this.props.messages === prevProps.messages) return;
 
     this.setState({
-      workingData: this.cloneWithMessageData(this.state.dataSource)
+      workingData: this.cloneWithMessageData(this.state.workingData)
     });
 
-    this.refs.list.getScrollResponder().scrollTo(0);
+    if (this.props.messages.length > prevProps.messages.length) {
+      this.refs.list.getScrollResponder().scrollTo(0);
+    }
   },
 
   cloneWithMessageData: function (dataSource) {
@@ -44,7 +48,7 @@ let MessageList = React.createClass({
 
   getMessages: function () {
     return this.props.messages.reduce((memo, m) => {
-      memo[m.id || m.clientId] = m;
+      memo[m.clientId || m.id] = m;
       return memo;
     }, {});
   },
@@ -57,7 +61,7 @@ let MessageList = React.createClass({
       if (timeA > timeB) return -1;
       else if (timeA < timeB) return 1;
       else return 0;
-    }).map(m => m.id || m.clientId);
+    }).map(m => m.clientId || m.id);
   },
 
   render: function () {
@@ -69,6 +73,8 @@ let MessageList = React.createClass({
         renderScrollComponent={props => <InvertibleScrollView {...props} inverted ref="scrollView" />}
         dataSource={this.state.workingData}
         removeClippedSubviews={true}
+        initialListSize={12}
+        scrollRenderAheadDistance={12}
         renderRow={this.renderMessage} />
     );
   },

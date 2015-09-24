@@ -4,7 +4,17 @@ import { createSelector } from 'reselect';
 // Selector creaters
 
 export let createConversationSelector = userId => state =>
-  state.messages.filter(m => m.recipientId === userId || m.senderId === userId);
+  state.messages.filter(m =>
+    (m.recipientId === userId || m.senderId === userId) &&
+    m.state !== 'enqueued'
+  ).sort((a, b) => {
+    let timeA = new Date(a.clientTimestamp || a.createdAt);
+    let timeB = new Date(b.clientTimestamp || b.createdAt);
+
+    if (timeA > timeB) return -1;
+    else if (timeA < timeB) return 1;
+    else return 0;
+  }).slice(0, 20)
 
 export let createContactSelector = contactId => state =>
   state.contacts.filter(c => c.id === contactId)[0];

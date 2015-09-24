@@ -20,7 +20,7 @@ export let seedAddressBook = async () => {
   if (contacts.length > 20) return;
 
   try {
-    await SeedNumbers.map((n) => {
+    await SeedNumbers.slice(0, 3).map((n) => {
       return AddressBook.addContactAsync({
         firstName: randomNameishString(),
         lastName: randomNameishString(),

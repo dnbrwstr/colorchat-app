@@ -4,15 +4,32 @@ import Style from '../style';
 let {
   View,
   LayoutAnimation,
-  Text
+  Text,
+  Animated
 } = React;
 
-let Message = React.createClass({
-  render: function () {
-    let colorStyle = {
-      backgroundColor: this.props.color,
-    };
+let messages = {}
 
+let Message = React.createClass({
+  getInitialState: function () {
+    let initialHeight = this.props.fresh ? 0 : Style.values.rowHeight;
+    return {
+      height: new Animated.Value(initialHeight)
+    }
+  },
+
+  componentDidMount: function () {
+    if (this.props.fresh) {
+      Animated.spring(this.state.height, {
+        toValue: Style.values.rowHeight * 2,
+        friction: 4
+      }).start(() => {
+        if (this.props.onPresent) this.props.onPresent();
+      });
+    }
+  },
+
+  render: function () {
     let sentStyle = {
       marginLeft: 20
     };
@@ -23,18 +40,18 @@ let Message = React.createClass({
 
     let messageStyles = [
       style.message,
-      colorStyle,
+      { height: this.state.height },
+      { backgroundColor: this.props.color },
       this.props.fromCurrentUser ? sentStyle : receivedStyle
     ];
 
-    return <View style={messageStyles}></View>
+    return <Animated.View style={messageStyles}></Animated.View>
   }
 });
 
 let style = Style.create({
   message: {
-    flex: 0,
-    height: Style.values.rowHeight
+    flex: 0
   }
 });
 

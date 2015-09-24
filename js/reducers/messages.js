@@ -3,8 +3,15 @@ import createRoutingReducer from  '../lib/createRoutingReducer';
 
 let initialState = [];
 
-let findIndexForClientId = (clientId, messages) =>
-  findIndex(m => m.clientId === clientId, messages);
+let updateMessageById = (id, newProps, messages) => {
+  let index = findIndexForId(id, messages);
+  let newMessage = merge(messages[index], newProps);
+  return replaceAtIndex(index, newMessage, messages);
+};
+
+let findIndexForId = (id, messages) => {
+  return findIndex(m => m.id === id || m.clientId === id, messages);
+};
 
 let replaceAtIndex = (index, replacement, collection) =>
   adjust(i => replacement, index, collection);
@@ -36,7 +43,7 @@ let handlers = {
     );
 
     messages.forEach(m => {
-      let messageIndex = findIndexForClientId(m.clientId, state);
+      let messageIndex = findIndexForId(m.clientId, state);
 
       if (messageIndex == -1) {
         state = append(m, state);
@@ -49,8 +56,16 @@ let handlers = {
   },
 
   receiveMessages: function (state, action) {
-    action.messages.forEach(m => state = addOrReplaceExisting(m, state));
+    action.messages
+      .map(m => merge(m, {fresh: true}))
+      .forEach(m => state = addOrReplaceExisting(m, state));
     return state;
+  },
+
+  markMessageStale: function (state, action) {
+    return updateMessageById(action.message.id || action.message.clientId, {
+      fresh: false
+    }, state);
   }
 };
 

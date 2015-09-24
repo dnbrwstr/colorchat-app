@@ -75,15 +75,20 @@ let MessageList = React.createClass({
 
   renderMessage: function (messageData, sectionId, rowId) {
     let fromCurrentUser = this.props.user.id === messageData.senderId;
-     // if (!messageData.id && !messageData.clientId) {
-     //  debugger;
-     // }
+
     return (
       <Message
+        onPresent={this.onPresentMessage.bind(this, messageData)}
         fromCurrentUser={fromCurrentUser}
         key={messageData.id || messageData.clientId}
         { ...messageData } />
     );
+  },
+
+  onPresentMessage: function (message) {
+    if (this.props.onPresentMessage) {
+      this.props.onPresentMessage(message)
+    }
   }
 });
 

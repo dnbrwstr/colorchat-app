@@ -7,7 +7,7 @@ import Header from './Header';
 import MessageList from './MessageList';
 import NewMessage from './NewMessage';
 import { navigateBack } from '../actions/NavigationActions';
-import { sendMessage } from '../actions/MessageActions';
+import { sendMessage, markMessageStale } from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors'
 import * as AppActions from '../actions/AppActions';
 
@@ -33,6 +33,7 @@ let ConversationScreen = React.createClass({
           onBack={() => dispatch(navigateBack())}
         />
           <MessageList
+            onPresentMessage={this.onPresentMessage}
             messages={this.props.messages}
             user={this.props.user}
           />
@@ -66,6 +67,10 @@ let ConversationScreen = React.createClass({
 
   onSelectPicker: function (value) {
     this.props.dispatch(selectColorPicker(value));
+  },
+
+  onPresentMessage: function (message) {
+    this.props.dispatch(markMessageStale(message));
   }
 });
 

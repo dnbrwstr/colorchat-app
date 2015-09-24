@@ -25,19 +25,15 @@ export let sendMessage = message => (dispatch, getState) =>
   sendMessages([message])(dispatch, getState);
 
 export let sendMessages = messages => async (dispatch, getState) => {
-  let senderId = getState().user.id;
-  let clientTimestamp = new Date();
-
   let messageData = messages.map(m => {
-    if (!m.clientId) {
-      return merge(m, {
-        clientId: generateClientId(),
-        clientTimestamp,
-        senderId
-      });
-    } else {
-      return m;
-    }
+    if (m.clientId) return m;
+
+    return merge(m, {
+      clientId: generateClientId(),
+      clientTimestamp: new Date(),
+      fresh: true,
+      senderId: getState().user.id
+    });
   });
 
   dispatch({
@@ -46,3 +42,8 @@ export let sendMessages = messages => async (dispatch, getState) => {
     messages: messageData
   });
 };
+
+export let markMessageStale = message => ({
+  type: 'markMessageStale',
+  message: message
+});

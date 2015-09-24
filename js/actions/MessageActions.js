@@ -5,11 +5,14 @@ import { serverRoot } from '../config';
 export let generateClientId = () =>
   Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
 
-export let receiveMessages = messages => {
-  return {
+export let receiveMessages = messages => (dispatch, getState) => {
+  let contactIds = getState().contacts.map(c => c.id);
+  let allowedMessages = messages.filter(m => contactIds.indexOf(m.senderId) !== -1);
+
+  dispatch({
     type: 'receiveMessages',
-    messages: messages
-  }
+    messages: allowedMessages
+  });
 };
 
 export let sendEnqueuedMessages = () => async (dispatch, getState) => {

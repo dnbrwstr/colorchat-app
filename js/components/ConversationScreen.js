@@ -33,6 +33,7 @@ let ConversationScreen = React.createClass({
         <Header
           title={name}
           showBack={true}
+          backgroundColor={Style.values.darkGray}
           onBack={() => dispatch(navigateBack())}
         />
           <MessageList

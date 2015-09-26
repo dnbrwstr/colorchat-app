@@ -11,8 +11,16 @@ let {
 
 let Header = React.createClass({
   render: function () {
+    let bgColor = this.props.backgroundColor && {
+      backgroundColor: this.props.backgroundColor
+    };
+
+    let textColor = this.props.color && {
+      color: this.props.color
+    };
+
     return (
-      <View style={style.bar}>
+      <View style={[style.bar, bgColor]}>
         <View style={style.buttonContainer}>
           { this.props.showBack &&
             <PressableView
@@ -20,13 +28,13 @@ let Header = React.createClass({
               style={style.button}
               activeStyle={style.buttonActive}
             >
-              <Text style={style.buttonText}>Back</Text>
+              <Text style={[style.buttonText, textColor]}>Back</Text>
             </PressableView> }
         </View>
 
         <View style={style.title}>
           { this.props.title &&
-            <Text style={style.titleText}>{this.props.title}</Text> }
+            <Text style={[style.titleText, textColor]}>{this.props.title}</Text> }
         </View>
 
         <View style={style.buttonContainer}>
@@ -36,7 +44,7 @@ let Header = React.createClass({
               style={style.button}
               activeStyle={style.buttonActive}
             >
-              <Text style={style.buttonText}>X</Text>
+              <Text style={[style.buttonText, textColor]}>X</Text>
             </PressableView> }
         </View>
       </View>
@@ -52,10 +60,11 @@ let Header = React.createClass({
   }
 });
 
-var size = 60;
+var size = Style.values.rowHeight;
 
 let style = Style.create({
   bar: {
+    ...Style.mixins.shadowBase,
     backgroundColor: Style.values.midGray,
     height: size,
     alignItems: 'stretch',

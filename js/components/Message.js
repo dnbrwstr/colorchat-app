@@ -1,4 +1,5 @@
 import React from 'react-native';
+import Color from 'color';
 import Style from '../style';
 
 let {
@@ -45,13 +46,28 @@ let Message = React.createClass({
       this.props.fromCurrentUser ? sentStyle : receivedStyle
     ];
 
-    return <Animated.View style={messageStyles}></Animated.View>
+    let textColor = {
+      color: Color(this.props.color).luminosity() > .5 ?
+        'black' : 'white'
+    }
+
+    return (
+      <Animated.View style={messageStyles}>
+        { this.props.state === 'failed' &&
+          <Text style={[style.text, textColor]}>Unable to send message</Text> }
+      </Animated.View>
+    );
   }
 });
 
 let style = Style.create({
   message: {
     flex: 0
+  },
+  text: {
+    ...Style.mixins.textBase,
+    top: 15,
+    left: 15,
   }
 });
 

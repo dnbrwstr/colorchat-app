@@ -83,8 +83,17 @@ let socketServiceBase = {
   },
 
   sendEnqueuedMessages: function () {
-    if (this.active && this.props.messages.length) {
+    let hasMessages = !!this.props.messages.length;
+
+    if (this.active && hasMessages) {
       this.send(this.props.messages);
+    } else if (!this.active && hasMessages) {
+      this.props.dispatch({
+        type: 'sendMessages',
+        state: 'failed',
+        messages: this.props.messages,
+        error: 'Unable to connect to server'
+      })
     }
   },
 

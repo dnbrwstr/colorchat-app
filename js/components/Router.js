@@ -1,4 +1,5 @@
 import React from 'react-native';
+import invariant from 'invariant';
 import { Provider, connect } from 'react-redux/native';
 import SignupStartScreen from './SignupStartScreen';
 import CountryPickerScreen from './CountryPickerScreen';
@@ -49,6 +50,11 @@ let Router = React.createClass({
     };
 
     let Component = pageComponents[route.title];
+
+    invariant(
+      Component,
+      'Tried to navigate to non-existent route "' + route.title + '"'
+    );
 
     return (
       <Component {...route.data} />

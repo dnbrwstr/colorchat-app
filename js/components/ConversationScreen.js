@@ -6,7 +6,7 @@ import Style from '../style';
 import Header from './Header';
 import MessageList from './MessageList';
 import NewMessage from './NewMessage';
-import { navigateBack } from '../actions/NavigationActions';
+import { navigateTo } from '../actions/NavigationActions';
 import { sendMessage, markMessageStale } from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors'
 import * as AppActions from '../actions/AppActions';
@@ -34,7 +34,7 @@ let ConversationScreen = React.createClass({
           title={name}
           showBack={true}
           backgroundColor={Style.values.darkGray}
-          onBack={() => dispatch(navigateBack())}
+          onBack={() => dispatch(navigateTo('main'))}
         />
           <MessageList
             onPresentMessage={this.onPresentMessage}

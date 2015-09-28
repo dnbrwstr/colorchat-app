@@ -1,13 +1,9 @@
 import React from 'react-native';
 import invariant from 'invariant';
 import { Provider, connect } from 'react-redux/native';
-import SignupStartScreen from './SignupStartScreen';
-import CountryPickerScreen from './CountryPickerScreen';
-import ConfirmCodeScreen from './ConfirmCodeScreen';
-import ConversationScreen from './ConversationScreen';
 import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
-import MainScreen from './MainScreen';
 import { FromBottom } from '../lib/SceneConfigs'
+import AppRoutes, { getTransitionMethod } from '../lib/AppRoutes';
 
 let {
   Dimensions,
@@ -31,7 +27,14 @@ let Router = React.createClass({
 
   componentWillUpdate: function (nextProps, nextState) {
     if (nextProps.route !== this.props.route) {
-      let fn = nextProps.reverse ? 'popToRoute' : 'push';
+      let method = getTransitionMethod(this.props.route.title, nextProps.route.title);
+
+      let fn = {
+        pop: 'popToRoute',
+        push: 'push',
+        reset: 'replace'
+      }[method];
+
       this.refs.navigator[fn](nextProps.route);
     }
   },
@@ -41,15 +44,7 @@ let Router = React.createClass({
   },
 
   renderScene: function (route, navigator) {
-    let pageComponents = {
-      signup: SignupStartScreen,
-      countryPicker: CountryPickerScreen,
-      confirmCode: ConfirmCodeScreen,
-      main: MainScreen,
-      conversation: ConversationScreen
-    };
-
-    let Component = pageComponents[route.title];
+    let Component = AppRoutes[route.title].component;
 
     invariant(
       Component,

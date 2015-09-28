@@ -3,7 +3,7 @@ import { connect } from 'react-redux/native';
 import Style from '../style';
 import LoaderButton from './LoaderButton';
 import ErrorMessage from './ErrorMessage';
-import { navigateBack } from '../actions/NavigationActions';
+import { navigateTo } from '../actions/NavigationActions';
 import { submitConfirmationCode, updateData, clearConfirmCodeError } from '../actions/SignupActions';
 import { confirmationCodeScreenSelector } from '../lib/Selectors'
 import Header from './Header';
@@ -36,7 +36,7 @@ let ConfirmCodeScreen = React.createClass({
     return (
       <View style={style.container}>
         <Header title="Confirm code" showBack={true} onBack={() =>
-          dispatch(navigateBack())
+          dispatch(navigateTo('signup'))
         } />
 
         <View style={style.screenContent}>

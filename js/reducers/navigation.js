@@ -1,5 +1,7 @@
 import invariant from 'invariant';
+import { findIndex, propEq } from 'ramda';
 import createRoutingReducer from '../lib/createRoutingReducer';
+import { getTransitionMethod } from '../lib/AppRoutes';
 
 let initialRoute = {
   title: 'main',
@@ -78,22 +80,21 @@ let handlers = {
     let newHistory;
 
     if (newRoute.title !== route.title || newRoute.data !== route.data) {
-      if (action.reverse) {
-        invariant(
-          history.indexOf(newRoute) !== -1,
-          'Can\'t pop to a nonexistant route'
-        );
-
-        newHistory = history.slice(0, history.indexOf(newRoute) + 1);
-      } else {
+      let method = getTransitionMethod(route.title, newRoute.title);
+      if (method === 'push') {
         newHistory = [...history, newRoute];
+      } else if (method === 'pop') {
+        let index = findIndex(propEq('title', newRoute.title))(history);
+        newHistory = history.slice(0, index + 1);
+        newRoute = history[index];
+      } else if (method === 'reset') {
+        newHistory = [newRoute];
       }
 
       return {
         ...state,
         history: newHistory,
-        route: newRoute,
-        reverse: action.reverse
+        route: newRoute
       }
     } else {
       return state;

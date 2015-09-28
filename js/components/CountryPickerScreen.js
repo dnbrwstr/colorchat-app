@@ -5,7 +5,7 @@ import countries from '../countries';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
 import { updateData } from '../actions/SignupActions';
-import { navigateBack } from '../actions/NavigationActions';
+import { navigateTo } from '../actions/NavigationActions';
 import Style from '../style';
 
 let groupedCountries = countries.reduce((memo, country) => {
@@ -41,7 +41,7 @@ let CountryPickerScreen = React.createClass({
     return (
       <View style={style.container}>
         <Header title="Select a country" showBack={true} onBack={() =>
-          dispatch(navigateBack())
+          dispatch(navigateTo('signup'))
         }/>
         <ListView
           initialListSize={12}
@@ -101,7 +101,7 @@ let CountryPickerScreen = React.createClass({
       countryCode: country.code
     }));
 
-    dispatch(navigateBack());
+    dispatch(navigateTo('signup'));
   }
 });
 

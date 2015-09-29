@@ -36,6 +36,7 @@
 		C878D4711B7AA3C30041C35C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4701B7AA3C30041C35C /* libsqlite3.dylib */; };
 		C878D4731B7AA9ED0041C35C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4721B7AA9ED0041C35C /* Accounts.framework */; };
 		C878D4751B7AA9F30041C35C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4741B7AA9F30041C35C /* Social.framework */; };
+		C8B93C041BBAD7CF00AB1C07 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B93C031BBAD7B900AB1C07 /* libRNOverlay.a */; };
 		C8CFBF1D1B7BEFE800A4BDD5 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8CFBF1C1B7BEFE800A4BDD5 /* Parse.plist */; };
 		C8E3AA931B8F955A00818930 /* SourceCodePro-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8E3AA851B8F955900818930 /* SourceCodePro-Black.otf */; };
 		C8E3AA941B8F955A00818930 /* SourceCodePro-BlackIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8E3AA861B8F955900818930 /* SourceCodePro-BlackIt.otf */; };
@@ -139,6 +140,13 @@
 			remoteGlobalIDString = 145CC57B1AED80100006342E;
 			remoteInfo = RCTAddressBookTests;
 		};
+		C8B93C021BBAD7B900AB1C07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8B93BF11BBAD7B900AB1C07 /* RNOverlay.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNOverlay;
+		};
 		C8F650841B964FE000BF9AAB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */;
@@ -183,6 +191,7 @@
 		C878D4701B7AA3C30041C35C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		C878D4721B7AA9ED0041C35C /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C878D4741B7AA9F30041C35C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		C8B93BF11BBAD7B900AB1C07 /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-message-composer/../react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		C8CFBF1C1B7BEFE800A4BDD5 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Parse.plist; path = iOS/Parse.plist; sourceTree = "<group>"; };
 		C8E3AA851B8F955900818930 /* SourceCodePro-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Black.otf"; sourceTree = "<group>"; };
 		C8E3AA861B8F955900818930 /* SourceCodePro-BlackIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BlackIt.otf"; sourceTree = "<group>"; };
@@ -206,6 +215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8B93C041BBAD7CF00AB1C07 /* libRNOverlay.a in Frameworks */,
 				C878D4751B7AA9F30041C35C /* Social.framework in Frameworks */,
 				C878D4731B7AA9ED0041C35C /* Accounts.framework in Frameworks */,
 				C878D4711B7AA3C30041C35C /* libsqlite3.dylib in Frameworks */,
@@ -346,6 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */,
+				C8B93BF11BBAD7B900AB1C07 /* RNOverlay.xcodeproj */,
 				C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -417,6 +428,14 @@
 				C878D45B1B7AA3590041C35C /* Parse.framework */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8B93BF21BBAD7B900AB1C07 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8B93C031BBAD7B900AB1C07 /* libRNOverlay.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		C8E3AA841B8F955900818930 /* fonts */ = {
@@ -547,6 +566,10 @@
 					ProductGroup = C8F650741B964FE000BF9AAB /* Products */;
 					ProjectRef = C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */;
 				},
+				{
+					ProductGroup = C8B93BF21BBAD7B900AB1C07 /* Products */;
+					ProjectRef = C8B93BF11BBAD7B900AB1C07 /* RNOverlay.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -638,6 +661,13 @@
 			fileType = wrapper.cfbundle;
 			path = RCTAddressBookTests.xctest;
 			remoteRef = C82B16E21B824EFC005E9BF9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C8B93C031BBAD7B900AB1C07 /* libRNOverlay.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNOverlay.a;
+			remoteRef = C8B93C021BBAD7B900AB1C07 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C8F650851B964FE000BF9AAB /* libRNMessageComposer.a */ = {

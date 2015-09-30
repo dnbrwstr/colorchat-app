@@ -1,9 +1,7 @@
 import { merge, find, propEq, anyPass, filter } from 'ramda';
+import { InteractionManager } from 'react-native';
 import { postJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
-
-export let generateClientId = () =>
-  Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
 
 export let receiveMessages = messages => (dispatch, getState) => {
   let contactIds = getState().contacts.map(c => c.id);
@@ -15,31 +13,44 @@ export let receiveMessages = messages => (dispatch, getState) => {
   });
 };
 
-export let sendEnqueuedMessages = () => async (dispatch, getState) => {
-  let filterFn = anyPass([propEq('state', 'failed')]);
-  let messages = filter(filterFn, getState().messages);
-  return sendMessages(messages)(dispatch, getState);
+export let startComposingMessage = message => {
+  return {
+    type: 'startComposingMessage',
+    message
+  };
 }
+
+export let cancelComposingMessage = () => {
+  return {
+    type: 'cancelComposingMessage'
+  };
+}
+
+export let updateWorkingMessage = messageData => (dispatch, getState) => {
+  let data = merge(messageData, {
+    senderId: getState().user.id,
+  });
+
+  dispatch({
+    type: 'updateWorkingMessage',
+    messageData: data
+  });
+};
+
+export let sendWorkingMessage = () => {
+  return {
+    type: 'sendWorkingMessage'
+  };
+};
 
 export let sendMessage = message => (dispatch, getState) =>
   sendMessages([message])(dispatch, getState);
 
 export let sendMessages = messages => async (dispatch, getState) => {
-  let messageData = messages.map(m => {
-    if (m.clientId) return m;
-
-    return merge(m, {
-      clientId: generateClientId(),
-      clientTimestamp: new Date(),
-      fresh: true,
-      senderId: getState().user.id
-    });
-  });
-
   dispatch({
     type: 'sendMessages',
     state: 'enqueued',
-    messages: messageData
+    messages: messages
   });
 };
 
@@ -47,3 +58,9 @@ export let markMessageStale = message => ({
   type: 'markMessageStale',
   message: message
 });
+
+export let sendEnqueuedMessages = () => async (dispatch, getState) => {
+  let filterFn = anyPass([propEq('state', 'failed')]);
+  let messages = filter(filterFn, getState().messages);
+  return sendMessages(messages)(dispatch, getState);
+}

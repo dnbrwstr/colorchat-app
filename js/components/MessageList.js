@@ -11,19 +11,17 @@ let {
 
 let MessageList = React.createClass({
   getInitialState: function () {
-    let getRowData = (dataBlob, sectionId, rowId) => {
-      return dataBlob[sectionId][rowId];
-    }
-
     let dataSource = new ListView.DataSource({
       rowHasChanged: (a, b) => {
-        return (a.clientId || a.id) !== (b.clientId || b.id)
+        return (a.clientId || a.id) !== (b.clientId || b.id) ||
+          (a.id !== b.id);
       },
-      getRowData
+      getRowData: (dataBlob, sectionId, rowId) => {
+        return dataBlob[sectionId][rowId];
+      }
     });
 
     return {
-      dataSource,
       workingData: this.cloneWithMessageData(dataSource)
     };
   },
@@ -42,7 +40,7 @@ let MessageList = React.createClass({
 
   cloneWithMessageData: function (dataSource) {
     let messages = this.getMessages();
-    let messageIds = this.getOrderedMessageIds();
+    let messageIds = this.props.messages.map(m => m.clientId || m.id);
     return dataSource.cloneWithRows(messages, messageIds);
   },
 
@@ -53,24 +51,21 @@ let MessageList = React.createClass({
     }, {});
   },
 
-  getOrderedMessageIds: function () {
-    return this.props.messages.sort((a, b) => {
-      let timeA = new Date(a.clientTimestamp || a.createdAt);
-      let timeB = new Date(b.clientTimestamp || b.createdAt);
-
-      if (timeA > timeB) return -1;
-      else if (timeA < timeB) return 1;
-      else return 0;
-    }).map(m => m.clientId || m.id);
-  },
-
   render: function () {
     return (
       <ListView
         ref="list"
         style={{overflow: 'hidden'}}
         automaticallyAdjustContentInsets={false}
-        renderScrollComponent={props => <InvertibleScrollView {...props} inverted ref="scrollView" />}
+        renderScrollComponent={ props => {
+          return (
+            <InvertibleScrollView {...props}
+              inverted
+              ref="scrollView"
+              scrollEnabled={!this.props.scrollLocked}
+            />
+          );
+        }}
         dataSource={this.state.workingData}
         removeClippedSubviews={true}
         initialListSize={12}

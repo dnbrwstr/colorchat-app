@@ -5,13 +5,14 @@ import { createSelector } from 'reselect';
 
 export let createConversationSelector = userId => state =>
   state.messages.filter(m =>
-    (m.recipientId === userId || m.senderId === userId) &&
-    m.state !== 'enqueued'
+    (m.recipientId === userId || m.senderId === userId)
   ).sort((a, b) => {
     let timeA = new Date(a.clientTimestamp || a.createdAt);
     let timeB = new Date(b.clientTimestamp || b.createdAt);
 
-    if (timeA > timeB) return -1;
+    if (a.state == 'composing' && b.state !== 'composing') return -1;
+    else if (a.state !== 'composing' && b.state === 'composing') return 1;
+    else if (timeA > timeB) return -1;
     else if (timeA < timeB) return 1;
     else return 0;
   }).slice(0, 20)

@@ -4,22 +4,26 @@ import { merge } from 'ramda';
 import { createSelector } from 'reselect';
 import Style from '../style';
 import Header from './Header';
+import PressableView from './PressableView';
 import MessageList from './MessageList';
-import NewMessage from './NewMessage';
+import ComposeBar from './ComposeBar';
 import { navigateTo } from '../actions/NavigationActions';
-import { sendMessage, markMessageStale } from '../actions/MessageActions';
-import { conversationScreenSelector } from '../lib/Selectors'
-import * as AppActions from '../actions/AppActions';
+import * as MessageActions from '../actions/MessageActions';
+import { conversationScreenSelector } from '../lib/Selectors';
+import { updateConversationUi } from '../actions/AppActions';
 
 let {
-  View
+  View,
+  Text,
+  InteractionManager
 } = React;
 
 let {
+  sendWorkingMessage,
+  markMessageStale,
   startComposingMessage,
-  stopComposingMessage,
-  selectColorPicker
-} = AppActions;
+  cancelComposingMessage
+} = MessageActions;
 
 let ConversationScreen = React.createClass({
   render: function () {
@@ -36,37 +40,61 @@ let ConversationScreen = React.createClass({
           backgroundColor={Style.values.darkGray}
           onBack={() => dispatch(navigateTo('main'))}
         />
-          <MessageList
-            onPresentMessage={this.onPresentMessage}
-            messages={this.props.messages}
-            user={this.props.user}
-          />
-          <NewMessage
-            onSendMessage={this.onSendMessage}
-            onStartComposing={this.onStartComposing}
-            onStopComposing={this.onStopComposing}
-            onSelectPicker={this.onSelectPicker}
-            colorPicker={this.props.colorPicker}
-            composing={this.props.composing}
-          />
+        <MessageList
+          scrollLocked={this.props.composing}
+          onPresentMessage={this.onPresentMessage}
+          messages={this.props.messages}
+          user={this.props.user}
+        />
+        <ComposeBar
+          ref="composeBar"
+          active={this.props.composing}
+          onSend={this.onSendMessage}
+          onCancel={this.onStopComposing}
+        />
+
+        { !this.props.composing && !this.props.sending &&
+          <PressableView
+            style={style.newMessageButton}
+            onPress={this.onStartComposing}
+          >
+            <Text style={style.newMessageButtonText}>+</Text>
+          </PressableView> }
       </View>
     );
   },
 
   onSendMessage: function (message) {
-    let finalMessage = merge(message, {
-      recipientId: this.props.contact.id
-    });
+    if (this.props.sending) return;
 
-    this.props.dispatch(sendMessage(finalMessage));
+    this.props.dispatch(updateConversationUi({
+      sending: true,
+      composing: false
+    }));
+
+    setTimeout(() => {
+      InteractionManager.runAfterInteractions(() => {
+        this.props.dispatch(sendWorkingMessage());
+
+        setTimeout(() => {
+          InteractionManager.runAfterInteractions(() => {
+            this.props.dispatch(updateConversationUi({
+              sending: false
+            }));
+          });
+        }, 0);
+      });
+    }, 0);
   },
 
   onStartComposing: function () {
-    this.props.dispatch(startComposingMessage());
+    this.props.dispatch(startComposingMessage({
+      recipientId: this.props.contact.id,
+    }));
   },
 
   onStopComposing: function () {
-    this.props.dispatch(stopComposingMessage());
+    this.props.dispatch(cancelComposingMessage());
   },
 
   onSelectPicker: function (value) {
@@ -82,6 +110,22 @@ let style = Style.create({
   container: {
     flex: 1,
     backgroundColor: 'black'
+  },
+  newMessageButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: Style.values.darkGray,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  newMessageButtonText: {
+    color: 'white',
+    fontSize: 24,
+    marginTop: -4
   }
 });
 

@@ -2,6 +2,7 @@ let values = {
   borderWidth: 1,
   basePadding: 10,
   midGray: '#878787',
+  darkGray: '#333',
   outerPadding: 24,
   rowHeight: 72
 };

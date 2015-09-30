@@ -9,18 +9,28 @@ let {
 } = React;
 
 let SimpleColorPicker = React.createClass({
-  getInitialState: () => ({
-    value: hsl2hex({ h: 180, s: 75, l: 50 })
-  }),
+  getDefaultProps: function () {
+    return {
+      initialValue: '#ccc'
+    };
+  },
+
+  getInitialState: function () {
+    return {
+      value: this.props.initialValue
+    };
+  },
 
   render: function () {
     return (
       <View ref="main"
         onStartShouldSetResponder={() => true}
         onResponderMove={this.onTouchMove}
+        onResponderRelease={this.onTouchEnd}
         style={[
           style.container,
-          { backgroundColor: this.state.value }
+          { backgroundColor: this.state.value },
+          this.props.style
         ]}>
       </View>
     );
@@ -41,6 +51,10 @@ let SimpleColorPicker = React.createClass({
     });
   },
 
+  onTouchEnd: function () {
+    if (this.props.onChange) this.props.onChange(this.state.value)
+  },
+
   getValue: function () {
     return this.state.value;
   }
@@ -49,8 +63,7 @@ let SimpleColorPicker = React.createClass({
 let style = Style.create({
   container: {
     height: 200,
-    flex: 0,
-    backgroundColor: 'green'
+    flex: 0
   }
 });
 

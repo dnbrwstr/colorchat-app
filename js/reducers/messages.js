@@ -3,7 +3,22 @@ import createRoutingReducer from  '../lib/createRoutingReducer';
 
 let initialState = [];
 
-let updateMessageById = (id, newProps, messages) => {
+export let generateClientId = () =>
+  Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
+
+export let createMessage = (message, state) => {
+  return merge(message, {
+    clientId: generateClientId(),
+    clientTimestamp: new Date(),
+    fresh: true,
+    state: 'composing',
+    color: '#CCC',
+    width: 150,
+    height: 150
+  });
+};
+
+let updateById = (id, newProps, messages) => {
   let index = findIndexForId(id, messages);
   let newMessage = merge(messages[index], newProps);
   return replaceAtIndex(index, newMessage, messages);
@@ -15,6 +30,9 @@ let findIndexForId = (id, messages) => {
 
 let replaceAtIndex = (index, replacement, collection) =>
   adjust(i => replacement, index, collection);
+
+let updateAtIndex = (index, newData, collection) =>
+  adjust(m => merge(m, newData), index, collection);
 
 let addOrReplaceExisting = (message, collection) => {
   let existingIndex = findIndex(m => {
@@ -33,7 +51,40 @@ let addOrReplaceExisting = (message, collection) => {
   return val;
 };
 
+let findWorkingMessageIndex = state =>
+  findIndex((m)=> m.state === 'composing', state);
+
 let handlers = {
+  startComposingMessage: function (state, action) {
+    let newState = [...state, createMessage(action.message)];
+    return newState;
+  },
+
+  cancelComposingMessage: function (state, action) {
+    state = state.filter(m => m.state !== 'composing');
+    return state;
+  },
+
+  updateWorkingMessage: function (state, action) {
+    let index = findWorkingMessageIndex(state);
+
+    if (index === -1) {
+      return state;
+    } else {
+      return updateAtIndex(index, action.messageData, state);
+    }
+  },
+
+  sendWorkingMessage: function (state, action) {
+    let index = findWorkingMessageIndex(state);
+
+    newState = updateAtIndex(index, {
+      state: 'enqueued'
+    }, state);
+
+    return newState;
+  },
+
   sendMessages: function (state, action) {
     let messages = action.messages.map(m => merge(m, {
         state: action.state
@@ -63,7 +114,7 @@ let handlers = {
   },
 
   markMessageStale: function (state, action) {
-    return updateMessageById(action.message.id || action.message.clientId, {
+    return updateById(action.message.id || action.message.clientId, {
       fresh: false
     }, state);
   }

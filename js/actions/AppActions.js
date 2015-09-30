@@ -15,7 +15,12 @@ export let stopComposingMessage = () => ({
   value: false
 });
 
-export let selectColorPicker = (picker) => ({
+export let selectColorPicker = picker => ({
   type: 'selectColorPicker',
   value: picker
+});
+
+export let updateConversationUi = newData => ({
+  type: 'updateConversationUi',
+  data: newData
 });

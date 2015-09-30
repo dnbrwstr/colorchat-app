@@ -1,6 +1,7 @@
 import React from 'react-native';
 import Color from 'color';
 import Style from '../style';
+import EditableMessage from './EditableMessage';
 
 let {
   View,
@@ -12,44 +13,30 @@ let {
 let messages = {}
 
 let Message = React.createClass({
-  getInitialState: function () {
-    let initialHeight = this.props.fresh ? 0 : Style.values.rowHeight;
-    return {
-      height: new Animated.Value(initialHeight)
-    }
-  },
-
-  componentDidMount: function () {
-    if (this.props.fresh) {
-      Animated.spring(this.state.height, {
-        toValue: Style.values.rowHeight * 2,
-        friction: 4
-      }).start(() => {
-        if (this.props.onPresent) this.props.onPresent();
-      });
-    }
-  },
-
   render: function () {
-    let sentStyle = {
-      marginLeft: 20
-    };
+    return this.props.state === 'composing' ?
+      this.renderEditor() : this.renderMessage();
+  },
 
-    let receivedStyle = {
-      marginRight: 20
-    };
+  renderEditor: function () {
+    return <EditableMessage {...this.props} />
+  },
 
+  renderMessage: function () {
     let messageStyles = [
       style.message,
-      { height: this.state.height },
-      { backgroundColor: this.props.color },
-      this.props.fromCurrentUser ? sentStyle : receivedStyle
+      this.props.fromCurrentUser ? style.sent : style.received,
+      {
+        width: this.props.width,
+        height: this.props.height,
+        backgroundColor: this.props.color
+      }
     ];
 
     let textColor = {
       color: Color(this.props.color).luminosity() > .5 ?
         'black' : 'white'
-    }
+    };
 
     return (
       <Animated.View style={messageStyles}>
@@ -63,6 +50,12 @@ let Message = React.createClass({
 let style = Style.create({
   message: {
     flex: 0
+  },
+  sent: {
+    alignSelf: 'flex-end'
+  },
+  received: {
+    alignSelf: 'flex-start'
   },
   text: {
     ...Style.mixins.textBase,

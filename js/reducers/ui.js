@@ -95,12 +95,18 @@ let handlers = {
     }
   },
 
-  toggleComposingMessage: (state, action) =>
-    assocPath(['conversation', 'composing'], action.value, state),
+  updateConversationUi: function (state, action) {
+    let newData = merge(state.conversation, action.data);
+    return assoc('conversation', newData, state);
+  },
 
-  selectColorPicker: (state, action) =>
-    assocPath(['conversation', 'colorPicker'], action.value, state)
+  startComposingMessage: function (state, action) {
+    return assocPath(['conversation', 'composing'], true, state)
+  },
 
+  cancelComposingMessage: function (state, action) {
+    return assocPath(['conversation', 'composing'], false, state);
+  }
 };
 
 export default createRoutingReducer({

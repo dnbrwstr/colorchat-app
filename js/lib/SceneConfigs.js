@@ -86,23 +86,7 @@ export let SlideOverFromBottom = {
       },
     }),
     out: buildStyleInterpolator({
-      opacity: {
-        from: 1,
-        to: 0,
-        min: 0,
-        max: 1,
-        type: 'linear',
-        extrapolate: false,
-        round: 100,
-      },
-      transformScale: {
-        from: {x: 1, y: 1, z: 1},
-        to: {x: 0.95, y: 0.95, z: 1},
-        min: 0,
-        max: 1,
-        type: 'linear',
-        extrapolate: true
-      }
+      ...ConstantOpacity,
     })
   }
 };

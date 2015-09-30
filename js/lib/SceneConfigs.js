@@ -72,6 +72,41 @@ export let FromBottom = {
   }
 };
 
+export let SlideOverFromBottom = {
+  ...Base,
+  springFriction: 20,
+  springTension: 120,
+  animationInterpolators: {
+    into: buildStyleInterpolator({
+      ...ConstantOpacity,
+      transformTranslate: {
+        ...TransformPropBase,
+        from: {x: 0, y: screenHeight, z: 0},
+        to: {x: 0, y: 0, z: 0}
+      },
+    }),
+    out: buildStyleInterpolator({
+      opacity: {
+        from: 1,
+        to: 0,
+        min: 0,
+        max: 1,
+        type: 'linear',
+        extrapolate: false,
+        round: 100,
+      },
+      transformScale: {
+        from: {x: 1, y: 1, z: 1},
+        to: {x: 0.95, y: 0.95, z: 1},
+        min: 0,
+        max: 1,
+        type: 'linear',
+        extrapolate: true
+      }
+    })
+  }
+};
+
 export let SlideFromRight = {
   ...Base,
   gestures: {

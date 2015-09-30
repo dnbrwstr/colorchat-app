@@ -19,7 +19,7 @@ let tabBarItems = [{
   component: ContactsScreen
 }, {
   id: 1,
-  title: 'Messages',
+  title: 'Inbox',
   component: MessagesScreen
 }];
 

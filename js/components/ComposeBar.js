@@ -41,11 +41,22 @@ let ComposeBar = React.createClass({
 
     return (
       <Animated.View style={composeBarStyle}>
-        <PressableView style={[style.composeButton, style.composeButtonFirst]} onPress={this.props.onCancel}>
-          <Text style={style.composeButtonText}>Cancel</Text>
+        <PressableView 
+          style={[
+            style.button, 
+            style.buttonFirst
+          ]}
+          activeStyle={style.buttonActive}
+          onPress={this.props.onCancel}
+        >
+          <Text style={style.buttonText}>Cancel</Text>
         </PressableView>
-        <PressableView style={style.composeButton} onPress={this.props.onSend}>
-          <Text style={style.composeButtonText}>Send</Text>
+        <PressableView 
+          style={style.button}
+          activeStyle={style.buttonActive}
+          onPress={this.props.onSend}
+        >
+          <Text style={style.buttonText}>Send</Text>
         </PressableView>
       </Animated.View>
     );
@@ -55,22 +66,25 @@ let ComposeBar = React.createClass({
 let style = Style.create({
   composeBar: {
     height: Style.values.rowHeight,
-    backgroundColor: 'rgba(50,50,50,.6)',
+    backgroundColor: Style.values.darkGray,
     flexDirection: 'row',
     overflow: 'hidden'
   },
-  composeButton: {
+  button: {
     flex: 1,
     justifyContent: 'center'
   },
-  composeButtonText: {
+  buttonText: {
     ...Style.mixins.textBase,
     color: 'white',
     textAlign: 'center'
   },
-  composeButtonFirst: {
+  buttonFirst: {
     borderRightColor: 'rgba(255,255,255,.03)',
     borderRightWidth: 1
+  },
+  buttonActive: {
+    backgroundColor: Style.values.darkGrayHighlight
   }
 });
 

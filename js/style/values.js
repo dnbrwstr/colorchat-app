@@ -1,8 +1,16 @@
+import Color from 'color';
+
+let darkGray = '#333';
+
+let darkGrayHighlight = Color(darkGray)
+  .lighten(0.1).hexString();
+
 let values = {
   borderWidth: 1,
   basePadding: 10,
   midGray: '#878787',
-  darkGray: '#333',
+  darkGray,
+  darkGrayHighlight,
   outerPadding: 24,
   rowHeight: 72
 };

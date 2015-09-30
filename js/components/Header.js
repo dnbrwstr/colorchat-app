@@ -19,6 +19,10 @@ let Header = React.createClass({
       color: this.props.color
     };
 
+    let highlightColor = this.props.highlightColor && {
+      backgroundColor: this.props.highlightColor
+    };
+
     return (
       <View style={[style.bar, bgColor]}>
         <View style={style.buttonContainer}>
@@ -26,7 +30,7 @@ let Header = React.createClass({
             <PressableView
               onPress={this.onBack}
               style={style.button}
-              activeStyle={style.buttonActive}
+              activeStyle={[style.buttonActive, highlightColor]}
             >
               <Text style={[style.buttonText, textColor]}>Back</Text>
             </PressableView> }
@@ -42,7 +46,7 @@ let Header = React.createClass({
             <PressableView
               onPress={this.onClose}
               style={style.button}
-              activeStyle={style.buttonActive}
+              activeStyle={[style.buttonActive, highlightColor]}
             >
               <Text style={[style.buttonText, textColor]}>X</Text>
             </PressableView> }

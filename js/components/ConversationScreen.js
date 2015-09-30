@@ -38,6 +38,7 @@ let ConversationScreen = React.createClass({
           title={name}
           showBack={true}
           backgroundColor={Style.values.darkGray}
+          highlightColor={Style.values.darkGrayHighlight}
           onBack={() => dispatch(navigateTo('main'))}
         />
         <MessageList

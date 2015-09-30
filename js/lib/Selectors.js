@@ -14,8 +14,10 @@ export let createConversationSelector = userId => state =>
     else if (a.state !== 'composing' && b.state === 'composing') return 1;
     else if (timeA > timeB) return -1;
     else if (timeA < timeB) return 1;
+    else if ((a.clientId || a.id) > (b.clientId || b.id)) return -1;
+    else if ((a.clientId || a.id) < (b.clientId || b.id)) return 1;
     else return 0;
-  }).slice(0, 20)
+  });
 
 export let createContactSelector = contactId => state =>
   state.contacts.filter(c => c.id === contactId)[0];

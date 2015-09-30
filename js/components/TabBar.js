@@ -51,7 +51,7 @@ export default TabBar = React.createClass({
 
   renderItem: function (item) {
     let selected = item.title == this.props.currentItemTitle;
-    
+
     let wrapperStyle = [
       style.navBarItem,
       selected && style.navBarItemSelected
@@ -64,6 +64,7 @@ export default TabBar = React.createClass({
 
     return (
       <PressableView
+        key={item.title}
         style={wrapperStyle}
         onPress={() => this.onSelectItem(item)}
         activeStyle={style.navBarItemActive}

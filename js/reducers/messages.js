@@ -1,5 +1,6 @@
 import { append, merge, adjust, findIndex } from 'ramda';
 import createRoutingReducer from  '../lib/createRoutingReducer';
+import config from '../config';
 
 let initialState = [];
 
@@ -7,7 +8,7 @@ export let generateClientId = () =>
   Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
 
 export let createMessage = (message, state) => {
-  return merge(message, {
+  return merge({
     clientId: generateClientId(),
     clientTimestamp: new Date(),
     fresh: true,
@@ -15,7 +16,7 @@ export let createMessage = (message, state) => {
     color: '#CCC',
     width: 150,
     height: 150
-  });
+  }, message);
 };
 
 let updateById = (id, newProps, messages) => {
@@ -55,6 +56,38 @@ let findWorkingMessageIndex = state =>
   findIndex((m)=> m.state === 'composing', state);
 
 let handlers = {
+  init: function (state, action) {
+    if (!config.seedMessages) return action.appState.messages;
+
+    let appState = { action };
+    let messageCount = 1000;
+
+    let rand255 = function () {
+      return Math.floor(Math.random() * 255);
+    }
+
+    if (!appState.messages) {
+      appState.messages = [];
+    }
+
+    if (appState.messages.length > messageCount) {
+      appState.messages = appState.messages.slice(0, messageCount);
+    } else if (appState.messages.length < messageCount) {
+      while (appState.messages.length < messageCount) {
+        appState.messages.push(createMessage({
+          senderId: 11,
+          width: 75 + Math.floor(Math.random() * 200),
+          height: 75 + Math.floor(Math.random() * 300),
+          recipientId: 1,
+          color: `rgb(${rand255()}, ${rand255()}, ${rand255()})`,
+          state: 'complete'
+        }));
+      }
+    }
+
+    return appState.messages;
+  },
+
   startComposingMessage: function (state, action) {
     let newState = [...state, createMessage(action.message)];
     return newState;

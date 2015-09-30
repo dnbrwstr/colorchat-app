@@ -28,6 +28,13 @@ export default TabBar = React.createClass({
     return res[0];
   },
 
+  componentDidMount: function () {
+    let ctx = this.refs.navigator.navigationContext;
+    ctx.addListener('didfocus', (e) => {
+      this.onSelectItem(e.target.currentRoute);
+    });
+  },
+
   render: function () {
     let initialRouteStack = this.props.items;
 
@@ -126,7 +133,6 @@ let style = Style.create({
     alignItems: 'center',
   },
   navBarItemSelected: {
-    backgroundColor: '#EFEFEF'
   },
   navBarText: {
     ...textBase,

@@ -26,6 +26,7 @@ let initialState = {
   },
   conversation: {
     composing: false,
+    loading: false,
     colorPicker: 'simple'
   }
 }

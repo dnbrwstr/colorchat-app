@@ -8,7 +8,7 @@
 {
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.5:8081/js/index.ios.bundle?dev=false"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.5:8081/js/index.ios.bundle?dev=false&platform=ios"];
 
   // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
@@ -35,6 +35,8 @@
 }
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [RCTPushNotificationManager application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  NSLog(@"GOT HERE");
   PFInstallation *currentInstallation = [PFInstallation currentInstallation];
   [currentInstallation setDeviceTokenFromData:deviceToken];
   currentInstallation.channels = @[ @"global" ];

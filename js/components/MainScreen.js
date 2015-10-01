@@ -10,8 +10,7 @@ import { mainScreenSelector } from '../lib/Selectors';
 let {
   View,
   Text,
-  Navigator,
-  PushNotificationIOS
+  Navigator
 } = React;
 
 let tabBarItems = [{
@@ -25,10 +24,6 @@ let tabBarItems = [{
 }];
 
 let MainScreen = React.createClass({
-  componentDidMount: function () {
-    PushNotificationIOS.requestPermissions();
-  },
-
   render: function () {
     let { dispatch } = this.props;
 

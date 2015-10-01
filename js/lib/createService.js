@@ -41,6 +41,11 @@ export default createService = (store) => (serviceObject, selector) => {
     onDidUpdate: () => {}
   }, serviceObject);
 
+  for (var key in service) {
+    if (typeof service[key] === 'function');
+    service[key] = service[key].bind(service);
+  }
+
   service.props = props;
 
   service.onDidInitialize();

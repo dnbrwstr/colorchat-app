@@ -3,6 +3,7 @@ import { Provider } from 'react-redux/native';
 import Router from './Router';
 import createStore from '../lib/createStore';
 import createSocketService from '../lib/createSocketService';
+import createNotificationService from '../lib/createNotificationService';
 // import createConnectivityService from '../lib/createConnectivityService';
 
 let ColorChat = React.createClass({
@@ -15,7 +16,8 @@ let ColorChat = React.createClass({
 
     this.setState({
       store: store,
-      socketService: createSocketService(store)
+      socketService: createSocketService(store),
+      notificationService: createNotificationService(store)
     });
 
     StatusBarIOS.setHidden(true);

@@ -57,7 +57,7 @@ let findWorkingMessageIndex = state =>
 
 let handlers = {
   init: function (state, action) {
-    if (!config.seedMessages) return action.appState.messages;
+    if (!config.seedMessages) return action.appState.messages || initialState;
 
     let appState = { action };
     let messageCount = 1000;

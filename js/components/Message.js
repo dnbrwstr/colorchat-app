@@ -49,7 +49,8 @@ let Message = React.createClass({
 
 let style = Style.create({
   message: {
-    flex: 0
+    flex: 0,
+    overflow: 'hidden'
   },
   sent: {
     alignSelf: 'flex-end'

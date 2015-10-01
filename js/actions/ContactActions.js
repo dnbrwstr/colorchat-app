@@ -3,7 +3,7 @@ import AddressBook from 'react-native-addressbook';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
 
-export let importContacts = (opts) => async (dispatch, getState) => {
+export let importContacts = opts => async (dispatch, getState) => {
   let onPermissionDenied = () => {
     dispatch({
       type: 'importContacts',
@@ -55,7 +55,7 @@ export let importContacts = (opts) => async (dispatch, getState) => {
 
   let permission = await AddressBook.checkPermissionAsync();
 
-  if (!permission) {
+  if (permission === 'undefined') {
     if (opts.askPermission) {
       let newPermission = await AddressBook.requestPermissionAsync();
 
@@ -65,10 +65,10 @@ export let importContacts = (opts) => async (dispatch, getState) => {
         onPermissionGranted();
       }
     }
-  } else if (permission === 'denied') {
-    onPermissionDenied();
-  } else {
+  } else if (permission === 'authorized') {
     onPermissionGranted();
+  } else {
+    onPermissionDenied();
   }
 }
 

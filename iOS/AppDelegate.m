@@ -8,7 +8,7 @@
 {
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.5:8081/js/index.ios.bundle"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.5:8081/js/index.ios.bundle?dev=false"];
 
   // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
@@ -24,16 +24,7 @@
   [self.window makeKeyAndVisible];
   
   [self setupParse];
-  
-  UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                  UIUserNotificationTypeBadge |
-                                                  UIUserNotificationTypeSound);
-  
-  UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes: userNotificationTypes
-                                                                         categories: nil];
-  [application registerUserNotificationSettings:settings];
-  [application registerForRemoteNotifications];
-  
+
   return YES;
 }
 

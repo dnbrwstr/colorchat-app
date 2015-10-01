@@ -39,7 +39,11 @@ let ContactsScreen = React.createClass({
         </BaseText>
 
         <PressableView
-          onPress={() => dispatch(importContacts())}
+          onPress={() => {
+            dispatch(importContacts({
+              askPermission: true
+            }));
+          }}
           style={importStyle.button}
         >
           <BaseText style={importStyle.buttonText}>Import Contacts</BaseText>

@@ -7,6 +7,7 @@ import Header from './Header';
 import PressableView from './PressableView';
 import MessageList from './MessageList';
 import ComposeBar from './ComposeBar';
+import NewMessageButton from './NewMessageButton';
 import { navigateTo } from '../actions/NavigationActions';
 import * as MessageActions from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors';
@@ -53,14 +54,10 @@ let ConversationScreen = React.createClass({
           onSend={this.onSendMessage}
           onCancel={this.onStopComposing}
         />
-
-        { !this.props.composing && !this.props.sending &&
-          <PressableView
-            style={style.newMessageButton}
-            onPress={this.onStartComposing}
-          >
-            <Text style={style.newMessageButtonText}>+</Text>
-          </PressableView> }
+        <NewMessageButton
+          onPress={this.onStartComposing}
+          visible={!this.props.composing && !this.props.sending}
+        />
       </View>
     );
   },
@@ -111,22 +108,6 @@ let style = Style.create({
   container: {
     flex: 1,
     backgroundColor: 'black'
-  },
-  newMessageButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: Style.values.darkGray,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  newMessageButtonText: {
-    color: 'white',
-    fontSize: 24,
-    marginTop: -4
   }
 });
 

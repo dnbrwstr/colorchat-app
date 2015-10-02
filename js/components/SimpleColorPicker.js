@@ -52,7 +52,9 @@ let SimpleColorPicker = React.createClass({
   },
 
   onTouchEnd: function () {
-    if (this.props.onChange) this.props.onChange(this.state.value)
+    setTimeout(() => {
+      if (this.props.onChange) this.props.onChange(this.state.value)
+    }, 100)
   },
 
   getValue: function () {

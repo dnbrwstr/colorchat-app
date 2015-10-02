@@ -27,7 +27,8 @@ let NewMessageButton = React.createClass({
         }),
         Animated.spring(this.state.animatedSize, {
           toValue: 1,
-          tension: 300
+          friction: 7,
+          tension: 500
         })
       ]).start();
     } else if (prevProps.visible && !this.props.visible){
@@ -69,10 +70,16 @@ let NewMessageButton = React.createClass({
   },
 
   onPress: function () {
+    if (this.state.leaving || !this.props.visible) return;
+
+    this.setState({
+      leaving: true
+    });
+
     let animation = Animated.spring(this.state.animatedSize, {
       toValue: 1,
       friction: 7,
-      tension: 300
+      tension: 500
     })
 
     animation.start();
@@ -80,6 +87,9 @@ let NewMessageButton = React.createClass({
     setTimeout(() => {
       animation.stop();
       if (this.props.onPress) this.props.onPress();
+      this.setState({
+        leaving: false
+      });
     }, 200);
   }
 });

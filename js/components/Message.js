@@ -13,9 +13,28 @@ let {
 let messages = {}
 
 let Message = React.createClass({
+  getInitialState: function () {
+    let initialHeight = this.props.state === 'fresh' ?
+      0 : this.props.height;
+
+    return {
+      animatedHeight: new Animated.Value(initialHeight)
+    };
+  },
+
   render: function () {
     return this.props.state === 'composing' ?
       this.renderEditor() : this.renderMessage();
+  },
+
+  componentDidMount: function () {
+    if (this.props.state == 'fresh') {
+      Animated.spring(this.state.animatedHeight, {
+        toValue: this.props.height,
+        tension: 150,
+        friction: 10
+      }).start(this.props.onPresent);
+    }
   },
 
   renderEditor: function () {
@@ -28,7 +47,7 @@ let Message = React.createClass({
       this.props.fromCurrentUser ? style.sent : style.received,
       {
         width: this.props.width,
-        height: this.props.height,
+        height: this.state.animatedHeight,
         backgroundColor: this.props.color
       }
     ];

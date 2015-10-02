@@ -9,7 +9,6 @@ export let createMessage = (message, state) => {
   return merge({
     clientId: generateId(),
     clientTimestamp: new Date(),
-    fresh: true,
     state: 'composing',
     color: '#CCC',
     width: 150,
@@ -138,15 +137,17 @@ let handlers = {
   },
 
   receiveMessages: function (state, action) {
-    action.messages
-      .map(m => merge(m, {fresh: true}))
-      .forEach(m => state = addOrReplaceExisting(m, state));
+    let messages = action.messages.length === 1 ?
+      action.messages.map(m => merge(m, {state: 'fresh'})) :
+      action.messages
+
+    messages.forEach(m => state = addOrReplaceExisting(m, state));
     return state;
   },
 
   markMessageStale: function (state, action) {
     return updateById(action.message.id || action.message.clientId, {
-      fresh: false
+      state: 'complete'
     }, state);
   }
 };

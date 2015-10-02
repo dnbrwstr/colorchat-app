@@ -70,6 +70,7 @@ let MessageList = React.createClass({
         removeClippedSubviews={true}
         initialListSize={12}
         scrollRenderAheadDistance={12}
+        pageSize={2}
         renderRow={this.renderMessage} />
     );
   },

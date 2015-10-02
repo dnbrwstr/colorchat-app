@@ -3,6 +3,8 @@ window.navigator.userAgent = 'react-native'
 import 'regenerator/runtime';
 import React, { AppRegistry } from 'react-native';
 import './lib/promisify';
+import './lib/patchListView';
+
 import { seedAddressBook as shouldSeedAddressBook } from './config';
 import { seedAddressBook } from './lib/ContactUtils';
 

@@ -1,6 +1,6 @@
 import { merge } from 'ramda';
 import { serverRoot } from '../config';
-import { postJSON } from '../lib/RequestHelpers';
+import { postJSON, putAuthenticatedJSON } from '../lib/RequestHelpers';
 
 let baseErrorMessages = {
   500: 'Something went wrong',
@@ -104,6 +104,33 @@ export let submitConfirmationCode = () => async (dispatch, getState) => {
       state: 'failed',
       error: e
     });
+  }
+};
+
+export let saveName = name => async (dispatch, getState) => {
+  try {
+    let dispatchStateChange = (state) => ({
+      type: 'saveName',
+      name
+    });
+
+    dispatchStateChange('started');
+
+    let authToken = getState().user.token;
+    let url = serverRoot + '/account';
+
+    let res = await putAuthenticatedJSON(url, {
+      name
+    }, authToken);
+
+    if (res.ok) {
+      dispatchStateChange('complete');
+    }  else {
+      dispatchStateChange('failed');
+    }
+  } catch (e) {
+    console.log(e);
+    dispatchStateChange('failed');
   }
 };
 

@@ -60,7 +60,7 @@ let buttonHeight = 50;
 let style = Style.create({
   button: {
     flex: 0,
-    height: buttonHeight,
+    height: Style.values.rowHeight,
     justifyContent: 'center',
     backgroundColor: Style.values.midGray,
     padding: Style.values.basePadding * 1.5

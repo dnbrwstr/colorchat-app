@@ -6,12 +6,11 @@ import Style from '../style';
 import LoaderButton from './LoaderButton';
 import ErrorMessage from './ErrorMessage';
 import PressableView from './PressableView';
-import Header from './Header';
 import BaseText from './BaseText';
 import { signupScreenSelector } from '../lib/Selectors';
 import * as SignupActions from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
-import KeyboardMixin from './mixins/KeyboardMixin';
+import SignupScreen from './SignupScreen';
 
 let {
   Text,
@@ -28,79 +27,73 @@ let {
 } = SignupActions;
 
 let SignupStartScreen = React.createClass({
-  mixins: [KeyboardMixin],
 
   render: function() {
     let { dispatch, error } = this.props;
 
-    let buttonStyle = [
-      style.container,
-      {
-        flex: 0,
-        transform: [
-          { translateY: this.state.animatedKeyboardHeight }
-        ]
-      }
-    ];
-
     return (
-      <View style={style.container} ref="container">
-        <Header title="Setup" />
+      <SignupScreen
+        title="Setup"
+        renderNextButton={this.renderNextButton}
+      >
+        <BaseText style={style.welcomeMessage}>
+          Color Chat will send you
+          an SMS message to verify
+          your phone number
+        </BaseText>
 
-        <View style={style.screenContent}>
-          <BaseText style={style.welcomeMessage}>
-            Color Chat will send you
-            an SMS message to verify
-            your phone number
-          </BaseText>
+        { error ?
+          <ErrorMessage
+            message={error.toString()}
+            onRemove={() =>
+              dispatch(clearSignupError())
+            }
+          /> : null }
 
-          { error ?
-            <ErrorMessage
-              message={error.toString()}
-              onRemove={() =>
-                dispatch(clearSignupError())
-              } /> : null }
+        <PressableView
+          style={style.countryInput}
+          activeStyle={style.countryInputActive}
+          onPress={this.showCountryPicker}
+        >
+          <BaseText style={style.countryInputText}>{this.props.country}</BaseText>
+          <BaseText style={style.countryInputArrow}>&darr;</BaseText>
+        </PressableView>
 
-          <PressableView
-            style={style.countryInput}
-            activeStyle={style.countryInputActive}
-            onPress={this.showCountryPicker}
-          >
-            <BaseText style={style.countryInputText}>{this.props.country}</BaseText>
-            <BaseText style={style.countryInputArrow}>&darr;</BaseText>
-          </PressableView>
+        <View style={style.inputContainer}>
+          <View style={style.countryCodeWrapper}>
+            <TextInput
+              ref="countryCodeInput"
+              style={style.countryCodeInput}
+              value={this.props.countryCode}
+              onChangeText={countryCode => { this.updateData({ countryCode }) }}
+              keyboardType="phone-pad"
+            />
+            <BaseText style={style.countryCodePlus}>+</BaseText>
+          </View>
 
-          <View style={style.inputContainer}>
-            <View style={style.countryCodeWrapper}>
-              <TextInput
-                ref="countryCodeInput"
-                style={style.countryCodeInput}
-                value={this.props.countryCode}
-                onChangeText={countryCode => { this.updateData({ countryCode }) }}
-                keyboardType="phone-pad" />
-              <BaseText style={style.countryCodePlus}>+</BaseText>
-            </View>
-
-            <View style={style.numberInputWrapper}>
-              <TextInput
-                ref="baseNumberInput"
-                style={style.numberInput}
-                placeholder="Phone Number"
-                keyboardType="phone-pad"
-                onChangeText={baseNumber => { this.updateData({ baseNumber }) }}
-                value={this.props.baseNumber} />
-            </View>
+          <View style={style.numberInputWrapper}>
+            <TextInput
+              ref="baseNumberInput"
+              style={style.numberInput}
+              placeholder="Phone Number"
+              keyboardType="phone-pad"
+              onChangeText={baseNumber => { this.updateData({ baseNumber }) }}
+              value={this.props.baseNumber}
+            />
           </View>
         </View>
+      </SignupScreen>
+    );
+  },
 
-        <Animated.View style={buttonStyle}>
-          <LoaderButton
-            style={style.submit}
-            loading={this.props.loading}
-            onPress={this.onSubmitNumber}
-            message="Send message" />
-        </Animated.View>
-      </View>
+  renderNextButton: function () {
+    return (
+      <LoaderButton
+        style={style.submit}
+        loading={this.props.loading}
+        onPress={this.onSubmitNumber}
+        message="Send message"
+      />
     );
   },
 
@@ -124,7 +117,6 @@ let SignupStartScreen = React.createClass({
   }
 });
 
-let { outerPadding } = Style.values;
 let {
   inputBase,
   grayBottomBorder,
@@ -134,13 +126,6 @@ let {
 } = Style.mixins;
 
 let style = Style.create({
-  container: {
-    ...outerWrapperBase
-  },
-  screenContent: {
-    ...contentWrapperBase,
-    paddingTop: 22
-  },
   welcomeMessage: {
     marginBottom: 16,
     marginTop: 0
@@ -152,8 +137,9 @@ let style = Style.create({
     marginBottom: 5
   },
   countryInput: {
-    ...inputBase,
     ...grayBottomBorder,
+    height: 44,
+    paddingTop: 10,
     paddingTop: 0,
     flexDirection: 'row',
     justifyContent: 'center',

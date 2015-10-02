@@ -14,4 +14,16 @@ export let navigateTo = (a, b) => {
     type: 'navigateTo',
     route: route
   };
+};
+
+export let navigateToConversation = contactId => {
+  return {
+    type: 'navigateTo',
+    route: {
+      title: 'conversation',
+      data: {
+        contactId
+      }
+    }
+  };
 }

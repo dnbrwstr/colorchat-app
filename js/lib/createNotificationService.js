@@ -1,34 +1,52 @@
 import React from 'react-native';
-import { saveDeviceToken } from '../actions/AppActions';
+import { saveDeviceToken } from '../actions/NotificationActions';
+import { presentInternalAlert } from '../actions/AppActions';
 import createService from './createService';
 
 let {
   PushNotificationIOS
 } = React;
 
-let notificationServiceSelector = state => state.navigation;
+let notificationServiceSelector = state => {
+  return {
+    requestPermissions: state.notifications.requestPermissions,
+    currentRoute: state.navigation.route
+  };
+};
 
 let notificationServiceBase = {
   onDidInitialize: function () {
     PushNotificationIOS.addEventListener('register', this.onRegister);
     PushNotificationIOS.addEventListener('notification', this.onReceiveNotification);
-    PushNotificationIOS.addEventListener('error', this.onError);
   },
 
   onDidUpdate: function (prevProps) {
-    PushNotificationIOS.requestPermissions();
+    if (!prevProps.requestPermissions && this.props.requestPermissions) {
+      PushNotificationIOS.requestPermissions();
+    }
   },
 
-  onRegister: function () {
+  onRegister: function (token) {
+    token = "4cdb8ba500e6e0aa883be57fa5a90e49d2745483f88f675427ef18de992c09fb";
     this.props.dispatch(saveDeviceToken(token));
   },
 
-  onReceiveNotification: function () {
-
+  onReceiveNotification: function (notification) {
+    if (notification._data.type === 'message') {
+      return this.onReceiveMessage(notification);
+    }
   },
 
-  onError: function () {
-    console.log(e);
+  onReceiveMessage: function (message) {
+    let { title, data } = this.props.currentRoute;
+    let senderId = message._data.senderId;
+    if (title === 'conversation' && data.contactId === senderId) return;
+
+    this.props.dispatch(presentInternalAlert({
+      type: 'message',
+      message: message._alert,
+      senderId
+    }));
   }
 }
 

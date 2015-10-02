@@ -1,15 +1,13 @@
 import { append, merge, adjust, findIndex } from 'ramda';
 import createRoutingReducer from  '../lib/createRoutingReducer';
+import { generateId } from '../lib/Utils';
 import config from '../config';
 
 let initialState = [];
 
-export let generateClientId = () =>
-  Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
-
 export let createMessage = (message, state) => {
   return merge({
-    clientId: generateClientId(),
+    clientId: generateId(),
     clientTimestamp: new Date(),
     fresh: true,
     state: 'composing',

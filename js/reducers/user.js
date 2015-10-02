@@ -1,7 +1,10 @@
+import { merge } from 'ramda';
 import createRoutingReducer from '../lib/createRoutingReducer';
 
 let initialState = {
-  token: null
+  token: null,
+  deviceToken: null,
+  deviceTokenSaved: false
 };
 
 let handlers = {
@@ -21,6 +24,13 @@ let handlers = {
     } else {
       return state;
     }
+  },
+
+  saveDeviceToken: (state, action) => {
+    return merge(state, {
+      deviceToken: action.deviceToken,
+      deviceTokenSaved: action.state === 'complete'
+    });
   }
 };
 

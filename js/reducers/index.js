@@ -5,6 +5,7 @@ import signup from './signup';
 import messages from './messages';
 import ui from './ui';
 import conversations from './conversations';
+import notifications from './notifications';
 
 export {
   user,
@@ -13,5 +14,6 @@ export {
   signup,
   messages,
   ui,
-  conversations
+  conversations,
+  notifications
 };

@@ -2,6 +2,7 @@ import invariant from 'invariant';
 import SignupStartScreen from '../components/SignupStartScreen';
 import CountryPickerScreen from '../components/CountryPickerScreen';
 import ConfirmCodeScreen from '../components/ConfirmCodeScreen';
+import SignupNotificationsScreen from '../components/SignupNotificationsScreen';
 import ConversationScreen from '../components/ConversationScreen';
 import MainScreen from '../components/MainScreen';
 
@@ -22,7 +23,15 @@ let AppRoutes = {
   confirmCode: {
     component: ConfirmCodeScreen,
     links: {
-      main: 'reset'
+      notifications: 'push',
+      signup: 'pop'
+    }
+  },
+  notifications: {
+    component: SignupNotificationsScreen,
+    links: {
+      main: 'reset',
+      'confirmCode': 'pop'
     }
   },
   main: {
@@ -42,10 +51,13 @@ let AppRoutes = {
 export default AppRoutes;
 
 export let getTransitionMethod = (fromTitle, toTitle) => {
-  invariant(
-    AppRoutes[fromTitle] && AppRoutes[fromTitle].links[toTitle],
-    `No link exists between ${fromTitle} and ${toTitle}`
-  );
+  let method;
+  
+  if (!AppRoutes[fromTitle] || !AppRoutes[fromTitle].links[toTitle]) {
+    method = 'reset';
+  } else {
+    method = AppRoutes[fromTitle].links[toTitle];
+  }
 
-  return AppRoutes[fromTitle].links[toTitle];
+  return method;
 };

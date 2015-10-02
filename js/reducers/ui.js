@@ -1,7 +1,9 @@
-import { assocPath, assoc, adjust, merge } from 'ramda'
+import { assocPath, assoc, adjust, merge, filter } from 'ramda'
 import createRoutingReducer from '../lib/createRoutingReducer';
+import { generateId } from '../lib/Utils';
 
 let initialState = {
+  alerts: [],
   signup: {
     loading: false,
     error: null
@@ -107,6 +109,17 @@ let handlers = {
 
   cancelComposingMessage: function (state, action) {
     return assocPath(['conversation', 'composing'], false, state);
+  },
+
+  presentInternalAlert: function (state, action) {
+    let alert = merge(action.data, { id: generateId() });
+    let newAlerts = (state.alerts || []).concat([alert]);
+    return assoc('alerts', newAlerts, state);
+  },
+
+  dismissInternalAlert: function (state, action) {
+    let newAlerts = filter(i => i.id !== action.alertId, state.alerts);
+    return assoc('alerts', newAlerts, state);
   }
 };
 

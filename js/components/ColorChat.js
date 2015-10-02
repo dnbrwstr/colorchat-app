@@ -1,10 +1,9 @@
 import React, { View, StatusBarIOS } from 'react-native';
 import { Provider } from 'react-redux/native';
-import Router from './Router';
+import App from './App';
 import createStore from '../lib/createStore';
 import createSocketService from '../lib/createSocketService';
 import createNotificationService from '../lib/createNotificationService';
-// import createConnectivityService from '../lib/createConnectivityService';
 
 let ColorChat = React.createClass({
   getInitialState: () => ({
@@ -31,7 +30,7 @@ let ColorChat = React.createClass({
     } else {
       return (
         <Provider store={this.state.store}>
-          { () => <Router /> }
+          { () => <App /> }
         </Provider>
       );
     }

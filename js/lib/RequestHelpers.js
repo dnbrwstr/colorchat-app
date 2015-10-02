@@ -1,13 +1,13 @@
+export let postAuthenticatedJSON = (url, data, token) => {
+  return fetch(url, post(json(data, authenticated(token))));
+};
+
+export let putAuthenticatedJSON = (url, data, token) => {
+  return fetch(url, put(json(data, authenticated(token))));
+};
+
 export let postJSON = (url, data) =>
   fetch(url, post(json(data)));
-
-export let postAuthenticatedJSON = (url, data, token) => {
-  if (!token) {
-    throw new Error('Token required send authenticated request');
-  }
-
-  return fetch(url, post(json(data, authenticated(token))));
-}
 
 export let json = (data, requestObj={}) => ({
   ...requestObj,
@@ -24,10 +24,21 @@ export let post = (requestObj={}) => ({
   method: 'post'
 });
 
-export let authenticated = (token, requestObj={}) => ({
+export let put = (requestObj={}) => ({
   ...requestObj,
-  headers: {
-    ...requestObj.headers,
-    'X-Auth-Token': token
-  }
+  method: 'put'
 });
+
+export let authenticated = (token, requestObj={}) => {
+  if (!token) {
+    throw new Error('Token required send authenticated request');
+  }
+
+  return {
+    ...requestObj,
+    headers: {
+      ...requestObj.headers,
+      'X-Auth-Token': token
+    }
+  };
+};

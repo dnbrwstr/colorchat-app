@@ -1,7 +1,7 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
 import { messagesScreenSelector } from '../lib/Selectors';
-import { navigateTo } from '../actions/NavigationActions';
+import { navigateToConversation } from '../actions/NavigationActions';
 import { setMainTab } from '../actions/AppActions';
 import Style from '../style';
 import ConversationList from './ConversationList';
@@ -44,11 +44,7 @@ let MessagesScreen = React.createClass({
   },
 
   onSelectConversation: function (conversation) {
-    this.props.dispatch(navigateTo('conversation', {
-      data: {
-        contactId: conversation.contact.id
-      }
-    }));
+    this.props.dispatch(navigateToConversation(conversation.contact.id));
   },
 
   onPressContactsButton: function () {

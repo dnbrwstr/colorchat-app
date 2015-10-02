@@ -1,3 +1,5 @@
+import config from '../config';
+
 export let setMainTab = (tabTitle) => {
   return {
     type: 'setMainTab',
@@ -24,3 +26,17 @@ export let updateConversationUi = newData => ({
   type: 'updateConversationUi',
   data: newData
 });
+
+export let presentInternalAlert = data => {
+  return {
+    type: 'presentInternalAlert',
+    data: data
+  };
+};
+
+export let dismissInternalAlert = id => {
+  return {
+    type: 'dismissInternalAlert',
+    alertId: id
+  };
+}

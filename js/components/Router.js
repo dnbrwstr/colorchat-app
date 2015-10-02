@@ -40,8 +40,6 @@ let Router = React.createClass({
   },
 
   configureScene: function (route) {
-    console.log(route.title);
-
     switch (route.title) {
       case 'conversation':
         return SlideOverFromBottom

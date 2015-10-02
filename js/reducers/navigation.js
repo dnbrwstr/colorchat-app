@@ -43,35 +43,29 @@ let handlers = {
   },
 
   authError: function (state, action) {
-    return this.navigateTo(state, {
-      route: {
-        title: 'signup'
-      }
-    });
+    return this.navigateToTitle('signup', state);
   },
 
   registerPhoneNumber: function (state, action) {
-    if (action.state == 'complete') {
-      return this.navigateTo(state, {
-        route: {
-          title: 'confirmCode'
-        }
-      });
-    } else {
-      return state;
-    }
+    if (action.state !== 'complete') return state;
+    return this.navigateToTitle('confirmCode', state);
   },
 
   submitConfirmationCode: function (state, action) {
-    if (action.state == 'complete') {
-      return this.navigateTo(state, {
-        route: {
-          title: 'main'
-        }
-      })
-    } else {
-      return state;
-    }
+    if (action.state !== 'complete') return state;
+    return this.navigateToTitle('notifications', state);
+  },
+
+  submitNotificationName: function (state, action) {
+    return this.navigateToTitle('main', state);
+  },
+
+  navigateToTitle: function (title, state) {
+    return this.navigateTo(state, {
+      route: {
+        title: title
+      }
+    });
   },
 
   navigateTo: (state, action) => {

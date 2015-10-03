@@ -25,7 +25,7 @@ let ColorChat = React.createClass({
   render: function () {
     if (!this.state.store) {
       return (
-        <View></View>
+        <View style={{backgroundColor: '#EFEFEF'}}></View>
       );
     } else {
       return (

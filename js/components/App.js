@@ -5,26 +5,40 @@ import Alert from './Alert';
 import Style from '../style';
 
 let {
-  View
+  View,
+  Animated
 } = React;
 
 let appSelector = state => {
   return {
-    alerts: state.ui.alerts
+    alerts: state.ui.alerts,
   };
 };
 
 let App = React.createClass({
+  getInitialState: function () {
+    return {
+      animatedOpacity: new Animated.Value(0)
+    };
+  },
+
+  componentDidMount: function () {
+    Animated.timing(this.state.animatedOpacity, {
+      toValue: 1,
+      duration: 200
+    }).start();
+  },
+
   render: function () {
     return (
-      <View style={{flex: 1}}>
+      <Animated.View style={{flex: 1, opacity: this.state.animatedOpacity}}>
         <Router />
         <View style={style.alerts}>
           { this.props.alerts && this.props.alerts.map((a) => {
             return ( <Alert key={a.id} {...a} /> );
           }) }
         </View>
-      </View>
+      </Animated.View>
     )
   }
 });

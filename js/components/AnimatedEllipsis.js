@@ -16,7 +16,7 @@ let AnimatedEllipsis = React.createClass({
 
   getInitialState: function () {
     return {
-      dots: 1
+      dots: 2
     }
   },
 

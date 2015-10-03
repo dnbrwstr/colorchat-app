@@ -17,6 +17,14 @@ export default ContactList = React.createClass({
     }
   },
 
+  componentDidUpdate: function (prevProps) {
+    if (this.props.contacts !== prevProps.contacts) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.props.contacts)
+      });
+    }
+  },
+
   render: function () {
     return (
       <ListView
@@ -73,7 +81,7 @@ let style = Style.create({
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
     height: Style.values.rowHeight,
-    paddingHorizontal: 12,
+    paddingHorizontal: Style.values.horizontalPadding,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

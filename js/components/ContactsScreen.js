@@ -4,6 +4,7 @@ import Style from '../style';
 import { connect } from 'react-redux/native';
 import PressableView from './PressableView';
 import ContactList from './ContactList';
+import AnimatedEllipsis from './AnimatedEllipsis';
 import { importContacts, sendInvite } from '../actions/ContactActions';
 import { navigateTo } from '../actions/NavigationActions';
 import BaseText from './BaseText';
@@ -17,10 +18,19 @@ let ContactsScreen = React.createClass({
   render: function () {
     return (
       <View style={style.container}>
-        { this.props.imported ?
-          this.renderContactsList() : this.renderImportPrompt() }
+        { this.renderContent() }
       </View>
     );
+  },
+
+  renderContent: function () {
+    if (this.props.imported) {
+      return this.renderContactsList();
+    } else if (this.props.importError) {
+      return this.renderImportPrompt();
+    } else {
+      return this.renderLoader();
+    }
   },
 
   componentDidMount: function () {
@@ -56,7 +66,16 @@ let ContactsScreen = React.createClass({
     return (
       <ContactList
         contacts={this.props.contacts}
-        onSelect={this.onSelectContact} />
+        onSelect={this.onSelectContact}
+      />
+    );
+  },
+
+  renderLoader: function () {
+    return (
+      <View style={{flex: 1}}>
+        <AnimatedEllipsis />
+      </View>
     );
   },
 
@@ -98,7 +117,7 @@ let importStyle = Style.create({
   button: {
     backgroundColor: 'white',
     flex: 0,
-    height: 50,
+    height: Style.values.rowHeight,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -106,9 +125,11 @@ let importStyle = Style.create({
   }
 })
 
-let selectContacts = state => ({
-  contacts: state.contacts,
-  ...state.ui.contacts
-});
+let selectContacts = state => {
+  return {
+    contacts: state.contacts,
+    ...state.ui.contacts
+  };
+};
 
 export default connect(selectContacts)(ContactsScreen);

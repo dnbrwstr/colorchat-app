@@ -10,10 +10,12 @@ let {
 
 let NewMessageButton = React.createClass({
   getInitialState: function () {
+    let initialOpacity = this.props.visible ? 1 : 0;
+
     return {
       animatedSize: new Animated.Value(1),
-      animatedOpacity: new Animated.Value(1)
-    }
+      animatedOpacity: new Animated.Value(initialOpacity)
+    };
   },
 
   componentDidUpdate: function (prevProps) {

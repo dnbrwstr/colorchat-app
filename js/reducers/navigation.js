@@ -11,7 +11,7 @@ let initialRoute = {
 let initialState = {
   history: [initialRoute],
   route: initialRoute,
-  reverse: false
+  state: 'ready'
 };
 
 let handlers = {
@@ -24,7 +24,7 @@ let handlers = {
       route = history[history.length - 1];
     } else if (!appState.user || !appState.user.token) {
       route = {
-        title: 'signup'
+        title: 'welcome'
       };
     } else {
       route = {
@@ -60,6 +60,14 @@ let handlers = {
     return this.navigateToTitle('main', state);
   },
 
+  completeTransition: function (state, action) {
+    let newState = {
+      ...state,
+      state: 'ready'
+    };
+    return newState;
+  },
+
   navigateToTitle: function (title, state) {
     return this.navigateTo(state, {
       route: {
@@ -87,6 +95,7 @@ let handlers = {
 
       return {
         ...state,
+        state: 'transitioning',
         history: newHistory,
         route: newRoute
       }

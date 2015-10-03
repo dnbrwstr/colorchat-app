@@ -27,3 +27,9 @@ export let navigateToConversation = contactId => {
     }
   };
 }
+
+export let completeTransition = () => {
+  return {
+    type: 'completeTransition'
+  };
+};

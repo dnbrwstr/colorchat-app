@@ -2,7 +2,8 @@ import React from 'react-native';
 import invariant from 'invariant';
 import { Provider, connect } from 'react-redux/native';
 import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
-import { FromBottom, SlideOverFromBottom } from '../lib/SceneConfigs'
+import { FromBottom, SlideOverFromBottom } from '../lib/SceneConfigs';
+import { completeTransition } from '../actions/NavigationActions';
 import AppRoutes, { getTransitionMethod } from '../lib/AppRoutes';
 
 let {
@@ -13,6 +14,12 @@ let {
 } = React;
 
 let Router = React.createClass({
+  componentDidMount: function () {
+    this.refs.navigator.navigationContext.addListener('didfocus', () => {
+      this.props.dispatch(completeTransition());
+    });
+  },
+
   render: function () {
     let props = {
       ref: "navigator",

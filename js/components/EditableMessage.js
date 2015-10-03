@@ -26,32 +26,46 @@ let EditableMessage = React.createClass({
 
   shouldComponentUpdate: function (prevProps, prevState) {
     return prevState !== this.state ||
-      prevProps.composing !== this.props.composing;
+      prevProps.composing !== this.props.composing ||
+      prevProps.routeName !== this.props.routeName ||
+      prevProps.navigationState !== this.props.navigationState;
   },
 
   componentWillReceiveProps: function (nextProps) {
-    if (this.props.composing && !nextProps.composing) {
+    let stoppedComposing = this.props.composing && !nextProps.composing;
+    let navigatedAway = this.props.routeName === 'conversation' &&
+      nextProps.routeName !== 'conversation';
+    let navigatedBack = nextProps.routeName === 'conversation' &&
+      nextProps.navigationState === 'ready';
+
+    if (stoppedComposing || navigatedAway) {
       this.state.animatedOpacity.setValue(0);
+    } else if (navigatedBack) {
+      Animated.timing(this.state.animatedOpacity, {
+        toValue: 1,
+        duration: 200
+      }).start();
     }
   },
 
   componentDidMount: function () {
-    Animated.sequence([
-      Animated.timing(this.state.animatedHeight, {
+    let animations = [Animated.timing(this.state.animatedHeight, {
+      toValue: 1,
+      duration: 200
+    })];
+
+    if (this.shouldShowHandles()) {
+      animations.push(Animated.timing(this.state.animatedOpacity, {
         toValue: 1,
         duration: 200
-      }),
-      Animated.timing(this.state.animatedOpacity, {
-        toValue: 1,
-        duration: 200
-      })
-    ]).start();
+      }));
+    }
+
+    Animated.sequence(animations).start();
   },
 
   render: function () {
-    let isComposing = this.props.state === 'composing';
-
-    let messageStyle = isComposing ? {
+    let messageStyle = this.shouldShowHandles() ? {
       width: this.state.workingWidth,
       height: this.state.animatedHeight.interpolate({
         inputRange: [0, 1],
@@ -116,7 +130,7 @@ let EditableMessage = React.createClass({
 
     return (
       <Animated.View style={messageStyles}>
-        { isComposing &&
+        { this.shouldShowHandles() &&
           <View style={{flex: 1}}>
             <SimpleColorPicker
               style={{flex: 1}}
@@ -137,9 +151,16 @@ let EditableMessage = React.createClass({
               onDragMove={this.onDragHandle.bind(this, 'diagonal')}
               onDragStop={this.onDragStop}
             />
-          </View> }
+          </View>
+        }
       </Animated.View>
     );
+  },
+
+  shouldShowHandles: function () {
+    return this.props.state === 'composing' &&
+      this.props.routeName === 'conversation' &&
+      this.props.navigationState === 'ready';
   },
 
   onDragHandle: function (axis, e) {
@@ -178,9 +199,15 @@ let EditableMessage = React.createClass({
 });
 
 let style = Style.create({
-  message: {
-
-  }
+  message: {}
 });
 
-export default connect(s=>({composing: s.ui.conversation.composing}))(EditableMessage);
+let selectData = state => {
+  return {
+    composing: state.ui.conversation.composing,
+    routeName: state.navigation.route.title,
+    navigationState: state.navigation.state
+  };
+};
+
+export default connect(selectData)(EditableMessage);

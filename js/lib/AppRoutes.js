@@ -5,8 +5,15 @@ import ConfirmCodeScreen from '../components/ConfirmCodeScreen';
 import SignupNotificationsScreen from '../components/SignupNotificationsScreen';
 import ConversationScreen from '../components/ConversationScreen';
 import MainScreen from '../components/MainScreen';
+import WelcomeScreen from '../components/WelcomeScreen';
 
 let AppRoutes = {
+  welcome: {
+    component: WelcomeScreen,
+    links: {
+      signup: 'push'
+    }
+  },
   signup: {
     component: SignupStartScreen,
     links: {

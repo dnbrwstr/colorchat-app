@@ -70,20 +70,20 @@ let MessageList = React.createClass({
         removeClippedSubviews={true}
         initialListSize={12}
         scrollRenderAheadDistance={12}
-        pageSize={2}
+        pageSize={3}
         renderRow={this.renderMessage} />
     );
   },
 
   renderMessage: function (messageData, sectionId, rowId) {
     let fromCurrentUser = this.props.user.id === messageData.senderId;
-
     return (
       <Message
         onPresent={this.onPresentMessage.bind(this, messageData)}
         fromCurrentUser={fromCurrentUser}
         key={messageData.id || messageData.clientId}
-        { ...messageData } />
+        { ...messageData }
+      />
     );
   },
 

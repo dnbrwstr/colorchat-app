@@ -8,7 +8,7 @@ ListView.prototype.componentWillReceiveProps = function (nextProps) {
         // ================
         // state.curRenderedRowsCount + props.pageSize,
         // ================
-        Math.max(state.curRenderedRowsCount, props.pageSize),
+        Math.max(state.curRenderedRowsCount, props.pageSize) + 1,
         // ================
         props.dataSource.getRowCount()
       );

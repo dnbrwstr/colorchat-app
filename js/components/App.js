@@ -16,7 +16,6 @@ let appSelector = state => {
 
 let App = React.createClass({
   render: function () {
-    console.log(this.props.alerts)
     return (
       <View style={{flex: 1}}>
         <Router />

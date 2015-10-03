@@ -74,8 +74,6 @@ export let FromBottom = {
 
 export let SlideOverFromBottom = {
   ...Base,
-  springFriction: 20,
-  springTension: 120,
   animationInterpolators: {
     into: buildStyleInterpolator({
       ...ConstantOpacity,

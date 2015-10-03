@@ -87,7 +87,7 @@ export default ConversationList = React.createClass({
 
 let style = Style.create({
   conversation: {
-    paddingHorizontal: 12,
+    paddingHorizontal: Style.values.horizontalPadding,
     height: Style.values.rowHeight,
     flex: 1,
     justifyContent: 'center'

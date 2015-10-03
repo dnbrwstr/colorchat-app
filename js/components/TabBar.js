@@ -122,8 +122,10 @@ let style = Style.create({
   },
   navBar: {
     flex: 0,
-    height: 60,
-    backgroundColor: '#E0E0E0',
+    height: Style.values.rowHeight,
+    borderTopWidth: 1,
+    borderTopColor: '#EFEFEF',
+    backgroundColor: 'white',
     flexDirection: 'row',
   },
   navBarItem: {
@@ -133,12 +135,13 @@ let style = Style.create({
     alignItems: 'center',
   },
   navBarItemSelected: {
+    backgroundColor: '#EFEFEF'
   },
   navBarText: {
     ...textBase,
     textAlign: 'center'
   },
   navBarTextSelected: {
-    color: 'black'
+    color: '#333'
   }
 });

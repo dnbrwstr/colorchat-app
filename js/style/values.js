@@ -8,6 +8,7 @@ let darkGrayHighlight = Color(darkGray)
 let values = {
   borderWidth: 1,
   basePadding: 10,
+  horizontalPadding: 14,
   midGray: '#878787',
   darkGray,
   darkGrayHighlight,

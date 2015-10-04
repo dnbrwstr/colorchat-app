@@ -57,7 +57,9 @@ export default ConversationList = React.createClass({
   renderConversation: function (conversation) {
     let { contact, lastMessage } = conversation;
     let color = lastMessage ? lastMessage.color : 'white';
-    let textColor = Color(color).luminosity() > .5 ?
+    let isLight = Color(color).luminosity() > .5;
+
+    let textColor = isLight ?
       'black' : 'white'
 
     let textStyle = {
@@ -70,9 +72,16 @@ export default ConversationList = React.createClass({
       style.conversation
     ];
 
+    let colorFn = isLight ? 'darken' : 'lighten';
+
+    let conversationActiveStyle = {
+      backgroundColor: Color(color)[colorFn](.2).hexString()
+    };
+
     return (
       <PressableView
         style={conversationStyles}
+        activeStyle={conversationActiveStyle}
         onPress={() => this.onSelect(conversation)}
       >
         <BaseText style={textStyle}>{contact.firstName} {contact.lastName}</BaseText>

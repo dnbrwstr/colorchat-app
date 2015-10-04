@@ -1,4 +1,5 @@
 import { putAuthenticatedJSON } from '../lib/RequestHelpers';
+import { serverRoot } from '../config';
 
 export let triggerPermissionsDialog = () => {
   return {
@@ -7,15 +8,16 @@ export let triggerPermissionsDialog = () => {
 };
 
 export let saveDeviceToken = deviceToken => async (dispatch, getState) => {
-  let dispatchStateChange = (state) => ({
+  let dispatchStateChange = state => ({
     type: 'saveDeviceToken',
-    deviceToken: deviceToken
+    deviceToken: deviceToken,
+    state
   });
 
   dispatchStateChange('started');
 
   let authToken = getState().user.token;
-  let url = config.serverRoot + '/account';
+  let url = serverRoot + '/account';
 
   let res = await putAuthenticatedJSON(url, {
     deviceToken: deviceToken

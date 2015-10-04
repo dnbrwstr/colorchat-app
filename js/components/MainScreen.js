@@ -6,6 +6,7 @@ import Style from '../style';
 import TabBar from './TabBar';
 import { setMainTab } from '../actions/AppActions';
 import { mainScreenSelector } from '../lib/Selectors';
+import { triggerPermissionsDialog } from '../actions/NotificationActions';
 
 let {
   View,
@@ -24,6 +25,10 @@ let tabBarItems = [{
 }];
 
 let MainScreen = React.createClass({
+  componentDidMount: function () {
+    this.props.dispatch(triggerPermissionsDialog());
+  },
+
   render: function () {
     let { dispatch } = this.props;
 

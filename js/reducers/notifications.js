@@ -6,9 +6,11 @@ let initialState = {
 
 let handlers = {
   triggerPermissionsDialog: function (state, action) {
+    let done = action.state !== 'started';
+
     return {
       ...state,
-      requestPermissions: true
+      requestPermissions: done
     };
   }
 };

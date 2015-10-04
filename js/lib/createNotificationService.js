@@ -27,7 +27,6 @@ let notificationServiceBase = {
   },
 
   onRegister: function (token) {
-    token = "4cdb8ba500e6e0aa883be57fa5a90e49d2745483f88f675427ef18de992c09fb";
     this.props.dispatch(saveDeviceToken(token));
   },
 

@@ -23,6 +23,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		C82B16ED1B824F33005E9BF9 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B16E11B824EFC005E9BF9 /* libRCTAddressBook.a */; };
+		C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C87337A31BC5BAE600C10905 /* SettingsApp.m */; settings = {ASSET_TAGS = (); }; };
 		C878D45C1B7AA3590041C35C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45A1B7AA3590041C35C /* Bolts.framework */; };
 		C878D45D1B7AA3590041C35C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45B1B7AA3590041C35C /* Parse.framework */; };
 		C878D45F1B7AA3860041C35C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45E1B7AA3850041C35C /* AudioToolbox.framework */; };
@@ -186,6 +187,8 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
+		C87337A21BC5BAD600C10905 /* SettingsApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsApp.h; sourceTree = "<group>"; };
+		C87337A31BC5BAE600C10905 /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsApp.m; sourceTree = "<group>"; };
 		C878D45A1B7AA3590041C35C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		C878D45B1B7AA3590041C35C /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		C878D45E1B7AA3850041C35C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -342,6 +345,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				C87337A21BC5BAD600C10905 /* SettingsApp.h */,
+				C87337A31BC5BAE600C10905 /* SettingsApp.m */,
 			);
 			name = ColorChat;
 			sourceTree = "<group>";
@@ -744,6 +749,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,4 @@
-import { LinkingIOS } from 'react-native';
-import { RNMessageComposer as Composer } from 'NativeModules';
+import { RNMessageComposer as Composer, SettingsApp } from 'NativeModules';
 import AddressBook from 'react-native-addressbook';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
@@ -21,6 +20,10 @@ export let importContacts = opts => async (dispatch, getState) => {
 
   if (permission === 'undefined' && opts.askPermission) {
     permission = await AddressBook.requestPermissionAsync();
+  }
+
+  if (permission === 'denied' && opts.askPermission) {
+    SettingsApp.openSettings();
   }
 
   if (permission === 'authorized') {

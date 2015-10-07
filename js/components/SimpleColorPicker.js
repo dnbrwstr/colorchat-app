@@ -1,7 +1,6 @@
 import React from 'react-native';
 import Style from '../style';
 import measure from '../measure';
-import { hsl2hex } from '../lib/ColorUtils';
 
 let {
   Text,
@@ -47,7 +46,7 @@ let SimpleColorPicker = React.createClass({
     let l = Math.floor(100 * progressY);
 
     this.setState({
-      value: hsl2hex({ h, s, l })
+      value: Color({ h, s, l }).toHexString()
     });
   },
 

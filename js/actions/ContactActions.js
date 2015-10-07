@@ -1,52 +1,16 @@
+import { LinkingIOS } from 'react-native';
 import { RNMessageComposer as Composer } from 'NativeModules';
 import AddressBook from 'react-native-addressbook';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
 
+/**
+ * Attempt to import contacts from address book, sending
+ * phone numbers to the server so that we can determine
+ * which contacts are also users.
+ */
 export let importContacts = opts => async (dispatch, getState) => {
-  let onPermissionDenied = () => {
-    dispatch({
-      type: 'importContacts',
-      state: 'failed',
-      error: 'Permission denied'
-    });
-  };
-
-  let onPermissionGranted = async () => {
-    let contacts = await AddressBook.getContactsAsync();
-    let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
-    let token = getState().user.token;
-    let res, matches;
-
-    if (!token) {
-      return dispatch({
-        'type': 'authError'
-      });
-    }
-
-    try {
-      res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, token);
-      matches = await res.json();
-    } catch (e) {
-      return dispatch({
-        type: 'importContacts',
-        state: 'failed',
-        error: 'Unable to connect to server'
-      });
-    }
-    if (res.status === 403) {
-      return dispatch({
-        type: 'authError'
-      });
-    }
-
-    dispatch({
-      type: 'importContacts',
-      state: 'complete',
-      contacts: contacts,
-      matches: matches
-    });
-  };
+  let userToken = getState().user.token;
 
   dispatch({
     type: 'importContacts',
@@ -55,22 +19,53 @@ export let importContacts = opts => async (dispatch, getState) => {
 
   let permission = await AddressBook.checkPermissionAsync();
 
-  if (permission === 'undefined') {
-    if (opts.askPermission) {
-      let newPermission = await AddressBook.requestPermissionAsync();
-
-      if (!newPermission || newPermission === 'denied') {
-        onPermissionDenied();
-      } else {
-        onPermissionGranted();
-      }
-    }
-  } else if (permission === 'authorized') {
-    onPermissionGranted();
-  } else {
-    onPermissionDenied();
+  if (permission === 'undefined' && opts.askPermission) {
+    permission = await AddressBook.requestPermissionAsync();
   }
-}
+
+  if (permission === 'authorized') {
+    onPermissionGranted(userToken, dispatch);
+  } else {
+    onPermissionDenied(dispatch);
+  }
+};
+
+let onPermissionGranted = async (userToken, dispatch) => {
+  let contacts = await AddressBook.getContactsAsync();
+  let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
+  let res, matches;
+
+  try {
+    res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, userToken);
+    matches = await res.json();
+  } catch (e) {
+    return dispatch({
+      type: 'importContacts',
+      state: 'failed',
+      error: 'Unable to connect to server'
+    });
+  }
+  if (res.status === 403) {
+    return dispatch({
+      type: 'authError'
+    });
+  }
+
+  dispatch({
+    type: 'importContacts',
+    state: 'complete',
+    contacts: contacts,
+    matches: matches
+  });
+};
+
+let onPermissionDenied = dispatch => {
+  dispatch({
+    type: 'importContacts',
+    state: 'failed',
+    error: 'Permission denied'
+  });
+};
 
 export let sendInvite = contact => (dispatch, getState) => {
   // Get invite link from server

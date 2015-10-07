@@ -8,7 +8,34 @@ let {
   View
 } = React;
 
+let SATURATION = 75;
+
+/**
+ * Color picker that allows user to select a color by swiping
+ * Uses the HSL colorspace: x-axis controls hue, y-axis controls
+ * value. Saturation remains constant.
+ *
+ * Resizes to fit its container
+ */
 let SimpleColorPicker = React.createClass({
+  propTypes: {
+    /**
+     * Background color prior to user interaction
+     */
+    initialValue: React.PropTypes.string,
+
+    /**
+     * Custom style for container
+     */
+    style: React.PropTypes.any,
+
+    /**
+     * Called when picker value changes.
+     * Passes current value as an argument.
+     */
+    onChange: React.PropTypes.func
+  },
+
   getDefaultProps: function () {
     return {
       initialValue: '#ccc'
@@ -49,7 +76,7 @@ let SimpleColorPicker = React.createClass({
     });
   },
 
-  onTouchMove: async function (e) {
+  onTouchMove: function (e) {
     if (!this.state.size) return;
 
     let { locationX, locationY } = e.nativeEvent;
@@ -57,11 +84,10 @@ let SimpleColorPicker = React.createClass({
     let progressY = Math.max(Math.min(locationY / this.state.size.height, 1), 0);
 
     let h = Math.floor(360 * progressX);
-    let s = 75;
     let l = Math.floor(100 * progressY);
 
     this.setState({
-      value: Color({ h, s, l }).hexString()
+      value: Color({ h, s: SATURATION, l }).hexString()
     });
   },
 

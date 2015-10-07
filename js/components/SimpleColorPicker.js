@@ -1,4 +1,5 @@
 import React from 'react-native';
+import Color from 'color';
 import Style from '../style';
 import measure from '../measure';
 
@@ -23,6 +24,7 @@ let SimpleColorPicker = React.createClass({
   render: function () {
     return (
       <View ref="main"
+        onLayout={this.onLayout}
         onStartShouldSetResponder={() => true}
         onResponderMove={this.onTouchMove}
         onResponderRelease={this.onTouchEnd}
@@ -35,25 +37,36 @@ let SimpleColorPicker = React.createClass({
     );
   },
 
-  onTouchMove: async function (e) {
-    let { locationX, locationY } = e.nativeEvent;
+  onLayout: async function () {
+    this.setState({
+      size: null
+    });
+
     let size = await measure(this.refs.main);
-    let progressX = Math.max(Math.min(locationX / size.width, 1), 0);
-    let progressY = Math.max(Math.min(locationY / size.height, 1), 0);
+
+    this.setState({
+      size: size
+    });
+  },
+
+  onTouchMove: async function (e) {
+    if (!this.state.size) return;
+
+    let { locationX, locationY } = e.nativeEvent;
+    let progressX = Math.max(Math.min(locationX / this.state.size.width, 1), 0);
+    let progressY = Math.max(Math.min(locationY / this.state.size.height, 1), 0);
 
     let h = Math.floor(360 * progressX);
     let s = 75;
     let l = Math.floor(100 * progressY);
 
     this.setState({
-      value: Color({ h, s, l }).toHexString()
+      value: Color({ h, s, l }).hexString()
     });
   },
 
   onTouchEnd: function () {
-    setTimeout(() => {
-      if (this.props.onChange) this.props.onChange(this.state.value)
-    }, 100)
+    if (this.props.onChange) this.props.onChange(this.state.value)
   },
 
   getValue: function () {

@@ -1,29 +1,39 @@
-// Services are like simplified, nonrendering React components
-// They receive props and dispatch actions, and are useful for
-// dealing with changes not triggered by interface actions
-//
-// Example service object:
-//
-// let serviceObject = {
-//   onDidInitialize: function () {
-//     ...do stuff with initial props
-//   },
-//   onDidUpdate: function () {
-//     if (this.props !== prevProps) {
-//       this.props.dispatch(someActionCreator())
-//     }
-//   }
-// }
-
 import { merge } from 'ramda';
+import { bindObjectMethods } from '../lib/Utils';
 
-export default createService = (store) => (serviceObject, selector) => {
+/**
+ * Services are like simplified, nonrendering React components
+ * They receive props and dispatch actions, and are useful for
+ * dealing with changes not triggered by interface actions
+ *
+ * Example service object:
+ * ````
+ * let serviceObject = {
+ *   onDidInitialize: function () {
+ *     ...do stuff with initial props
+ *   },
+ *   onDidUpdate: function () {
+ *     if (this.props !== prevProps) {
+ *       this.props.dispatch(someActionCreator())
+ *     }
+ *   }
+ * }
+ * ````
+ */
+export default createService = store => (serviceObject, selector) => {
+  let service = merge({
+    onDidInitialize: () => {},
+    onDidUpdate: () => {}
+  }, serviceObject);
+
+  service = bindObjectMethods(service);
+
   let getProps = () => merge(selector(store.getState()), {
     dispatch: store.dispatch
   });
 
   let props = getProps();
-  let timeout;
+  service.props = props;
 
   store.subscribe(getState => {
     let oldProps = props;
@@ -31,24 +41,16 @@ export default createService = (store) => (serviceObject, selector) => {
     service.props = newProps;
     props = newProps;
 
+    /**
+     * Defer calling hook until after
+     * dispatch is finished
+     */
     setTimeout(() => {
       service.onDidUpdate(oldProps);
     }, 0);
   });
 
-  let service = merge({
-    onDidInitialize: () => {},
-    onDidUpdate: () => {}
-  }, serviceObject);
-
-  for (var key in service) {
-    if (typeof service[key] === 'function');
-    service[key] = service[key].bind(service);
-  }
-
-  service.props = props;
-
   service.onDidInitialize();
-
   return service;
-}
+};
+

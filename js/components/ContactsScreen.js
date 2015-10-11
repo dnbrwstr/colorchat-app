@@ -15,6 +15,18 @@ let {
 } = React;
 
 let ContactsScreen = React.createClass({
+  componentDidMount: function () {
+    if (this.props.shouldRefresh) {
+      this.importContacts();
+    }
+  },
+
+  componentDidUpdate: function (prevProps) {
+    if (this.props.shouldRefresh && !prevProps.shouldRefresh) {
+      this.importContacts()
+    }
+  },
+
   render: function () {
     return (
       <View style={style.container}>
@@ -33,12 +45,6 @@ let ContactsScreen = React.createClass({
     }
   },
 
-  componentDidMount: function () {
-    this.props.dispatch(importContacts({
-      askPermission: false
-    }));
-  },
-
   renderImportPrompt: function () {
     let { dispatch } = this.props;
 
@@ -49,11 +55,7 @@ let ContactsScreen = React.createClass({
         </BaseText>
 
         <PressableView
-          onPress={() => {
-            dispatch(importContacts({
-              askPermission: true
-            }));
-          }}
+          onPress={() => this.importContacts(true)}
           style={importStyle.button}
         >
           <BaseText style={importStyle.buttonText}>Import Contacts</BaseText>
@@ -77,6 +79,12 @@ let ContactsScreen = React.createClass({
         <AnimatedEllipsis />
       </View>
     );
+  },
+
+  importContacts: function (askPermission) {
+    this.props.dispatch(importContacts({
+      askPermission
+    }));
   },
 
   onSelectContact: function (contact) {

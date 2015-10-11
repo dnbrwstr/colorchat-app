@@ -12,8 +12,14 @@ let {
 
 export default ContactList = React.createClass({
   getInitialState: function () {
+    let source = new ListView.DataSource({
+      sectionHeaderHasChanged: (s1, s2) => false,
+      rowHasChanged: (r1, r2) => r1.id !== r2.id || r1.recordID !== r2.recordID,
+      getSectionHeaderData: (data, id) => id
+    });
+
     return {
-      dataSource: this.getDataSource()
+      dataSource: source.cloneWithRows(this.props.contacts)
     }
   },
 
@@ -34,16 +40,6 @@ export default ContactList = React.createClass({
         renderRow={this.renderContact}
         renderSeperator={this.renderSeperator} />
     );
-  },
-
-  getDataSource: function () {
-    let source = new ListView.DataSource({
-      sectionHeaderHasChanged: (s1, s2) => false,
-      rowHasChanged: (r1, r2) => false,
-      getSectionHeaderData: (data, id) => id
-    });
-
-    return source.cloneWithRows(this.props.contacts);
   },
 
   renderContact: function (contact) {

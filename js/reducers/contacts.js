@@ -14,6 +14,10 @@ let handlers = {
       id: m.userId
     });
 
+    /**
+     * Sort contacts by whether they've been
+     * matched, then by name
+     */
     let results = sortBy(c => {
       return (c.matched ? 'a' : 'z') + c.firstName + c.lastName;
     }, contacts);

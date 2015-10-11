@@ -21,7 +21,8 @@ let initialState = {
   contacts: {
     imported: false,
     importInProgress: false,
-    importError: null
+    importError: null,
+    shouldRefresh: true
   },
   inbox: {
 
@@ -86,7 +87,8 @@ let handlers = {
       return assocContacts({
         imported: true,
         importInProgress: false,
-        importError: null
+        importError: null,
+        shouldRefresh: false
       });
     } else if (action.state == 'failed') {
       return assocContacts({
@@ -120,6 +122,14 @@ let handlers = {
   dismissInternalAlert: function (state, action) {
     let newAlerts = filter(i => i.id !== action.alertId, state.alerts);
     return assoc('alerts', newAlerts, state);
+  },
+
+  changeAppState: function (state, action) {
+    if (action.newState === 'active') {
+      return assocPath(['contacts', 'shouldRefresh'], true, state);
+    } else {
+      return state;
+    }
   }
 };
 

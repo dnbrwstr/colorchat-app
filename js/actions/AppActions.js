@@ -39,4 +39,17 @@ export let dismissInternalAlert = id => {
     type: 'dismissInternalAlert',
     alertId: id
   };
+};
+
+export let changeAppState = newState => {
+  return {
+    type: 'changeAppState',
+    newState
+  };
 }
+
+export let triggerMemoryWarning = () => {
+  return {
+    type: 'memoryWarning'
+  };
+};

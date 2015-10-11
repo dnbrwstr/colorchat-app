@@ -4,6 +4,7 @@ import App from './App';
 import createStore from '../lib/createStore';
 import createSocketService from '../lib/createSocketService';
 import createNotificationService from '../lib/createNotificationService';
+import createAppStateService from '../lib/createAppStateService';
 
 let ColorChat = React.createClass({
   getInitialState: () => ({
@@ -16,7 +17,8 @@ let ColorChat = React.createClass({
     this.setState({
       store: store,
       socketService: createSocketService(store),
-      notificationService: createNotificationService(store)
+      notificationService: createNotificationService(store),
+      appStateService: createAppStateService(store)
     });
 
     StatusBarIOS.setHidden(true);

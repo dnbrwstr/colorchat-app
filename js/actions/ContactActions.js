@@ -2,6 +2,7 @@ import { RNMessageComposer as Composer, SettingsApp } from 'NativeModules';
 import AddressBook from 'react-native-addressbook';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
+import send from '../lib/send';
 
 /**
  * Attempt to import contacts from address book, sending
@@ -36,29 +37,14 @@ export let importContacts = opts => async (dispatch, getState) => {
 let onPermissionGranted = async (userToken, dispatch) => {
   let contacts = await AddressBook.getContactsAsync();
   let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
-  let res, matches;
+  let url = serverRoot + '/match';
+  let data = { phoneNumbers };
 
-  try {
-    res = await postAuthenticatedJSON(serverRoot + '/match', { phoneNumbers }, userToken);
-    matches = await res.json();
-  } catch (e) {
-    return dispatch({
-      type: 'importContacts',
-      state: 'failed',
-      error: 'Unable to connect to server'
-    });
-  }
-  if (res.status === 403) {
-    return dispatch({
-      type: 'authError'
-    });
-  }
-
-  dispatch({
-    type: 'importContacts',
-    state: 'complete',
-    contacts: contacts,
-    matches: matches
+  send({
+    dispatch,
+    actionType: 'importContacts',
+    getRequest: () => postAuthenticatedJSON(url, { phoneNumbers }, userToken),
+    parse: matches => ({ matches, contacts })
   });
 };
 

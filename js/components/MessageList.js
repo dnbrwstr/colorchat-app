@@ -14,7 +14,8 @@ let MessageList = React.createClass({
     let dataSource = new ListView.DataSource({
       rowHasChanged: (a, b) => {
         return (a.clientId || a.id) !== (b.clientId || b.id) ||
-          (a.id !== b.id);
+          (a.id !== b.id) ||
+          (a.state !== b.state)
       },
       getRowData: (dataBlob, sectionId, rowId) => {
         return dataBlob[sectionId][rowId];
@@ -76,7 +77,9 @@ let MessageList = React.createClass({
   },
 
   renderMessage: function (messageData, sectionId, rowId) {
-    let fromCurrentUser = this.props.user.id === messageData.senderId;
+    let fromCurrentUser = this.props.user.id === messageData.senderId ||
+      !this.props.senderId;
+
     return (
       <Message
         onPresent={this.onPresentMessage.bind(this, messageData)}

@@ -42,7 +42,21 @@ let Message = React.createClass({
   },
 
   renderMessage: function () {
-    let messageStyles = [
+    let textColor = {
+      color: Color(this.props.color).luminosity() > .5 ?
+        'black' : 'white'
+    };
+
+    return (
+      <Animated.View style={this.getMessageStyles()}>
+        { this.props.state === 'failed' &&
+          <Text style={[style.text, textColor]}>Unable to send message</Text> }
+      </Animated.View>
+    );
+  },
+
+  getMessageStyles: function () {
+    return [
       style.message,
       this.props.fromCurrentUser ? style.sent : style.received,
       {
@@ -51,18 +65,6 @@ let Message = React.createClass({
         backgroundColor: this.props.color
       }
     ];
-
-    let textColor = {
-      color: Color(this.props.color).luminosity() > .5 ?
-        'black' : 'white'
-    };
-
-    return (
-      <Animated.View style={messageStyles}>
-        { this.props.state === 'failed' &&
-          <Text style={[style.text, textColor]}>Unable to send message</Text> }
-      </Animated.View>
-    );
   }
 });
 

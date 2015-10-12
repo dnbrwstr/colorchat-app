@@ -12,9 +12,7 @@ let initialState = {
     loading: false,
     error: null
   },
-  countryPicker: {
-
-  },
+  countryPicker: {},
   main: {
     currentTabTitle: 'Contacts',
   },
@@ -24,80 +22,73 @@ let initialState = {
     importError: null,
     shouldRefresh: true
   },
-  inbox: {
-
-  },
+  inbox: {},
   conversation: {
     composing: false,
     loading: false,
     colorPicker: 'simple'
   }
-}
+};
 
-let handleRequest = (prop, state, action) => {
-  let newValues = {
-    started: {
-      loading: true
-    },
-    failed: {
-      loading: false,
-      error: action.error
-    },
-    complete: {
-      loading: false,
-      error: null
-    }
-  }[action.state];
-
-  if (action.state === 'failed') {
-    newValues.error = {
-      'Network request failed': 'Unable to reach server'
-    }[action.error] || action.error
+let getSignupState = action => ({
+  started: {
+    loading: true
+  },
+  complete: {
+    loading: false,
+    error: null
+  },
+  failed: {
+    loading: false,
+    error: action.error || 'Network request failed'
   }
+}[action.state]);
 
-  let ret = assoc(prop, merge(state[prop], newValues), state);
-  return ret;
-}
+let getContactsState = action => ({
+  started: {
+    importInProgress: true
+  },
+  complete: {
+    imported: true,
+    importInProgress: false,
+    importError: null,
+    shouldRefresh: false
+  },
+  failed: {
+    importInProgress: false,
+    importError: action.error
+  }
+}[action.state]);
+
+let handleRequest = (key, action, getStateFn, reducerState) => {
+  let data = getStateFn(action);
+  if (!data) return reducerState;
+  return assoc(key, merge(reducerState[key], data), reducerState);
+};
 
 let handlers = {
-  registerPhoneNumber: (state, action) =>
-    handleRequest('signup', state, action),
+  registerPhoneNumber: function (state, action) {
+    return handleRequest('signup', action, getSignupState, state);
+  },
 
-  clearSignupError: (state, action) =>
-    assocPath(['signup', 'error'], null, state),
+  clearSignupError: function (state, action) {
+    return assocPath(['signup', 'error'], null, state);
+  },
 
-  submitConfirmationCode: (state, action) =>
-    handleRequest('confirmationCode', state, action),
+  submitConfirmationCode: function (state, action) {
+    return handleRequest('confirmationCode', action, getSignupState, state);
+  },
 
-  clearConfirmCodeError: (state, action) =>
-    assocPath(['confirmatonCode', 'error'], null, state),
+  clearConfirmCodeError: function (state, action) {
+    return assocPath(['confirmatonCode', 'error'], null, state);
+  },
 
-  setMainTab: (state, action) =>
-    assocPath(['main', 'currentTabTitle'], action.tabTitle, state),
+  setMainTab: function (state, action) {
+    return assocPath(['main', 'currentTabTitle'], action.tabTitle, state);
+  },
 
-  importContacts: (state, action) => {
-    let assocContacts = data =>
-      assoc('contacts', merge(state.contacts, data), state);
-
-    if (action.state === 'started') {
-      return assocContacts({
-        importInProgress: true
-      });
-    } else if (action.state === 'complete') {
-      return assocContacts({
-        imported: true,
-        importInProgress: false,
-        importError: null,
-        shouldRefresh: false
-      });
-    } else if (action.state == 'failed') {
-      return assocContacts({
-        importInProgress: false,
-        importError: action.error
-      });
-    } else {
-      return state;
-    }
+  importContacts: function (state, action) {
+    return handleRequest('contacts', action, getContactsState, state);
   },
 
   updateConversationUi: function (state, action) {

@@ -20,10 +20,12 @@ let {
 } = React;
 
 let {
+  sendMessage,
   sendWorkingMessage,
   markMessageStale,
   startComposingMessage,
-  cancelComposingMessage
+  cancelComposingMessage,
+  toggleMessageExpansion
 } = MessageActions;
 
 let ConversationScreen = React.createClass({
@@ -45,6 +47,8 @@ let ConversationScreen = React.createClass({
         <MessageList
           scrollLocked={this.props.composing}
           onPresentMessage={this.onPresentMessage}
+          onRetryMessageSend={this.onRetryMessageSend}
+          onToggleMessageExpansion={this.onToggleMessageExpansion}
           messages={this.props.messages}
           user={this.props.user}
         />
@@ -99,9 +103,18 @@ let ConversationScreen = React.createClass({
     this.props.dispatch(selectColorPicker(value));
   },
 
+  onToggleMessageExpansion: function (message) {
+    this.props.dispatch(toggleMessageExpansion(message));
+  },
+
+  onRetryMessageSend: function (message) {
+    this.props.dispatch(sendMessage(message));
+  },
+
   onPresentMessage: function (message) {
     this.props.dispatch(markMessageStale(message));
-  }
+  },
+
 });
 
 let style = Style.create({

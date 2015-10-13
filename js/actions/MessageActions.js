@@ -18,13 +18,13 @@ export let startComposingMessage = message => {
     type: 'startComposingMessage',
     message
   };
-}
+};
 
 export let cancelComposingMessage = () => {
   return {
     type: 'cancelComposingMessage'
   };
-}
+};
 
 export let updateWorkingMessage = messageData => (dispatch, getState) => {
   let data = merge(messageData, {
@@ -43,8 +43,15 @@ export let sendWorkingMessage = () => {
   };
 };
 
-export let sendMessage = message => (dispatch, getState) =>
+export let sendEnqueuedMessages = () => async (dispatch, getState) => {
+  let filterFn = anyPass([propEq('state', 'failed')]);
+  let messages = filter(filterFn, getState().messages);
+  return sendMessages(messages)(dispatch, getState);
+};
+
+export let sendMessage = message => (dispatch, getState) => {
   sendMessages([message])(dispatch, getState);
+};
 
 export let sendMessages = messages => async (dispatch, getState) => {
   dispatch({
@@ -54,13 +61,16 @@ export let sendMessages = messages => async (dispatch, getState) => {
   });
 };
 
-export let markMessageStale = message => ({
-  type: 'markMessageStale',
-  message: message
-});
+export let markMessageStale = message => {
+  return {
+    type: 'markMessageStale',
+    message: message
+  }
+};
 
-export let sendEnqueuedMessages = () => async (dispatch, getState) => {
-  let filterFn = anyPass([propEq('state', 'failed')]);
-  let messages = filter(filterFn, getState().messages);
-  return sendMessages(messages)(dispatch, getState);
-}
+export let toggleMessageExpansion = message => {
+  return {
+    type: 'toggleMessageExpansion',
+    message
+  }
+};

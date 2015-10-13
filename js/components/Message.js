@@ -2,6 +2,8 @@ import React from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import EditableMessage from './EditableMessage';
+import BaseText from './BaseText';
+import PressableView from './PressableView';
 
 let {
   View,
@@ -10,16 +12,122 @@ let {
   Animated
 } = React;
 
-let messages = {}
+const SPRING_TENSION = 150;
+const SPRING_FRICTION = 10;
 
 let Message = React.createClass({
   getInitialState: function () {
-    let initialHeight = this.props.state === 'fresh' ?
-      0 : this.props.height;
+    let defaultWidth = this.props.width;
+    let defaultHeight = this.props.height;
 
     return {
-      animatedHeight: new Animated.Value(initialHeight)
+      width: defaultWidth,
+      height: defaultHeight,
+      animatedWidth: new Animated.Value(defaultWidth),
+      animatedHeight: new Animated.Value(defaultHeight)
     };
+  },
+
+  componentDidMount: function () {
+    this.setSize();
+  },
+
+  componentDidUpdate: function (prevProps) {
+    this.setSize(prevProps);
+  },
+
+  setSize: function (prevProps) {
+    let expandUpdated = !prevProps || (this.props.expanded !== prevProps.expanded);
+    let stateUpdated = !prevProps || (this.props.state !== prevProps.state);
+
+    if (this.props.state === 'fresh') {
+      // * => fresh
+      this.resize({
+        width: this.props.width,
+        height: this.props.height
+      }, {
+        width: 0,
+        height: 0
+      }, this.props.onPresent);
+    } else if (this.props.state === 'complete') {
+      if (this.props.expanded) {
+        // not expanded => expanded
+        let minWidth = 320;
+        let minHeight = 320;
+
+        this.resize({
+          width: Math.max(this.props.width, minWidth),
+          height: Math.max(this.props.height, minHeight)
+        });
+      } else {
+        // expanded => not expanded
+        this.resize({
+          width: this.props.width,
+          height: this.props.height
+        });
+      }
+    } else if (this.props.state === 'failed') {
+      // * => failed
+      let minWidth = 250;
+      let minHeight = 100;
+
+      this.resize({
+        width: Math.max(this.props.width, minWidth),
+        height: Math.max(this.props.height, minHeight)
+      });
+    } else if (this.props.state === 'composing') {
+      if (this.props.width !== this.state.width ||
+        this.props.height !== this.state.height) {
+        this.setState({
+          width: this.props.width,
+          height: this.props.height
+        });
+        this.state.animatedWidth.setValue(this.props.width);
+        this.state.animatedHeight.setValue(this.props.height);
+      }
+    } else {
+      this.resize({
+        width: this.props.width,
+        height: this.props.height
+      });
+    }
+  },
+
+  resize: function (toSize, fromSize={}, cb) {
+    if ((!toSize.width || toSize.width === this.state.width) &&
+       (!toSize.height || toSize.height === this.state.height)) {
+      return;
+    }
+
+    let width = this.state.animatedWidth;
+    let height = this.state.animatedHeight;
+
+    if (fromSize.width) width.setValue(fromSize.width);
+    if (fromSize.height) height.setValue(fromSize.height);
+
+    let animations = [];
+    let baseOpts = {
+      tension: SPRING_TENSION,
+      friction: SPRING_FRICTION
+    };
+
+    if (toSize.width) {
+      animations.push(Animated.spring(width, {
+        ...baseOpts,
+        toValue: toSize.width
+      }));
+    }
+
+    if (toSize.height) {
+      animations.push(Animated.spring(height, {
+        ...baseOpts,
+        toValue: toSize.height
+      }));
+    }
+
+    this.setState(toSize);
+
+    Animated.parallel(animations).start(cb);
   },
 
   render: function () {
@@ -27,32 +135,54 @@ let Message = React.createClass({
       this.renderEditor() : this.renderMessage();
   },
 
-  componentDidMount: function () {
-    if (this.props.state == 'fresh') {
-      Animated.spring(this.state.animatedHeight, {
-        toValue: this.props.height,
-        tension: 150,
-        friction: 10
-      }).start(this.props.onPresent);
-    }
-  },
-
   renderEditor: function () {
     return <EditableMessage {...this.props} />
   },
 
   renderMessage: function () {
-    let textColor = {
-      color: Color(this.props.color).luminosity() > .5 ?
-        'black' : 'white'
-    };
-
     return (
-      <Animated.View style={this.getMessageStyles()}>
-        { this.props.state === 'failed' &&
-          <Text style={[style.text, textColor]}>Unable to send message</Text> }
-      </Animated.View>
+      <PressableView
+        style={this.getMessageStyles()}
+        onPress={this.onPress}
+      >
+        { this.renderContent() }
+      </PressableView>
     );
+  },
+
+  renderContent: function () {
+    if (this.props.state === 'failed') {
+      return (
+        <View style={style.textContainer}>
+          <BaseText visibleOn={this.props.color}>
+            Message failed to send
+          </BaseText>
+          <BaseText visibleOn={this.props.color}>
+            Tap to retry
+          </BaseText>
+        </View>
+      );
+    }
+    else if (this.props.expanded === true){
+      return (
+        <View style={style.textContainer}>
+          <BaseText visibleOn={this.props.color}>
+            { this.props.color }
+          </BaseText>
+          <BaseText visibleOn={this.props.color}>
+            { this.props.createdAt }
+          </BaseText>
+        </View>
+      );
+    }
+  },
+
+  onPress: function () {
+    if (this.props.state === 'failed' && this.props.onRetrySend) {
+      this.props.onRetrySend();
+    } else if (this.props.state === 'complete' && this.props.onToggleExpansion) {
+      this.props.onToggleExpansion();
+    }
   },
 
   getMessageStyles: function () {
@@ -60,7 +190,7 @@ let Message = React.createClass({
       style.message,
       this.props.fromCurrentUser ? style.sent : style.received,
       {
-        width: this.props.width,
+        width: this.state.animatedWidth,
         height: this.state.animatedHeight,
         backgroundColor: this.props.color
       }
@@ -78,6 +208,9 @@ let style = Style.create({
   },
   received: {
     alignSelf: 'flex-start'
+  },
+  textContainer: {
+    padding: 12
   },
   text: {
     ...Style.mixins.textBase,

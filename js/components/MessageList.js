@@ -9,13 +9,27 @@ let {
   ListView
 } = React;
 
+let compare = (comparisons, a, b) => {
+  return comparisons.some(c => {
+    if (typeof c === 'function') {
+      return c(a) !== c(b);
+    } else if (typeof c === 'string') {
+      return a[c] !== b[c];
+    }
+  });
+};
+
 let MessageList = React.createClass({
   getInitialState: function () {
     let dataSource = new ListView.DataSource({
       rowHasChanged: (a, b) => {
-        return (a.clientId || a.id) !== (b.clientId || b.id) ||
-          (a.id !== b.id) ||
-          (a.state !== b.state)
+        return compare([
+          o => (o.clientId || o.id),
+          'state',
+          'width',
+          'height',
+          'expanded'
+        ], a, b);
       },
       getRowData: (dataBlob, sectionId, rowId) => {
         return dataBlob[sectionId][rowId];
@@ -80,14 +94,30 @@ let MessageList = React.createClass({
     let fromCurrentUser = this.props.user.id === messageData.senderId ||
       !this.props.senderId;
 
+    let bind = fn => fn.bind(this, messageData);
+
     return (
       <Message
-        onPresent={this.onPresentMessage.bind(this, messageData)}
+        onToggleExpansion={bind(this.onToggleMessageExpansion)}
+        onPresent={bind(this.onPresentMessage)}
+        onRetrySend={bind(this.onRetryMessageSend)}
         fromCurrentUser={fromCurrentUser}
         key={messageData.id || messageData.clientId}
         { ...messageData }
       />
     );
+  },
+
+  onToggleMessageExpansion: function (message) {
+    if (this.props.onToggleMessageExpansion) {
+      this.props.onToggleMessageExpansion(message)
+    }
+  },
+
+  onRetryMessageSend: function (message) {
+    if (this.props.onRetryMessageSend) {
+      this.props.onRetryMessageSend(message);
+    }
   },
 
   onPresentMessage: function (message) {

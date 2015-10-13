@@ -37,6 +37,7 @@ let handlers = {
     }
 
     return {
+      state: 'ready',
       history: history,
       route: route
     };

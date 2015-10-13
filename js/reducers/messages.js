@@ -8,19 +8,24 @@ let initialState = [];
 export let createMessage = (message, state) => {
   return merge({
     clientId: generateId(),
-    clientTimestamp: new Date(),
+    clientTimestamp: new Date().toJSON(),
     state: 'composing',
+    expanded: false,
     color: '#CCC',
     width: 150,
     height: 150
   }, message);
 };
 
+let getId = m => m.id || m.clientId;
+
 let updateById = (id, newProps, messages) => {
   let index = findIndexForId(id, messages);
   let newMessage = merge(messages[index], newProps);
   return replaceAtIndex(index, newMessage, messages);
 };
+
+let getById = (id, messages) => messages[findIndexForId(id, messages)];
 
 let findIndexForId = (id, messages) => {
   return findIndex(m => m.id === id || m.clientId === id, messages);
@@ -141,13 +146,25 @@ let handlers = {
       action.messages.map(m => merge(m, {state: 'fresh'})) :
       action.messages
 
-    messages.forEach(m => state = addOrReplaceExisting(m, state));
+    messages.forEach(
+      m => state = addOrReplaceExisting(m, state)
+    );
+
     return state;
   },
 
   markMessageStale: function (state, action) {
-    return updateById(action.message.id || action.message.clientId, {
+    return updateById(getId(action.message), {
       state: 'complete'
+    }, state);
+  },
+
+  toggleMessageExpansion: function (state, action) {
+    let messageId = getId(action.message);
+    let oldMessage = getById(messageId, state);
+
+    return updateById(messageId, {
+      expanded: !oldMessage.expanded
     }, state);
   }
 };

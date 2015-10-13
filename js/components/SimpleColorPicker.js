@@ -1,6 +1,7 @@
 import React from 'react-native';
 import Color from 'color';
 import Style from '../style';
+import BaseText from './BaseText';
 import measure from '../measure';
 
 let {
@@ -44,22 +45,38 @@ let SimpleColorPicker = React.createClass({
 
   getInitialState: function () {
     return {
-      value: this.props.initialValue
+      value: this.props.initialValue,
+      pristine: true
     };
   },
 
   render: function () {
+    let viewStyles = [
+      style.container,
+      { backgroundColor: this.state.value },
+      this.props.style
+    ];
+
     return (
       <View ref="main"
         onLayout={this.onLayout}
         onStartShouldSetResponder={() => true}
         onResponderMove={this.onTouchMove}
         onResponderRelease={this.onTouchEnd}
-        style={[
-          style.container,
-          { backgroundColor: this.state.value },
-          this.props.style
-        ]}>
+        style={viewStyles}
+      >
+        { this.props.showInstructions && this.state.pristine &&
+          this.renderInstructions() }
+      </View>
+    );
+  },
+
+  renderInstructions: function () {
+    return (
+      <View pointerEvents="none" style={style.instructions}>
+        <BaseText style={{textAlign: 'center'}} visibleOn={this.state.color}>
+          Swipe to{"\n"}change color
+        </BaseText>
       </View>
     );
   },
@@ -87,7 +104,8 @@ let SimpleColorPicker = React.createClass({
     let l = Math.floor(100 * progressY);
 
     this.setState({
-      value: Color({ h, s: SATURATION, l }).hexString()
+      value: Color({ h, s: SATURATION, l }).hexString(),
+      pristine: false
     });
   },
 
@@ -104,6 +122,16 @@ let style = Style.create({
   container: {
     height: 200,
     flex: 0
+  },
+  instructions: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: 12,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

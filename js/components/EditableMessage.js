@@ -128,11 +128,18 @@ let EditableMessage = React.createClass({
       left: left
     };
 
+    /**
+     * Render instructions if this is the first
+     * message created & it hasn't yet been modified
+     */
+    let shouldShowInstructions = this.props.messageCount === 1;
+
     return (
       <Animated.View style={messageStyles}>
         { this.shouldShowHandles() &&
           <View style={{flex: 1}}>
             <SimpleColorPicker
+              showInstructions={shouldShowInstructions}
               style={{flex: 1}}
               onChange={this.onColorChange}
               initialValue={this.state.workingColor} />
@@ -204,6 +211,7 @@ let style = Style.create({
 
 let selectData = state => {
   return {
+    messageCount: state.messages.length,
     composing: state.ui.conversation.composing,
     routeName: state.navigation.route.title,
     navigationState: state.navigation.state

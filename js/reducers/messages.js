@@ -12,7 +12,7 @@ export let createMessage = (message, state) => {
     state: 'composing',
     expanded: false,
     color: '#CCC',
-    width: 150,
+    width: 240,
     height: 150
   }, message);
 };

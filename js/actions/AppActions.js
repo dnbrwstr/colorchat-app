@@ -1,31 +1,39 @@
 import config from '../config';
 
-export let setMainTab = (tabTitle) => {
+export let setMainTab = tabTitle => {
   return {
     type: 'setMainTab',
     tabTitle: tabTitle
   };
 };
 
-export let startComposingMessage = () => ({
-  type: 'toggleComposingMessage',
-  value: true
-});
+export let startComposingMessage = () => {
+  return {
+    type: 'toggleComposingMessage',
+    value: true
+  };
+};
 
-export let stopComposingMessage = () => ({
-  type: 'toggleComposingMessage',
-  value: false
-});
+export let stopComposingMessage = () => {
+  return {
+    type: 'toggleComposingMessage',
+    value: false
+  };
+};
 
-export let selectColorPicker = picker => ({
-  type: 'selectColorPicker',
-  value: picker
-});
+export let selectColorPicker = picker => {
+  return {
+    type: 'selectColorPicker',
+    value: picker
+  };
+};
 
-export let updateConversationUi = newData => ({
-  type: 'updateConversationUi',
-  data: newData
-});
+export let updateConversationUi = newData => {
+  return {
+    type: 'updateConversationUi',
+    data: newData
+  };
+};
 
 export let presentInternalAlert = data => {
   return {
@@ -46,7 +54,7 @@ export let changeAppState = newState => {
     type: 'changeAppState',
     newState
   };
-}
+};
 
 export let triggerMemoryWarning = () => {
   return {

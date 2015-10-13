@@ -1,5 +1,6 @@
 import React from 'react-native';
 import Color from 'color';
+import moment from 'moment';
 import Style from '../style';
 import EditableMessage from './EditableMessage';
 import BaseText from './BaseText';
@@ -167,10 +168,13 @@ let Message = React.createClass({
       return (
         <View style={style.textContainer}>
           <BaseText visibleOn={this.props.color}>
-            { this.props.color }
+            { this.props.color + "\n"}
           </BaseText>
           <BaseText visibleOn={this.props.color}>
-            { this.props.createdAt }
+            { this.getRGBFormattedColor() }
+          </BaseText>
+          <BaseText style={style.timestamp} visibleOn={this.props.color}>
+            { this.getFormattedTimestamp() }
           </BaseText>
         </View>
       );
@@ -195,6 +199,28 @@ let Message = React.createClass({
         backgroundColor: this.props.color
       }
     ];
+  },
+
+  getFormattedTimestamp: function () {
+    let aYearAgo = moment(new Date()).subtract(1, 'years');
+    let aWeekAgo = moment(new Date()).subtract(1, 'weeks');
+    let aDayAgo = moment(new Date()).subtract(1, 'days');
+    let time = moment(this.props.createdAt);
+
+    if (time.isBefore(aYearAgo)) {
+      return time.format('MMM Do YYYY, h:mm A');
+    } else if (time.isBefore(aWeekAgo)) {
+      return time.format('MMM Do, h:mm A');
+    } else if (time.isBefore(aDayAgo)) {
+      return time.format('ddd, h:mm A')
+    } else {
+      return time.fromNow(false);
+    }
+  },
+
+  getRGBFormattedColor: function () {
+    let rgb = Color(this.props.color).rgb();
+    return `R ${rgb.r}\nG ${rgb.g}\nB ${rgb.b}`;
   }
 });
 
@@ -209,7 +235,13 @@ let style = Style.create({
   received: {
     alignSelf: 'flex-start'
   },
+  timestamp: {
+    position: 'absolute',
+    top: 12,
+    right: 12
+  },
   textContainer: {
+    flex: 1,
     padding: 12
   },
   text: {

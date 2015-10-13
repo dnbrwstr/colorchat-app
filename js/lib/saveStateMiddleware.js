@@ -1,7 +1,11 @@
 import { AsyncStorage } from 'react-native';
-import { logState, saveState } from '../config';
+import { logState, saveState, logActions } from '../config';
 
 export default saveStateMiddleware = store => next => action => {
+  if (logActions) {
+    console.log(action.type, action);
+  }
+
   let result = next(action);
   let nextState = store.getState();
 

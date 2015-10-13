@@ -11,8 +11,15 @@ let {
 } = React;
 
 export default TabBar = React.createClass({
+  getInitialState: function () {
+    return {
+      transitioning: false
+    };
+  },
+
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.currentItemTitle !== this.props.currentItemTitle) {
+      this.setState({ transitioning: true });
       this.refs.navigator.jumpTo(this.getRouteForTitle(nextProps.currentItemTitle));
     }
   },
@@ -30,7 +37,9 @@ export default TabBar = React.createClass({
 
   componentDidMount: function () {
     let ctx = this.refs.navigator.navigationContext;
+
     ctx.addListener('didfocus', (e) => {
+      this.setState({ transitioning: false });
       this.onSelectItem(e.target.currentRoute);
     });
   },
@@ -82,6 +91,7 @@ export default TabBar = React.createClass({
   },
 
   onSelectItem: function (item) {
+    if (this.state.transitioning) return;
     if (this.props.onSelectItem) this.props.onSelectItem(item);
   },
 

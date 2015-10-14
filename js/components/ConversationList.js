@@ -2,6 +2,7 @@ import Color from 'color';
 import React from 'react-native';
 import Style from '../style';
 import PressableView from './PressableView';
+import InteractiveView from './InteractiveView';
 import BaseText from './BaseText';
 
 let {
@@ -12,7 +13,8 @@ let {
 export default ConversationList = React.createClass({
   getInitialState: function () {
     return {
-      dataSource: this.getDataSource()
+      dataSource: this.getDataSource(),
+      scrollLocked: false
     };
   },
 
@@ -47,6 +49,7 @@ export default ConversationList = React.createClass({
   render: function () {
     return (
       <ListView
+        scrollEnabled={!this.state.scrollLocked}
         removeClippedSubviews={true}
         automaticallyAdjustsContentInsets={false}
         dataSource={this.state.dataSource}
@@ -79,14 +82,30 @@ export default ConversationList = React.createClass({
     };
 
     return (
-      <PressableView
+      <InteractiveView
         style={conversationStyles}
+        swipeEnabled={true}
+        deleteEnabled={true}
         activeStyle={conversationActiveStyle}
         onPress={() => this.onSelect(conversation)}
+        onInteractionStart={this.lockScroll}
+        onInteractionEnd={this.unlockScroll}
       >
         <BaseText style={textStyle}>{contact.firstName} {contact.lastName}</BaseText>
-      </PressableView>
+      </InteractiveView>
     );
+  },
+
+  lockScroll: function () {
+    this.setState({
+      scrollLocked: true
+    });
+  },
+
+  unlockScroll: function () {
+    this.setState({
+      scrollLocked: false
+    });
   },
 
   onSelect: function (conversation) {

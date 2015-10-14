@@ -1,4 +1,4 @@
-import { findIndex, propEq, append, adjust, merge, sortBy, last } from 'ramda';
+import { findIndex, propEq, append, adjust, merge, sortBy, last, filter } from 'ramda';
 import createRoutingReducer from '../lib/createRoutingReducer';
 
 let initialState = [];
@@ -61,6 +61,13 @@ let handlers = {
       }, conversations);
     });
     return conversations;
+  },
+
+  deleteConversation: function (state, action) {
+    return filter(
+      c => c.recipientId !== action.conversation.recipientId,
+      state
+    );
   }
 };
 

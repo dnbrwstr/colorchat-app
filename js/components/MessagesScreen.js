@@ -2,6 +2,7 @@ import React from 'react-native';
 import { connect } from 'react-redux/native';
 import { messagesScreenSelector } from '../lib/Selectors';
 import { navigateToConversation } from '../actions/NavigationActions';
+import { deleteConversation } from '../actions/ConversationActions';
 import { setMainTab } from '../actions/AppActions';
 import Style from '../style';
 import ConversationList from './ConversationList';
@@ -21,6 +22,7 @@ let MessagesScreen = React.createClass({
           <ConversationList
             conversations={this.props.conversations}
             onSelect={this.onSelectConversation}
+            onDelete={this.onDeleteConversation}
           />
         :
           <View style={style.emptyMessageWrapper}>
@@ -45,6 +47,10 @@ let MessagesScreen = React.createClass({
 
   onSelectConversation: function (conversation) {
     this.props.dispatch(navigateToConversation(conversation.contact.id));
+  },
+
+  onDeleteConversation: function (conversation) {
+    this.props.dispatch(deleteConversation(conversation));
   },
 
   onPressContactsButton: function () {

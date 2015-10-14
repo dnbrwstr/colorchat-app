@@ -1,4 +1,4 @@
-import { append, merge, adjust, findIndex } from 'ramda';
+import { append, merge, adjust, findIndex, filter } from 'ramda';
 import createRoutingReducer from  '../lib/createRoutingReducer';
 import { generateId } from '../lib/Utils';
 import config from '../config';
@@ -166,6 +166,15 @@ let handlers = {
     return updateById(messageId, {
       expanded: !oldMessage.expanded
     }, state);
+  },
+
+  deleteConversation: function (state, action) {
+    let id = action.conversation.recipientId;
+
+    return filter(
+      m => m.recipientId !== id && m.senderId !== id,
+      state
+    );
   }
 };
 

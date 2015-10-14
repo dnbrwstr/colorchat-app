@@ -136,9 +136,9 @@ let InteractiveView = React.createClass({
   onTouchEnd: function (e) {
     this.touchableHandleResponderRelease.apply(this, arguments);
 
-    if (!this.state.swipeStarted) return;
-
     if (this.props.onInteractionEnd) this.props.onInteractionEnd();
+
+    if (!this.state.swipeStarted) return;
 
     if (!this.maybeTriggerDelete() && this.props.springBack) {
       Animated.spring(this.state.targetOffset, {
@@ -212,7 +212,9 @@ let InteractiveView = React.createClass({
           duration: 200,
           delay: 100
         })
-      ]).start();
+      ]).start(() => {
+        if (this.props.onDelete) this.props.onDelete();
+      });
 
       return true;
     } else {

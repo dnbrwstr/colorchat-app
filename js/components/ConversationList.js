@@ -90,6 +90,7 @@ export default ConversationList = React.createClass({
         onPress={() => this.onSelect(conversation)}
         onInteractionStart={this.lockScroll}
         onInteractionEnd={this.unlockScroll}
+        onDelete={this.onDelete.bind(this, conversation)}
       >
         <BaseText style={textStyle}>{contact.firstName} {contact.lastName}</BaseText>
       </InteractiveView>
@@ -109,7 +110,11 @@ export default ConversationList = React.createClass({
   },
 
   onSelect: function (conversation) {
-    if (this.props.onSelect) this.props.onSelect(conversation)
+    if (this.props.onSelect) this.props.onSelect(conversation);
+  },
+
+  onDelete: function (conversation) {
+    if (this.props.onDelete) this.props.onDelete(conversation);
   }
 })
 

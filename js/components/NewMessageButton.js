@@ -8,6 +8,8 @@ let {
   Animated
 } = React;
 
+const BUTTON_SIZE = 50;
+
 let NewMessageButton = React.createClass({
   getInitialState: function () {
     let initialOpacity = this.props.visible ? 1 : 0;
@@ -96,24 +98,22 @@ let NewMessageButton = React.createClass({
   }
 });
 
-let size = 44;
-
 let style = Style.create({
   button: {
     position: 'absolute',
     bottom: 20,
     right: 20,
     backgroundColor: Style.values.darkGray,
-    width: size,
-    height: size,
-    borderRadius: size / 2,
+    width: BUTTON_SIZE,
+    height: BUTTON_SIZE,
+    borderRadius: BUTTON_SIZE / 2,
     alignItems: 'center',
     justifyContent: 'center'
   },
   buttonText: {
     color: 'white',
-    fontSize: 24,
-    marginTop: -4
+    fontSize: 26,
+    marginTop: -5
   }
 });
 

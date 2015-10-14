@@ -165,7 +165,8 @@ let EditableMessage = React.createClass({
   },
 
   shouldShowHandles: function () {
-    return this.props.state === 'composing' &&
+    return this.props.composing &&
+      this.props.state === 'composing' &&
       this.props.routeName === 'conversation' &&
       this.props.navigationState === 'ready';
   },

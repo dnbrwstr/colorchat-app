@@ -14,33 +14,42 @@ let {
   Text
 } = React;
 
+const BR = "\n";
+
 let MessagesScreen = React.createClass({
   render: function () {
     return (
       <View style={style.container}>
         { this.props.conversations.length ?
-          <ConversationList
-            conversations={this.props.conversations}
-            onSelect={this.onSelectConversation}
-            onDelete={this.onDeleteConversation}
-          />
-        :
-          <View style={style.emptyMessageWrapper}>
-            <BaseText style={style.emptyMessage}>
-              Select a contact to
-            </BaseText>
-            <BaseText style={style.emptyMessage}>
-              start a conversation
-            </BaseText>
+          this.renderConversations() : this.renderEmptyMessage() }
+      </View>
+    );
+  },
 
-            <PressableView
-              style={style.contactsButton}
-              onPress={this.onPressContactsButton}
-            >
-              <BaseText style={style.contactsButtonText}>View contacts</BaseText>
-            </PressableView>
-          </View>
-        }
+  renderConversations: function () {
+    return (
+      <ConversationList
+        conversations={this.props.conversations}
+        onSelect={this.onSelectConversation}
+        onDelete={this.onDeleteConversation}
+      />
+    );
+  },
+
+  renderEmptyMessage: function () {
+    return (
+      <View style={style.emptyMessageWrapper}>
+        <BaseText style={style.emptyMessage}>
+          Select a contact to{BR}
+          start a conversation
+        </BaseText>
+
+        <PressableView
+          style={style.contactsButton}
+          onPress={this.onPressContactsButton}
+        >
+          <BaseText style={style.contactsButtonText}>View contacts</BaseText>
+        </PressableView>
       </View>
     );
   },

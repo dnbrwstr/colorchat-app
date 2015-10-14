@@ -37,6 +37,19 @@
 		C878D4711B7AA3C30041C35C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4701B7AA3C30041C35C /* libsqlite3.dylib */; };
 		C878D4731B7AA9ED0041C35C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4721B7AA9ED0041C35C /* Accounts.framework */; };
 		C878D4751B7AA9F30041C35C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4741B7AA9F30041C35C /* Social.framework */; };
+		C8AEDFBE1BCEEFA7000A456B /* Aileron-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA31BCEEFA6000A456B /* Aileron-Light.otf */; };
+		C8AEDFBF1BCEEFA7000A456B /* Aileron-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA41BCEEFA6000A456B /* Aileron-Regular.otf */; };
+		C8AEDFC01BCEEFA7000A456B /* ClearSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA51BCEEFA6000A456B /* ClearSans-Light.ttf */; };
+		C8AEDFC11BCEEFA7000A456B /* ClearSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA61BCEEFA7000A456B /* ClearSans-Regular.ttf */; };
+		C8AEDFC21BCEEFA7000A456B /* ComputerModernSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA71BCEEFA7000A456B /* ComputerModernSans.ttf */; };
+		C8AEDFC31BCEEFA7000A456B /* CothamSans.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA81BCEEFA7000A456B /* CothamSans.otf */; };
+		C8AEDFC41BCEEFA7000A456B /* Grammatika-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA91BCEEFA7000A456B /* Grammatika-Regular.otf */; };
+		C8AEDFC51BCEEFA7000A456B /* SaniTrixieSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFAA1BCEEFA7000A456B /* SaniTrixieSans.ttf */; };
+		C8AEDFC61BCEEFA7000A456B /* Tuffy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFB91BCEEFA7000A456B /* Tuffy.otf */; };
+		C8AEDFC71BCEEFA7000A456B /* Whois-Mono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFBA1BCEEFA7000A456B /* Whois-Mono.ttf */; };
+		C8AEDFC81BCEEFA7000A456B /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFBB1BCEEFA7000A456B /* WorkSans-Light.otf */; };
+		C8AEDFC91BCEEFA7000A456B /* WorkSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFBC1BCEEFA7000A456B /* WorkSans-Medium.otf */; };
+		C8AEDFCA1BCEEFA7000A456B /* WorkSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFBD1BCEEFA7000A456B /* WorkSans-Regular.otf */; };
 		C8B93C041BBAD7CF00AB1C07 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B93C031BBAD7B900AB1C07 /* libRNOverlay.a */; };
 		C8B93C1D1BBCC07600AB1C07 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B93C1C1BBCC06700AB1C07 /* libRCTPushNotification.a */; };
 		C8CFBF1D1B7BEFE800A4BDD5 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8CFBF1C1B7BEFE800A4BDD5 /* Parse.plist */; };
@@ -202,6 +215,19 @@
 		C878D4701B7AA3C30041C35C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		C878D4721B7AA9ED0041C35C /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C878D4741B7AA9F30041C35C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		C8AEDFA31BCEEFA6000A456B /* Aileron-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aileron-Light.otf"; sourceTree = "<group>"; };
+		C8AEDFA41BCEEFA6000A456B /* Aileron-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aileron-Regular.otf"; sourceTree = "<group>"; };
+		C8AEDFA51BCEEFA6000A456B /* ClearSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClearSans-Light.ttf"; sourceTree = "<group>"; };
+		C8AEDFA61BCEEFA7000A456B /* ClearSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClearSans-Regular.ttf"; sourceTree = "<group>"; };
+		C8AEDFA71BCEEFA7000A456B /* ComputerModernSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ComputerModernSans.ttf; sourceTree = "<group>"; };
+		C8AEDFA81BCEEFA7000A456B /* CothamSans.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CothamSans.otf; sourceTree = "<group>"; };
+		C8AEDFA91BCEEFA7000A456B /* Grammatika-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Grammatika-Regular.otf"; sourceTree = "<group>"; };
+		C8AEDFAA1BCEEFA7000A456B /* SaniTrixieSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SaniTrixieSans.ttf; sourceTree = "<group>"; };
+		C8AEDFB91BCEEFA7000A456B /* Tuffy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tuffy.otf; sourceTree = "<group>"; };
+		C8AEDFBA1BCEEFA7000A456B /* Whois-Mono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Whois-Mono.ttf"; sourceTree = "<group>"; };
+		C8AEDFBB1BCEEFA7000A456B /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
+		C8AEDFBC1BCEEFA7000A456B /* WorkSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Medium.otf"; sourceTree = "<group>"; };
+		C8AEDFBD1BCEEFA7000A456B /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		C8B93BF11BBAD7B900AB1C07 /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-message-composer/../react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		C8B93C171BBCC06700AB1C07 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		C8CFBF1C1B7BEFE800A4BDD5 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Parse.plist; path = iOS/Parse.plist; sourceTree = "<group>"; };
@@ -465,6 +491,19 @@
 		C8E3AA841B8F955900818930 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				C8AEDFA31BCEEFA6000A456B /* Aileron-Light.otf */,
+				C8AEDFA41BCEEFA6000A456B /* Aileron-Regular.otf */,
+				C8AEDFA51BCEEFA6000A456B /* ClearSans-Light.ttf */,
+				C8AEDFA61BCEEFA7000A456B /* ClearSans-Regular.ttf */,
+				C8AEDFA71BCEEFA7000A456B /* ComputerModernSans.ttf */,
+				C8AEDFA81BCEEFA7000A456B /* CothamSans.otf */,
+				C8AEDFA91BCEEFA7000A456B /* Grammatika-Regular.otf */,
+				C8AEDFAA1BCEEFA7000A456B /* SaniTrixieSans.ttf */,
+				C8AEDFB91BCEEFA7000A456B /* Tuffy.otf */,
+				C8AEDFBA1BCEEFA7000A456B /* Whois-Mono.ttf */,
+				C8AEDFBB1BCEEFA7000A456B /* WorkSans-Light.otf */,
+				C8AEDFBC1BCEEFA7000A456B /* WorkSans-Medium.otf */,
+				C8AEDFBD1BCEEFA7000A456B /* WorkSans-Regular.otf */,
 				C8E3AA851B8F955900818930 /* SourceCodePro-Black.otf */,
 				C8E3AA861B8F955900818930 /* SourceCodePro-BlackIt.otf */,
 				C8E3AA871B8F955900818930 /* SourceCodePro-Bold.otf */,
@@ -494,9 +533,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* ColorChat */ = {
+		13B07F861A680F5B00A75B9A /* ColorMessager */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ColorChat" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ColorMessager" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -506,7 +545,7 @@
 			);
 			dependencies = (
 			);
-			name = ColorChat;
+			name = ColorMessager;
 			productName = "Hello World";
 			productReference = 13B07F961A680F5B00A75B9A /* ColorChat.app */;
 			productType = "com.apple.product-type.application";
@@ -601,7 +640,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* ColorChat */,
+				13B07F861A680F5B00A75B9A /* ColorMessager */,
 			);
 		};
 /* End PBXProject section */
@@ -719,24 +758,37 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8E3AA9C1B8F955A00818930 /* SourceCodePro-Medium.otf in Resources */,
-				C8E3AA9F1B8F955A00818930 /* SourceCodePro-Semibold.otf in Resources */,
 				C8CFBF1D1B7BEFE800A4BDD5 /* Parse.plist in Resources */,
+				C8AEDFBE1BCEEFA7000A456B /* Aileron-Light.otf in Resources */,
+				C8AEDFBF1BCEEFA7000A456B /* Aileron-Regular.otf in Resources */,
+				C8AEDFC01BCEEFA7000A456B /* ClearSans-Light.ttf in Resources */,
+				C8AEDFC11BCEEFA7000A456B /* ClearSans-Regular.ttf in Resources */,
+				C8AEDFC21BCEEFA7000A456B /* ComputerModernSans.ttf in Resources */,
+				C8AEDFC31BCEEFA7000A456B /* CothamSans.otf in Resources */,
+				C8AEDFC41BCEEFA7000A456B /* Grammatika-Regular.otf in Resources */,
+				C8AEDFC51BCEEFA7000A456B /* SaniTrixieSans.ttf in Resources */,
 				C8E3AA931B8F955A00818930 /* SourceCodePro-Black.otf in Resources */,
 				C8E3AA941B8F955A00818930 /* SourceCodePro-BlackIt.otf in Resources */,
-				C8E3AA971B8F955A00818930 /* SourceCodePro-ExtraLight.otf in Resources */,
-				C8E3AA9A1B8F955A00818930 /* SourceCodePro-Light.otf in Resources */,
-				C8E3AA981B8F955A00818930 /* SourceCodePro-ExtraLightIt.otf in Resources */,
-				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				C8E3AA991B8F955A00818930 /* SourceCodePro-It.otf in Resources */,
-				C8E3AAA01B8F955A00818930 /* SourceCodePro-SemiboldIt.otf in Resources */,
 				C8E3AA951B8F955A00818930 /* SourceCodePro-Bold.otf in Resources */,
+				C8E3AA961B8F955A00818930 /* SourceCodePro-BoldIt.otf in Resources */,
+				C8E3AA971B8F955A00818930 /* SourceCodePro-ExtraLight.otf in Resources */,
+				C8E3AA981B8F955A00818930 /* SourceCodePro-ExtraLightIt.otf in Resources */,
+				C8E3AA991B8F955A00818930 /* SourceCodePro-It.otf in Resources */,
+				C8E3AA9A1B8F955A00818930 /* SourceCodePro-Light.otf in Resources */,
+				C8E3AA9B1B8F955A00818930 /* SourceCodePro-LightIt.otf in Resources */,
+				C8E3AA9C1B8F955A00818930 /* SourceCodePro-Medium.otf in Resources */,
 				C8E3AA9D1B8F955A00818930 /* SourceCodePro-MediumIt.otf in Resources */,
 				C8E3AA9E1B8F955A00818930 /* SourceCodePro-Regular.otf in Resources */,
+				C8E3AA9F1B8F955A00818930 /* SourceCodePro-Semibold.otf in Resources */,
+				C8E3AAA01B8F955A00818930 /* SourceCodePro-SemiboldIt.otf in Resources */,
+				C8AEDFC61BCEEFA7000A456B /* Tuffy.otf in Resources */,
+				C8AEDFC71BCEEFA7000A456B /* Whois-Mono.ttf in Resources */,
+				C8AEDFC81BCEEFA7000A456B /* WorkSans-Light.otf in Resources */,
+				C8AEDFC91BCEEFA7000A456B /* WorkSans-Medium.otf in Resources */,
+				C8AEDFCA1BCEEFA7000A456B /* WorkSans-Regular.otf in Resources */,
+				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				C8E3AA9B1B8F955A00818930 /* SourceCodePro-LightIt.otf in Resources */,
-				C8E3AA961B8F955A00818930 /* SourceCodePro-BoldIt.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -907,7 +959,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ColorChat" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ColorMessager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,

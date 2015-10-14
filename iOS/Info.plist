@@ -2,10 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDisplayName</key>
+	<string>ChromaChat</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>WorkSans-Regular.otf</string>
+		<string>WorkSans-Medium.otf</string>
+		<string>WorkSans-Light.otf</string>
+		<string>Whois-Mono.ttf</string>
+		<string>Tuffy.otf</string>
+		<string>SaniTrixieSans.ttf</string>
+		<string>Grammatika-Regular.otf</string>
+		<string>CothamSans.otf</string>
+		<string>ComputerModernSans.ttf</string>
+		<string>ClearSans-Regular.ttf</string>
+		<string>ClearSans-Light.ttf</string>
+		<string>Aileron-Regular.otf</string>
+		<string>Aileron-Light.otf</string>
 		<string>SourceCodePro-Black.otf</string>
 		<string>SourceCodePro-Bold.otf</string>
 		<string>SourceCodePro-ExtraLight.otf</string>

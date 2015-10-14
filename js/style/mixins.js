@@ -1,7 +1,25 @@
 import values from './values';
 
+let fonts = [
+  // 'Aileron-Light',
+  // 'Aileron-Regular',
+  // 'ClearSans',
+  // 'CMU Sans Serif',
+  // 'CothamSans',
+  // 'Grammatika',
+  // 'SaniTrixieSans',
+  // 'Tuffy',
+  // 'WorkSans-Light',
+  'WorkSans-Regular'
+];
+
+let font = fonts[Math.floor(Math.random() * fonts.length)];
+// let font = "CMU Sans Serif";
+console.log('====================');
+console.log('FONT', font);
+
 let textBase = {
-  fontFamily: 'Source Code Pro',
+  fontFamily: font,
   fontSize: 16,
   color: values.midGray
 };

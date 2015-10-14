@@ -2,6 +2,7 @@ import React from 'react-native';
 import Color from 'color';
 import moment from 'moment';
 import Style from '../style';
+import measure from '../measure';
 import EditableMessage from './EditableMessage';
 import BaseText from './BaseText';
 import PressableView from './PressableView';
@@ -15,6 +16,12 @@ let {
 
 const SPRING_TENSION = 150;
 const SPRING_FRICTION = 10;
+
+const EXPANDED_MIN_WIDTH = 320;
+const EXPANDED_MIN_HEIGHT = 320;
+
+const FAILED_MIN_WIDTH = 250;
+const FAILED_MIN_HEIGHT = 100;
 
 let Message = React.createClass({
   getInitialState: function () {
@@ -38,59 +45,44 @@ let Message = React.createClass({
   },
 
   setSize: function (prevProps) {
-    let expandUpdated = !prevProps || (this.props.expanded !== prevProps.expanded);
-    let stateUpdated = !prevProps || (this.props.state !== prevProps.state);
+    let baseSize = {
+      width: this.props.width,
+      height: this.props.height
+    };
 
     if (this.props.state === 'fresh') {
       // * => fresh
-      this.resize({
-        width: this.props.width,
-        height: this.props.height
-      }, {
+      this.resize(baseSize, {
         width: 0,
         height: 0
       }, this.props.onPresent);
     } else if (this.props.state === 'complete') {
       if (this.props.expanded) {
-        // not expanded => expanded
-        let minWidth = 320;
-        let minHeight = 320;
-
+        // unexpanded => expanded
         this.resize({
-          width: Math.max(this.props.width, minWidth),
-          height: Math.max(this.props.height, minHeight)
+          width: Math.max(this.props.width, EXPANDED_MIN_WIDTH),
+          height: Math.max(this.props.height, EXPANDED_MIN_HEIGHT)
         });
       } else {
-        // expanded => not expanded
-        this.resize({
-          width: this.props.width,
-          height: this.props.height
-        });
+        // expanded => unexpanded
+        this.resize(baseSize);
       }
     } else if (this.props.state === 'failed') {
       // * => failed
-      let minWidth = 250;
-      let minHeight = 100;
-
       this.resize({
-        width: Math.max(this.props.width, minWidth),
-        height: Math.max(this.props.height, minHeight)
+        width: Math.max(this.props.width, FAILED_MIN_WIDTH),
+        height: Math.max(this.props.height, FAILED_MIN_HEIGHT)
       });
     } else if (this.props.state === 'composing') {
+      // Just keep up with edits if we're composing
       if (this.props.width !== this.state.width ||
         this.props.height !== this.state.height) {
-        this.setState({
-          width: this.props.width,
-          height: this.props.height
-        });
+        this.setState(baseSize);
         this.state.animatedWidth.setValue(this.props.width);
         this.state.animatedHeight.setValue(this.props.height);
       }
     } else {
-      this.resize({
-        width: this.props.width,
-        height: this.props.height
-      });
+      this.resize(baseSize);
     }
   },
 
@@ -143,6 +135,7 @@ let Message = React.createClass({
   renderMessage: function () {
     return (
       <PressableView
+        ref="message"
         style={this.getMessageStyles()}
         onPress={this.onPress}
       >
@@ -181,11 +174,15 @@ let Message = React.createClass({
     }
   },
 
-  onPress: function () {
+  onPress: async function () {
     if (this.props.state === 'failed' && this.props.onRetrySend) {
       this.props.onRetrySend();
     } else if (this.props.state === 'complete' && this.props.onToggleExpansion) {
-      this.props.onToggleExpansion();
+      let position = await measure(this.refs.message);
+      this.props.onToggleExpansion(position, {
+        width: Math.max(this.props.width, EXPANDED_MIN_WIDTH),
+        height: Math.max(this.props.height, EXPANDED_MIN_HEIGHT)
+      });
     }
   },
 

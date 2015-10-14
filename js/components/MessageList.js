@@ -2,11 +2,13 @@ import React from 'react-native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import Style from '../style';
 import Message from './Message';
+import measure from '../measure';
 
 let {
   View,
   Text,
-  ListView
+  ListView,
+  Dimensions
 } = React;
 
 let compare = (comparisons, a, b) => {
@@ -19,25 +21,25 @@ let compare = (comparisons, a, b) => {
   });
 };
 
+let messageHasChanged = (a, b) => {
+  return compare([
+    o => (o.clientId || o.id),
+    'state',
+    'width',
+    'height',
+    'expanded'
+  ], a, b);
+};
+
+let getMessageData = (dataBlob, sectionId, rowId) => {
+  return dataBlob[sectionId][rowId];
+};
+
 let MessageList = React.createClass({
   getInitialState: function () {
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (a, b) => {
-        return compare([
-          o => (o.clientId || o.id),
-          'state',
-          'width',
-          'height',
-          'expanded'
-        ], a, b);
-      },
-      getRowData: (dataBlob, sectionId, rowId) => {
-        return dataBlob[sectionId][rowId];
-      }
-    });
-
     return {
-      workingData: this.cloneWithMessageData(dataSource)
+      scrollOffset: 0,
+      workingData: this.getDataSource()
     };
   },
 
@@ -45,17 +47,26 @@ let MessageList = React.createClass({
     if (this.props.messages === prevProps.messages) return;
 
     this.setState({
-      workingData: this.cloneWithMessageData(this.state.workingData)
+      workingData: this.getDataSource()
     });
 
+    // Scroll to bottom when a new message is added
     if (this.props.messages.length > prevProps.messages.length) {
       this.refs.list.getScrollResponder().scrollTo(0);
     }
   },
 
-  cloneWithMessageData: function (dataSource) {
+  getDataSource: function () {
     let messages = this.getMessages();
     let messageIds = this.props.messages.map(m => m.clientId || m.id);
+
+    let dataSource =
+      (this.state && this.state.dataSource) ||
+      new ListView.DataSource({
+        rowHasChanged: messageHasChanged,
+        getRowData: getMessageData
+      });
+
     return dataSource.cloneWithRows(messages, messageIds);
   },
 
@@ -70,28 +81,33 @@ let MessageList = React.createClass({
     return (
       <ListView
         ref="list"
-        style={{overflow: 'hidden'}}
+        style={style.list}
         automaticallyAdjustContentInsets={false}
-        renderScrollComponent={ props => {
-          return (
-            <InvertibleScrollView {...props}
-              inverted
-              ref="scrollView"
-              scrollEnabled={!this.props.scrollLocked}
-            />
-          );
-        }}
+        renderScrollComponent={this.renderScrollComponent}
         dataSource={this.state.workingData}
         removeClippedSubviews={true}
         initialListSize={12}
         scrollRenderAheadDistance={12}
         pageSize={3}
-        renderRow={this.renderMessage} />
+        renderRow={this.renderMessage}
+      />
+    );
+  },
+
+  renderScrollComponent: function (props) {
+    return (
+      <InvertibleScrollView {...props}
+        inverted
+        ref="scrollView"
+        onScroll={this.onScroll}
+        scrollEnabled={!this.props.scrollLocked}
+      />
     );
   },
 
   renderMessage: function (messageData, sectionId, rowId) {
-    let fromCurrentUser = this.props.user.id === messageData.senderId ||
+    let fromCurrentUser =
+      this.props.user.id === messageData.senderId ||
       !this.props.senderId;
 
     let bind = fn => fn.bind(this, messageData);
@@ -108,9 +124,30 @@ let MessageList = React.createClass({
     );
   },
 
-  onToggleMessageExpansion: function (message) {
+  onScroll: function (e) {
+    this.setState({
+      scrollOffset: e.nativeEvent.contentOffset.y
+    });
+  },
+
+  onToggleMessageExpansion: async function (message, position, nextSize) {
     if (this.props.onToggleMessageExpansion) {
       this.props.onToggleMessageExpansion(message)
+    }
+
+    // Return if the message is closing
+    if (message.expanded) return;
+
+    /**
+     * Note that top and bottom are flipped here
+     * as we're using an InvertibleScrollView
+     */
+    let { height, width } = Dimensions.get('window');
+    let nextTop = position.top + position.height - nextSize.height;
+    let nextOffset = nextTop - Style.values.rowHeight;
+
+    if (nextOffset < 0) {
+      this.refs.list.getScrollResponder().scrollTo(this.state.scrollOffset - nextOffset);
     }
   },
 
@@ -131,6 +168,9 @@ let style = Style.create({
   container: {
     flex: 1,
     backgroundColor: 'fuchsia'
+  },
+  list: {
+    overflow: 'hidden'
   }
 });
 

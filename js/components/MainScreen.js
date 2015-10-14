@@ -1,7 +1,7 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
 import ContactsScreen from './ContactsScreen';
-import MessagesScreen from './MessagesScreen';
+import InboxScreen from './InboxScreen';
 import Style from '../style';
 import TabBar from './TabBar';
 import { setMainTab } from '../actions/AppActions';
@@ -21,7 +21,7 @@ let tabBarItems = [{
 }, {
   id: 1,
   title: 'Inbox',
-  component: MessagesScreen
+  component: InboxScreen
 }];
 
 let MainScreen = React.createClass({

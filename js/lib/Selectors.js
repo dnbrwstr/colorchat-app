@@ -40,7 +40,7 @@ export let conversationScreenSelector = createSelector([
   }
 );
 
-export let messagesScreenSelector = (state, ownProps) => {
+export let inboxScreenSelector = (state, ownProps) => {
   let conversations = [];
   state.conversations.forEach(c => {
     let contact = find(propEq('id', c.recipientId), state.contacts);

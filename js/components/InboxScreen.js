@@ -1,6 +1,6 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
-import { messagesScreenSelector } from '../lib/Selectors';
+import { inboxScreenSelector } from '../lib/Selectors';
 import { navigateToConversation } from '../actions/NavigationActions';
 import { deleteConversation } from '../actions/ConversationActions';
 import { setMainTab } from '../actions/AppActions';
@@ -16,7 +16,7 @@ let {
 
 const BR = "\n";
 
-let MessagesScreen = React.createClass({
+let InboxScreen = React.createClass({
   render: function () {
     return (
       <View style={style.container}>
@@ -97,4 +97,4 @@ let style = Style.create({
   }
 });
 
-export default connect(messagesScreenSelector)(MessagesScreen);
+export default connect(inboxScreenSelector)(InboxScreen);

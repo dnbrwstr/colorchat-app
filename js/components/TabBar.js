@@ -7,7 +7,8 @@ import { SlideFromLeft, SlideFromRight} from '../lib/SceneConfigs';
 let {
   Navigator,
   View,
-  Text
+  Text,
+  PixelRatio
 } = React;
 
 export default TabBar = React.createClass({
@@ -133,8 +134,8 @@ let style = Style.create({
   navBar: {
     flex: 0,
     height: Style.values.rowHeight,
-    borderTopWidth: 1,
-    borderTopColor: '#EFEFEF',
+    borderTopWidth: 1 / PixelRatio.get(),
+    borderTopColor: '#DFDFDF',
     backgroundColor: 'white',
     flexDirection: 'row',
   },

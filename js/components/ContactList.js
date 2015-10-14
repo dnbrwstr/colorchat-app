@@ -7,7 +7,8 @@ import BaseText from './BaseText';
 let {
   View,
   ListView,
-  Text
+  Text,
+  PixelRatio
 } = React;
 
 export default ContactList = React.createClass({
@@ -74,8 +75,8 @@ let { midGray } = Style.values;
 let style = Style.create({
   contact: {
     backgroundColor: 'white',
-    borderBottomColor: '#EFEFEF',
-    borderBottomWidth: 1,
+    borderBottomColor: '#DFDFDF',
+    borderBottomWidth: 1 / PixelRatio.get(),
     height: Style.values.rowHeight,
     paddingHorizontal: Style.values.horizontalPadding,
     flex: 1,

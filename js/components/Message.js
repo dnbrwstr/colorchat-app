@@ -89,6 +89,7 @@ let Message = React.createClass({
   resize: function (toSize, fromSize={}, cb) {
     if ((!toSize.width || toSize.width === this.state.width) &&
        (!toSize.height || toSize.height === this.state.height)) {
+      cb && cb();
       return;
     }
 

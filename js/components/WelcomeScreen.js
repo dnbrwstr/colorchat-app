@@ -3,6 +3,7 @@ import { connect } from 'react-redux/native';
 import Style from '../style';
 import PressableView from './PressableView';
 import { navigateTo } from '../actions/NavigationActions';
+import { appName } from '../config';
 
 let {
   View,
@@ -16,9 +17,9 @@ let WelcomeScreen = React.createClass({
         <View style={style.content}>
           <Text style={style.text}>
             <Text>Hi{"\n\n"}</Text>
-            <Text>Welcome to ColorChat beta{"\n\n"}</Text>
-            <Text>ColorChat allows you to send blocks of color to your friends{"\n\n"}</Text>
-            <Text>ColorChat authenticates you using your phone number and allows you to chat with contacts who also have the app installed{"\n\n"}</Text>
+            <Text>Welcome to {appName} beta{"\n\n"}</Text>
+            <Text>{appName} allows you to send blocks of color to your friends{"\n\n"}</Text>
+            <Text>{appName} authenticates you using your phone number and allows you to chat with contacts who also have the app installed{"\n\n"}</Text>
             <Text>Please let me know if you have any questions or suggestions, either by email or on Github{"\n\n"}</Text>
             <Text>Enjoy :)</Text>
           </Text>

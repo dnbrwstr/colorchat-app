@@ -1,7 +1,7 @@
 import { RNMessageComposer as Composer, SettingsApp } from 'NativeModules';
 import AddressBook from 'react-native-addressbook';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
-import { serverRoot } from '../config';
+import { serverRoot, inviteLink } from '../config';
 import send from '../lib/send';
 
 /**
@@ -59,8 +59,7 @@ let onPermissionDenied = dispatch => {
 export let sendInvite = contact => (dispatch, getState) => {
   // Get invite link from server
   // fetch...
-  let link = 'https://invite';
-  let message = 'Join me on Color Chat ' + link;
+  let message = 'Join me on Color Chat ' + inviteLink;
 
   Composer.composeMessageWithArgs({
     recipients: [contact.phoneNumbers[0].number],

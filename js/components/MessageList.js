@@ -108,7 +108,7 @@ let MessageList = React.createClass({
   renderMessage: function (messageData, sectionId, rowId) {
     let fromCurrentUser =
       this.props.user.id === messageData.senderId ||
-      !this.props.senderId;
+      !messageData.senderId;
 
     let bind = fn => fn.bind(this, messageData);
 

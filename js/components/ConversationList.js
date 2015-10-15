@@ -59,7 +59,7 @@ export default ConversationList = React.createClass({
 
   renderConversation: function (conversation) {
     let { contact, lastMessage } = conversation;
-    let color = lastMessage ? lastMessage.color : 'white';
+    let color = lastMessage ? lastMessage.color : '#EFEFEF';
     let isLight = Color(color).luminosity() > .5;
 
     let textColor = isLight ?

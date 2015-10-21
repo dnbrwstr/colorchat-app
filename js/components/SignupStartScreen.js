@@ -27,7 +27,6 @@ let {
 } = SignupActions;
 
 let SignupStartScreen = React.createClass({
-
   render: function() {
     let { dispatch, error } = this.props;
 
@@ -138,8 +137,7 @@ let style = Style.create({
   },
   countryInput: {
     ...grayBottomBorder,
-    height: 44,
-    paddingTop: 10,
+    height: inputBase.height - 2,
     paddingTop: 0,
     flexDirection: 'row',
     justifyContent: 'center',

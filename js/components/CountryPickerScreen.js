@@ -8,19 +8,20 @@ import { updateData } from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
 import Style from '../style';
 
+let {
+  ListView,
+  View,
+  Text,
+  ScrollView,
+  PixelRatio
+} = React;
+
 let groupedCountries = countries.reduce((memo, country) => {
   let letter = country.label[0].toUpperCase();
   if (!memo[letter]) memo[letter] = [];
   memo[letter].push(country);
   return memo;
 }, {});
-
-let {
-  ListView,
-  View,
-  Text,
-  ScrollView
-} = React;
 
 let CountryPickerScreen = React.createClass({
   getInitialState: function () {
@@ -115,11 +116,11 @@ var style = Style.create({
     backgroundColor: Style.values.midGray
   },
   countryHeader: {
+    paddingHorizontal: 24,
   },
   countryHeaderInner: {
-    paddingHorizontal: 24,
     paddingVertical: 3,
-    borderBottomWidth: 1,
+    borderBottomWidth: 1 / PixelRatio.get(),
     borderBottomColor: Style.values.midGray
   },
   country: {

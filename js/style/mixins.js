@@ -31,7 +31,8 @@ let grayBottomBorder = {
 
 let inputBase = {
   ...textBase,
-  height: 44,
+  height: 42,
+  lineHeight: 1,
   paddingTop: 10,
 };
 
@@ -39,7 +40,6 @@ let outerWrapperBase = {
   flex: 1,
   justifyContent: 'flex-start',
   alignItems: 'stretch',
-  backgroundColor: '#EFEFEF'
 };
 
 let contentWrapperBase = {
@@ -50,12 +50,23 @@ let contentWrapperBase = {
   padding: values.outerPadding
 };
 
+let shadowBase = {
+  shadowColor: 'black',
+  shadowOffset: {
+    width: 0,
+    height: 0
+  },
+  shadowOpacity: .1,
+  shadowRadius: 3
+};
+
 let mixins = {
   textBase,
   grayBottomBorder,
   inputBase,
   outerWrapperBase,
-  contentWrapperBase
+  contentWrapperBase,
+  shadowBase
 };
 
 module.exports = mixins;

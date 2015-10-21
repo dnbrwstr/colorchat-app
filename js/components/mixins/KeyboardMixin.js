@@ -1,33 +1,73 @@
-import { Animated, Easing, DeviceEventEmitter } from 'react-native';
+import { Animated, Easing, DeviceEventEmitter, Dimensions } from 'react-native';
 
 let KeyboardMixin = {
   getInitialState: function () {
     return {
       keyboardHeight: 0,
-      animatedKeyboardHeight: new Animated.Value(0)
+      keyboardIsAnimating: false,
+      animatedKeyboardHeight: new Animated.Value(0),
+      animatedKeyboardEmptySpace: new Animated.Value(Dimensions.get('window').height),
+      keyboardShowListener: null,
+      keyboardHideListener: null
     }
   },
 
   componentDidMount: function () {
     var showListener = DeviceEventEmitter.addListener('keyboardWillShow', (frames) => {
-      Animated.timing(this.state.animatedKeyboardHeight, {
-        toValue: -frames.endCoordinates.height,
-        duration: 175,
-        easing: Easing.out(Easing.ease)
-      }).start();
+      if (this.keyboardMixinHandleKeyboardWillShow) this.keyboardMixinHandleKeyboardWillShow(frames);
+
+      this.animate({
+        toValue: frames.endCoordinates.height,
+        duration: frames.duration,
+        easing: Easing.inOut(Easing.ease)
+      }, frames.duration);
     });
 
     var hideListener = DeviceEventEmitter.addListener('keyboardWillHide', frames => {
-      Animated.timing(this.state.animatedKeyboardHeight, {
+      if (this.keyboardMixinHandleKeyboardWillHide) this.keyboardMixinHandleKeyboardWillHide(frames);
+
+      this.animate({
         toValue: 0,
         duration: 200
-      }).start();
+      }, frames.duration);
     });
 
     this.setState({
       keyboardShowListener: showListener,
       keyboardHideListener: hideListener
     });
+  },
+
+  animate: function (options, nativeDuration) {
+    let {
+      toValue,
+      duration,
+      easing
+    } = options;
+
+    this.setState({
+      keyboardIsAnimating: true
+    });
+
+    Animated.parallel([
+      Animated.timing(this.state.animatedKeyboardEmptySpace, {
+        toValue: Dimensions.get('window').height - toValue,
+        duration,
+        easing
+      }),
+      Animated.timing(this.state.animatedKeyboardHeight, {
+        toValue,
+        duration,
+        easing
+      })
+    ]).start();
+
+    setTimeout(() => {
+      this.setState({
+        keyboardIsAnimating: false,
+        keyboardHeight: -toValue
+      });
+    }, nativeDuration);
   },
 
   componentWillUnmount: function () {

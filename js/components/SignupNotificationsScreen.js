@@ -27,7 +27,7 @@ let SignupNotificationScreen = React.createClass({
 
     return (
       <SignupScreen
-        title={'Notifications'}
+        title={'Set display name'}
         renderNextButton={this.renderNextButton}
       >
         <View style={style.inputWrapper}>

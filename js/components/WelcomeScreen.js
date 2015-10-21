@@ -2,6 +2,7 @@ import React from 'react-native';
 import { connect } from 'react-redux/native';
 import Style from '../style';
 import PressableView from './PressableView';
+import LoaderButton from './LoaderButton';
 import { navigateTo } from '../actions/NavigationActions';
 import { appName } from '../config';
 
@@ -25,15 +26,12 @@ let WelcomeScreen = React.createClass({
           </Text>
         </View>
 
-        <View style={style.startButtonWrapper}>
-          <PressableView
-            style={style.startButton}
-            activeStyle={style.startButtonActive}
-            onPress={this.onPressNext}
-          >
-            <Text style={style.startButtonText}>Start</Text>
-          </PressableView>
-        </View>
+        <LoaderButton
+          style={style.submit}
+          loading={false}
+          onPress={this.onPressNext}
+          message="Get started"
+        />
       </View>
     )
   },
@@ -46,36 +44,31 @@ let WelcomeScreen = React.createClass({
 let style = Style.create({
   wrapper: {
     ...Style.mixins.outerWrapperBase,
+    flex: 1
   },
   content: {
-    ...Style.mixins.contentWrapperBase
+    ...Style.mixins.contentWrapperBase,
+    paddingRight: Style.values.outerPadding - 4
   },
   text: {
     ...Style.mixins.textBase
   },
   startButtonWrapper: {
-    position: 'absolute',
-    bottom: 30,
-    right: 0,
-    left: 0,
-    flex: 1,
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center'
   },
   startButton: {
-    backgroundColor: '#333',
-    width: Style.values.rowHeight,
+    borderTopColor: '#BABABA',
+    borderTopWidth: 1,
     height: Style.values.rowHeight,
-    borderRadius: Style.values.rowHeight / 2,
     alignItems: 'center',
     justifyContent: 'center'
   },
   startButtonActive: {
-    backgroundColor: '#222'
+    backgroundColor: '#EFEFEF'
   },
   startButtonText: {
-    ...Style.mixins.textBase,
-    color: '#CCC'
+    ...Style.mixins.textBase
   }
 });
 

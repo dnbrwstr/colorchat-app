@@ -7,7 +7,8 @@ import AnimatedEllipsis from './AnimatedEllipsis';
 let {
   View,
   Text,
-  Animated
+  Animated,
+  PixelRatio
 } = React;
 
 let LoaderButton = React.createClass({
@@ -39,8 +40,8 @@ let LoaderButton = React.createClass({
         { this.props.loading &&
           <View style={style.ellipsisContainer}>
             <AnimatedEllipsis />
-          </View>
-        }
+          </View>  }
+
         <PressableView
           style={[style.button, {opacity: this.state.buttonOpacity}]}
           activeStyle={style.buttonActive}
@@ -53,32 +54,32 @@ let LoaderButton = React.createClass({
   }
 });
 
-module.exports = LoaderButton;
-
-let buttonHeight = 50;
-
 let style = Style.create({
   button: {
     flex: 0,
-    height: Style.values.rowHeight,
     justifyContent: 'center',
-    backgroundColor: Style.values.midGray,
-    padding: Style.values.basePadding * 1.5
+    height: Style.values.rowHeight,
+    margin: Style.values.outerPadding,
+    padding: Style.values.basePadding * 1.5,
+    borderColor: Style.values.midGray,
+    borderWidth: 1 / PixelRatio.get(),
   },
   buttonActive: {
-    backgroundColor: darken(Style.values.midGray, .1).hexString()
+    backgroundColor: '#EFEFEF'
   },
   ellipsisContainer: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: buttonHeight
+    top: Style.values.outerPadding,
+    left: Style.values.outerPadding,
+    right: Style.values.outerPadding,
+    bottom: Style.values.outerPadding,
+    height: Style.values.rowHeight,
+    padding: Style.values.basePadding * 1.5
   },
   text: {
     mixins: [Style.mixins.textBase],
-    color: 'white',
     textAlign: 'center'
   }
 });
+
+export default LoaderButton;

@@ -4,6 +4,7 @@ import { merge } from 'ramda';
 import { createSelector } from 'reselect';
 import Style from '../style';
 import Header from './Header';
+import StickyView from './StickyView';
 import PressableView from './PressableView';
 import MessageList from './MessageList';
 import ComposeBar from './ComposeBar';
@@ -29,6 +30,12 @@ let {
 } = MessageActions;
 
 let ConversationScreen = React.createClass({
+  getInitialState: function () {
+    return {
+      messageListScrollOffset: null
+    };
+  },
+
   render: function () {
     let { contact, dispatch } = this.props;
 
@@ -37,18 +44,12 @@ let ConversationScreen = React.createClass({
 
     return (
       <View style={style.container}>
-        <Header
-          title={name}
-          showBack={true}
-          backgroundColor={Style.values.darkGray}
-          highlightColor={Style.values.darkGrayHighlight}
-          onBack={() => dispatch(navigateTo('main'))}
-        />
         <MessageList
-          scrollLocked={this.props.composing}
+          onScroll={this.handleMessageListScroll}
           onPresentMessage={this.onPresentMessage}
           onRetryMessageSend={this.onRetryMessageSend}
           onToggleMessageExpansion={this.onToggleMessageExpansion}
+          scrollLocked={this.props.composing}
           messages={this.props.messages}
           user={this.props.user}
         />
@@ -62,8 +63,27 @@ let ConversationScreen = React.createClass({
           onPress={this.onStartComposing}
           visible={!this.props.composing && !this.props.sending}
         />
+        <StickyView
+          autoHide={true}
+          scrollViewOffset={this.state.messageListScrollOffset}
+        >
+          <Header
+            title={name}
+            showBack={true}
+            color="white"
+            backgroundColor={'rgba(0,0,0,.8)'}
+            highlightColor={Style.values.darkGrayHighlight}
+            onBack={() => dispatch(navigateTo('main'))}
+          />
+        </StickyView>
       </View>
     );
+  },
+
+  handleMessageListScroll: function (e) {
+    this.setState({
+      messageListScrollOffset: e.nativeEvent.contentOffset
+    });
   },
 
   onSendMessage: function (message) {

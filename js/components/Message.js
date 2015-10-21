@@ -26,7 +26,7 @@ const FAILED_MIN_HEIGHT = 100;
 let Message = React.createClass({
   getInitialState: function () {
     let defaultWidth = this.props.width;
-    let defaultHeight = this.props.height;
+    let defaultHeight = this.props.state === 'fresh' ? 0 : this.props.height;
 
     return {
       width: defaultWidth,
@@ -87,8 +87,8 @@ let Message = React.createClass({
   },
 
   resize: function (toSize, fromSize={}, cb) {
-    if ((!toSize.width || toSize.width === this.state.width) &&
-       (!toSize.height || toSize.height === this.state.height)) {
+    if ((typeof toSize.width === 'undefined' || toSize.width === this.state.width) &&
+       (typeof toSize.height === 'undefined' || toSize.height === this.state.height)) {
       cb && cb();
       return;
     }
@@ -120,7 +120,6 @@ let Message = React.createClass({
     }
 
     this.setState(toSize);
-
     Animated.parallel(animations).start(cb);
   },
 

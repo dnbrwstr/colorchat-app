@@ -26,6 +26,12 @@ export let cancelComposingMessage = () => {
   };
 };
 
+export let destroyWorkingMessage = () => {
+  return {
+    type: 'destroyWorkingMessage'
+  };
+};
+
 export let updateWorkingMessage = messageData => (dispatch, getState) => {
   let data = merge(messageData, {
     senderId: getState().user.id,

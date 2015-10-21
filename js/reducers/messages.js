@@ -54,8 +54,18 @@ let addOrReplaceExisting = (message, collection) => {
   return val;
 };
 
-let findWorkingMessageIndex = state =>
-  findIndex((m)=> m.state === 'composing', state);
+let findWorkingMessageIndex = collection =>
+  findIndex((m)=> m.state === 'composing', collection);
+
+let updateWorkingMessage = (data, collection) => {
+  let index = findWorkingMessageIndex(collection);
+
+  if (index === -1) {
+    return collection;
+  } else {
+    return updateAtIndex(index, data, collection);
+  }
+};
 
 let handlers = {
   init: function (state, action) {
@@ -96,18 +106,16 @@ let handlers = {
   },
 
   cancelComposingMessage: function (state, action) {
+    return updateWorkingMessage({ state: 'cancelling' }, state);
+  },
+
+  destroyWorkingMessage: function (state, action) {
     state = state.filter(m => m.state !== 'composing');
     return state;
   },
 
   updateWorkingMessage: function (state, action) {
-    let index = findWorkingMessageIndex(state);
-
-    if (index === -1) {
-      return state;
-    } else {
-      return updateAtIndex(index, action.messageData, state);
-    }
+    return updateWorkingMessage(action.messageData, state);
   },
 
   sendWorkingMessage: function (state, action) {

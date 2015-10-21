@@ -81,14 +81,20 @@ let Message = React.createClass({
         this.state.animatedWidth.setValue(this.props.width);
         this.state.animatedHeight.setValue(this.props.height);
       }
+    } else if (this.props.state === 'cancelling') {
+      this.resize({
+        height: 0
+      });
     } else {
       this.resize(baseSize);
     }
   },
 
   resize: function (toSize, fromSize={}, cb) {
-    if ((typeof toSize.width === 'undefined' || toSize.width === this.state.width) &&
-       (typeof toSize.height === 'undefined' || toSize.height === this.state.height)) {
+    let shouldSizeWidth = typeof toSize.width !== 'undefined' && toSize.width !== this.state.width;
+    let shouldSizeHeight = typeof toSize.height !== 'undefined' && toSize.height !== this.state.height;
+
+    if (!shouldSizeWidth && !shouldSizeHeight) {
       cb && cb();
       return;
     }
@@ -102,18 +108,21 @@ let Message = React.createClass({
     let animations = [];
     let baseOpts = {
       tension: SPRING_TENSION,
-      friction: SPRING_FRICTION
+      friction: SPRING_FRICTION,
+      duration: 200
     };
 
-    if (toSize.width) {
-      animations.push(Animated.spring(width, {
+    if (shouldSizeWidth) {
+      let fn = toSize.width > 20 ? 'spring' : 'timing';
+      animations.push(Animated[fn](width, {
         ...baseOpts,
         toValue: toSize.width
       }));
     }
 
-    if (toSize.height) {
-      animations.push(Animated.spring(height, {
+    if (shouldSizeHeight) {
+      let fn = toSize.height > 20 ? 'spring' : 'timing';
+      animations.push(Animated[fn](height, {
         ...baseOpts,
         toValue: toSize.height
       }));

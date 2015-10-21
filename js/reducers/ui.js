@@ -24,7 +24,9 @@ let initialState = {
   },
   inbox: {},
   conversation: {
+    sending: false,
     composing: false,
+    cancelling: false,
     loading: false,
     colorPicker: 'simple'
   }
@@ -101,7 +103,10 @@ let handlers = {
   },
 
   cancelComposingMessage: function (state, action) {
-    return assocPath(['conversation', 'composing'], false, state);
+    return assoc('conversation', merge(state.conversation, {
+      composing: false,
+      cancelling: true
+    }), state);
   },
 
   presentInternalAlert: function (state, action) {

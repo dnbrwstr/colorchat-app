@@ -27,6 +27,7 @@ let {
   markMessageStale,
   startComposingMessage,
   cancelComposingMessage,
+  destroyWorkingMessage,
   toggleMessageExpansion
 } = MessageActions;
 
@@ -74,7 +75,7 @@ let ConversationScreen = React.createClass({
         />
         <NewMessageButton
           onPress={this.onStartComposing}
-          visible={!this.props.composing && !this.props.sending}
+          visible={!this.props.composing && !this.props.sending && !this.props.cancelling}
         />
         <StickyView
           autoHide={this.shouldHideHeader()}
@@ -132,6 +133,20 @@ let ConversationScreen = React.createClass({
 
   onStopComposing: function () {
     this.props.dispatch(cancelComposingMessage());
+
+    setTimeout(() => {
+      InteractionManager.runAfterInteractions(() => {
+        this.props.dispatch(destroyWorkingMessage());
+
+        setTimeout(() => {
+          InteractionManager.runAfterInteractions(() => {
+            this.props.dispatch(updateConversationUi({
+              cancelling: false
+            }));
+          })
+        }, 0)
+      });
+    }, 0);
   },
 
   onSelectPicker: function (value) {

@@ -4,7 +4,8 @@ import Style from '../style';
 import measure from '../measure';
 
 let {
-  Animated
+  Animated,
+  Dimensions
 } = React;
 
 const HIDE_ANIMATION_DURATION = 200;
@@ -13,6 +14,10 @@ let StickyView = React.createClass({
   propTypes: {
     autoHide: React.PropTypes.boolean,
     autoHideDelay: React.PropTypes.number,
+    scrollViewContentSize: React.PropTypes.shape({
+      width: React.PropTypes.number,
+      height: React.PropTypes.number
+    }),
     scrollViewOffset: React.PropTypes.shape({
       x: React.PropTypes.number,
       y: React.PropTypes.number
@@ -49,6 +54,10 @@ let StickyView = React.createClass({
     }
   },
 
+  componentWillUnmount: function () {
+    clearTimeout(this.state.hideTimeout);
+  },
+
   hideAfterDelay: function () {
     if (this.state.hideTimeout) clearTimeout(this.state.hideTimeout);
 
@@ -67,7 +76,10 @@ let StickyView = React.createClass({
   },
 
   handleScroll: function (scrollViewOffset) {
+    let wH = Dimensions.get('window').height;
     let deltaY = this.props.scrollViewOffset.y - scrollViewOffset.y;
+
+    if (this.props.scrollViewContentSize.height < scrollViewOffset.y + wH && deltaY > 0) deltaY = 0;
     let newOffset = this.state.offset - deltaY;
 
     if (newOffset > 0) newOffset = 0;

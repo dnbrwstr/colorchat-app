@@ -17,7 +17,8 @@ import { updateConversationUi } from '../actions/AppActions';
 let {
   View,
   Text,
-  InteractionManager
+  InteractionManager,
+  Dimensions
 } = React;
 
 let {
@@ -32,8 +33,20 @@ let {
 let ConversationScreen = React.createClass({
   getInitialState: function () {
     return {
-      messageListScrollOffset: null
+      messageListScrollOffset: null,
+      messageListContentSize: null
     };
+  },
+
+  shouldHideHeader: function () {
+    let wH = Dimensions.get('window').height;
+    let messages = this.props.messages;
+
+    for (var h = 0, i = 0; h < wH + 100 && i < messages.length; ++i) {
+      h += messages[i].height;
+    }
+
+    return  h >= wH + 100;
   },
 
   render: function () {
@@ -64,7 +77,8 @@ let ConversationScreen = React.createClass({
           visible={!this.props.composing && !this.props.sending}
         />
         <StickyView
-          autoHide={true}
+          autoHide={this.shouldHideHeader()}
+          scrollViewContentSize={this.state.messageListContentSize}
           scrollViewOffset={this.state.messageListScrollOffset}
         >
           <Header
@@ -82,7 +96,8 @@ let ConversationScreen = React.createClass({
 
   handleMessageListScroll: function (e) {
     this.setState({
-      messageListScrollOffset: e.nativeEvent.contentOffset
+      messageListScrollOffset: e.nativeEvent.contentOffset,
+      messageListContentSize: e.nativeEvent.contentSize
     });
   },
 

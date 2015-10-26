@@ -1,12 +1,17 @@
 import io from 'socket.io-client/socket.io';
 import React from 'react-native';
+import { difference } from 'ramda';
 import { serverRoot } from '../config';
 import createService from '../lib/createService';
 import { socketServiceSelector } from './Selectors';
 import { receiveMessages, sendEnqueuedMessages } from '../actions/MessageActions';
+import { receiveComposeEvent } from '../actions/ConversationActions';
 
 let client, store, token;
 let active = false;
+
+const MESSAGE_EVENT = 'messagedata';
+const COMPOSE_EVENT = 'composeevent';
 
 let { InteractionManager } = React;
 
@@ -30,6 +35,10 @@ let socketServiceBase = {
   },
 
   onDidUpdate: function (prevProps) {
+    if (prevProps.composingMessages !== this.props.composingMessages) {
+      this.onDidUpdateComposingMessages(prevProps.composingMessages);
+    }
+
     if (prevProps.token === this.props.token) {
       return this.sendEnqueuedMessages();
     };
@@ -49,6 +58,14 @@ let socketServiceBase = {
     }
   },
 
+  onDidUpdateComposingMessages: function (prevMessages=[]) {
+    let messages = this.props.composingMessages;
+    let started = difference(messages, prevMessages);
+    let stopped = difference(prevMessages, messages);
+    started.forEach(this.sendComposeStartNotification);
+    stopped.forEach(this.sendComposeEndNotification);
+  },
+
   createClient: function () {
     let client = io(serverRoot, getSocketOptions(this.props.token));
 
@@ -57,9 +74,13 @@ let socketServiceBase = {
       this.sendEnqueuedMessages();
     });
 
-    client.on('messagedata', (data, cb) => {
+    client.on(MESSAGE_EVENT, (data, cb) => {
       this.props.dispatch(receiveMessages(data));
       if (cb) cb();
+    });
+
+    client.on(COMPOSE_EVENT, (data, cb) => {
+      this.props.dispatch(receiveComposeEvent(data));
     });
 
     client.on('connect_error', e => {
@@ -83,21 +104,22 @@ let socketServiceBase = {
   },
 
   sendEnqueuedMessages: function () {
-    let hasMessages = !!this.props.messages.length;
+    let messages = this.props.enqueuedMessages;
+    let hasMessages = !!messages.length;
 
     if (this.active && hasMessages) {
-      this.send(this.props.messages);
+      this.sendMessage(messages);
     } else if (!this.active && hasMessages) {
       this.props.dispatch({
         type: 'sendMessages',
         state: 'failed',
-        messages: this.props.messages,
+        messages: messages,
         error: 'Unable to connect to server'
-      })
+      });
     }
   },
 
-  send: function (data) {
+  sendMessage: function (data) {
     let { dispatch } = this.props;
     let messageData;
     // Dispatch happens synchronously, so if we're sending
@@ -124,7 +146,7 @@ let socketServiceBase = {
       });
     }, 6000);
 
-    this.client.emit('messagedata', messageData, (sentMessages) => {
+    this.client.emit(MESSAGE_EVENT, messageData, (sentMessages) => {
       clearTimeout(messageTimeout);
 
       InteractionManager.runAfterInteractions(() => {
@@ -136,6 +158,22 @@ let socketServiceBase = {
           messages: sentMessages
         });
       });
+    });
+  },
+
+  sendComposeStartNotification: function (message) {
+    this.sendComposeNotification(message.recipientId, true);
+  },
+
+  sendComposeEndNotification: function (message) {
+    this.sendComposeNotification(message.recipientId, false);
+  },
+
+  sendComposeNotification: function (recipientId, composing) {
+    console.log('notify compose', recipientId, composing);
+    this.client.emit(COMPOSE_EVENT, {
+      recipientId,
+      composing
     });
   }
 };

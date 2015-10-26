@@ -57,9 +57,12 @@ export let inboxScreenSelector = (state, ownProps) => {
 };
 
 export let socketServiceSelector = state => {
-  let messages = filter(propEq('state', 'enqueued'), state.messages);
+  let enqueuedMessages = filter(propEq('state', 'enqueued'), state.messages);
+  let composingMessages = filter(propEq('state', 'composing'), state.messages);
+
   return {
-    messages: messages,
+    enqueuedMessages,
+    composingMessages,
     token: state.user.token
   }
 };

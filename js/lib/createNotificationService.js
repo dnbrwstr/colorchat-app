@@ -7,22 +7,20 @@ let {
   PushNotificationIOS
 } = React;
 
-let notificationServiceSelector = state => {
-  return {
-    requestPermissions: state.notifications.requestPermissions,
-    currentRoute: state.navigation.route
-  };
-};
-
 let notificationServiceBase = {
   onDidInitialize: function () {
     PushNotificationIOS.addEventListener('register', this.onRegister);
     PushNotificationIOS.addEventListener('notification', this.onReceiveNotification);
+    PushNotificationIOS.setApplicationIconBadgeNumber(this.props.unreadCount);
   },
 
   onDidUpdate: function (prevProps) {
     if (!prevProps.requestPermissions && this.props.requestPermissions) {
       PushNotificationIOS.requestPermissions();
+    }
+
+    if (prevProps.unreadCount !== this.props.unreadCount) {
+      PushNotificationIOS.setApplicationIconBadgeNumber(this.props.unreadCount);
     }
   },
 
@@ -47,8 +45,16 @@ let notificationServiceBase = {
       senderId
     }));
   }
-}
+};
+
+let notificationServiceSelector = state => {
+  return {
+    requestPermissions: state.notifications.requestPermissions,
+    currentRoute: state.navigation.route,
+    unreadCount: state.messages.filter(m => m.state === 'fresh').length
+  };
+};
 
 export default createSocketService = store => {
   return createService(store)(notificationServiceBase, notificationServiceSelector);
-}
+};

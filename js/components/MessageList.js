@@ -43,6 +43,13 @@ let MessageList = React.createClass({
     };
   },
 
+  shouldComponentUpdate: function (nextProps, nextState) {
+    return this.props.messages !== nextProps.messages ||
+      this.props.scrollLocked !== nextProps.scrollLocked ||
+      this.props.user.id !== nextProps.user.id ||
+      this.state.workingData !== nextState.workingData;
+  },
+
   componentDidUpdate: function (prevProps, prevState) {
     if (this.props.messages === prevProps.messages) return;
 
@@ -125,6 +132,10 @@ let MessageList = React.createClass({
   },
 
   handleScroll: function (e) {
+    this.setState({
+      scrollOffset: e.nativeEvent.contentOffset.y
+    });
+
     if (this.props.scrollBridge) this.props.scrollBridge.handleScroll(e);
   },
 

@@ -3,6 +3,7 @@ import Header from './Header';
 import Style from '../style';
 import ScrollBridge from '../lib/ScrollBridge';
 import measure from '../measure';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   Animated,
@@ -12,6 +13,8 @@ let {
 const HIDE_ANIMATION_DURATION = 200;
 
 let StickyView = React.createClass({
+  mixins: [TimerMixin],
+
   propTypes: {
     autoHide: React.PropTypes.boolean,
     autoHideDelay: React.PropTypes.number,
@@ -36,21 +39,15 @@ let StickyView = React.createClass({
   },
 
   componentDidMount: function () {
-    if (this.props.autoHide) this.hideAfterDelay();
+    if (this.props.autoHide) {
+      this.setDelayTimer('hide', this.hide, this.props.autoHideDelay);
+    }
     this.props.scrollBridge.addScrollListener(this.handleScroll)
   },
 
   componentWillUnmount: function () {
-    clearTimeout(this.state.hideTimeout);
+    this.clearAllTimers();
     this.props.scrollBridge.removeScrollListener(this.handleScroll);
-  },
-
-  hideAfterDelay: function () {
-    if (this.state.hideTimeout) clearTimeout(this.state.hideTimeout);
-
-    this.setState({
-      hideTimeout: setTimeout(this.hide, this.props.autoHideDelay)
-    });
   },
 
   hide: function () {

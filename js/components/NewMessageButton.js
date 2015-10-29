@@ -1,6 +1,7 @@
 import React from 'react-native';
 import Style from '../style';
 import PressableView from './PressableView';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   View,
@@ -11,6 +12,8 @@ let {
 const BUTTON_SIZE = 50;
 
 let NewMessageButton = React.createClass({
+  mixins: [TimerMixin],
+
   getInitialState: function () {
     let initialOpacity = this.props.visible ? 1 : 0;
 
@@ -41,6 +44,10 @@ let NewMessageButton = React.createClass({
         duration: 200
       }).start();
     }
+  },
+
+  componentWillUnmount: function () {
+    this.clearAllTimers();
   },
 
   render: function () {
@@ -88,7 +95,7 @@ let NewMessageButton = React.createClass({
 
     animation.start();
 
-    setTimeout(() => {
+    this.setDelayTimer('hide', () => {
       animation.stop();
       if (this.props.onPress) this.props.onPress();
       this.setState({

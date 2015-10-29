@@ -3,6 +3,7 @@ import KeyboardMixin from './mixins/KeyboardMixin';
 import Style from '../style';
 import Header from './Header';
 import measure from '../measure';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   View,
@@ -13,26 +14,21 @@ let {
 } = React;
 
 let SignupScreen = React.createClass({
-  mixins: [KeyboardMixin],
+  mixins: [KeyboardMixin, TimerMixin],
 
   getInitialState: function () {
     return {
-      measureTimeout: null,
       contentHeight: null,
       animatedContentHeight: new Animated.Value(Dimensions.get('window').height)
     };
   },
 
+  componentWillUnmount: function () {
+    this.clearAllTimers();
+  },
+
   handleLayout: async function () {
-    // Debounce to prevent onLayout firing during animation
-    if (this.state.measureTimeout) clearTimeout(this.state.measureTimeout);
-
-    let measureTimeout = setTimeout(() => {
-      this.measureContentSize();
-      this.setState({ measureTimeout: null });
-    }, 200);
-
-    this.setState({ measureTimeout });
+    this.setDebounceTimer('measure', this.measureContentSize, 200);
   },
 
   measureContentSize: async function () {

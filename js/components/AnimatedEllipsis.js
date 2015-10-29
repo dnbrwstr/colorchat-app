@@ -1,6 +1,7 @@
 import React from 'react-native';
 import { times } from 'ramda';
 import Style from '../style';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   View,
@@ -8,6 +9,8 @@ let {
 } = React;
 
 let AnimatedEllipsis = React.createClass({
+  mixins: [TimerMixin],
+
   getDefaultProps: function () {
     return {
       duration: 2000
@@ -21,15 +24,11 @@ let AnimatedEllipsis = React.createClass({
   },
 
   componentDidMount: function () {
-    this.setState({
-      interval: setInterval(() => {
-        this.step();
-      }, this.props.duration / 4)
-    })
+    this.setIntervalTimer('update', this.step, this.props.duration);
   },
 
   componentWillUnmount: function () {
-    clearInterval(this.state.interval);
+    this.clearAllTimers();
   },
 
   step: function () {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux/native';
 import { navigateToConversation } from '../actions/NavigationActions';
 import { dismissInternalAlert } from '../actions/AppActions';
 import PressableView from './PressableView';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   View,
@@ -12,6 +13,8 @@ let {
 } = React;
 
 let Alert = React.createClass({
+  mixins: [TimerMixin],
+
   getInitialState: function () {
     return {
       animatedValue: new Animated.Value(0)
@@ -24,9 +27,11 @@ let Alert = React.createClass({
       duration: 200
     }).start();
 
-    this.setState({
-      closeTimeout: setTimeout(this.close, 5000)
-    });
+    this.setDelayTimer('close', this.close, 5000);
+  },
+
+  componentWillUnmount: function () {
+    this.clearAllTimers();
   },
 
   render: function () {
@@ -50,7 +55,7 @@ let Alert = React.createClass({
   },
 
   onActivate: function () {
-    clearTimeout(this.state.closeTimeout);
+    this.clearDelayTimer('close');
     this.close();
     this.props.dispatch(navigateToConversation(this.props.senderId));
   },

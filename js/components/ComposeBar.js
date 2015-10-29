@@ -41,9 +41,9 @@ let ComposeBar = React.createClass({
 
     return (
       <Animated.View style={composeBarStyle}>
-        <PressableView 
+        <PressableView
           style={[
-            style.button, 
+            style.button,
             style.buttonFirst
           ]}
           activeStyle={style.buttonActive}
@@ -51,7 +51,7 @@ let ComposeBar = React.createClass({
         >
           <Text style={style.buttonText}>Cancel</Text>
         </PressableView>
-        <PressableView 
+        <PressableView
           style={style.button}
           activeStyle={style.buttonActive}
           onPress={this.props.onSend}
@@ -66,7 +66,6 @@ let ComposeBar = React.createClass({
 let style = Style.create({
   composeBar: {
     height: Style.values.rowHeight,
-    backgroundColor: Style.values.darkGray,
     flexDirection: 'row',
     overflow: 'hidden'
   },
@@ -84,7 +83,7 @@ let style = Style.create({
     borderRightWidth: 1
   },
   buttonActive: {
-    backgroundColor: Style.values.darkGrayHighlight
+    backgroundColor: Style.values.darkGray
   }
 });
 

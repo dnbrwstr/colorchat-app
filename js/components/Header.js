@@ -22,6 +22,12 @@ let Header = React.createClass({
       backgroundColor: this.props.backgroundColor
     };
 
+    let bgOpacity = typeof this.props.backgroundOpacity === 'number' && {
+      opacity: this.props.backgroundOpacity
+    };
+
+    let bgStyles = [style.background, bgColor, bgOpacity];
+
     let textColor = this.props.color && {
       color: this.props.color
     };
@@ -31,7 +37,9 @@ let Header = React.createClass({
     };
 
     return (
-      <View style={[style.bar, bgColor]}>
+      <View style={style.bar}>
+        <View style={bgStyles} />
+
         <View style={style.buttonContainer}>
           { this.props.showBack &&
             <PressableView
@@ -71,20 +79,24 @@ let Header = React.createClass({
   }
 });
 
-var size = Style.values.rowHeight;
-
 let style = Style.create({
   bar: {
-    ...Style.mixins.shadowBase,
-    backgroundColor: Style.values.midGray,
-    height: size,
+    height: Style.values.rowHeight,
     alignItems: 'stretch',
     justifyContent: 'center',
     flexDirection: 'row',
     paddingTop: 0
   },
+  background: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
   buttonContainer: {
-    width: size,
+    width: Style.values.rowHeight,
   },
   button: {
     flex: 1,
@@ -94,8 +106,7 @@ let style = Style.create({
     backgroundColor: '#888888'
   },
   buttonText: {
-    mixins: [Style.mixins.textBase],
-    color: 'white',
+    ...Style.mixins.textBase,
     textAlign: 'center'
   },
   title: {
@@ -103,8 +114,7 @@ let style = Style.create({
     justifyContent: 'center',
   },
   titleText: {
-    mixins: [Style.mixins.textBase],
-    color: 'white',
+    ...Style.mixins.textBase,
     textAlign: 'center'
   }
 })

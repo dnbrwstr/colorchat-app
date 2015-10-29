@@ -138,17 +138,11 @@ let style = Style.create({
     flex: 1
   },
   navBar: {
+    ...Style.mixins.shadowBase,
     flex: 0,
     height: Style.values.rowHeight,
     backgroundColor: 'white',
     flexDirection: 'row',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 0
-    },
-    shadowOpacity: .1,
-    shadowRadius: 3
   },
   navBarItem: {
     flex: 1,

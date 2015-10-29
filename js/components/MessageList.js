@@ -36,6 +36,14 @@ let getMessageData = (dataBlob, sectionId, rowId) => {
 };
 
 let MessageList = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onToggleMessageExpansion: () => {},
+      onRetrySend: () => {},
+      onPresentMessage: () => {}
+    };
+  },
+
   getInitialState: function () {
     return {
       scrollOffset: 0,
@@ -140,9 +148,7 @@ let MessageList = React.createClass({
   },
 
   onToggleMessageExpansion: async function (message, position, nextSize) {
-    if (this.props.onToggleMessageExpansion) {
-      this.props.onToggleMessageExpansion(message)
-    }
+    this.props.onToggleMessageExpansion(message)
 
     // Return if the message is closing
     if (message.expanded) return;
@@ -161,15 +167,11 @@ let MessageList = React.createClass({
   },
 
   onRetryMessageSend: function (message) {
-    if (this.props.onRetryMessageSend) {
-      this.props.onRetryMessageSend(message);
-    }
+    this.props.onRetryMessageSend(message);
   },
 
   onPresentMessage: function (message) {
-    if (this.props.onPresentMessage) {
-      this.props.onPresentMessage(message)
-    }
+    this.props.onPresentMessage(message)
   }
 });
 

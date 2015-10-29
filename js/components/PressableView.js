@@ -30,6 +30,13 @@ let sortProps = props =>
   });
 
 let PressableView = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onPressIn: () => {},
+      onPressOut: () => {}
+    };
+  },
+
   getInitialState: () => ({ active: false }),
 
   render: function () {
@@ -63,7 +70,7 @@ let PressableView = React.createClass({
       active: true
     });
 
-    if (this.props.onPressIn) this.props.onPressIn.apply(null, arguments);
+    this.props.onPressIn.apply(null, arguments);
   },
 
   onPressOut: function () {
@@ -71,7 +78,7 @@ let PressableView = React.createClass({
       active: false
     });
 
-    if (this.props.onPressOut) this.props.onPressOut.apply(null, arguments);
+    this.props.onPressOut.apply(null, arguments);
   }
 });
 

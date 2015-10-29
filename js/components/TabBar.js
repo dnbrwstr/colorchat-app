@@ -12,6 +12,12 @@ let {
 } = React;
 
 export default TabBar = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onSelectItem: () => {}
+    };
+  },
+
   getInitialState: function () {
     return {
       transitioning: false
@@ -93,7 +99,7 @@ export default TabBar = React.createClass({
 
   onSelectItem: function (item) {
     if (this.state.transitioning) return;
-    if (this.props.onSelectItem) this.props.onSelectItem(item);
+    this.props.onSelectItem(item);
   },
 
   configureScene: function (route) {

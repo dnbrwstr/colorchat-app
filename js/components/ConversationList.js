@@ -11,6 +11,13 @@ let {
 } = React;
 
 export default ConversationList = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onSelect: () => {},
+      onDelete: () => {}
+    };
+  },
+
   getInitialState: function () {
     return {
       dataSource: this.getDataSource(),
@@ -110,11 +117,11 @@ export default ConversationList = React.createClass({
   },
 
   onSelect: function (conversation) {
-    if (this.props.onSelect) this.props.onSelect(conversation);
+    this.props.onSelect(conversation);
   },
 
   onDelete: function (conversation) {
-    if (this.props.onDelete) this.props.onDelete(conversation);
+    this.props.onDelete(conversation);
   }
 })
 

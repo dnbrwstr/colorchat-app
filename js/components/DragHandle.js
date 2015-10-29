@@ -8,6 +8,14 @@ let {
 } = React;
 
 let DragHandle = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onDragStart: () => {},
+      onDragMove: () => {},
+      onDragStop: () => {}
+    };
+  },
+
   render: function () {
     return (
       <Overlay isVisible={true}>
@@ -28,15 +36,15 @@ let DragHandle = React.createClass({
   },
 
   onDragStart: function (e) {
-    if (this.props.onDragStart) this.props.onDragStart(e)
+    this.props.onDragStart(e)
   },
 
   onDragMove: function (e) {
-    if (this.props.onDragMove) this.props.onDragMove(e)
+    this.props.onDragMove(e)
   },
 
   onDragStop: function (e) {
-    if (this.props.onDragStop) this.props.onDragStop(e)
+    this.props.onDragStop(e)
   }
 });
 

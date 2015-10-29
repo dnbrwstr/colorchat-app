@@ -19,6 +19,14 @@ let InteractiveView = React.createClass({
 
   getDefaultProps: function () {
     return {
+      onInteractionStart: () => {},
+      onInteractionEnd: () => {},
+      onDelete: () => {}
+    };
+  },
+
+  getDefaultProps: function () {
+    return {
       swipeEnabled: false,
       xAxisEnabled: true,
       xAxisThreshold: 20,
@@ -101,7 +109,7 @@ let InteractiveView = React.createClass({
       }
     });
 
-    if (this.props.onInteractionStart) this.props.onInteractionStart();
+    this.props.onInteractionStart();
   },
 
   onTouchMove: function (e) {
@@ -136,7 +144,7 @@ let InteractiveView = React.createClass({
   onTouchEnd: function (e) {
     this.touchableHandleResponderRelease.apply(this, arguments);
 
-    if (this.props.onInteractionEnd) this.props.onInteractionEnd();
+    this.props.onInteractionEnd();
 
     if (!this.state.swipeStarted) return;
 
@@ -213,7 +221,7 @@ let InteractiveView = React.createClass({
           delay: 100
         })
       ]).start(() => {
-        if (this.props.onDelete) this.props.onDelete();
+        this.props.onDelete();
       });
 
       return true;

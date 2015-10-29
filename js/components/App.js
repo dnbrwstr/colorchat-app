@@ -16,6 +16,12 @@ let appSelector = state => {
 };
 
 let App = React.createClass({
+  getDefaultProps: function () {
+    return {
+      alerts: []
+    };
+  },
+
   getInitialState: function () {
     return {
       animatedOpacity: new Animated.Value(0)
@@ -34,7 +40,7 @@ let App = React.createClass({
       <Animated.View style={{flex: 1, opacity: this.state.animatedOpacity}}>
         <Router />
         <View style={style.alerts}>
-          { this.props.alerts && this.props.alerts.map((a) => {
+          { this.props.alerts.map((a) => {
             return ( <Alert key={a.id} {...a} /> );
           }) }
         </View>

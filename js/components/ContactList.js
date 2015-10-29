@@ -12,6 +12,10 @@ let {
 } = React;
 
 export default ContactList = React.createClass({
+  getDefaultProps: function () {
+    onSelect: () => {}
+  },
+
   getInitialState: function () {
     let source = new ListView.DataSource({
       sectionHeaderHasChanged: (s1, s2) => false,
@@ -64,9 +68,7 @@ export default ContactList = React.createClass({
   },
 
   onSelectContact: function (contact) {
-    if (this.props.onSelect) {
-      this.props.onSelect(contact);
-    }
+    this.props.onSelect(contact);
   }
 });
 

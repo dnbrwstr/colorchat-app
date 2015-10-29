@@ -14,6 +14,12 @@ const BUTTON_SIZE = 50;
 let NewMessageButton = React.createClass({
   mixins: [TimerMixin],
 
+  getDefaultProps: function () {
+    return {
+      onPress: () => {}
+    };
+  },
+
   getInitialState: function () {
     let initialOpacity = this.props.visible ? 1 : 0;
 
@@ -97,10 +103,8 @@ let NewMessageButton = React.createClass({
 
     this.setDelayTimer('hide', () => {
       animation.stop();
-      if (this.props.onPress) this.props.onPress();
-      this.setState({
-        leaving: false
-      });
+      this.props.onPress();
+      this.setState({ leaving: false });
     }, 200);
   }
 });

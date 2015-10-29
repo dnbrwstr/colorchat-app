@@ -24,6 +24,13 @@ const FAILED_MIN_WIDTH = 250;
 const FAILED_MIN_HEIGHT = 100;
 
 let Message = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onToggleExpansion: () => {},
+      onRetrySend: () => {}
+    };
+  },
+
   getInitialState: function () {
     let defaultWidth = this.props.width;
     let defaultHeight = this.props.state === 'fresh' ? 0 : this.props.height;
@@ -184,9 +191,9 @@ let Message = React.createClass({
   },
 
   onPress: async function () {
-    if (this.props.state === 'failed' && this.props.onRetrySend) {
+    if (this.props.state === 'failed') {
       this.props.onRetrySend();
-    } else if (this.props.state === 'complete' && this.props.onToggleExpansion) {
+    } else if (this.props.state === 'complete') {
       let position = await measure(this.refs.message);
       this.props.onToggleExpansion(position, {
         width: Math.max(this.props.width, EXPANDED_MIN_WIDTH),

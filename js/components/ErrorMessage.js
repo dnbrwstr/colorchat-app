@@ -12,6 +12,11 @@ let {
 } = React;
 
 let ErrorMessage = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onRemove: () => {}
+    }
+  },
 
   getInitialState: () => ({
     height: new Animated.Value(0),
@@ -79,7 +84,7 @@ let ErrorMessage = React.createClass({
 
   onPress: function () {
     this.animateOut(() => {
-      if (this.props.onRemove) this.props.onRemove();
+      this.props.onRemove();
     })
   }
 });

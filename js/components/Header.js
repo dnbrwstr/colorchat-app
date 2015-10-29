@@ -10,6 +10,13 @@ let {
 } = React;
 
 let Header = React.createClass({
+  getDefaultProps: function () {
+    return {
+      onBack: () => {},
+      onClose: () => {}
+    };
+  },
+
   render: function () {
     let bgColor = this.props.backgroundColor && {
       backgroundColor: this.props.backgroundColor
@@ -56,11 +63,11 @@ let Header = React.createClass({
   },
 
   onBack: function () {
-    if (this.props.showBack && this.props.onBack) this.props.onBack();
+    this.props.onBack();
   },
 
   onClose: function () {
-    if (this.props.showClose && this.props.onClose) this.props.onClose();
+    this.props.onClose();
   }
 });
 

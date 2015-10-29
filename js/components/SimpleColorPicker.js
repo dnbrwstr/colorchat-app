@@ -39,7 +39,8 @@ let SimpleColorPicker = React.createClass({
 
   getDefaultProps: function () {
     return {
-      initialValue: '#ccc'
+      initialValue: '#ccc',
+      onChange: () => {}
     };
   },
 
@@ -110,7 +111,7 @@ let SimpleColorPicker = React.createClass({
   },
 
   onTouchEnd: function () {
-    if (this.props.onChange) this.props.onChange(this.state.value)
+    this.props.onChange(this.state.value)
   },
 
   getValue: function () {

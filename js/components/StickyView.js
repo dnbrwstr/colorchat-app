@@ -1,6 +1,7 @@
 import React from 'react-native';
 import Header from './Header';
 import Style from '../style';
+import ScrollBridge from '../lib/ScrollBridge';
 import measure from '../measure';
 
 let {
@@ -14,14 +15,8 @@ let StickyView = React.createClass({
   propTypes: {
     autoHide: React.PropTypes.boolean,
     autoHideDelay: React.PropTypes.number,
-    scrollViewContentSize: React.PropTypes.shape({
-      width: React.PropTypes.number,
-      height: React.PropTypes.number
-    }),
-    scrollViewOffset: React.PropTypes.shape({
-      x: React.PropTypes.number,
-      y: React.PropTypes.number
-    })
+    scrollBridge: React.PropTypes.object,
+    lastOffset: 0
   },
 
   getDefaultProps: function () {
@@ -33,29 +28,21 @@ let StickyView = React.createClass({
 
   getInitialState: function () {
     return {
-      contentHeight: null,
-      hideTimeout: null,
-      offset: 0,
-      animatedOffset: new Animated.Value(0)
+      hidden: false,
+      animating: false,
+      animatedOffset: new Animated.Value(0),
+      contentHeight: 0
     };
   },
 
   componentDidMount: function () {
     if (this.props.autoHide) this.hideAfterDelay();
-  },
-
-  componentWillReceiveProps: function (nextProps) {
-    let currentOffset = this.props.scrollViewOffset;
-    let nextOffset = nextProps.scrollViewOffset;
-    if (currentOffset && nextOffset &&
-        currentOffset !== nextOffset &&
-        nextOffset.y > 0) {
-      this.handleScroll(nextProps.scrollViewOffset);
-    }
+    this.props.scrollBridge.addScrollListener(this.handleScroll)
   },
 
   componentWillUnmount: function () {
     clearTimeout(this.state.hideTimeout);
+    this.props.scrollBridge.removeScrollListener(this.handleScroll);
   },
 
   hideAfterDelay: function () {
@@ -67,27 +54,48 @@ let StickyView = React.createClass({
   },
 
   hide: function () {
-    this.setState({ offset: -this.state.contentHeight })
-
-    Animated.timing(this.state.animatedOffset, {
-      toValue: -this.state.contentHeight,
-      duration: HIDE_ANIMATION_DURATION
-    }).start();
+    this.setState({ hidden: true });
+    this.animateToValue(-this.state.contentHeight);
   },
 
-  handleScroll: function (scrollViewOffset) {
-    let wH = Dimensions.get('window').height;
-    let deltaY = this.props.scrollViewOffset.y - scrollViewOffset.y;
+  show: function () {
+    this.setState({ hidden: false });
+    this.animateToValue(0);
+  },
 
-    if (this.props.scrollViewContentSize.height < scrollViewOffset.y + wH && deltaY > 0) deltaY = 0;
-    let newOffset = this.state.offset - deltaY;
+  animateToValue: function (value) {
+    if (this.state.animation) this.state.animation.abort();
 
-    if (newOffset > 0) newOffset = 0;
-    if (newOffset < -this.state.contentHeight) newOffset = -this.state.contentHeight;
+    let animation = Animated.timing(this.state.animatedOffset, {
+      toValue: value,
+      duration: HIDE_ANIMATION_DURATION
+    }).start(this.handleAnimationEnd);
 
-    this.setState({ offset: newOffset });
-    this.state.animatedOffset.setValue(newOffset);
-    this.hideAfterDelay();
+    this.setState({ animation });
+  },
+
+  handleAnimationEnd: function () {
+    this.setState({ animating: null });
+  },
+
+  handleScroll: function (e) {
+    let offset = e.nativeEvent.contentOffset.y;
+    let height = e.nativeEvent.contentSize.height;
+    let screenHeight = Dimensions.get('window').height;
+
+    if (offset <= 0 || offset + screenHeight > height) return;
+
+    let deltaY = this.state.lastOffset - offset;
+
+    if (deltaY > 0 && !this.state.hidden) {
+      this.hide();
+    } else if (deltaY < 0 && this.state.hidden) {
+      this.show();
+    }
+
+    this.setState({
+      lastOffset: offset
+    });
   },
 
   handleLayout: async function () {

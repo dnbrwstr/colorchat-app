@@ -1,4 +1,5 @@
 import React from 'react-native';
+import ScrollBridge from '../lib/ScrollBridge';
 import { connect } from 'react-redux/native';
 import { merge } from 'ramda';
 import { createSelector } from 'reselect';
@@ -34,8 +35,8 @@ let {
 let ConversationScreen = React.createClass({
   getInitialState: function () {
     return {
-      messageListScrollOffset: null,
-      messageListContentSize: null
+      scrollBridge: new ScrollBridge,
+      lastOffset: 0
     };
   },
 
@@ -59,7 +60,7 @@ let ConversationScreen = React.createClass({
     return (
       <View style={style.container}>
         <MessageList
-          onScroll={this.handleMessageListScroll}
+          scrollBridge={this.state.scrollBridge}
           onPresentMessage={this.onPresentMessage}
           onRetryMessageSend={this.onRetryMessageSend}
           onToggleMessageExpansion={this.onToggleMessageExpansion}
@@ -78,9 +79,8 @@ let ConversationScreen = React.createClass({
           visible={!this.props.composing && !this.props.sending && !this.props.cancelling}
         />
         <StickyView
+          scrollBridge={this.state.scrollBridge}
           autoHide={this.shouldHideHeader()}
-          scrollViewContentSize={this.state.messageListContentSize}
-          scrollViewOffset={this.state.messageListScrollOffset}
         >
           <Header
             title={name}
@@ -93,13 +93,6 @@ let ConversationScreen = React.createClass({
         </StickyView>
       </View>
     );
-  },
-
-  handleMessageListScroll: function (e) {
-    this.setState({
-      messageListScrollOffset: e.nativeEvent.contentOffset,
-      messageListContentSize: e.nativeEvent.contentSize
-    });
   },
 
   onSendMessage: function (message) {

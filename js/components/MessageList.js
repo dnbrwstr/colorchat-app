@@ -99,8 +99,7 @@ let MessageList = React.createClass({
       <InvertibleScrollView {...props}
         inverted
         ref="scrollView"
-        onScroll={this.onScroll}
-        scrollEventThrottle={5}
+        onScroll={this.handleScroll}
         scrollEnabled={!this.props.scrollLocked}
       />
     );
@@ -125,12 +124,8 @@ let MessageList = React.createClass({
     );
   },
 
-  onScroll: function (e) {
-    this.setState({
-      scrollOffset: e.nativeEvent.contentOffset.y
-    });
-
-    if (this.props.onScroll) this.props.onScroll(e);
+  handleScroll: function (e) {
+    if (this.props.scrollBridge) this.props.scrollBridge.handleScroll(e);
   },
 
   onToggleMessageExpansion: async function (message, position, nextSize) {

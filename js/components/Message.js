@@ -39,7 +39,8 @@ let Message = React.createClass({
       width: defaultWidth,
       height: defaultHeight,
       animatedWidth: new Animated.Value(defaultWidth),
-      animatedHeight: new Animated.Value(defaultHeight)
+      animatedHeight: new Animated.Value(defaultHeight),
+      currentAnimation: null
     };
   },
 
@@ -106,6 +107,10 @@ let Message = React.createClass({
       return;
     }
 
+    if (this.state.currentAnimation) {
+      this.state.currentAnimation.stop();
+    }
+
     let width = this.state.animatedWidth;
     let height = this.state.animatedHeight;
 
@@ -135,8 +140,16 @@ let Message = React.createClass({
       }));
     }
 
-    this.setState(toSize);
-    Animated.parallel(animations).start(cb);
+    let animation = Animated.parallel(animations)
+    animation.start(() => {
+      cb && cb();
+      this.setState({ currentAnimation: null });
+    });
+
+    this.setState({
+      ...toSize,
+      currentAnimation: animation
+    });
   },
 
   render: function () {

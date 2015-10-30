@@ -4,7 +4,8 @@ import Overlay from 'react-native-overlay';
 
 let {
   Animated,
-  View
+  View,
+  Image
 } = React;
 
 let DragHandle = React.createClass({
@@ -29,7 +30,9 @@ let DragHandle = React.createClass({
           onResponderRelease={this.onDragStop}
           onResponderTerminationRequest={()=>false}
         >
-          <View style={style.handle} />
+          <View style={style.handle}>
+            <Image style={style.image} source={require('image!vertical-resize-icon')} />
+          </View>
         </Animated.View>
       </Overlay>
     );
@@ -48,6 +51,8 @@ let DragHandle = React.createClass({
   }
 });
 
+const HANDLE_SIZE = 25;
+
 let style = Style.create({
   target: {
     width: 60,
@@ -59,17 +64,16 @@ let style = Style.create({
     backgroundColor: 'transparent'
   },
   handle: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: HANDLE_SIZE,
+    height: HANDLE_SIZE,
+    borderRadius: HANDLE_SIZE / 2,
     backgroundColor: 'white',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 0
-    },
-    shadowOpacity: .124,
-    shadowRadius: 10
+  },
+  image: {
+    position: 'absolute',
+    top: 5,
+    left: 7.5,
+    opacity: .125
   }
 });
 

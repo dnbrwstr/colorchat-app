@@ -143,19 +143,9 @@ let EditableMessage = React.createClass({
               style={{flex: 1}}
               onChange={this.onColorChange}
               initialValue={this.state.workingColor} />
-            <DragHandle style={horizontalHandleStyle}
-              ref="horizontalHandle"
-              onDragMove={this.onDragHandle.bind(this, 'horizontal')}
-              onDragStop={this.onDragStop}
-            />
             <DragHandle style={verticalHandleStyle}
               ref="verticalHandle"
               onDragMove={this.onDragHandle.bind(this, 'vertical')}
-              onDragStop={this.onDragStop}
-            />
-            <DragHandle style={diagonalHandleStyle}
-              ref="diagonalHandle"
-              onDragMove={this.onDragHandle.bind(this, 'diagonal')}
               onDragStop={this.onDragStop}
             />
           </View>

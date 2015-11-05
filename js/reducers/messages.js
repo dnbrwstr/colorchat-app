@@ -149,16 +149,9 @@ let handlers = {
     return state;
   },
 
-  receiveMessages: function (state, action) {
-    let messages = action.messages.length === 1 ?
-      action.messages.map(m => merge(m, {state: 'fresh'})) :
-      action.messages
-
-    messages.forEach(
-      m => state = addOrReplaceExisting(m, state)
-    );
-
-    return state;
+  receiveMessage: function (state, action) {
+    let message = merge(action.message, { state: 'fresh' });
+    return addOrReplaceExisting(message, state);
   },
 
   markMessageStale: function (state, action) {

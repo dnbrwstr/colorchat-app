@@ -3,13 +3,16 @@ import { InteractionManager } from 'react-native';
 import { postJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
 
-export let receiveMessages = messages => (dispatch, getState) => {
+export let receiveMessage = message => (dispatch, getState) => {
   let contactIds = getState().contacts.map(c => c.id);
-  let allowedMessages = messages.filter(m => contactIds.indexOf(m.senderId) !== -1);
+
+  if (contactIds.indexOf(message.senderId) === -1) {
+    return;
+  }
 
   dispatch({
-    type: 'receiveMessages',
-    messages: allowedMessages
+    type: 'receiveMessage',
+    message: message
   });
 };
 

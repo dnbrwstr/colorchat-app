@@ -4,7 +4,7 @@ import { difference } from 'ramda';
 import { serverRoot } from '../config';
 import createService from '../lib/createService';
 import { socketServiceSelector } from './Selectors';
-import { receiveMessages, sendEnqueuedMessages } from '../actions/MessageActions';
+import { receiveMessage, sendEnqueuedMessages } from '../actions/MessageActions';
 import { receiveComposeEvent } from '../actions/ConversationActions';
 
 let client, store, token;
@@ -75,7 +75,7 @@ let socketServiceBase = {
     });
 
     client.on(MESSAGE_EVENT, (data, cb) => {
-      this.props.dispatch(receiveMessages(data));
+      this.props.dispatch(receiveMessage(data));
       if (cb) cb();
     });
 
@@ -170,7 +170,6 @@ let socketServiceBase = {
   },
 
   sendComposeNotification: function (recipientId, composing) {
-    console.log('notify compose', recipientId, composing);
     this.client.emit(COMPOSE_EVENT, {
       recipientId,
       composing

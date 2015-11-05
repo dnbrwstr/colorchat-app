@@ -43,12 +43,10 @@ let handlers = {
     }, state);
   },
 
-  receiveMessages: function (state, action) {
-    if (!action.messages.length) return state;
-
+  receiveMessage: function (state, action) {
     return createOrUpdateConversation({
-      recipientId: last(action.messages).senderId,
-      lastMessage: last(action.messages)
+      recipientId: action.message.senderId,
+      lastMessage: action.message
     }, state);
   },
 

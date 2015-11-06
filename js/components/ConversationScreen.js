@@ -14,6 +14,7 @@ import { navigateTo } from '../actions/NavigationActions';
 import * as MessageActions from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors';
 import { updateConversationUi } from '../actions/AppActions';
+import PlaceholderMessage from './PlaceholderMessage';
 
 let {
   View,
@@ -53,7 +54,6 @@ let ConversationScreen = React.createClass({
 
   render: function () {
     let { contact, dispatch } = this.props;
-
     let name = [contact.firstName, contact.lastName]
       .filter(n => !!n).join(' ');
 

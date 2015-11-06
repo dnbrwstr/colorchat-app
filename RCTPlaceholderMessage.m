@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "RCTViewManager.h"
+#import "PlaceholderMessage.h"
 
 @interface RCTPlaceholderMessage : RCTViewManager
 @end
@@ -19,14 +20,9 @@ RCT_EXPORT_MODULE()
 
 - (UIView *)view
 {
-  UIView *view = [[UIView alloc] init];
-  UIView *dot = [[UIView alloc] init];
-  [view addSubview:dot];
-  dot.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin   |
-                          UIViewAutoresizingFlexibleRightMargin  |
-                          UIViewAutoresizingFlexibleTopMargin    |
-                          UIViewAutoresizingFlexibleBottomMargin);
+  UIView *view = [[PlaceholderMessage alloc] init];
   return view;
 }
+
 
 @end

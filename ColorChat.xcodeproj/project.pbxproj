@@ -24,6 +24,8 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		C82B16ED1B824F33005E9BF9 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B16E11B824EFC005E9BF9 /* libRCTAddressBook.a */; };
 		C82E49021BEC151C00EB8382 /* RCTPlaceholderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */; settings = {ASSET_TAGS = (); }; };
+		C8408CF31BEC59FE002C688F /* PlaceholderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */; settings = {ASSET_TAGS = (); }; };
+		C84B142C1BEC483900557C38 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = C84B142B1BEC483900557C38 /* Parse.plist */; settings = {ASSET_TAGS = (); }; };
 		C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C87337A31BC5BAE600C10905 /* SettingsApp.m */; settings = {ASSET_TAGS = (); }; };
 		C878D45C1B7AA3590041C35C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45A1B7AA3590041C35C /* Bolts.framework */; };
 		C878D45D1B7AA3590041C35C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45B1B7AA3590041C35C /* Parse.framework */; };
@@ -53,7 +55,6 @@
 		C8AEDFCA1BCEEFA7000A456B /* WorkSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFBD1BCEEFA7000A456B /* WorkSans-Regular.otf */; };
 		C8B93C041BBAD7CF00AB1C07 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B93C031BBAD7B900AB1C07 /* libRNOverlay.a */; };
 		C8B93C1D1BBCC07600AB1C07 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B93C1C1BBCC06700AB1C07 /* libRCTPushNotification.a */; };
-		C8CFBF1D1B7BEFE800A4BDD5 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8CFBF1C1B7BEFE800A4BDD5 /* Parse.plist */; };
 		C8E3AA931B8F955A00818930 /* SourceCodePro-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8E3AA851B8F955900818930 /* SourceCodePro-Black.otf */; };
 		C8E3AA941B8F955A00818930 /* SourceCodePro-BlackIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8E3AA861B8F955900818930 /* SourceCodePro-BlackIt.otf */; };
 		C8E3AA951B8F955A00818930 /* SourceCodePro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8E3AA871B8F955900818930 /* SourceCodePro-Bold.otf */; };
@@ -202,6 +203,9 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
 		C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTPlaceholderMessage.m; sourceTree = "<group>"; };
+		C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderMessage.m; sourceTree = "<group>"; };
+		C8408D031BEC5D29002C688F /* PlaceholderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceholderMessage.h; sourceTree = "<group>"; };
+		C84B142B1BEC483900557C38 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Parse.plist; sourceTree = "<group>"; };
 		C87337A21BC5BAD600C10905 /* SettingsApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsApp.h; sourceTree = "<group>"; };
 		C87337A31BC5BAE600C10905 /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsApp.m; sourceTree = "<group>"; };
 		C878D45A1B7AA3590041C35C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -232,7 +236,6 @@
 		C8AEDFBD1BCEEFA7000A456B /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		C8B93BF11BBAD7B900AB1C07 /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-message-composer/../react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		C8B93C171BBCC06700AB1C07 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
-		C8CFBF1C1B7BEFE800A4BDD5 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Parse.plist; path = iOS/Parse.plist; sourceTree = "<group>"; };
 		C8E3AA851B8F955900818930 /* SourceCodePro-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Black.otf"; sourceTree = "<group>"; };
 		C8E3AA861B8F955900818930 /* SourceCodePro-BlackIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BlackIt.otf"; sourceTree = "<group>"; };
 		C8E3AA871B8F955900818930 /* SourceCodePro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.otf"; sourceTree = "<group>"; };
@@ -366,7 +369,7 @@
 			children = (
 				C8E3AA841B8F955900818930 /* fonts */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
-				C8CFBF1C1B7BEFE800A4BDD5 /* Parse.plist */,
+				C84B142B1BEC483900557C38 /* Parse.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -376,6 +379,8 @@
 				C87337A21BC5BAD600C10905 /* SettingsApp.h */,
 				C87337A31BC5BAE600C10905 /* SettingsApp.m */,
 				C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */,
+				C8408D031BEC5D29002C688F /* PlaceholderMessage.h */,
+				C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */,
 			);
 			name = ColorChat;
 			sourceTree = "<group>";
@@ -761,7 +766,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8CFBF1D1B7BEFE800A4BDD5 /* Parse.plist in Resources */,
+				C84B142C1BEC483900557C38 /* Parse.plist in Resources */,
 				C8AEDFBE1BCEEFA7000A456B /* Aileron-Light.otf in Resources */,
 				C8AEDFBF1BCEEFA7000A456B /* Aileron-Regular.otf in Resources */,
 				C8AEDFC01BCEEFA7000A456B /* ClearSans-Light.ttf in Resources */,
@@ -802,6 +807,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8408CF31BEC59FE002C688F /* PlaceholderMessage.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */,

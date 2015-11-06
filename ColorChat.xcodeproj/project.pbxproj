@@ -23,6 +23,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		C82B16ED1B824F33005E9BF9 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B16E11B824EFC005E9BF9 /* libRCTAddressBook.a */; };
+		C82E49021BEC151C00EB8382 /* RCTPlaceholderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */; settings = {ASSET_TAGS = (); }; };
 		C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C87337A31BC5BAE600C10905 /* SettingsApp.m */; settings = {ASSET_TAGS = (); }; };
 		C878D45C1B7AA3590041C35C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45A1B7AA3590041C35C /* Bolts.framework */; };
 		C878D45D1B7AA3590041C35C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45B1B7AA3590041C35C /* Parse.framework */; };
@@ -200,6 +201,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
+		C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTPlaceholderMessage.m; sourceTree = "<group>"; };
 		C87337A21BC5BAD600C10905 /* SettingsApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsApp.h; sourceTree = "<group>"; };
 		C87337A31BC5BAE600C10905 /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsApp.m; sourceTree = "<group>"; };
 		C878D45A1B7AA3590041C35C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				C87337A21BC5BAD600C10905 /* SettingsApp.h */,
 				C87337A31BC5BAE600C10905 /* SettingsApp.m */,
+				C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */,
 			);
 			name = ColorChat;
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */,
+				C82E49021BEC151C00EB8382 /* RCTPlaceholderMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

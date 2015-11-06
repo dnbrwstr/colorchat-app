@@ -87,7 +87,7 @@ let handlers = {
     } else if (appState.messages.length < messageCount) {
       while (appState.messages.length < messageCount) {
         appState.messages.push(createMessage({
-          senderId: 11,
+          senderId: 2,
           width: 75 + Math.floor(Math.random() * 200),
           height: 75 + Math.floor(Math.random() * 300),
           recipientId: 1,

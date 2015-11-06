@@ -76,7 +76,7 @@ let MessageList = React.createClass({
     let messageIds = this.props.messages.map(m => m.clientId || m.id);
 
     let dataSource =
-      (this.state && this.state.dataSource) ||
+      (this.state && this.state.workingData) ||
       new ListView.DataSource({
         rowHasChanged: messageHasChanged,
         getRowData: getMessageData

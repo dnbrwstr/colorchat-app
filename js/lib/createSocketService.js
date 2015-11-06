@@ -5,13 +5,14 @@ import { serverRoot } from '../config';
 import createService from '../lib/createService';
 import { socketServiceSelector } from './Selectors';
 import { receiveMessage, sendEnqueuedMessages } from '../actions/MessageActions';
-import { receiveComposeEvent } from '../actions/ConversationActions';
+import { receiveComposeEvent, resetComposeEvents } from '../actions/ConversationActions';
 
 let client, store, token;
 let active = false;
 
 const MESSAGE_EVENT = 'messagedata';
 const COMPOSE_EVENT = 'composeevent';
+const COMPOSE_EVENT_INTERVAL = 1500;
 
 let { InteractionManager } = React;
 
@@ -29,16 +30,15 @@ let authErrors = [
 
 let socketServiceBase = {
   onDidInitialize: function () {
+    this.props.dispatch(resetComposeEvents());
+    setInterval(this.updateComposeEvents, COMPOSE_EVENT_INTERVAL);
+
     if (this.props.token) {
       this.client = this.createClient();
     }
   },
 
   onDidUpdate: function (prevProps) {
-    if (prevProps.composingMessages !== this.props.composingMessages) {
-      this.onDidUpdateComposingMessages(prevProps.composingMessages);
-    }
-
     if (prevProps.token === this.props.token) {
       return this.sendEnqueuedMessages();
     };
@@ -58,12 +58,11 @@ let socketServiceBase = {
     }
   },
 
-  onDidUpdateComposingMessages: function (prevMessages=[]) {
-    let messages = this.props.composingMessages;
-    let started = difference(messages, prevMessages);
-    let stopped = difference(prevMessages, messages);
-    started.forEach(this.sendComposeStartNotification);
-    stopped.forEach(this.sendComposeEndNotification);
+  updateComposeEvents: function () {
+    this.props.composingMessages.forEach(m => {
+      console.log('emitting')
+      this.client.emit(COMPOSE_EVENT, { recipientId: m.recipientId });
+    });
   },
 
   createClient: function () {
@@ -158,21 +157,6 @@ let socketServiceBase = {
           messages: sentMessages
         });
       });
-    });
-  },
-
-  sendComposeStartNotification: function (message) {
-    this.sendComposeNotification(message.recipientId, true);
-  },
-
-  sendComposeEndNotification: function (message) {
-    this.sendComposeNotification(message.recipientId, false);
-  },
-
-  sendComposeNotification: function (recipientId, composing) {
-    this.client.emit(COMPOSE_EVENT, {
-      recipientId,
-      composing
     });
   }
 };

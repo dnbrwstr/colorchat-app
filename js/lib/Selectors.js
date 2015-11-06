@@ -10,8 +10,10 @@ export let createConversationSelector = userId => state =>
     let timeA = new Date(a.clientTimestamp || a.createdAt);
     let timeB = new Date(b.clientTimestamp || b.createdAt);
 
-    if (a.state == 'composing' && b.state !== 'composing') return -1;
+    if (a.state === 'composing' && b.state !== 'composing') return -1;
     else if (a.state !== 'composing' && b.state === 'composing') return 1;
+    else if (a.state === 'placeholder' && b.state !== 'placeholder') return -1;
+    else if (a.state !== 'placeholder' && b.state === 'placeholder') return -1;
     else if (timeA > timeB) return -1;
     else if (timeA < timeB) return 1;
     else if ((a.clientId || a.id) > (b.clientId || b.id)) return -1;

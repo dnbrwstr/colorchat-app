@@ -1,4 +1,4 @@
-import { append, merge, adjust, findIndex, filter } from 'ramda';
+import { append, merge, adjust, findIndex, filter, remove } from 'ramda';
 import createRoutingReducer from  '../lib/createRoutingReducer';
 import { generateId } from '../lib/Utils';
 import config from '../config';
@@ -52,6 +52,35 @@ let addOrReplaceExisting = (message, collection) => {
   }
 
   return val;
+};
+
+let maybeCreatePlaceholder = (senderId, state) => {
+  let index = findPlaceholderIndex(senderId, state);
+
+  if (index === -1) {
+    return append({
+      state: 'placeholder',
+      senderId: senderId
+    }, state);
+  } else {
+    return state;
+  }
+};
+
+let maybeRemovePlaceholder = (senderId, state) => {
+  let index = findPlaceholderIndex(senderId, state);
+
+  if (index !== -1) {
+    return remove(index, 1, state);
+  } else {
+    return state;
+  }
+}
+
+let findPlaceholderIndex = (senderId, state) => {
+  return findIndex(
+    m => m.state === 'placeholder' && m.senderId === senderId
+  )(state);
 };
 
 let findWorkingMessageIndex = collection =>
@@ -151,6 +180,7 @@ let handlers = {
 
   receiveMessage: function (state, action) {
     let message = merge(action.message, { state: 'fresh' });
+    state = maybeRemovePlaceholder(action.message.senderId, state);
     return addOrReplaceExisting(message, state);
   },
 
@@ -167,6 +197,18 @@ let handlers = {
     return updateById(messageId, {
       expanded: !oldMessage.expanded
     }, state);
+  },
+
+  receiveComposeEvent: function (state, action) {
+    return maybeCreatePlaceholder(action.senderId, state);
+  },
+
+  composeEventExpire: function (state, action) {
+    return maybeRemovePlaceholder(action.senderId, state);
+  },
+
+  resetComposeEvents: function (state, action) {
+    return filter(m => m.state !== 'placeholder', state);
   },
 
   deleteConversation: function (state, action) {

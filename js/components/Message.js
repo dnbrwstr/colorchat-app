@@ -6,6 +6,7 @@ import measure from '../measure';
 import EditableMessage from './EditableMessage';
 import BaseText from './BaseText';
 import PressableView from './PressableView';
+import PlaceholderMessage from './PlaceholderMessage';
 
 let {
   View,
@@ -153,12 +154,21 @@ let Message = React.createClass({
   },
 
   render: function () {
-    return this.props.state === 'composing' ?
-      this.renderEditor() : this.renderMessage();
+    if (this.props.state === 'composing') {
+      return this.renderEditor();
+    } else if (this.props.state === 'placeholder') {
+      return this.renderPlaceholder();
+    } else {
+      return this.renderMessage();
+    }
   },
 
   renderEditor: function () {
     return <EditableMessage {...this.props} />
+  },
+
+  renderPlaceholder: function () {
+    return <PlaceholderMessage {...this.props} />
   },
 
   renderMessage: function () {

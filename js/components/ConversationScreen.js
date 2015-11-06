@@ -105,7 +105,7 @@ let ConversationScreen = React.createClass({
 
     setTimeout(() => {
       InteractionManager.runAfterInteractions(() => {
-        this.props.dispatch(sendWorkingMessage());
+        this.props.dispatch(sendWorkingMessage(this.getWorkingMessage()));
 
         setTimeout(() => {
           InteractionManager.runAfterInteractions(() => {
@@ -125,11 +125,11 @@ let ConversationScreen = React.createClass({
   },
 
   onStopComposing: function () {
-    this.props.dispatch(cancelComposingMessage());
+    this.props.dispatch(cancelComposingMessage(this.getWorkingMessage()));
 
     setTimeout(() => {
       InteractionManager.runAfterInteractions(() => {
-        this.props.dispatch(destroyWorkingMessage());
+        this.props.dispatch(destroyWorkingMessage(this.getWorkingMessage()));
 
         setTimeout(() => {
           InteractionManager.runAfterInteractions(() => {
@@ -140,6 +140,12 @@ let ConversationScreen = React.createClass({
         }, 0)
       });
     }, 0);
+  },
+
+  getWorkingMessage: function () {
+    return this.props.messages.filter(
+      m => m.state === 'composing' || m.state === 'cancelling'
+    )[0];
   },
 
   onSelectPicker: function (value) {

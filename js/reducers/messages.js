@@ -1,14 +1,27 @@
-import { append, merge, adjust, findIndex, filter, remove } from 'ramda';
+import ramda from 'ramda';
 import createRoutingReducer from  '../lib/createRoutingReducer';
-import { generateId } from '../lib/Utils';
+import { generateId, rand } from '../lib/Utils';
 import config from '../config';
 
-let initialState = [];
+let {
+  append, merge, adjust, findIndex, filter, remove,
+  evolve, pipe, equals, __, reject, partial,
+  ifElse, identity, reduce, when, always, none,
+  propEq, times, mapObjIndexed
+} = ramda;
 
-export let createMessage = (message, state) => {
+let initialState = {
+  static: [],
+  working: [],
+  enqueued: [],
+  sending: [],
+  placeholder: []
+};
+
+export let createMessage = message => {
   return merge({
     clientId: generateId(),
-    clientTimestamp: new Date().toJSON(),
+    clientTimestamp: new Date().getTime() / 1000,
     state: 'composing',
     expanded: false,
     color: '#CCC',
@@ -17,207 +30,152 @@ export let createMessage = (message, state) => {
   }, message);
 };
 
-let getId = m => m.id || m.clientId;
-
-let updateById = (id, newProps, messages) => {
-  let index = findIndexForId(id, messages);
-  let newMessage = merge(messages[index], newProps);
-  return replaceAtIndex(index, newMessage, messages);
+let createSeedMessage = () => {
+  return createMessage({
+    senderId: 2,
+    width: 75 + Math.floor(Math.random() * 200),
+    height: 75 + Math.floor(Math.random() * 300),
+    recipientId: 1,
+    color: `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`,
+    state: 'complete'
+  });
 };
 
-let getById = (id, messages) => messages[findIndexForId(id, messages)];
-
-let findIndexForId = (id, messages) => {
-  return findIndex(m => m.id === id || m.clientId === id, messages);
+let addMessage = (type, message, state) => {
+  return evolve({
+    [type]: append(message)
+  }, state);
 };
 
-let replaceAtIndex = (index, replacement, collection) =>
-  adjust(i => replacement, index, collection);
-
-let updateAtIndex = (index, newData, collection) =>
-  adjust(m => merge(m, newData), index, collection);
-
-let addOrReplaceExisting = (message, collection) => {
-  let existingIndex = findIndex(m => {
-    return (m.id && m.id === message.id) ||
-      (m.clientId && m.clientId === message.clientId);
-  }, collection);
-
-  let val;
-
-  if (existingIndex !== -1) {
-    val = adjust(i => message, existingIndex, collection);
-  } else {
-    val = append(message, collection);
-  }
-
-  return val;
+let updateMessage = (type, message, data, state) => {
+  return evolve({
+    [type]: (messages) => {
+      let index = findIndex(equals(message), messages);
+      return adjust(merge(__, data), index, messages)
+    }
+  })(state);
 };
 
-let maybeCreatePlaceholder = (senderId, state) => {
-  let index = findPlaceholderIndex(senderId, state);
-
-  if (index === -1) {
-    return append({
-      state: 'placeholder',
-      senderId: senderId
-    }, state);
-  } else {
-    return state;
-  }
+let removeMessage = (type, message, state) => {
+  return evolve({
+    [type]: reject(equals(message))
+  }, state);
 };
 
-let maybeRemovePlaceholder = (senderId, state) => {
-  let index = findPlaceholderIndex(senderId, state);
-
-  if (index !== -1) {
-    return remove(index, 1, state);
-  } else {
-    return state;
-  }
-}
-
-let findPlaceholderIndex = (senderId, state) => {
-  return findIndex(
-    m => m.state === 'placeholder' && m.senderId === senderId
+let changeMessageType = (fromType, toType, message, state) => {
+  return pipe(
+    partial(removeMessage, [fromType, message]),
+    partial(addMessage, [toType, message])
   )(state);
-};
-
-let findWorkingMessageIndex = collection =>
-  findIndex((m)=> m.state === 'composing', collection);
-
-let updateWorkingMessage = (data, collection) => {
-  let index = findWorkingMessageIndex(collection);
-
-  if (index === -1) {
-    return collection;
-  } else {
-    return updateAtIndex(index, data, collection);
-  }
 };
 
 let handlers = {
   init: function (state, action) {
-    if (!config.seedMessages) return action.appState.messages || initialState;
+    let messages = action.appState.messages || initialState;
+    if (!config.seedMessages) return messages;
 
-    let appState = { action };
-    let messageCount = 1000;
-
-    let rand255 = function () {
-      return Math.floor(Math.random() * 255);
+    while (messages.static.length < config.seedMessageCount) {
+      messages.static.push(createSeedMessage());
     }
 
-    if (!appState.messages) {
-      appState.messages = [];
-    }
-
-    if (appState.messages.length > messageCount) {
-      appState.messages = appState.messages.slice(0, messageCount);
-    } else if (appState.messages.length < messageCount) {
-      while (appState.messages.length < messageCount) {
-        appState.messages.push(createMessage({
-          senderId: 2,
-          width: 75 + Math.floor(Math.random() * 200),
-          height: 75 + Math.floor(Math.random() * 300),
-          recipientId: 1,
-          color: `rgb(${rand255()}, ${rand255()}, ${rand255()})`,
-          state: 'complete'
-        }));
-      }
-    }
-
-    return appState.messages;
+    return messages;
   },
 
   startComposingMessage: function (state, action) {
-    let newState = [...state, createMessage(action.message)];
-    return newState;
+    return addMessage('working', createMessage(action.message), state);
   },
 
   cancelComposingMessage: function (state, action) {
-    return updateWorkingMessage({ state: 'cancelling' }, state);
+    return updateMessage('working', action.message, { state: 'cancelling' }, state);
   },
 
   destroyWorkingMessage: function (state, action) {
-    state = state.filter(m => m.state !== 'composing');
-    return state;
+    return removeMessage('working', action.message, state);
   },
 
   updateWorkingMessage: function (state, action) {
-    return updateWorkingMessage(action.messageData, state);
+    return updateMessage('working', action.message, action.messageData, state);
   },
 
   sendWorkingMessage: function (state, action) {
-    let index = findWorkingMessageIndex(state);
-
-    newState = updateAtIndex(index, {
-      state: 'enqueued'
-    }, state);
-
-    return newState;
+    state = pipe(
+      partial(changeMessageType, ['working', 'enqueued', action.message]),
+      partial(updateMessage, ['enqueued', action.message, { state: 'enqueued' }])
+    )(state);
+    return state;
   },
 
   sendMessages: function (state, action) {
-    let messages = action.messages.map(m => merge(m, {
-        state: action.state
-      }, action.state === 'failed' && {
-        error: action.error
-      })
-    );
+    return {
+      started: this.handleSendMessageStart,
+      complete: this.handleSendMessageCompletion,
+      failed: this.handleSendMessageFailure
+    }[action.state](state, action);
+  },
 
-    messages.forEach(m => {
-      let messageIndex = findIndexForId(m.clientId, state);
+  handleSendMessageStart: function (state, action) {
+    return reduce((curState, message) => pipe(
+      partial(changeMessageType, ['enqueued', 'sending', message]),
+      partial(updateMessage, ['sending', message, { state: 'sending' }])
+    )(curState), state, action.messages);
+  },
 
-      if (messageIndex == -1) {
-        state = append(m, state);
-      } else {
-        state = replaceAtIndex(messageIndex, m, state);
-      }
-    });
+  handleSendMessageCompletion: function (state, action) {
+    return reduce((curState, message) => pipe(
+      partial(changeMessageType, ['sending', 'static', message]),
+      partial(updateMessage, ['static', message, { state: 'complete' }])
+    )(curState), state, action.messages);
+  },
 
-    return state;
+  handleSendMessageFailure: function (state, action) {
+    return reduce((curState, message) => pipe(
+      partial(changeMessageType, ['sending', 'static', message]),
+      partial(updateMessage, ['static', message, { state: 'failed', error: action.error }])
+    )(curState), state, action.messages);
   },
 
   receiveMessage: function (state, action) {
     let message = merge(action.message, { state: 'fresh' });
-    state = maybeRemovePlaceholder(action.message.senderId, state);
-    return addOrReplaceExisting(message, state);
+    return addMessage('static', message, state);
   },
 
   markMessageStale: function (state, action) {
-    return updateById(getId(action.message), {
-      state: 'complete'
-    }, state);
+    return updateMessage('static', action.message, { state: 'complete' }, state);
   },
 
   toggleMessageExpansion: function (state, action) {
-    let messageId = getId(action.message);
-    let oldMessage = getById(messageId, state);
-
-    return updateById(messageId, {
-      expanded: !oldMessage.expanded
-    }, state);
+    let expanded = !action.message.expanded;
+    return updateMessage('static', action.message, { expanded }, state);
   },
 
   receiveComposeEvent: function (state, action) {
-    return maybeCreatePlaceholder(action.senderId, state);
+    return evolve({
+      placeholder: when(
+        none(propEq('senderId', action.senderId)),
+        append({ state: 'placeholder', senderId: action.senderId })
+      )
+    })(state);
   },
 
   composeEventExpire: function (state, action) {
-    return maybeRemovePlaceholder(action.senderId, state);
+    return evolve({
+      placeholder: reject(propEq('senderId', action.senderId))
+    })(state);
   },
 
   resetComposeEvents: function (state, action) {
-    return filter(m => m.state !== 'placeholder', state);
+    return evolve({
+      placeholder: always([])
+    })(state);
   },
 
   deleteConversation: function (state, action) {
     let id = action.conversation.recipientId;
 
-    return filter(
-      m => m.recipientId !== id && m.senderId !== id,
-      state
-    );
+    let inConversation = m =>
+      m.senderId === id || m.recipientId === id;
+
+    return mapObjIndexed(reject(inConversation), state);
   }
 };
 

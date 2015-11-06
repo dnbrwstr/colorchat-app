@@ -60,7 +60,6 @@ let socketServiceBase = {
 
   updateComposeEvents: function () {
     this.props.composingMessages.forEach(m => {
-      console.log('emitting')
       this.client.emit(COMPOSE_EVENT, { recipientId: m.recipientId });
     });
   },
@@ -75,11 +74,12 @@ let socketServiceBase = {
 
     client.on(MESSAGE_EVENT, (data, cb) => {
       this.props.dispatch(receiveMessage(data));
-      if (cb) cb();
+      cb && cb();
     });
 
     client.on(COMPOSE_EVENT, (data, cb) => {
       this.props.dispatch(receiveComposeEvent(data));
+      cb && cb();
     });
 
     client.on('connect_error', e => {

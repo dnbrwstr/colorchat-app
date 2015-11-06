@@ -9,3 +9,7 @@ export let bindObjectMethods = object => {
 
   return object;
 };
+
+export let rand = (max) => {
+  return Math.round(Math.random() * max);
+};

@@ -51,7 +51,7 @@ let notificationServiceSelector = state => {
   return {
     requestPermissions: state.notifications.requestPermissions,
     currentRoute: state.navigation.route,
-    unreadCount: state.messages.filter(m => m.state === 'fresh').length
+    unreadCount: state.messages.static.filter(m => m.state === 'fresh').length
   };
 };
 

@@ -134,6 +134,7 @@ let MessageList = React.createClass({
         onRetrySend={bind(this.onRetryMessageSend)}
         fromCurrentUser={fromCurrentUser}
         key={messageData.id || messageData.clientId}
+        message={messageData}
         { ...messageData }
       />
     );

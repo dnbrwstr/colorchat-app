@@ -1,25 +1,23 @@
-import { merge, find, propEq, filter } from 'ramda';
+import { merge, find, propEq, filter, reduce } from 'ramda';
 import { createSelector } from 'reselect';
 
 // Selector creaters
 
-export let createConversationSelector = userId => state =>
-  state.messages.filter(m =>
-    (m.recipientId === userId || m.senderId === userId)
-  ).sort((a, b) => {
-    let timeA = new Date(a.clientTimestamp || a.createdAt);
-    let timeB = new Date(b.clientTimestamp || b.createdAt);
+export let createConversationSelector = userId => state => {
+  let orderedTypes = [
+    'static',
+    'sending',
+    'enqueued',
+    'placeholder',
+    'working'
+  ];
 
-    if (a.state === 'composing' && b.state !== 'composing') return -1;
-    else if (a.state !== 'composing' && b.state === 'composing') return 1;
-    else if (a.state === 'placeholder' && b.state !== 'placeholder') return -1;
-    else if (a.state !== 'placeholder' && b.state === 'placeholder') return -1;
-    else if (timeA > timeB) return -1;
-    else if (timeA < timeB) return 1;
-    else if ((a.clientId || a.id) > (b.clientId || b.id)) return -1;
-    else if ((a.clientId || a.id) < (b.clientId || b.id)) return 1;
-    else return 0;
-  });
+  return orderedTypes.reduce((memo, type) => {
+      return memo.concat(state.messages[type]) ;
+    }, []).filter(m =>
+    (m.recipientId === userId || m.senderId === userId)
+  ).reverse();
+};
 
 export let createContactSelector = contactId => state =>
   state.contacts.filter(c => c.id === contactId)[0];
@@ -59,22 +57,9 @@ export let inboxScreenSelector = (state, ownProps) => {
 };
 
 export let socketServiceSelector = state => {
-  let enqueuedMessages = [];
-  let composingMessages = [];
-
-  var messages = state.messages;
-  var l = messages.length;
-  for (var i = 0; i < l; ++i) {
-    if (messages[i].state === 'enqueued') {
-      enqueuedMessages.push(messages[i]);
-    } else if (messages[i].state === 'composing') {
-      composingMessages.push(messages[i]);
-    }
-  }
-
   return {
-    enqueuedMessages,
-    composingMessages,
+    enqueuedMessages: state.messages.enqueued,
+    composingMessages: state.messages.working,
     token: state.user.token
   }
 };

@@ -12,7 +12,7 @@ export let receiveMessage = message => (dispatch, getState) => {
 
   dispatch({
     type: 'receiveMessage',
-    message: message
+    message
   });
 };
 
@@ -23,32 +23,36 @@ export let startComposingMessage = message => {
   };
 };
 
-export let cancelComposingMessage = () => {
+export let cancelComposingMessage = message => {
   return {
-    type: 'cancelComposingMessage'
+    type: 'cancelComposingMessage',
+    message
   };
 };
 
-export let destroyWorkingMessage = () => {
+export let destroyWorkingMessage = message => {
   return {
-    type: 'destroyWorkingMessage'
+    type: 'destroyWorkingMessage',
+    message
   };
 };
 
-export let updateWorkingMessage = messageData => (dispatch, getState) => {
+export let updateWorkingMessage = (message, messageData) => (dispatch, getState) => {
   let data = merge(messageData, {
     senderId: getState().user.id,
   });
 
   dispatch({
     type: 'updateWorkingMessage',
+    message,
     messageData: data
   });
 };
 
-export let sendWorkingMessage = () => {
+export let sendWorkingMessage = message => {
   return {
-    type: 'sendWorkingMessage'
+    type: 'sendWorkingMessage',
+    message
   };
 };
 
@@ -66,14 +70,14 @@ export let sendMessages = messages => async (dispatch, getState) => {
   dispatch({
     type: 'sendMessages',
     state: 'enqueued',
-    messages: messages
+    messages
   });
 };
 
 export let markMessageStale = message => {
   return {
     type: 'markMessageStale',
-    message: message
+    message
   }
 };
 

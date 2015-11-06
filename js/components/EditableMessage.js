@@ -178,7 +178,7 @@ let EditableMessage = React.createClass({
   },
 
   onDragStop: function () {
-    this.props.dispatch(updateWorkingMessage({
+    this.props.dispatch(updateWorkingMessage(this.props.message, {
       color: this.state.workingColor,
       height: this.state.workingHeight,
       width: this.state.workingWidth
@@ -190,7 +190,7 @@ let EditableMessage = React.createClass({
       workingColor: color
     });
 
-    this.props.dispatch(updateWorkingMessage({
+    this.props.dispatch(updateWorkingMessage(this.props.message, {
       color: color
     }));
   }

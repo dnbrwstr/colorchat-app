@@ -205,7 +205,7 @@
 		C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTPlaceholderMessage.m; sourceTree = "<group>"; };
 		C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderMessage.m; sourceTree = "<group>"; };
 		C8408D031BEC5D29002C688F /* PlaceholderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceholderMessage.h; sourceTree = "<group>"; };
-		C84B142B1BEC483900557C38 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Parse.plist; sourceTree = "<group>"; };
+		C84B142B1BEC483900557C38 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Parse.plist; path = iOS/Parse.plist; sourceTree = "<group>"; };
 		C87337A21BC5BAD600C10905 /* SettingsApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsApp.h; sourceTree = "<group>"; };
 		C87337A31BC5BAE600C10905 /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsApp.m; sourceTree = "<group>"; };
 		C878D45A1B7AA3590041C35C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };

@@ -32,7 +32,8 @@ let {
   cancelComposingMessage,
   destroyWorkingMessage,
   toggleMessageExpansion,
-  loadMessages
+  loadMessages,
+  unloadOldMessages
 } = MessageActions;
 
 let ConversationScreen = React.createClass({
@@ -87,6 +88,7 @@ let ConversationScreen = React.createClass({
           scrollLocked={this.props.composing}
           messages={this.props.messages}
           user={this.props.user}
+          onBeginningReached={this.handleScrollToBottom}
           onEndReached={this.loadNextPage}
         />
         <ComposeBar
@@ -114,6 +116,11 @@ let ConversationScreen = React.createClass({
         </StickyView>
       </View>
     );
+  },
+
+  handleScrollToBottom: function () {
+    console.log('unload');
+    this.props.dispatch(unloadOldMessages());
   },
 
   onSendMessage: function (message) {

@@ -153,7 +153,17 @@ let handlers = {
     if (action.messages) {
       return evolve({
         total: always(action.total),
-        static: concat(action.messages)
+        static: concat(__, action.messages)
+      }, state);
+    } else {
+      return state;
+    }
+  },
+
+  unloadOldMessages: function (state, action) {
+    if (state.static.length > KEEP_LOADED_COUNT) {
+      return evolve({
+        static: slice(0, KEEP_LOADED_COUNT)
       }, state);
     } else {
       return state;

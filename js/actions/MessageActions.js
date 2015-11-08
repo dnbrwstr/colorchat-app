@@ -118,3 +118,9 @@ export let loadMessages = (contactId, page=1) => async (dispatch, getState) => {
     total
   });
 };
+
+export let unloadOldMessages = () => {
+  return {
+    type: 'unloadOldMessages'
+  };
+};

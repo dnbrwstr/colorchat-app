@@ -3,6 +3,7 @@ import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import Style from '../style';
 import Message from './Message';
 import measure from '../measure';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   View,
@@ -10,6 +11,8 @@ let {
   ListView,
   Dimensions
 } = React;
+
+let BEGINNING_REACHED_OFFSET = 1000;
 
 let compare = (comparisons, a, b) => {
   return comparisons.some(c => {
@@ -36,11 +39,15 @@ let getMessageData = (dataBlob, sectionId, rowId) => {
 };
 
 let MessageList = React.createClass({
+  mixins: [TimerMixin],
+
   getDefaultProps: function () {
     return {
       onToggleMessageExpansion: () => {},
       onRetrySend: () => {},
-      onPresentMessage: () => {}
+      onPresentMessage: () => {},
+      onBeginningReached: () => {},
+      onEndReached: () => {}
     };
   },
 
@@ -152,9 +159,14 @@ let MessageList = React.createClass({
   },
 
   handleScroll: function (e) {
-    this.setState({
-      scrollOffset: e.nativeEvent.contentOffset.y
-    });
+    let scrollOffset = e.nativeEvent.contentOffset.y;
+
+    if (scrollOffset < BEGINNING_REACHED_OFFSET &&
+        this.state.scrollOffset >= BEGINNING_REACHED_OFFSET) {
+      this.setThrottleTimer('beginningReached', this.props.onBeginningReached, 1000);
+    }
+
+    this.setState({ scrollOffset });
 
     if (this.props.scrollBridge) this.props.scrollBridge.handleScroll(e);
   },

@@ -16,10 +16,9 @@ let StickyView = React.createClass({
   mixins: [TimerMixin],
 
   propTypes: {
-    autoHide: React.PropTypes.boolean,
+    autoHide: React.PropTypes.bool,
     autoHideDelay: React.PropTypes.number,
-    scrollBridge: React.PropTypes.object,
-    lastOffset: 0
+    scrollBridge: React.PropTypes.object
   },
 
   getDefaultProps: function () {
@@ -34,7 +33,8 @@ let StickyView = React.createClass({
       hidden: false,
       animating: false,
       animatedOffset: new Animated.Value(0),
-      contentHeight: 0
+      contentHeight: 0,
+      lastOffset: 0
     };
   },
 

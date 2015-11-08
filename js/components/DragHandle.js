@@ -31,7 +31,7 @@ let DragHandle = React.createClass({
           onResponderTerminationRequest={()=>false}
         >
           <View style={style.handle}>
-            <Image style={style.image} source={require('image!vertical-resize-icon')} />
+            <Image style={style.image} source={require('../../images/vertical-resize-icon.png')} />
           </View>
         </Animated.View>
       </Overlay>

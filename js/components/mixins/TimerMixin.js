@@ -29,11 +29,14 @@ let TimerMixin = {
 
   setThrottleTimer: function (name, fn, duration) {
     let handle = getHandle(name, 'Throttle');
-
     if (this.state[handle]) return;
 
+    fn();
+
     this.setState({
-      [handle]: setTimeout(fn, duration)
+      [handle]: setTimeout(() => {
+        this.setState({ [handle]: null });
+      }, duration)
     });
   },
 

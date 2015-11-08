@@ -47,7 +47,7 @@ let MessageList = React.createClass({
   getInitialState: function () {
     return {
       scrollOffset: 0,
-      workingData: this.getDataSource()
+      workingData: this.getDataSource(this.props.messages)
     };
   },
 
@@ -58,35 +58,41 @@ let MessageList = React.createClass({
       this.state.workingData !== nextState.workingData;
   },
 
-  componentDidUpdate: function (prevProps, prevState) {
-    if (this.props.messages === prevProps.messages) return;
+  componentWillReceiveProps: function (nextProps) {
+    if (this.props.messages === nextProps.messages) return;
 
     this.setState({
-      workingData: this.getDataSource()
+      workingData: this.getDataSource(nextProps.messages)
     });
 
+    if (!this.props.messages.length || !nextProps.messages.length) return;
+
     // Scroll to bottom when a new message is added
-    if (this.props.messages.length > prevProps.messages.length) {
+    let composeStarted =
+      this.props.messages[0].state !== 'composing' &&
+      nextProps.messages[0].state === 'composing';
+
+    if (composeStarted) {
       this.refs.list.getScrollResponder().scrollTo(0);
     }
   },
 
-  getDataSource: function () {
-    let messages = this.getMessages();
-    let messageIds = this.props.messages.map(m => m.clientId || m.id);
+  getDataSource: function (_messages) {
+    let messages = this.formatMessages(_messages);
+    let messageIds = _messages.map(m => m.clientId || m.id);
 
     let dataSource =
       (this.state && this.state.workingData) ||
       new ListView.DataSource({
-        rowHasChanged: messageHasChanged,
+        rowHasChanged: () => true,
         getRowData: getMessageData
       });
 
     return dataSource.cloneWithRows(messages, messageIds);
   },
 
-  getMessages: function () {
-    return this.props.messages.reduce((memo, m) => {
+  formatMessages: function (messages) {
+    return messages.reduce((memo, m) => {
       memo[m.clientId || m.id] = m;
       return memo;
     }, {});
@@ -105,16 +111,21 @@ let MessageList = React.createClass({
         scrollRenderAheadDistance={12}
         pageSize={3}
         renderRow={this.renderMessage}
+        onEndReached={this.props.onEndReached}
       />
     );
   },
 
   renderScrollComponent: function (props) {
+    let onScroll = e => {
+      props.onScroll(e),
+      this.handleScroll(e)
+    };
+
     return (
       <InvertibleScrollView {...props}
         inverted
-        ref="scrollView"
-        onScroll={this.handleScroll}
+        onScroll={onScroll}
         scrollEnabled={!this.props.scrollLocked}
       />
     );
@@ -154,10 +165,8 @@ let MessageList = React.createClass({
     // Return if the message is closing
     if (message.expanded) return;
 
-    /**
-     * Note that top and bottom are flipped here
-     * as we're using an InvertibleScrollView
-     */
+    // Note that top and bottom are flipped here
+    // as we're using an InvertibleScrollView
     let { height, width } = Dimensions.get('window');
     let nextTop = position.top + position.height - nextSize.height;
     let nextOffset = nextTop - Style.values.rowHeight;

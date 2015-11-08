@@ -1,44 +1,22 @@
 import ramda from 'ramda';
 import createRoutingReducer from  '../lib/createRoutingReducer';
-import { generateId, rand } from '../lib/Utils';
+import { createMessage } from '../lib/MessageUtils';
 import config from '../config';
 
 let {
   append, merge, adjust, findIndex, filter, remove,
   evolve, pipe, equals, __, reject, partial,
   ifElse, identity, reduce, when, always, none,
-  propEq, times, mapObjIndexed
+  propEq, times, mapObjIndexed, concat
 } = ramda;
 
 let initialState = {
+  total: null,
   static: [],
   working: [],
   enqueued: [],
   sending: [],
   placeholder: []
-};
-
-export let createMessage = message => {
-  return merge({
-    clientId: generateId(),
-    clientTimestamp: new Date().getTime() / 1000,
-    state: 'composing',
-    expanded: false,
-    color: '#CCC',
-    width: 240,
-    height: 150
-  }, message);
-};
-
-let createSeedMessage = () => {
-  return createMessage({
-    senderId: 2,
-    width: 75 + Math.floor(Math.random() * 200),
-    height: 75 + Math.floor(Math.random() * 300),
-    recipientId: 1,
-    color: `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`,
-    state: 'complete'
-  });
 };
 
 let addMessage = (type, message, state) => {
@@ -71,14 +49,7 @@ let changeMessageType = (fromType, toType, message, state) => {
 
 let handlers = {
   init: function (state, action) {
-    let messages = action.appState.messages || initialState;
-    if (!config.seedMessages) return messages;
-
-    while (messages.static.length < config.seedMessageCount) {
-      messages.static.push(createSeedMessage());
-    }
-
-    return messages;
+    return action.appState.messages || initialState;
   },
 
   startComposingMessage: function (state, action) {
@@ -176,6 +147,17 @@ let handlers = {
       m.senderId === id || m.recipientId === id;
 
     return mapObjIndexed(reject(inConversation), state);
+  },
+
+  loadMessages: function (state, action) {
+    if (action.messages) {
+      return evolve({
+        total: always(action.total),
+        static: concat(action.messages)
+      }, state);
+    } else {
+      return state;
+    }
   }
 };
 

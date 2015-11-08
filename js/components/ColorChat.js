@@ -1,6 +1,9 @@
 import React, { View, StatusBarIOS } from 'react-native';
 import { Provider } from 'react-redux/native';
 import App from './App';
+import config from '../config';
+import { seedMessages } from '../lib/DatabaseUtils';
+import { receiveMessage } from '../actions/MessageActions';
 import createStore from '../lib/createStore';
 import createSocketService from '../lib/createSocketService';
 import createNotificationService from '../lib/createNotificationService';
@@ -13,6 +16,10 @@ let ColorChat = React.createClass({
 
   componentDidMount: async function () {
     let store = await createStore();
+
+    if (config.seedMessages) {
+      seedMessages(config.seedMessageCount)
+    }
 
     this.setState({
       store: store,

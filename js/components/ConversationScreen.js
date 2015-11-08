@@ -15,6 +15,7 @@ import * as MessageActions from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors';
 import { updateConversationUi } from '../actions/AppActions';
 import PlaceholderMessage from './PlaceholderMessage';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   View,
@@ -30,15 +31,34 @@ let {
   startComposingMessage,
   cancelComposingMessage,
   destroyWorkingMessage,
-  toggleMessageExpansion
+  toggleMessageExpansion,
+  loadMessages
 } = MessageActions;
 
 let ConversationScreen = React.createClass({
+  mixins: [TimerMixin],
+
   getInitialState: function () {
     return {
+      page: 0,
+      loadedAll: false,
       scrollBridge: new ScrollBridge,
       lastOffset: 0
     };
+  },
+
+  componentDidMount: function () {
+    this.loadNextPage();
+  },
+
+  loadNextPage: function () {
+    this.setThrottleTimer('loadNext', () => {
+      this.props.dispatch(
+        loadMessages(this.props.contact.id, this.state.page)
+      );
+      let nextPage = ++this.state.page;
+      this.setState({ page: nextPage });
+    }, 1000);
   },
 
   shouldHideHeader: function () {
@@ -67,6 +87,7 @@ let ConversationScreen = React.createClass({
           scrollLocked={this.props.composing}
           messages={this.props.messages}
           user={this.props.user}
+          onEndReached={this.loadNextPage}
         />
         <ComposeBar
           ref="composeBar"

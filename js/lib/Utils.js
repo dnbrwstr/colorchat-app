@@ -1,6 +1,3 @@
-export let generateId = () =>
-  Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
-
 export let bindObjectMethods = object => {
   for (var key in object) {
     if (typeof object[key] === 'function');

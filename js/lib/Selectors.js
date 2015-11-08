@@ -5,18 +5,16 @@ import { createSelector } from 'reselect';
 
 export let createConversationSelector = userId => state => {
   let orderedTypes = [
-    'static',
-    'sending',
-    'enqueued',
+    'working',
     'placeholder',
-    'working'
+    'enqueued',
+    'sending',
+    'static'
   ];
 
   return orderedTypes.reduce((memo, type) => {
-      return memo.concat(state.messages[type]) ;
-    }, []).filter(m =>
-    (m.recipientId === userId || m.senderId === userId)
-  ).reverse();
+    return memo.concat(state.messages[type]) ;
+  }, []);
 };
 
 export let createContactSelector = contactId => state =>

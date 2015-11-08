@@ -1,6 +1,6 @@
 import ramda from 'ramda';
 import createRoutingReducer from  '../lib/createRoutingReducer';
-import { createMessage } from '../lib/MessageUtils';
+import { createMessage, generateId } from '../lib/MessageUtils';
 import config from '../config';
 
 let {
@@ -134,7 +134,7 @@ let handlers = {
     return evolve({
       placeholder: when(
         none(propEq('senderId', action.senderId)),
-        append({ state: 'placeholder', senderId: action.senderId })
+        append({ id: generateId(), state: 'placeholder', senderId: action.senderId })
       )
     })(state);
   },

@@ -1,5 +1,5 @@
 import React from 'react-native';
-import { merge, find, propEq, anyPass, filter } from 'ramda';
+import { merge, find, propEq, anyPass, filter, map, zipWith } from 'ramda';
 import { InteractionManager } from 'react-native';
 import { postJSON } from '../lib/RequestHelpers';
 import { serverRoot } from '../config';
@@ -60,23 +60,20 @@ export let sendWorkingMessage = message => {
   };
 };
 
-export let sendEnqueuedMessages = () => async (dispatch, getState) => {
-  let filterFn = anyPass([propEq('state', 'failed')]);
-  let messages = filter(filterFn, getState().messages);
-  return sendMessages(messages)(dispatch, getState);
-};
-
-export let sendMessage = message => (dispatch, getState) => {
-  sendMessages([message])(dispatch, getState);
-};
-
-export let sendMessages = messages => async (dispatch, getState) => {
-  await messages.map(m => DatabaseUtils.storeMessage(m));
+export let sendMessages = (messages, state, data) => async (dispatch, getState) => {
+  if (state === 'complete') {
+    map(DatabaseUtils.storeMessage, zipWith(
+      merge,
+      messages,
+      data.responseMessages
+    ));
+  }
 
   dispatch({
     type: 'sendMessages',
-    state: 'enqueued',
-    messages
+    messages,
+    state,
+    ...data
   });
 };
 

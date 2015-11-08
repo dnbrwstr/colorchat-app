@@ -5,10 +5,12 @@ import config from '../config';
 
 let {
   append, merge, adjust, findIndex, filter, remove,
-  evolve, pipe, equals, __, reject, partial,
+  evolve, pipe, equals, __, reject, partial, prepend,
   ifElse, identity, reduce, when, always, none,
-  propEq, times, mapObjIndexed, concat
+  propEq, times, mapObjIndexed, concat, slice, zipWith
 } = ramda;
+
+let KEEP_LOADED_COUNT = 50;
 
 let initialState = {
   total: null,
@@ -21,7 +23,7 @@ let initialState = {
 
 let addMessage = (type, message, state) => {
   return evolve({
-    [type]: append(message)
+    [type]: prepend(message)
   }, state);
 };
 
@@ -92,10 +94,19 @@ let handlers = {
   },
 
   handleSendMessageCompletion: function (state, action) {
-    return reduce((curState, message) => pipe(
+    let messagePairs = zipWith(
+      (message, responseMessage) => ({ message, responseMessage }),
+      action.messages,
+      action.responseMessages
+    );
+
+    return reduce((curState, messagePair) => pipe(
       partial(changeMessageType, ['sending', 'static', message]),
-      partial(updateMessage, ['static', message, { state: 'complete' }])
-    )(curState), state, action.messages);
+      partial(
+        updateMessage,
+        ['static', message, merge({ state: 'complete' }, messagePair.responseMessage)]
+      )
+    )(curState), state, messagePairs);
   },
 
   handleSendMessageFailure: function (state, action) {

@@ -4,7 +4,7 @@ import { difference } from 'ramda';
 import { serverRoot } from '../config';
 import createService from '../lib/createService';
 import { socketServiceSelector } from './Selectors';
-import { receiveMessage, sendEnqueuedMessages } from '../actions/MessageActions';
+import { receiveMessage, sendMessages, sendEnqueuedMessages } from '../actions/MessageActions';
 import { receiveComposeEvent, resetComposeEvents } from '../actions/ConversationActions';
 
 let client, store, token;
@@ -109,12 +109,9 @@ let socketServiceBase = {
     if (this.active && hasMessages) {
       this.sendMessage(messages);
     } else if (!this.active && hasMessages) {
-      this.props.dispatch({
-        type: 'sendMessages',
-        state: 'failed',
-        messages: messages,
+      this.props.dispatch(sendMessages(messages, 'failed', {
         error: 'Unable to connect to server'
-      });
+      }));
     }
   },
 
@@ -130,32 +127,21 @@ let socketServiceBase = {
       messageData = [data];
     }
 
-    dispatch({
-      type: 'sendMessages',
-      state: 'started',
-      messages: messageData
-    });
+    dispatch(sendMessages(messageData, 'started'));
 
     let messageTimeout = setTimeout(function () {
-      dispatch({
-        type: 'sendMessages',
-        state: 'failed',
-        messages: messageData,
+      dispatch(sendMessages(messageData, 'failed', {
         error: 'Sending timed out'
-      });
+      }));
     }, 6000);
 
     this.client.emit(MESSAGE_EVENT, messageData, (sentMessages) => {
       clearTimeout(messageTimeout);
 
       InteractionManager.runAfterInteractions(() => {
-        sentMessages.forEach((m, i) => m.clientId = messageData[i].clientId);
-
-        dispatch({
-          type: 'sendMessages',
-          state: 'complete',
-          messages: sentMessages
-        });
+        dispatch(sendMessages(messageData, 'complete', {
+          responseMessages: sentMessages
+        }));
       });
     });
   }

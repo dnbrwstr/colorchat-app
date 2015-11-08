@@ -24,6 +24,9 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		C82B16ED1B824F33005E9BF9 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B16E11B824EFC005E9BF9 /* libRCTAddressBook.a */; };
 		C82E49021BEC151C00EB8382 /* RCTPlaceholderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */; settings = {ASSET_TAGS = (); }; };
+		C82E49231BED606C00EB8382 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E49221BED606C00EB8382 /* DatabaseManager.m */; settings = {ASSET_TAGS = (); }; };
+		C82E49251BED635500EB8382 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82E49241BED635500EB8382 /* Realm.framework */; };
+		C82E492B1BED64DE00EB8382 /* ChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E492A1BED64DE00EB8382 /* ChatMessage.m */; settings = {ASSET_TAGS = (); }; };
 		C8408CF31BEC59FE002C688F /* PlaceholderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */; settings = {ASSET_TAGS = (); }; };
 		C84B142C1BEC483900557C38 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = C84B142B1BEC483900557C38 /* Parse.plist */; settings = {ASSET_TAGS = (); }; };
 		C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C87337A31BC5BAE600C10905 /* SettingsApp.m */; settings = {ASSET_TAGS = (); }; };
@@ -40,6 +43,7 @@
 		C878D4711B7AA3C30041C35C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4701B7AA3C30041C35C /* libsqlite3.dylib */; };
 		C878D4731B7AA9ED0041C35C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4721B7AA9ED0041C35C /* Accounts.framework */; };
 		C878D4751B7AA9F30041C35C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4741B7AA9F30041C35C /* Social.framework */; };
+		C8A15DBB1BED6ECC00ED5338 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C82E49241BED635500EB8382 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C8AEDFBE1BCEEFA7000A456B /* Aileron-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA31BCEEFA6000A456B /* Aileron-Light.otf */; };
 		C8AEDFBF1BCEEFA7000A456B /* Aileron-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA41BCEEFA6000A456B /* Aileron-Regular.otf */; };
 		C8AEDFC01BCEEFA7000A456B /* ClearSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8AEDFA51BCEEFA6000A456B /* ClearSans-Light.ttf */; };
@@ -180,6 +184,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C82E49271BED635500EB8382 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C8A15DBB1BED6ECC00ED5338 /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = iOS/main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -202,9 +220,14 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
-		C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTPlaceholderMessage.m; sourceTree = "<group>"; };
-		C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderMessage.m; sourceTree = "<group>"; };
-		C8408D031BEC5D29002C688F /* PlaceholderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceholderMessage.h; sourceTree = "<group>"; };
+		C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTPlaceholderMessage.m; path = iOS/RCTPlaceholderMessage.m; sourceTree = "<group>"; };
+		C82E49211BED605700EB8382 /* DatabaseManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DatabaseManager.h; path = iOS/DatabaseManager.h; sourceTree = "<group>"; };
+		C82E49221BED606C00EB8382 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseManager.m; path = iOS/DatabaseManager.m; sourceTree = "<group>"; };
+		C82E49241BED635500EB8382 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		C82E49291BED64DE00EB8382 /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatMessage.h; path = iOS/ChatMessage.h; sourceTree = "<group>"; };
+		C82E492A1BED64DE00EB8382 /* ChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatMessage.m; path = iOS/ChatMessage.m; sourceTree = "<group>"; };
+		C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceholderMessage.m; path = iOS/PlaceholderMessage.m; sourceTree = "<group>"; };
+		C8408D031BEC5D29002C688F /* PlaceholderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PlaceholderMessage.h; path = iOS/PlaceholderMessage.h; sourceTree = "<group>"; };
 		C84B142B1BEC483900557C38 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Parse.plist; path = iOS/Parse.plist; sourceTree = "<group>"; };
 		C87337A21BC5BAD600C10905 /* SettingsApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsApp.h; sourceTree = "<group>"; };
 		C87337A31BC5BAE600C10905 /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsApp.m; sourceTree = "<group>"; };
@@ -262,6 +285,7 @@
 				C878D4751B7AA9F30041C35C /* Social.framework in Frameworks */,
 				C878D4731B7AA9ED0041C35C /* Accounts.framework in Frameworks */,
 				C878D4711B7AA3C30041C35C /* libsqlite3.dylib in Frameworks */,
+				C82E49251BED635500EB8382 /* Realm.framework in Frameworks */,
 				C878D46F1B7AA3BB0041C35C /* libz.dylib in Frameworks */,
 				C878D46D1B7AA3B50041C35C /* SystemConfiguration.framework in Frameworks */,
 				C878D4691B7AA3A80041C35C /* Security.framework in Frameworks */,
@@ -372,6 +396,10 @@
 				C84B142B1BEC483900557C38 /* Parse.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				C82E49291BED64DE00EB8382 /* ChatMessage.h */,
+				C82E492A1BED64DE00EB8382 /* ChatMessage.m */,
+				C82E49211BED605700EB8382 /* DatabaseManager.h */,
+				C82E49221BED606C00EB8382 /* DatabaseManager.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -463,6 +491,7 @@
 		C878D4591B7AA3590041C35C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C82E49241BED635500EB8382 /* Realm.framework */,
 				C878D4741B7AA9F30041C35C /* Social.framework */,
 				C878D4721B7AA9ED0041C35C /* Accounts.framework */,
 				C878D4701B7AA3C30041C35C /* libsqlite3.dylib */,
@@ -548,6 +577,8 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				C82E49271BED635500EB8382 /* Embed Frameworks */,
+				C82E49281BED639D00EB8382 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -802,6 +833,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C82E49281BED639D00EB8382 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		13B07F871A680F5B00A75B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -811,6 +858,8 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */,
+				C82E49231BED606C00EB8382 /* DatabaseManager.m in Sources */,
+				C82E492B1BED64DE00EB8382 /* ChatMessage.m in Sources */,
 				C82E49021BEC151C00EB8382 /* RCTPlaceholderMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

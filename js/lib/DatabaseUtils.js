@@ -47,7 +47,6 @@ export let loadMessages = _options => {
 };
 
 export let storeMessage = _message => {
-  console.log('storing', _message);
   let message = pick(ALLOWED_MESSAGE_PROPS, _message);
   return new Promise(function (resolve, reject) {
     DatabaseManager.storeMessage(

@@ -91,7 +91,7 @@ let MessageList = React.createClass({
     let dataSource =
       (this.state && this.state.workingData) ||
       new ListView.DataSource({
-        rowHasChanged: () => true,
+        rowHasChanged: messageHasChanged,
         getRowData: getMessageData
       });
 

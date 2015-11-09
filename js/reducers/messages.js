@@ -115,6 +115,7 @@ let handlers = {
 
   handleSendMessageFailure: function (state, action) {
     return reduce((curState, message) => pipe(
+      partial(changeMessageType, ['enqueued', 'static', message]),
       partial(changeMessageType, ['sending', 'static', message]),
       partial(updateMessage, ['static', message, { state: 'failed', error: action.error }])
     )(curState), state, action.messages);

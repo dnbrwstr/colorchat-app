@@ -7,8 +7,6 @@ let {
   requireNativeComponent
 } = React;
 
-let NativePlaceholderComponent = requireNativeComponent('RCTPlaceholderMessage', null);
-
 let PlaceholderMessage = React.createClass({
   render: function () {
     return (

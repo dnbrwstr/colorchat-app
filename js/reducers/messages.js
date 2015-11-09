@@ -43,10 +43,14 @@ let removeMessage = (type, message, state) => {
 };
 
 let changeMessageType = (fromType, toType, message, state) => {
-  return pipe(
-    partial(removeMessage, [fromType, message]),
-    partial(addMessage, [toType, message])
-  )(state);
+  if (state[toType].indexOf(message) !== -1) {
+    return state;
+  } else {
+    return pipe(
+      partial(removeMessage, [fromType, message]),
+      partial(addMessage, [toType, message])
+    )(state);
+  }
 };
 
 let handlers = {

@@ -121,9 +121,19 @@ let handlers = {
     )(curState), state, action.messages);
   },
 
+  resendMessage: function (state, action) {
+    return pipe(
+      partial(changeMessageType, ['static', 'enqueued', action.message]),
+      partial(updateMessage, ['enqueued', action.message, { state: 'enqueued', error: null }])
+    )(state);
+  },
+
   receiveMessage: function (state, action) {
     let message = merge(action.message, { state: 'fresh' });
-    return addMessage('static', message, state);
+    return pipe(
+      partial(this.resetComposeEvents, []),
+      partial(addMessage, ['static', message]),
+    )(state);
   },
 
   markMessageStale: function (state, action) {

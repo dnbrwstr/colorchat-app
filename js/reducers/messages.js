@@ -6,7 +6,7 @@ import config from '../config';
 let {
   append, merge, adjust, findIndex, filter, remove,
   evolve, pipe, equals, __, reject, partial, prepend,
-  ifElse, identity, reduce, when, always, none,
+  ifElse, identity, reduce, when, always, none, any,
   propEq, times, mapObjIndexed, concat, slice, zipWith
 } = ramda;
 
@@ -135,12 +135,17 @@ let handlers = {
   },
 
   receiveComposeEvent: function (state, action) {
-    return evolve({
-      placeholder: when(
-        none(propEq('senderId', action.senderId)),
-        append({ id: generateId(), state: 'placeholder', senderId: action.senderId })
-      )
-    })(state);
+    if (any(propEq('senderId', action.senderId), state.placeholder)) {
+      return state;
+    } else {
+      return evolve({
+        placeholder: append({
+          id: generateId(),
+          state: 'placeholder',
+          senderId: action.senderId
+        })
+      }, state);
+    }
   },
 
   composeEventExpire: function (state, action) {

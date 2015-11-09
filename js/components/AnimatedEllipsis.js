@@ -56,7 +56,7 @@ let AnimatedEllipsis = React.createClass({
       ];
 
       return (
-        <View style={dotStyle} />
+        <View style={dotStyle} key={`dot-${i}`} />
       );
     }, 3);
 

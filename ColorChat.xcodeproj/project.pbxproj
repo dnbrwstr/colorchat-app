@@ -23,11 +23,9 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		C82B16ED1B824F33005E9BF9 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B16E11B824EFC005E9BF9 /* libRCTAddressBook.a */; };
-		C82E49021BEC151C00EB8382 /* RCTPlaceholderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */; settings = {ASSET_TAGS = (); }; };
 		C82E49231BED606C00EB8382 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E49221BED606C00EB8382 /* DatabaseManager.m */; settings = {ASSET_TAGS = (); }; };
 		C82E49251BED635500EB8382 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82E49241BED635500EB8382 /* Realm.framework */; };
 		C82E492B1BED64DE00EB8382 /* ChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E492A1BED64DE00EB8382 /* ChatMessage.m */; settings = {ASSET_TAGS = (); }; };
-		C8408CF31BEC59FE002C688F /* PlaceholderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */; settings = {ASSET_TAGS = (); }; };
 		C84B142C1BEC483900557C38 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = C84B142B1BEC483900557C38 /* Parse.plist */; settings = {ASSET_TAGS = (); }; };
 		C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C87337A31BC5BAE600C10905 /* SettingsApp.m */; settings = {ASSET_TAGS = (); }; };
 		C878D45C1B7AA3590041C35C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D45A1B7AA3590041C35C /* Bolts.framework */; };
@@ -220,14 +218,11 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
-		C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTPlaceholderMessage.m; path = iOS/RCTPlaceholderMessage.m; sourceTree = "<group>"; };
 		C82E49211BED605700EB8382 /* DatabaseManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DatabaseManager.h; path = iOS/DatabaseManager.h; sourceTree = "<group>"; };
 		C82E49221BED606C00EB8382 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseManager.m; path = iOS/DatabaseManager.m; sourceTree = "<group>"; };
 		C82E49241BED635500EB8382 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		C82E49291BED64DE00EB8382 /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatMessage.h; path = iOS/ChatMessage.h; sourceTree = "<group>"; };
 		C82E492A1BED64DE00EB8382 /* ChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatMessage.m; path = iOS/ChatMessage.m; sourceTree = "<group>"; };
-		C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceholderMessage.m; path = iOS/PlaceholderMessage.m; sourceTree = "<group>"; };
-		C8408D031BEC5D29002C688F /* PlaceholderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PlaceholderMessage.h; path = iOS/PlaceholderMessage.h; sourceTree = "<group>"; };
 		C84B142B1BEC483900557C38 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Parse.plist; path = iOS/Parse.plist; sourceTree = "<group>"; };
 		C87337A21BC5BAD600C10905 /* SettingsApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsApp.h; sourceTree = "<group>"; };
 		C87337A31BC5BAE600C10905 /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsApp.m; sourceTree = "<group>"; };
@@ -406,9 +401,6 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				C87337A21BC5BAD600C10905 /* SettingsApp.h */,
 				C87337A31BC5BAE600C10905 /* SettingsApp.m */,
-				C82E49011BEC151C00EB8382 /* RCTPlaceholderMessage.m */,
-				C8408D031BEC5D29002C688F /* PlaceholderMessage.h */,
-				C8408CF21BEC59FE002C688F /* PlaceholderMessage.m */,
 			);
 			name = ColorChat;
 			sourceTree = "<group>";
@@ -854,13 +846,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8408CF31BEC59FE002C688F /* PlaceholderMessage.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */,
 				C82E49231BED606C00EB8382 /* DatabaseManager.m in Sources */,
 				C82E492B1BED64DE00EB8382 /* ChatMessage.m in Sources */,
-				C82E49021BEC151C00EB8382 /* RCTPlaceholderMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

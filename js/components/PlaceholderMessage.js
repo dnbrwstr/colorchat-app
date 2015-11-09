@@ -3,6 +3,7 @@ import Style from '../style';
 
 let {
   Animated,
+  Image,
   requireNativeComponent
 } = React;
 
@@ -11,7 +12,7 @@ let NativePlaceholderComponent = requireNativeComponent('RCTPlaceholderMessage',
 let PlaceholderMessage = React.createClass({
   render: function () {
     return (
-      <NativePlaceholderComponent style={style.placeholder} />
+      <Image style={style.image} source={require('../../images/compose-indicator.gif')} />
     );
   },
 });
@@ -19,8 +20,9 @@ let PlaceholderMessage = React.createClass({
 let style = Style.create({
   placeholder: {
     width: 100,
-    height: 30,
+    height: 10,
     margin: 0,
+    backgroundColor: 'black'
   }
 });
 

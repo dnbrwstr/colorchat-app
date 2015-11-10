@@ -7,7 +7,8 @@ let {
   append, merge, adjust, findIndex, filter, remove,
   evolve, pipe, equals, __, reject, partial, prepend,
   ifElse, identity, reduce, when, always, none, any,
-  propEq, times, mapObjIndexed, concat, slice, zipWith
+  propEq, times, mapObjIndexed, concat, slice, zipWith,
+  curry
 } = ramda;
 
 let KEEP_LOADED_COUNT = 50;
@@ -21,6 +22,16 @@ let initialState = {
   placeholder: []
 };
 
+let getId = message => message.clientId || message.id;
+
+let findMessageIndex = curry((message, messages) => {
+  return findIndex(m => getId(m) === getId(message), messages);
+});
+
+let messageEquals = curry((messageA, messageB) => {
+  return getId(messageA) === getId(messageB);
+});
+
 let addMessage = (type, message, state) => {
   return evolve({
     [type]: prepend(message)
@@ -30,7 +41,7 @@ let addMessage = (type, message, state) => {
 let updateMessage = (type, message, data, state) => {
   return evolve({
     [type]: (messages) => {
-      let index = findIndex(equals(message), messages);
+      let index = findMessageIndex(message, messages);
       return adjust(merge(__, data), index, messages)
     }
   })(state);
@@ -38,12 +49,12 @@ let updateMessage = (type, message, data, state) => {
 
 let removeMessage = (type, message, state) => {
   return evolve({
-    [type]: reject(equals(message))
+    [type]: reject(messageEquals(message))
   }, state);
 };
 
 let changeMessageType = (fromType, toType, message, state) => {
-  if (state[toType].indexOf(message) !== -1) {
+  if (findMessageIndex(message, state[toType]) !== -1) {
     return state;
   } else {
     return pipe(
@@ -105,10 +116,10 @@ let handlers = {
     );
 
     return reduce((curState, messagePair) => pipe(
-      partial(changeMessageType, ['sending', 'static', message]),
+      partial(changeMessageType, ['sending', 'static', messagePair.message]),
       partial(
         updateMessage,
-        ['static', message, merge({ state: 'complete' }, messagePair.responseMessage)]
+        ['static', messagePair.message, merge({ state: 'complete' }, messagePair.responseMessage)]
       )
     )(curState), state, messagePairs);
   },

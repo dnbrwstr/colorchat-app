@@ -98,8 +98,8 @@ let EditableMessage = React.createClass({
 
     let top = screenHeight - height - verticalOffset;
     let left = screenWidth - width;
-    let verticalMidpoint = top + (height / 2);
-    let horizontalMidpoint = left + (width / 2);
+    let verticalMidpoint = top + (height / 2) + 6;
+    let horizontalMidpoint = left + (width / 2) + 6;
 
     let topValue = this.state.animatedHeight.interpolate({
       inputRange: [0, 1],
@@ -115,7 +115,6 @@ let EditableMessage = React.createClass({
       position: 'absolute',
       opacity: this.state.animatedOpacity
     };
-
 
     let handleStyles = {
       horizontal: {

@@ -4,6 +4,7 @@ import Style from '../style';
 import DragHandle from './DragHandle';
 import { updateWorkingMessage } from '../actions/MessageActions';
 import SimpleColorPicker from './SimpleColorPicker';
+import { constrain } from '../lib/Utils';
 
 let {
   View,
@@ -12,6 +13,11 @@ let {
   InteractionManager,
   Text
 } = React;
+
+const MIN_MESSAGE_HEIGHT = 50;
+const MAX_MESSAGE_HEIGHT = 400;
+const MIN_MESSAGE_WIDTH = 50;
+const MAX_MESSAGE_WIDTH = 290;
 
 let EditableMessage = React.createClass({
   getInitialState: function () {
@@ -172,11 +178,19 @@ let EditableMessage = React.createClass({
     let nextState = {};
 
     if (axis === 'vertical' || axis === 'diagonal') {
-      nextState.workingHeight = screenHeight - e.nativeEvent.pageY - Style.values.rowHeight;
+      nextState.workingHeight = constrain(
+        screenHeight - e.nativeEvent.pageY - Style.values.rowHeight,
+        MIN_MESSAGE_HEIGHT,
+        MAX_MESSAGE_HEIGHT
+      );
     }
 
     if (axis === 'horizontal' || axis === 'diagonal') {
-      nextState.workingWidth = screenWidth - e.nativeEvent.pageX;
+      nextState.workingWidth = constrain(
+        screenWidth - e.nativeEvent.pageX,
+        MIN_MESSAGE_WIDTH,
+        MAX_MESSAGE_WIDTH
+      );
     }
 
     this.setState(nextState);

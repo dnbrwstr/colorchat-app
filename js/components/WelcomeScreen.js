@@ -44,6 +44,7 @@ let WelcomeScreen = React.createClass({
 let style = Style.create({
   wrapper: {
     ...Style.mixins.outerWrapperBase,
+    backgroundColor: '#f8f8f8',
     flex: 1
   },
   content: {

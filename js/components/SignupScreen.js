@@ -38,7 +38,7 @@ let SignupScreen = React.createClass({
     let contentInnerSize = await measure(this.refs.contentInner);
     let buttonSize = await measure(this.refs.button);
 
-    let contentHeight = headerSize.height + contentInnerSize.height + buttonSize.height;
+    let contentHeight = Math.max(400, headerSize.height + contentInnerSize.height + buttonSize.height);
     this.setState({ contentHeight });
   },
 
@@ -76,7 +76,7 @@ let SignupScreen = React.createClass({
     return (
       <View style={style.container}>
         <Animated.View style={wrapperStyle}>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps={true}>
             <Animated.View style={{height: this.state.animatedContentHeight}} onLayout={this.handleLayout}>
               <Header
                 ref="header"
@@ -97,8 +97,6 @@ let SignupScreen = React.createClass({
             </Animated.View>
           </ScrollView>
         </Animated.View>
-
-        <Animated.View style={shadowStyle} />
       </View>
     );
   }
@@ -107,7 +105,8 @@ let SignupScreen = React.createClass({
 
 let style = Style.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#F8F8F8'
   },
   screenContent: {
     ...Style.mixins.contentWrapperBase,

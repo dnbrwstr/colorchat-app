@@ -17,13 +17,16 @@ export let createMessage = data => {
 };
 
 export let createSeedMessage = () => {
+  let senderId = Math.floor(Math.random() * 2) + 1;
+  let recipientId = senderId === 1 ? 2 : 1;
+
   return createMessage({
     id: generateId(),
     createdAt: new Date().toJSON(),
-    senderId: 1,
+    senderId: senderId,
     width: 75 + Math.floor(Math.random() * 200),
     height: 75 + Math.floor(Math.random() * 300),
-    recipientId: 2,
+    recipientId: recipientId,
     color: `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`,
     state: 'complete'
   });

@@ -24,8 +24,10 @@ let {
   Dimensions
 } = React;
 
+let { PureRenderMixin, Perf } = React.addons;
+
 let {
-  sendMessage,
+  resendMessage,
   sendWorkingMessage,
   markMessageStale,
   startComposingMessage,
@@ -37,7 +39,7 @@ let {
 } = MessageActions;
 
 let ConversationScreen = React.createClass({
-  mixins: [TimerMixin],
+  mixins: [TimerMixin, PureRenderMixin],
 
   getInitialState: function () {
     return {

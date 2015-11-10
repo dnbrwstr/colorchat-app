@@ -110,23 +110,26 @@ let EditableMessage = React.createClass({
       opacity: this.state.animatedOpacity
     };
 
-    let horizontalHandleStyle = {
-      ...handleBase,
-      top: verticalMidpointValue,
-      left: left
+
+    let handleStyles = {
+      horizontal: {
+        ...handleBase,
+        top: verticalMidpointValue,
+        left: left
+      },
+      vertical: {
+        ...handleBase,
+        top: topValue,
+        left: horizontalMidpoint,
+      },
+      diagonal: {
+        ...handleBase,
+        top: topValue,
+        left: left
+      }
     };
 
-    let verticalHandleStyle = {
-      ...handleBase,
-      top: topValue,
-      left: horizontalMidpoint,
-    };
-
-    let diagonalHandleStyle = {
-      ...handleBase,
-      top: topValue,
-      left: left
-    };
+    let handles = ['horizontal', 'vertical', 'diagonal'];
 
     /**
      * Render instructions if this is the first
@@ -143,11 +146,13 @@ let EditableMessage = React.createClass({
               style={{flex: 1}}
               onChange={this.onColorChange}
               initialValue={this.state.workingColor} />
-            <DragHandle style={verticalHandleStyle}
-              ref="verticalHandle"
-              onDragMove={this.onDragHandle.bind(this, 'vertical')}
-              onDragStop={this.onDragStop}
-            />
+            { handles.map(handle =>
+              <DragHandle style={handleStyles[handle]}
+                ref={`${handle}Handle`}
+                onDragMove={this.onDragHandle.bind(this, handle)}
+                onDragStop={this.onDragStop}
+              />
+            )}
           </View>
         }
       </Animated.View>

@@ -1,21 +1,15 @@
-import { merge, find, propEq, filter, reduce } from 'ramda';
+import { merge, find, propEq, filter, reduce, concat } from 'ramda';
 import { createSelector } from 'reselect';
 
 // Selector creaters
 
-export let createConversationSelector = userId => state => {
-  let orderedTypes = [
-    'working',
-    'placeholder',
-    'enqueued',
-    'sending',
-    'static'
-  ];
-
-  return orderedTypes.reduce((memo, type) => {
-    return memo.concat(state.messages[type]) ;
-  }, []);
-};
+export let selectMessages = createSelector([
+  state => state.messages.working,
+  state => state.messages.placeholder,
+  state => state.messages.enqueued,
+  state => state.messages.sending,
+  state => state.messages.static
+], (...args) => reduce(concat, [], args))
 
 export let createContactSelector = contactId => state =>
   state.contacts.filter(c => c.id === contactId)[0];
@@ -26,7 +20,7 @@ export let conversationScreenSelector = createSelector([
     state => state.ui.conversation,
     state => state.user,
     (state, ownProps) => createContactSelector(ownProps.contactId)(state),
-    (state, ownProps) => createConversationSelector(ownProps.contactId)(state)
+    selectMessages
   ],
   (ui, user, contact, messages) => {
     return {

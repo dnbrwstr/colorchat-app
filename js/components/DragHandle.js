@@ -17,11 +17,21 @@ let DragHandle = React.createClass({
     };
   },
 
+  getInitialState: function () {
+    return {
+      animatedScale: new Animated.Value(1)
+    };
+  },
+
   render: function () {
+    let transformStyle = {
+      transform: [{ scale: this.state.animatedScale }]
+    };
+
     return (
       <Overlay isVisible={true}>
         <Animated.View
-          style={[style.target, this.props.style]}
+          style={[style.target, this.props.style, transformStyle]}
           onStartShouldSetResponder={()=>true}
           onResponderGrant={this.onDragStart}
           onResponderMove={this.onDragMove}
@@ -30,15 +40,18 @@ let DragHandle = React.createClass({
           onResponderRelease={this.onDragStop}
           onResponderTerminationRequest={()=>false}
         >
-          <View style={style.handle}>
-            <Image style={style.image} source={require('../../images/vertical-resize-icon.png')} />
-          </View>
+          <View style={style.handle} />
         </Animated.View>
       </Overlay>
     );
   },
 
   onDragStart: function (e) {
+    Animated.spring(this.state.animatedScale, {
+      toValue: .75,
+      friction: 7,
+      tension: 150
+    }).start();
     this.props.onDragStart(e)
   },
 
@@ -47,6 +60,11 @@ let DragHandle = React.createClass({
   },
 
   onDragStop: function (e) {
+    Animated.spring(this.state.animatedScale, {
+      toValue: 1,
+      tension: 400,
+      friction: 10
+    }).start();
     this.props.onDragStop(e)
   }
 });

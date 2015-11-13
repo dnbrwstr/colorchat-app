@@ -43,6 +43,18 @@ export let inboxScreenSelector = (state, ownProps) => {
     });
   });
 
+  conversations = conversations.sort(function (a, b) {
+    if (!a.lastMessage) return 1;
+    else if (!b.lastMessage) return -1;
+
+    var dateA = new Date(a.lastMessage.createdAt || a.lastMessage.clientTimestamp);
+    var dateB = new Date(b.lastMessage.createdAt || b.lastMessage.clientTimestamp);
+
+    if (dateA < dateB) return 1;
+    else if (dateA > dateB) return -1;
+    else return 0;
+  });
+
   return {
     conversations: conversations
   }

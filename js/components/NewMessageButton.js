@@ -95,8 +95,8 @@ let NewMessageButton = React.createClass({
 
     let animation = Animated.spring(this.state.animatedSize, {
       toValue: 1,
-      friction: 7,
-      tension: 500
+      friction: 10,
+      tension: 400
     })
 
     animation.start();

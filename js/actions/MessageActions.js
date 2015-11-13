@@ -77,6 +77,13 @@ export let sendMessages = (messages, state, data) => async (dispatch, getState) 
   });
 };
 
+export let resendMessage = message => {
+  return {
+    type: 'resendMessage',
+    message
+  }
+};
+
 export let markMessageStale = message => {
   return {
     type: 'markMessageStale',

@@ -6,13 +6,19 @@ import { serverRoot } from '../config';
 import * as DatabaseUtils from '../lib/DatabaseUtils';
 
 export let receiveMessage = message => async (dispatch, getState) => {
-  let contactIds = getState().contacts.map(c => c.id);
+  let { contacts, navigation } = getState();
+  let contactIds = contacts.map(c => c.id);
 
   if (contactIds.indexOf(message.senderId) === -1) {
     return;
   }
 
   await DatabaseUtils.storeMessage(message);
+
+  if (navigation.route.title !== 'conversation' ||
+      navigation.route.data.contactId !== message.senderId) {
+    return;
+  }
 
   dispatch({
     type: 'receiveMessage',

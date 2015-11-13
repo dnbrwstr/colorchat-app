@@ -4,6 +4,8 @@ import Style from '../style';
 import PressableView from './PressableView';
 import InteractiveView from './InteractiveView';
 import BaseText from './BaseText';
+import { shortHumanDate } from '../lib/Utils';
+import { getTimestamp } from '../lib/MessageUtils';
 
 let {
   View,
@@ -100,6 +102,10 @@ export default ConversationList = React.createClass({
         onDelete={this.onDelete.bind(this, conversation)}
       >
         <BaseText style={textStyle}>{contact.firstName} {contact.lastName}</BaseText>
+        { conversation.lastMessage &&
+          <BaseText style={textStyle}>
+            { shortHumanDate(getTimestamp(conversation.lastMessage)) }
+          </BaseText> }
       </InteractiveView>
     );
   },
@@ -130,6 +136,8 @@ let style = Style.create({
     paddingHorizontal: Style.values.horizontalPadding,
     height: Style.values.rowHeight,
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row'
   }
 });

@@ -7,6 +7,7 @@ import EditableMessage from './EditableMessage';
 import BaseText from './BaseText';
 import PressableView from './PressableView';
 import PlaceholderMessage from './PlaceholderMessage';
+import { humanDate } from '../lib/Utils';
 
 let {
   View,
@@ -206,7 +207,7 @@ let Message = React.createClass({
             { this.getRGBFormattedColor() }
           </BaseText>
           <BaseText style={style.timestamp} visibleOn={this.props.color}>
-            { this.getFormattedTimestamp() }
+            { humanDate(this.props.createdAt) }
           </BaseText>
         </View>
       );
@@ -235,23 +236,6 @@ let Message = React.createClass({
         backgroundColor: this.props.color
       }
     ];
-  },
-
-  getFormattedTimestamp: function () {
-    let aYearAgo = moment(new Date()).subtract(1, 'years');
-    let aWeekAgo = moment(new Date()).subtract(1, 'weeks');
-    let aDayAgo = moment(new Date()).subtract(1, 'days');
-    let time = moment(this.props.createdAt);
-
-    if (time.isBefore(aYearAgo)) {
-      return time.format('MMM Do YYYY, h:mm A');
-    } else if (time.isBefore(aWeekAgo)) {
-      return time.format('MMM Do, h:mm A');
-    } else if (time.isBefore(aDayAgo)) {
-      return time.format('ddd, h:mm A')
-    } else {
-      return time.fromNow(false);
-    }
   },
 
   getRGBFormattedColor: function () {

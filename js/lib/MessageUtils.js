@@ -31,3 +31,6 @@ export let createSeedMessage = () => {
     state: 'complete'
   });
 };
+
+export let getTimestamp = message =>
+  message.createdAt || message.clientTimestamp;

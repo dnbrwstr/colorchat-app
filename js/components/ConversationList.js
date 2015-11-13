@@ -1,18 +1,14 @@
-import Color from 'color';
 import React from 'react-native';
 import Style from '../style';
-import PressableView from './PressableView';
-import InteractiveView from './InteractiveView';
 import BaseText from './BaseText';
-import { shortHumanDate } from '../lib/Utils';
-import { getTimestamp } from '../lib/MessageUtils';
+import ConversationListItem from './ConversationListItem';
 
 let {
   View,
   ListView
 } = React;
 
-export default ConversationList = React.createClass({
+let ConversationList = React.createClass({
   getDefaultProps: function () {
     return {
       onSelect: () => {},
@@ -67,46 +63,14 @@ export default ConversationList = React.createClass({
   },
 
   renderConversation: function (conversation) {
-    let { contact, lastMessage } = conversation;
-    let color = lastMessage ? lastMessage.color : '#EFEFEF';
-    let isLight = Color(color).luminosity() > .5;
-
-    let textColor = isLight ?
-      'black' : 'white'
-
-    let textStyle = {
-      color: textColor
-    };
-
-    let conversationStyles = [{
-        backgroundColor: color
-      },
-      style.conversation
-    ];
-
-    let colorFn = isLight ? 'darken' : 'lighten';
-
-    let conversationActiveStyle = {
-      backgroundColor: Color(color)[colorFn](.2).hexString()
-    };
-
     return (
-      <InteractiveView
-        style={conversationStyles}
-        swipeEnabled={true}
-        deleteEnabled={true}
-        activeStyle={conversationActiveStyle}
+      <ConversationListItem
+        {...conversation}
         onPress={() => this.onSelect(conversation)}
         onInteractionStart={this.lockScroll}
         onInteractionEnd={this.unlockScroll}
-        onDelete={this.onDelete.bind(this, conversation)}
-      >
-        <BaseText style={textStyle}>{contact.firstName} {contact.lastName}</BaseText>
-        { conversation.lastMessage &&
-          <BaseText style={textStyle}>
-            { shortHumanDate(getTimestamp(conversation.lastMessage)) }
-          </BaseText> }
-      </InteractiveView>
+        onDelete={() => this.onDelete(conversation)}
+      />
     );
   },
 
@@ -129,15 +93,6 @@ export default ConversationList = React.createClass({
   onDelete: function (conversation) {
     this.props.onDelete(conversation);
   }
-})
-
-let style = Style.create({
-  conversation: {
-    paddingHorizontal: Style.values.horizontalPadding,
-    height: Style.values.rowHeight,
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row'
-  }
 });
+
+export default ConversationList;

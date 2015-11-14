@@ -11,6 +11,12 @@ export let deleteConversation = conversation => {
 let composeTimeout;
 
 export let receiveComposeEvent = data => (dispatch, getState) => {
+  let { route } = getState().navigation;
+
+  if (route.title !== 'conversation' || route.data.contactId !== data.senderId) {
+    return;
+  }
+
   dispatch({
     type: 'receiveComposeEvent',
     ...data

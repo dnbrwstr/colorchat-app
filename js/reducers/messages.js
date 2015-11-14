@@ -203,6 +203,13 @@ let handlers = {
     }
   },
 
+  resetMessages: function (state, action) {
+    return evolve({
+      static: always(action.messages),
+      total: always(action.total)
+    }, initialState);
+  },
+
   unloadOldMessages: function (state, action) {
     if (state.static.length > KEEP_LOADED_COUNT) {
       return evolve({

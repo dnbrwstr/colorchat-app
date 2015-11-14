@@ -50,16 +50,12 @@ let ConversationScreen = React.createClass({
     };
   },
 
-  componentDidMount: function () {
-    this.loadNextPage();
-  },
-
   loadNextPage: function () {
     this.setThrottleTimer('loadNext', () => {
+      let nextPage = ++this.state.page;
       this.props.dispatch(
         loadMessages(this.props.contact.id, this.state.page)
       );
-      let nextPage = ++this.state.page;
       this.setState({ page: nextPage });
     }, 1000);
   },
@@ -121,7 +117,6 @@ let ConversationScreen = React.createClass({
   },
 
   handleScrollToBottom: function () {
-    console.log('unload');
     this.props.dispatch(unloadOldMessages());
   },
 

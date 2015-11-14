@@ -118,7 +118,7 @@ let MessageList = React.createClass({
         removeClippedSubviews={true}
         initialListSize={12}
         scrollRenderAheadDistance={12}
-        pageSize={3}
+        pageSize={1}
         renderRow={this.renderMessage}
         onEndReached={this.props.onEndReached}
       />
@@ -174,7 +174,7 @@ let MessageList = React.createClass({
   },
 
   onToggleMessageExpansion: async function (message, position, nextSize) {
-    this.props.onToggleMessageExpansion(message)
+    this.props.onToggleMessageExpansion(message);
 
     // Return if the message is closing
     if (message.expanded) return;

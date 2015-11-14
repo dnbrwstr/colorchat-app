@@ -119,8 +119,6 @@ export let loadMessages = (contactId, page=1) => async (dispatch, getState) => {
     per
   });
 
-  messages = messages.map(m => merge(m, { state: 'complete' }));
-
   dispatch({
     type: 'loadMessages',
     state: 'complete',

@@ -1,4 +1,6 @@
-export let navigateTo = (a, b) => {
+import * as DatabaseUtils from '../lib/DatabaseUtils';
+
+export let navigateTo = (a, b) => async (dispatch, getState) => {
   let route;
 
   if (typeof a === 'string') {
@@ -10,22 +12,31 @@ export let navigateTo = (a, b) => {
     route = a;
   }
 
-  return {
+  let navigate = () => dispatch({
     type: 'navigateTo',
     route: route
-  };
+  });
+
+  if (route.title === 'conversation') {
+    let { messages, total } = await DatabaseUtils.loadMessages({
+      contactId: route.data.contactId,
+      page: 0
+    });
+
+    dispatch({
+      type: 'resetMessages',
+      messages,
+      total
+    });
+
+    setTimeout(navigate, 0);
+  } else {
+    navigate();
+  }
 };
 
 export let navigateToConversation = contactId => {
-  return {
-    type: 'navigateTo',
-    route: {
-      title: 'conversation',
-      data: {
-        contactId
-      }
-    }
-  };
+  return navigateTo('conversation', { data: { contactId } });
 }
 
 export let completeTransition = () => {

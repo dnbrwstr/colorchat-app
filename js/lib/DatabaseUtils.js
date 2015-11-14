@@ -35,8 +35,9 @@ export let loadMessages = _options => {
       options.contactId,
       options.page,
       options.per,
-      function (error, messages, total) {
+      function (error, _messages, total) {
         if (error) reject(error);
+        let messages = _messages.map(m => merge(m, { state: 'complete' }));
         resolve({
           messages,
           total

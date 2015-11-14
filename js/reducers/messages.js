@@ -140,6 +140,7 @@ let handlers = {
   },
 
   receiveMessage: function (state, action) {
+    if (!action.inCurrentConversation) return state;
     let message = merge(action.message, { state: 'fresh' });
     return pipe(
       partial(this.resetComposeEvents, []),

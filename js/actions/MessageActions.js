@@ -15,13 +15,13 @@ export let receiveMessage = message => async (dispatch, getState) => {
 
   await DatabaseUtils.storeMessage(message);
 
-  if (navigation.route.title !== 'conversation' ||
-      navigation.route.data.contactId !== message.senderId) {
-    return;
-  }
+  let inCurrentConversation =
+      navigation.route.title !== 'conversation' ||
+      navigation.route.data.contactId !== message.senderId;
 
   dispatch({
     type: 'receiveMessage',
+    inCurrentConversation,
     message
   });
 };

@@ -14,7 +14,7 @@ let values = {
   darkGray,
   darkGrayHighlight,
   outerPadding: 20,
-  rowHeight: 72
+  rowHeight: 80
 };
 
 module.exports = values;

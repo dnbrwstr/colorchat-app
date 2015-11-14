@@ -1,6 +1,6 @@
 import { assocPath, assoc, adjust, merge, filter } from 'ramda'
 import createRoutingReducer from '../lib/createRoutingReducer';
-import { generateId } from '../lib/Utils';
+import { generateId } from '../lib/MessageUtils';
 
 let initialState = {
   alerts: [],

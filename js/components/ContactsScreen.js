@@ -34,8 +34,9 @@ let ContactsScreen = React.createClass({
 
         <View style={style.headerWrapper}>
           <Header
-            title={'Select a contact'}
+            title={'Contacts'}
             backgroundColor={'rgba(255,255,255,.95)'}
+            borderColor={Style.values.midLightGray}
             showBack={true}
             onBack={() => this.props.dispatch(navigateTo('inbox'))}
           />
@@ -117,7 +118,7 @@ let {
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: '#EFEFEF'
+    backgroundColor: Style.values.lightGray
   },
   headerWrapper: {
     position: 'absolute',
@@ -133,7 +134,7 @@ let importStyle = Style.create({
     ...contentWrapperBase,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#EFEFEF'
+    backgroundColor: Style.values.lightGray
   },
   messageText: {
     marginBottom: 24,
@@ -147,7 +148,7 @@ let importStyle = Style.create({
     justifyContent: 'center'
   },
   buttonActive: {
-    backgroundColor: '#F9F9F9'
+    backgroundColor: Style.values.veryLightGray
   },
   buttonText: {
   }

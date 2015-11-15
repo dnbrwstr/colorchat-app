@@ -1,12 +1,12 @@
-let React = require('react-native'),
-  Style = require('../style');
-
+import React from 'react-native';
+import Style from '../style';
 import PressableView from './PressableView';
 
 let {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  PixelRatio
 } = React;
 
 let Header = React.createClass({
@@ -18,6 +18,14 @@ let Header = React.createClass({
   },
 
   render: function () {
+    let barStyles = [
+      style.bar,
+      this.props.borderColor && {
+        borderBottomWidth: 1 / PixelRatio.get(),
+        borderBottomColor: this.props.borderColor
+      }
+    ];
+
     let bgColor = this.props.backgroundColor && {
       backgroundColor: this.props.backgroundColor
     };
@@ -37,7 +45,7 @@ let Header = React.createClass({
     };
 
     return (
-      <View style={style.bar}>
+      <View style={barStyles}>
         <View style={bgStyles} />
 
         <View style={style.buttonContainer}>

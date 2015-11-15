@@ -64,7 +64,7 @@ let { midGray } = Style.values;
 let style = Style.create({
   contact: {
     backgroundColor: 'white',
-    borderTopColor: '#DFDFDF',
+    borderTopColor: Style.values.midLightGray,
     borderTopWidth: 1 / PixelRatio.get(),
     height: Style.values.rowHeight,
     paddingHorizontal: Style.values.horizontalPadding,

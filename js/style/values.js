@@ -13,6 +13,9 @@ let values = {
   midGray: '#878787',
   darkGray,
   darkGrayHighlight,
+  midLightGray: '#DFDFDF',
+  lightGray: '#EFEFEF',
+  veryLightGray: '#FAFAFA',
   outerPadding: 20,
   rowHeight: 80
 };

@@ -23,10 +23,18 @@ let ContactListItem = React.createClass({
   },
 
   componentDidMount: function () {
-    Animated.timing(this.state.animatedOpacity, {
+    let animation = Animated.timing(this.state.animatedOpacity, {
       toValue: 1,
       duration: 100
-    }).start();
+    });
+
+    let runAnimation = () => animation.start();
+
+    if (this.props.itemIndex < 12) {
+      setTimeout(runAnimation, this.props.itemIndex * 50);
+    } else {
+      runAnimation();
+    }
   },
 
   render: function () {

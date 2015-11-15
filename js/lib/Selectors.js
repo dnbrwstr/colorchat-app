@@ -20,14 +20,16 @@ export let conversationScreenSelector = createSelector([
     state => state.ui.conversation,
     state => state.user,
     (state, ownProps) => createContactSelector(ownProps.contactId)(state),
-    selectMessages
+    selectMessages,
+    state => state.navigation
   ],
-  (ui, user, contact, messages) => {
+  (ui, user, contact, messages, navigation) => {
     return {
       ...ui,
       user: user,
       contact: contact,
-      messages: messages
+      messages: messages,
+      transitioning: navigation.state === 'transitioning'
     }
   }
 );

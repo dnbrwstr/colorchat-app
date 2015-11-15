@@ -46,11 +46,28 @@ let ConversationScreen = React.createClass({
       page: 0,
       loadedAll: false,
       scrollBridge: new ScrollBridge,
-      lastOffset: 0
+      lastOffset: 0,
+      loadPending: false
     };
   },
 
+  componentDidUpdate: function (prevProps) {
+    let triggerPendingLoad =
+      prevProps.transitioning &&
+      !this.props.transitioning &&
+      this.state.loadPending;
+
+    if (triggerPendingLoad) {
+      this.setState({ loadPending: false });
+      this.loadNextPage();
+    }
+  },
+
   loadNextPage: function () {
+    if (this.props.transitioning) {
+      return this.setState({ loadPending: true })
+    }
+
     this.setThrottleTimer('loadNext', () => {
       let nextPage = ++this.state.page;
       this.props.dispatch(

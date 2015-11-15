@@ -3,12 +3,14 @@ import Color from 'color';
 import PressableView from './PressableView';
 import Style from '../style';
 import BaseText from './BaseText';
+import ContactListItem from './ContactListItem';
 
 let {
   View,
   ListView,
   Text,
-  PixelRatio
+  PixelRatio,
+  ScrollView
 } = React;
 
 export default ContactList = React.createClass({
@@ -42,25 +44,32 @@ export default ContactList = React.createClass({
         removeClippedSubviews={true}
         automaticallyAdjustContentInsets={false}
         dataSource={this.state.dataSource}
+        renderScrollComponent={this.renderScrollComponent}
         renderRow={this.renderContact}
-        renderSeperator={this.renderSeperator} />
+        renderSeperator={this.renderSeperator}
+        initialListSize={12}
+        scrollRenderAheadDistance={12}
+        pageSize={1}
+      />
     );
   },
 
-  renderContact: function (contact) {
+  renderScrollComponent: function (props) {
+    let inset = [Style.values.rowHeight, 0, 0, 0];
+    let offset = [0, -Style.values.rowHeight];
     return (
-      <PressableView
-        onPress={() => this.onSelectContact(contact) }
-        style={style.contact}
-        activeStyle={style.contactActive}
-      >
-        <View style={{flex: 1, paddingRight: 10}}>
-          <BaseText numberOfLines={1}>{contact.firstName} {contact.lastName}</BaseText>
-        </View>
-        { !contact.matched &&
-          <BaseText style={style.inviteButton}>Invite</BaseText>}
-      </PressableView>
+      <ScrollView {...props} contentInset={inset} contentOffset={offset} />
     )
+  },
+
+  renderContact: function (contact, section, row) {
+    return (
+      <ContactListItem
+        {...contact}
+        itemIndex={parseInt(row)}
+        onPress={ () => this.onSelectContact(contact) }
+      />
+    );
   },
 
   renderSeperator: function () {
@@ -72,31 +81,3 @@ export default ContactList = React.createClass({
   }
 });
 
-let { midGray } = Style.values;
-
-let style = Style.create({
-  contact: {
-    backgroundColor: 'white',
-    borderBottomColor: '#DFDFDF',
-    borderBottomWidth: 1 / PixelRatio.get(),
-    height: Style.values.rowHeight,
-    paddingHorizontal: Style.values.horizontalPadding,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  contactActive: {
-    backgroundColor: '#EFEFEF'
-  },
-  contactMatched: {
-    backgroundColor: 'green'
-  },
-  inviteButton: {
-    backgroundColor: midGray,
-    color: 'white',
-    fontSize: 12,
-    padding: 4,
-    flex: 0
-  }
-});

@@ -173,6 +173,9 @@ let MessageList = React.createClass({
   },
 
   onToggleMessageExpansion: async function (message, position, nextSize) {
+    // Don't expand message if scroll is locked
+    if (this.props.scrollLocked) return;
+
     this.props.onToggleMessageExpansion(message);
 
     // Return if the message is closing

@@ -16,7 +16,8 @@ let NewMessageButton = React.createClass({
 
   getDefaultProps: function () {
     return {
-      onPress: () => {}
+      onPress: () => {},
+      visible: true
     };
   },
 

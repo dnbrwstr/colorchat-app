@@ -7,23 +7,23 @@ import ContactList from './ContactList';
 import AnimatedEllipsis from './AnimatedEllipsis';
 import { importContacts, sendInvite } from '../actions/ContactActions';
 import { navigateTo } from '../actions/NavigationActions';
+import { appName } from '../config';
 import BaseText from './BaseText';
+import Header from './Header';
 
 let {
   View,
   Text
 } = React;
 
-let ContactsScreen = React.createClass({
-  componentDidMount: function () {
-    if (this.props.shouldRefresh) {
-      this.importContacts();
-    }
-  },
+const BR = "\n";
 
+let ContactsScreen = React.createClass({
   componentDidUpdate: function (prevProps) {
-    if (this.props.shouldRefresh && !prevProps.shouldRefresh) {
-      this.importContacts()
+    if (!this.props.transitioning &&
+         prevProps.transitioning &&
+         this.props.shouldRefresh) {
+      this.importContacts();
     }
   },
 
@@ -31,6 +31,15 @@ let ContactsScreen = React.createClass({
     return (
       <View style={style.container}>
         { this.renderContent() }
+
+        <View style={style.headerWrapper}>
+          <Header
+            title={'Select a contact'}
+            backgroundColor={'rgba(255,255,255,.95)'}
+            showBack={true}
+            onBack={() => this.props.dispatch(navigateTo('inbox'))}
+          />
+        </View>
       </View>
     );
   },
@@ -51,12 +60,13 @@ let ContactsScreen = React.createClass({
     return (
       <View style={importStyle.container}>
         <BaseText style={importStyle.messageText}>
-          We need access to your contacts show you which friends are also using the app
+          { appName } uses your{BR}contacts to determine{BR}who you can chat with
         </BaseText>
 
         <PressableView
           onPress={() => this.importContacts(true)}
           style={importStyle.button}
+          activeStyle={importStyle.buttonActive}
         >
           <BaseText style={importStyle.buttonText}>Import Contacts</BaseText>
         </PressableView>
@@ -107,7 +117,14 @@ let {
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: '#EFEFEF'
+  },
+  headerWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent'
   }
 });
 
@@ -116,11 +133,11 @@ let importStyle = Style.create({
     ...contentWrapperBase,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: midGray
+    backgroundColor: '#EFEFEF'
   },
   messageText: {
-    color: 'white',
-    marginBottom: 24
+    marginBottom: 24,
+    textAlign: 'center'
   },
   button: {
     backgroundColor: 'white',
@@ -129,12 +146,16 @@ let importStyle = Style.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  buttonActive: {
+    backgroundColor: '#F9F9F9'
+  },
   buttonText: {
   }
 })
 
 let selectContacts = state => {
   return {
+    transitioning: state.navigation.state === 'transitioning',
     contacts: state.contacts,
     ...state.ui.contacts
   };

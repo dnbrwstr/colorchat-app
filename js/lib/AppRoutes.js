@@ -4,8 +4,9 @@ import CountryPickerScreen from '../components/CountryPickerScreen';
 import ConfirmCodeScreen from '../components/ConfirmCodeScreen';
 import SignupNotificationsScreen from '../components/SignupNotificationsScreen';
 import ConversationScreen from '../components/ConversationScreen';
-import MainScreen from '../components/MainScreen';
 import WelcomeScreen from '../components/WelcomeScreen';
+import InboxScreen from '../components/InboxScreen';
+import ContactsScreen from '../components/ContactsScreen';
 
 let AppRoutes = {
   welcome: {
@@ -41,16 +42,24 @@ let AppRoutes = {
       'confirmCode': 'pop'
     }
   },
-  main: {
-    component: MainScreen,
+  inbox: {
+    component: InboxScreen,
     links: {
-      conversation: 'push'
+      conversation: 'push',
+      contacts: 'push'
+    }
+  },
+  contacts: {
+    component: ContactsScreen,
+    links: {
+      conversation: 'push',
+      inbox: 'pop'
     }
   },
   conversation: {
     component: ConversationScreen,
     links: {
-      main: 'pop'
+      inbox: 'pop'
     }
   }
 };
@@ -59,7 +68,7 @@ export default AppRoutes;
 
 export let getTransitionMethod = (fromTitle, toTitle) => {
   let method;
-  
+
   if (!AppRoutes[fromTitle] || !AppRoutes[fromTitle].links[toTitle]) {
     method = 'reset';
   } else {

@@ -86,7 +86,6 @@ let MessageList = React.createClass({
   },
 
   getDataSource: function (_messages) {
-    // console.log(_messages[0] && _messages[0].state);
     let messages = this.formatMessages(_messages);
     let messageIds = _messages.map(m => m.clientId || m.id);
 

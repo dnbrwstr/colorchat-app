@@ -28,7 +28,7 @@ let handlers = {
       };
     } else {
       route = {
-        title: 'main'
+        title: 'inbox'
       };
     }
 

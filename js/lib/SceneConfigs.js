@@ -126,6 +126,38 @@ export let SlideFromRight = {
   }
 }
 
+export let SlideOverFromRight = {
+  ...Base,
+  animationInterpolators: {
+    into: buildStyleInterpolator({
+      ...ConstantOpacity,
+      transformTranslate: {
+        ...TransformPropBase,
+        from: {x: screenWidth, y: 0, z: 0},
+        to: {x: 0, y: 0, z: 0}
+      },
+      translateX: {
+        ...TransformPropBase,
+        from: screenWidth,
+        to: 0
+      }
+    }),
+    out: buildStyleInterpolator({
+      ...ConstantOpacity,
+      transformTranslate: {
+        ...TransformPropBase,
+        from: {x: 0, y: 0, z: 0},
+        to: {x: -screenWidth * .2, y: 0, z: 0}
+      },
+      translateX: {
+        ...TransformPropBase,
+        from: 0,
+        to: -screenWidth * .2
+      }
+    })
+  }
+}
+
 export let SlideFromLeft = {
   ...Base,
   gestures: {

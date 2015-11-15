@@ -61,7 +61,7 @@ let SignupNotificationScreen = React.createClass({
   onPressNext: function () {
     this.props.dispatch(saveName(this.state.name));
     this.props.dispatch(triggerPermissionsDialog());
-    this.props.dispatch(navigateTo('main'));
+    this.props.dispatch(navigateTo('inbox'));
   }
 });
 

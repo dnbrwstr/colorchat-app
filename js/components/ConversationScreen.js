@@ -109,7 +109,7 @@ let ConversationScreen = React.createClass({
             color="white"
             backgroundColor={'rgba(0,0,0,.8)'}
             highlightColor={Style.values.darkGrayHighlight}
-            onBack={() => dispatch(navigateTo('main'))}
+            onBack={() => dispatch(navigateTo('inbox'))}
           />
         </StickyView>
       </View>

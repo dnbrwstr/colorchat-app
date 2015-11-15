@@ -4,10 +4,12 @@ import { inboxScreenSelector } from '../lib/Selectors';
 import { navigateToConversation } from '../actions/NavigationActions';
 import { deleteConversation } from '../actions/ConversationActions';
 import { setMainTab } from '../actions/AppActions';
+import { navigateTo } from '../actions/NavigationActions';
 import Style from '../style';
 import ConversationList from './ConversationList';
 import BaseText from './BaseText';
 import PressableView from './PressableView';
+import NewMessageButton from './NewMessageButton';
 
 let {
   View,
@@ -17,11 +19,16 @@ let {
 const BR = "\n";
 
 let InboxScreen = React.createClass({
+  handleAddConversation: function () {
+    this.props.dispatch(navigateTo('contacts'))
+  },
+
   render: function () {
     return (
       <View style={style.container}>
         { this.props.conversations.length ?
           this.renderConversations() : this.renderEmptyMessage() }
+        <NewMessageButton onPress={this.handleAddConversation} />
       </View>
     );
   },
@@ -40,16 +47,8 @@ let InboxScreen = React.createClass({
     return (
       <View style={style.emptyMessageWrapper}>
         <BaseText style={style.emptyMessage}>
-          Select a contact to{BR}
-          start a conversation
+          Use the plus button in the{BR}lower right to select a contact{BR}and start a conversation
         </BaseText>
-
-        <PressableView
-          style={style.contactsButton}
-          onPress={this.onPressContactsButton}
-        >
-          <BaseText style={style.contactsButtonText}>View contacts</BaseText>
-        </PressableView>
       </View>
     );
   },
@@ -79,7 +78,8 @@ let style = Style.create({
   emptyMessageWrapper: {
     ...contentWrapperBase,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#EFEFEF'
   },
   emptyMessage: {
     textAlign: 'center'

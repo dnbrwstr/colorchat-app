@@ -2,15 +2,14 @@ import React from 'react-native';
 import invariant from 'invariant';
 import { Provider, connect } from 'react-redux/native';
 import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
-import { FromBottom, SlideOverFromBottom } from '../lib/SceneConfigs';
+import { FromBottom, SlideOverFromBottom, SlideFromRight, SlideOverFromRight } from '../lib/SceneConfigs';
 import { completeTransition } from '../actions/NavigationActions';
 import AppRoutes, { getTransitionMethod } from '../lib/AppRoutes';
 
 let {
   Dimensions,
   PixelRatio,
-  Navigator,
-  NavigatorSceneConfigs
+  Navigator
 } = React;
 
 let Router = React.createClass({
@@ -48,9 +47,10 @@ let Router = React.createClass({
 
   configureScene: function (route) {
     switch (route.title) {
-      case 'conversation':
+      case 'contacts':
         return SlideOverFromBottom
-        break;
+      case 'conversation':
+        return SlideOverFromRight
       default:
         return FromBottom
     }

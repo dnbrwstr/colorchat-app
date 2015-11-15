@@ -62,10 +62,11 @@ let ConversationList = React.createClass({
     );
   },
 
-  renderConversation: function (conversation) {
+  renderConversation: function (conversation, section, row) {
     return (
       <ConversationListItem
         {...conversation}
+        itemIndex={parseInt(row)}
         onPress={() => this.onSelect(conversation)}
         onInteractionStart={this.lockScroll}
         onInteractionEnd={this.unlockScroll}

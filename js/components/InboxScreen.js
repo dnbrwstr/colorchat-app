@@ -9,7 +9,7 @@ import Style from '../style';
 import ConversationList from './ConversationList';
 import BaseText from './BaseText';
 import PressableView from './PressableView';
-import NewMessageButton from './NewMessageButton';
+import PlusButton from './PlusButton';
 
 let {
   View,
@@ -28,7 +28,7 @@ let InboxScreen = React.createClass({
       <View style={style.container}>
         { this.props.conversations.length ?
           this.renderConversations() : this.renderEmptyMessage() }
-        <NewMessageButton onPress={this.handleAddConversation} />
+        <PlusButton onPress={this.handleAddConversation} />
       </View>
     );
   },

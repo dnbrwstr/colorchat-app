@@ -11,7 +11,7 @@ let {
 
 const BUTTON_SIZE = 50;
 
-let NewMessageButton = React.createClass({
+let RoundButton = React.createClass({
   mixins: [TimerMixin],
 
   getDefaultProps: function () {
@@ -74,7 +74,7 @@ let NewMessageButton = React.createClass({
         onPressIn={this.onPressIn}
         onPress={this.onPress}
       >
-        <Text style={style.buttonText}>+</Text>
+        { this.props.children }
       </PressableView>
     );
   },
@@ -121,12 +121,7 @@ let style = Style.create({
     borderRadius: BUTTON_SIZE / 2,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 26,
-    marginTop: -5
   }
 });
 
-export default NewMessageButton;
+export default RoundButton;

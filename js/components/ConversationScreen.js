@@ -9,7 +9,7 @@ import StickyView from './StickyView';
 import PressableView from './PressableView';
 import MessageList from './MessageList';
 import ComposeBar from './ComposeBar';
-import NewMessageButton from './NewMessageButton';
+import PlusButton from './PlusButton';
 import { navigateTo } from '../actions/NavigationActions';
 import * as MessageActions from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors';
@@ -112,7 +112,7 @@ let ConversationScreen = React.createClass({
           onSend={this.onSendMessage}
           onCancel={this.onStopComposing}
         />
-        <NewMessageButton
+        <PlusButton
           onPress={this.onStartComposing}
           visible={!this.props.composing && !this.props.sending && !this.props.cancelling}
         />

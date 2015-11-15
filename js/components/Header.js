@@ -63,7 +63,7 @@ let Header = React.createClass({
               style={style.button}
               activeStyle={[style.buttonActive, highlightColor]}
             >
-              <Text style={[style.buttonText, textColor]}>X</Text>
+              <Text style={[style.buttonText, style.buttonSecondText, textColor]}>X</Text>
             </PressableView> }
         </View>
       </View>
@@ -100,14 +100,17 @@ let style = Style.create({
   },
   button: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingHorizontal: Style.values.horizontalPadding
   },
   buttonActive: {
     backgroundColor: '#EFEFEF'
   },
   buttonText: {
     ...Style.mixins.textBase,
-    textAlign: 'center'
+  },
+  buttonSecondText: {
+    textAlign: 'right'
   },
   title: {
     flex: 1,

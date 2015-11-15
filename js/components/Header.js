@@ -103,7 +103,7 @@ let style = Style.create({
     justifyContent: 'center'
   },
   buttonActive: {
-    backgroundColor: '#888888'
+    backgroundColor: '#EFEFEF'
   },
   buttonText: {
     ...Style.mixins.textBase,

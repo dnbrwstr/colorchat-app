@@ -1,4 +1,6 @@
-import config from '../config';
+import { serverRoot } from '../config';
+import { putAuthenticatedJSON, getAuthenticated } from '../lib/RequestHelpers';
+import send from '../lib/send';
 
 export let setMainTab = tabTitle => {
   return {
@@ -60,4 +62,27 @@ export let triggerMemoryWarning = () => {
   return {
     type: 'memoryWarning'
   };
+};
+
+export let loadUserInfo = () => async (dispatch, getState) => {
+  let url = serverRoot + '/account';
+  let authToken = getState().user.token;
+
+  send({
+    dispatch,
+    actionType: 'loadUserInfo',
+    getRequest: () => getAuthenticated(url, {}, authToken)
+  });
+};
+
+export let updateUserInfo = data => async (dispatch, getState) => {
+  let url = serverRoot + '/account';
+  let authToken = getState().user.token;
+
+  send({
+    dispatch,
+    actionType: 'updateUserInfo',
+    baseAction: { data },
+    getRequest: () => putAuthenticatedJSON(url, data, authToken)
+  });
 };

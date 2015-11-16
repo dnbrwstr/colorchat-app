@@ -82,6 +82,6 @@ var style = Style.create({
     ...textBase,
     marginTop: 12
   }
-})
+});
 
 export default connect(()=>({}))(SignupNotificationScreen);

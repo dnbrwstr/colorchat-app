@@ -6,6 +6,10 @@ export let putAuthenticatedJSON = (url, data, token) => {
   return fetch(url, put(json(data, authenticated(token))));
 };
 
+export let getAuthenticated = (url, data, token) => {
+  return fetch(url, authenticated(token));
+};
+
 export let postJSON = (url, data) =>
   fetch(url, post(json(data)));
 

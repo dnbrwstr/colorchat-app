@@ -9,7 +9,7 @@ let darkGrayHighlight = Color(darkGray)
 let values = {
   borderWidth: 1 / PixelRatio.get(),
   basePadding: 10,
-  horizontalPadding: 14,
+  horizontalPadding: 18,
   midGray: '#878787',
   darkGray,
   darkGrayHighlight,

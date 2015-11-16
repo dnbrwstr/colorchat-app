@@ -7,6 +7,7 @@ import ConversationScreen from '../components/ConversationScreen';
 import WelcomeScreen from '../components/WelcomeScreen';
 import InboxScreen from '../components/InboxScreen';
 import ContactsScreen from '../components/ContactsScreen';
+import SettingsScreen from '../components/SettingsScreen';
 
 let AppRoutes = {
   welcome: {
@@ -46,7 +47,8 @@ let AppRoutes = {
     component: InboxScreen,
     links: {
       conversation: 'push',
-      contacts: 'push'
+      contacts: 'push',
+      'settings': 'push'
     }
   },
   contacts: {
@@ -58,6 +60,12 @@ let AppRoutes = {
   },
   conversation: {
     component: ConversationScreen,
+    links: {
+      inbox: 'pop'
+    }
+  },
+  settings: {
+    component: SettingsScreen,
     links: {
       inbox: 'pop'
     }

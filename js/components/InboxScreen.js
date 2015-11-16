@@ -10,6 +10,7 @@ import ConversationList from './ConversationList';
 import BaseText from './BaseText';
 import PressableView from './PressableView';
 import PlusButton from './PlusButton';
+import SettingsButton from './SettingsButton';
 
 let {
   View,
@@ -19,8 +20,12 @@ let {
 const BR = "\n";
 
 let InboxScreen = React.createClass({
-  handleAddConversation: function () {
-    this.props.dispatch(navigateTo('contacts'))
+  handleAddButtonPress: function () {
+    this.props.dispatch(navigateTo('contacts'));
+  },
+
+  handelSettingsButtonPress: function () {
+    this.props.dispatch(navigateTo('settings'));
   },
 
   render: function () {
@@ -28,7 +33,11 @@ let InboxScreen = React.createClass({
       <View style={style.container}>
         { this.props.conversations.length ?
           this.renderConversations() : this.renderEmptyMessage() }
-        <PlusButton onPress={this.handleAddConversation} />
+        <SettingsButton
+          style={style.settingsButton}
+          onPress={this.handelSettingsButtonPress}
+        />
+        <PlusButton onPress={this.handleAddButtonPress} />
       </View>
     );
   },
@@ -94,6 +103,9 @@ let style = Style.create({
     color: 'white',
     textAlign: 'center',
     flex: 0
+  },
+  settingsButton: {
+    bottom: 88
   }
 });
 

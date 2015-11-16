@@ -93,7 +93,8 @@ let style = Style.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     flexDirection: 'row',
-    paddingTop: 0
+    paddingTop: 0,
+    backgroundColor: 'transparent'
   },
   background: {
     backgroundColor: 'white',

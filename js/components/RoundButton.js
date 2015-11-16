@@ -65,7 +65,8 @@ let RoundButton = React.createClass({
         transform: [{
           scale: this.state.animatedSize
         }]
-      }
+      },
+      this.props.style
     ];
 
     return (

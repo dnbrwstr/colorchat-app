@@ -6,13 +6,14 @@ import BaseText from './BaseText';
 import Header from './Header';
 import PressableView from './PressableView';
 import { navigateTo } from '../actions/NavigationActions';
-import { loadUserInfo, updateUserInfo } from '../actions/AppActions';
+import { loadUserInfo, updateUserInfo, logout, deleteAccount } from '../actions/AppActions';
 
 let {
   View,
   TextInput,
   PixelRatio,
-  ScrollView
+  ScrollView,
+  AlertIOS
 } = React;
 
 let SettingsScreen = React.createClass({
@@ -22,18 +23,20 @@ let SettingsScreen = React.createClass({
     };
   },
 
-  componentDidMount: function () {
-    this.props.dispatch(loadUserInfo())
-  },
-
   componentWillUpdate: function (nextProps, nextState) {
     if (nextProps.user.name !== this.props.user.name) {
       this.setState({ name: nextProps.user.name });
     }
   },
 
+  componentDidUpdate: function (prevProps) {
+    if (prevProps.transitioning && !this.props.transitioning) {
+      this.props.dispatch(loadUserInfo())
+    }
+  },
+
   handleBack: function () {
-    this.props.dispatch(updateUserInfo({ name: this.state.name }));
+    this.maybeUpdateUser();
     this.props.dispatch(navigateTo('inbox'));
   },
 
@@ -41,7 +44,44 @@ let SettingsScreen = React.createClass({
     this.refs[inputRef].focus();
   },
 
-  handleInputBlur: function () {},
+  handleLogout: function () {
+    this.props.dispatch(logout())
+  },
+
+  handleAboutPress: function () {},
+
+  handleInputBlur: function () {
+    this.maybeUpdateUser();
+  },
+
+  handleDeleteAccount: function (e, retry) {
+    let message = `Enter your phone number (including area code and country code) to delete your account. This is not reversible.`;
+
+    if (retry) message = 'Invalid number. ' + message
+
+    AlertIOS.prompt(
+      message,
+      [{ text: 'Cancel', onPress: () => {} },
+      { text: 'Delete', onPress: this.handleDeleteAccountConfirmation }]
+    );
+  },
+
+  handleDeleteAccountConfirmation: function (value) {
+    let isValidConfirmation =
+      '+' + value.replace(/[^0-9]/g, '') === this.props.user.phoneNumber;
+
+    if (isValidConfirmation) {
+      this.props.dispatch(deleteAccount());
+    } else {
+      this.handleDeleteAccount(null, true);
+    }
+  },
+
+  maybeUpdateUser: function () {
+    if (this.props.user.name !== this.state.name) {
+      this.props.dispatch(updateUserInfo({ name: this.state.name }));
+    }
+  },
 
   render: function () {
     return (
@@ -50,14 +90,12 @@ let SettingsScreen = React.createClass({
           title="Settings"
           showBack={true}
           onBack={this.handleBack}
-          backgroundColor={'rgba(255,255,255,.95)'}
-          borderColor={Style.values.midLightGray}
         />
         <ScrollView>
           <View style={style.content}>
             <View style={[style.section, style.changeName]}>
               <View style={style.sectionLabelWrapper}>
-                <BaseText>Profile</BaseText>
+                <BaseText style={style.sectionLabelText}>PROFILE</BaseText>
               </View>
               <View style={style.sectionContent}>
                 <PressableView style={style.inputRow} onPress={this.handleInputRowPress.bind(this, 'nameInput')}>
@@ -79,24 +117,24 @@ let SettingsScreen = React.createClass({
             </View>
             <View style={[style.section, style.deleteAccountWrapper]}>
               <View style={style.sectionLabelWrapper}>
-                <BaseText>Account</BaseText>
+                <BaseText style={style.sectionLabelText}>ACCOUNT</BaseText>
               </View>
-              <View style={style.button}>
+              <PressableView style={style.button} activeStyle={style.buttonActive} onPress={this.handleLogout}>
                 <BaseText style={style.buttonText}>Logout</BaseText>
-              </View>
+              </PressableView>
               <View style={style.divider}><View style={style.dividerInner}></View></View>
-              <View style={style.button}>
+              <PressableView style={style.button} activeStyle={style.buttonActive} onPress={this.handleDeleteAccount}>
                 <BaseText style={style.buttonText}>Delete account</BaseText>
-              </View>
+              </PressableView>
             </View>
 
             <View style={[style.section, style.aboutWrapper]}>
               <View style={style.sectionLabelWrapper}>
-                <BaseText>ColorChat</BaseText>
+                <BaseText style={style.sectionLabelText}>{ appName.toUpperCase()  }</BaseText>
               </View>
-              <View style={[style.button, style.aboutButton]}>
+              <PressableView style={[style.button, style.aboutButton]} activeStyle={style.buttonActive} onPress={this.handleAboutPress}>
                 <BaseText style={style.buttonText}>About { appName }</BaseText>
-              </View>
+              </PressableView>
             </View>
           </View>
         </ScrollView>
@@ -108,12 +146,11 @@ let SettingsScreen = React.createClass({
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: Style.values.veryLightGray
+    backgroundColor: Style.values.lightGray
   },
   content: {
     ...Style.mixins.contentWrapperBase,
     padding: 0,
-    paddingTop: 20,
     paddingBottom: 40
   },
   inputRow: {
@@ -138,15 +175,23 @@ let style = Style.create({
     justifyContent: 'center',
     backgroundColor: 'white'
   },
+  buttonActive: {
+    backgroundColor: Style.values.veryLightGray
+  },
   buttonText: {
     textAlign: 'center',
     color: 'black'
   },
   section: {
-    marginBottom: 20,
   },
   sectionLabelWrapper: {
-    padding: Style.values.horizontalPadding
+    padding: Style.values.horizontalPadding,
+    paddingBottom: 10,
+    paddingTop: 20
+  },
+  sectionLabelText: {
+    fontSize: 12,
+    letterSpacing: 1
   },
   sectionContent: {
     backgroundColor: 'white',
@@ -164,7 +209,8 @@ let style = Style.create({
 
 let settingsScreenSelector = state => {
   return {
-    user: state.user
+    user: state.user,
+    transitioning: state.navigation.transitioning
   }
 }
 

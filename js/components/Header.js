@@ -40,6 +40,10 @@ let Header = React.createClass({
       color: this.props.color
     };
 
+    let titleTextColor = this.props.titleColor && {
+      color: this.props.titleColor
+    };
+
     let highlightColor = this.props.highlightColor && {
       backgroundColor: this.props.highlightColor
     };
@@ -61,7 +65,7 @@ let Header = React.createClass({
 
         <View style={style.title}>
           { this.props.title &&
-            <Text style={[style.titleText, textColor]}>{this.props.title}</Text> }
+            <Text style={[style.titleText, textColor, titleTextColor]}>{this.props.title}</Text> }
         </View>
 
         <View style={style.buttonContainer}>
@@ -97,7 +101,7 @@ let style = Style.create({
     backgroundColor: 'transparent'
   },
   background: {
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,
     left: 0,

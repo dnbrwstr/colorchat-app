@@ -60,6 +60,15 @@ export let storeMessage = _message => {
   });
 };
 
+export let purgeMessages = () => {
+  return new Promise(function (resolve, reject) {
+    DatabaseManager.purgeMessages(function (error, message) {
+      if (error) reject(error);
+      else resolve(message);
+    });
+  });
+}
+
 export let seedMessages = messageCount => {
   times(
     compose(storeMessage, createSeedMessage),

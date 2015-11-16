@@ -84,11 +84,22 @@ RCT_EXPORT_METHOD(
   callback(@[@false, resultsArray, [NSNumber numberWithInt:[messages count]]]);
 };
 
-- (NSDictionary *)objectToDictionary:(RLMObject *)object
+RCT_EXPORT_METHOD(purgeMessages:(RCTResponseSenderBlock)callback)
 {
-  NSDictionary *dict = [[NSDictionary alloc] init];
-  return dict;
+  RLMRealm *realm = RLMRealm.defaultRealm;
+  NSError *error;
+  
+  [realm beginWriteTransaction];
+  [realm deleteAllObjects];
+  [realm commitWriteTransaction:&error];
+  
+  if (error) {
+    NSString *errorMessage = [error localizedDescription];
+    NSLog([error userInfo]);
+    callback(@[errorMessage]);
+  } else {
+    callback(@[@false]);
+  }
 }
-
 
 @end

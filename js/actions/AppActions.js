@@ -1,5 +1,7 @@
+import { AsyncStorage, AlertIOS } from 'react-native';
 import { serverRoot } from '../config';
-import { putAuthenticatedJSON, getAuthenticated } from '../lib/RequestHelpers';
+import { putAuthenticatedJSON, getAuthenticated, deleteAuthenticated } from '../lib/RequestHelpers';
+import * as DatabaseUtils from '../lib/DatabaseUtils';
 import send from '../lib/send';
 
 export let setMainTab = tabTitle => {
@@ -71,7 +73,7 @@ export let loadUserInfo = () => async (dispatch, getState) => {
   send({
     dispatch,
     actionType: 'loadUserInfo',
-    getRequest: () => getAuthenticated(url, {}, authToken)
+    getRequest: () => getAuthenticated(url, authToken)
   });
 };
 
@@ -85,4 +87,21 @@ export let updateUserInfo = data => async (dispatch, getState) => {
     baseAction: { data },
     getRequest: () => putAuthenticatedJSON(url, data, authToken)
   });
+};
+
+export let logout = () => ({ type: 'logout' });
+
+export let deleteAccount = data => async (dispatch, getState) => {
+  let url = serverRoot + '/account';
+  let authToken = getState().user.token;
+
+  await send({
+    dispatch,
+    actionType: 'deleteAccount',
+    getRequest: () => deleteAuthenticated(url, authToken)
+  });
+
+  await DatabaseUtils.purgeMessages();
+
+  AlertIOS.alert('Your account has been deleted! Enjoy your day :)');
 };

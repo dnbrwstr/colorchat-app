@@ -44,7 +44,7 @@ let handlers = {
   },
 
   authError: function (state, action) {
-    return this.navigateToTitle('signup', state);
+    return this.navigateToTitle('welcome', state);
   },
 
   registerPhoneNumber: function (state, action) {
@@ -58,7 +58,7 @@ let handlers = {
   },
 
   submitNotificationName: function (state, action) {
-    return this.navigateToTitle('main', state);
+    return this.navigateToTitle('inbox', state);
   },
 
   completeTransition: function (state, action) {
@@ -103,6 +103,14 @@ let handlers = {
     } else {
       return state;
     }
+  },
+
+  logout: function (state, action) {
+    return this.navigateToTitle('welcome', state);
+  },
+
+  deleteAccount: function (state, action) {
+    return this.navigateToTitle('welcome', state)
   }
 };
 

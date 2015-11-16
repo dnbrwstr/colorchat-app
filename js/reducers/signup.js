@@ -11,7 +11,11 @@ let handlers = {
   updateData: (state, action) => ({
     ...state,
     ...action.data
-  })
+  }),
+
+  logout: (state, action) => {
+    return initialState;
+  }
 };
 
 export default createRoutingReducer({

@@ -1,17 +1,21 @@
 export let postAuthenticatedJSON = (url, data, token) => {
-  return fetch(url, post(json(data, authenticated(token))));
+  return fetch(url, postRequest(json(data, authenticated(token))));
 };
 
 export let putAuthenticatedJSON = (url, data, token) => {
-  return fetch(url, put(json(data, authenticated(token))));
+  return fetch(url, putRequest(json(data, authenticated(token))));
 };
 
-export let getAuthenticated = (url, data, token) => {
+export let getAuthenticated = (url, token) => {
   return fetch(url, authenticated(token));
 };
 
+export let deleteAuthenticated = (url, token) => {
+  return fetch(url, deleteRequest(authenticated(token)));
+};
+
 export let postJSON = (url, data) =>
-  fetch(url, post(json(data)));
+  fetch(url, postRequest(json(data)));
 
 export let json = (data, requestObj={}) => ({
   ...requestObj,
@@ -23,14 +27,19 @@ export let json = (data, requestObj={}) => ({
   body: JSON.stringify(data)
 });
 
-export let post = (requestObj={}) => ({
+let postRequest = (requestObj={}) => ({
   ...requestObj,
   method: 'post'
 });
 
-export let put = (requestObj={}) => ({
+let putRequest = (requestObj={}) => ({
   ...requestObj,
   method: 'put'
+});
+
+let deleteRequest = (requestObj={}) => ({
+  ...requestObj,
+  method: 'delete'
 });
 
 export let authenticated = (token, requestObj={}) => {

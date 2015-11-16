@@ -55,7 +55,7 @@ export let saveName = name => async (dispatch, getState) => {
 
   send({
     dispatch,
-    actionType: 'submitConfirmationCode',
+    actionType: 'submitNotificationName',
     getRequest: () => putAuthenticatedJSON(url, { name }, authToken)
   });
 };

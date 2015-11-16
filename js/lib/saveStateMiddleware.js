@@ -17,5 +17,9 @@ export default saveStateMiddleware = store => next => action => {
     AsyncStorage.setItem('appState', JSON.stringify(nextState));
   }
 
+  if (action.type === 'deleteAccount' && action.state === 'complete') {
+    AsyncStorage.removeItem('appState');
+  }
+
   return result;
 };

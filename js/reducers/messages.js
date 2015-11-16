@@ -218,6 +218,10 @@ let handlers = {
     } else {
       return state;
     }
+  },
+
+  logout: function (state, action) {
+    return initialState;
   }
 };
 

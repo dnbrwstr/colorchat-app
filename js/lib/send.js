@@ -51,7 +51,7 @@ let send = (options, attempt=0) => {
     state: 'started'
   });
 
-  options.getRequest()
+  return options.getRequest()
     .then(onComplete.bind(null, options))
     .catch(onError.bind(null, options, attempt))
 };
@@ -60,6 +60,7 @@ export default send;
 
 let onComplete = async (options, res) => {
   if (res.ok) {
+    console.log('complete')
     let rawData;
     try {
       rawData = await res.json();
@@ -78,6 +79,7 @@ let onComplete = async (options, res) => {
       state: 'complete'
     }, data);
   } else {
+    console.log('error')
     dispatchWith(options, {
       state: 'failed',
       error: getErrorMessage(options.actionType, res.status)
@@ -86,6 +88,7 @@ let onComplete = async (options, res) => {
 };
 
 let onError = async (options, attempt, err) => {
+  console.log('realerror')
   if (typeof retryIntervals[attempt] !== 'undefined') {
     setTimeout(
       () => send(options, ++attempt),
@@ -100,6 +103,8 @@ let onError = async (options, attempt, err) => {
       error: getErrorMessage(options.actionType, errorType)
     });
   }
+
+  return err;
 };
 
 let getErrorMessage = (actionType, errorType) => {

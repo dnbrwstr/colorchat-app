@@ -46,6 +46,10 @@ let handlers = {
 
   updateUserInfo: (state, action) => {
     return merge(state, action.data);
+  },
+
+  logout: (state, action) => {
+    return initialState;
   }
 };
 

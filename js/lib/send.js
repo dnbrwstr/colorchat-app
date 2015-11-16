@@ -60,9 +60,14 @@ export default send;
 
 let onComplete = async (options, res) => {
   if (res.ok) {
-    let rawData = await res.json();
-    let data;
+    let rawData;
+    try {
+      rawData = await res.json();
+    } catch (e) {
+      rawData = {};
+    }
 
+    let data;
     if (options.parse) {
       data = options.parse(rawData);
     } else {

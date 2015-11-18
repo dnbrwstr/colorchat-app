@@ -34,18 +34,10 @@ export let conversationScreenSelector = createSelector([
   }
 );
 
-export let inboxScreenSelector = (state, ownProps) => {
-  let conversations = [];
-  state.conversations.forEach(c => {
-    let contact = find(propEq('id', c.recipientId), state.contacts);
-
-    if (contact) conversations.push({
-      ...c,
-      contact
-    });
-  });
-
-  conversations = conversations.sort(function (a, b) {
+let sortedConversationsSelector = createSelector([
+  state => state.conversations
+], conversations => {
+  return conversations.sort(function (a, b) {
     if (!a.lastMessage) return 1;
     else if (!b.lastMessage) return -1;
 
@@ -56,11 +48,26 @@ export let inboxScreenSelector = (state, ownProps) => {
     else if (dateA > dateB) return -1;
     else return 0;
   });
+});
 
+let contactsByIdSelector = createSelector([
+  state => state.contacts,
+], contacts => {
+  return contacts.reduce((memo, contact) => {
+    if (contact.id) memo[contact.id] = contact;
+    return memo;
+  }, {}, contacts);
+});
+
+export let inboxScreenSelector = createSelector([
+  sortedConversationsSelector,
+  contactsByIdSelector
+], (conversations, contacts) => {
   return {
-    conversations: conversations
-  }
-};
+    conversations,
+    contacts
+  };
+});
 
 export let socketServiceSelector = state => {
   return {

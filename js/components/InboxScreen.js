@@ -43,9 +43,13 @@ let InboxScreen = React.createClass({
   },
 
   renderConversations: function () {
+    let conversations = this.props.conversations.map(c => ({
+      ...c,
+      contact: this.props.contacts[c.recipientId]
+    }))
     return (
       <ConversationList
-        conversations={this.props.conversations}
+        conversations={conversations}
         onSelect={this.onSelectConversation}
         onDelete={this.onDeleteConversation}
       />

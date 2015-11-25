@@ -14,6 +14,18 @@
 		C81542071C0F80810046AE47 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81542051C0F80360046AE47 /* Realm.framework */; };
 		C81542081C0F80810046AE47 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C81542051C0F80360046AE47 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C81542131C0F852C0046AE47 /* WorkSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C81541CA1C0F7ED70046AE47 /* WorkSans-Regular.otf */; };
+		C826BFB71C0F9CE700940E11 /* RCTWelcomeScreenBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C826BFB31C0F9CE700940E11 /* RCTWelcomeScreenBackground.m */; settings = {ASSET_TAGS = (); }; };
+		C826BFB81C0F9CE700940E11 /* WelcomeParticleSystem.scnp in Resources */ = {isa = PBXBuildFile; fileRef = C826BFB41C0F9CE700940E11 /* WelcomeParticleSystem.scnp */; settings = {ASSET_TAGS = (); }; };
+		C826BFB91C0F9CE700940E11 /* WelcomeScreenBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C826BFB61C0F9CE700940E11 /* WelcomeScreenBackground.m */; settings = {ASSET_TAGS = (); }; };
+		C826BFD31C0F9E7000940E11 /* cog-1-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCA1C0F9E7000940E11 /* cog-1-dark.png */; settings = {ASSET_TAGS = (); }; };
+		C826BFD41C0F9E7000940E11 /* cog-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCB1C0F9E7000940E11 /* cog-1.png */; settings = {ASSET_TAGS = (); }; };
+		C826BFD51C0F9E7000940E11 /* cog-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCC1C0F9E7000940E11 /* cog-1@2x.png */; settings = {ASSET_TAGS = (); }; };
+		C826BFD61C0F9E7000940E11 /* cog-1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCD1C0F9E7000940E11 /* cog-1@3x.png */; settings = {ASSET_TAGS = (); }; };
+		C826BFD71C0F9E7000940E11 /* compose-indicator.gif in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCE1C0F9E7000940E11 /* compose-indicator.gif */; settings = {ASSET_TAGS = (); }; };
+		C826BFD81C0F9E7000940E11 /* star-particle.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCF1C0F9E7000940E11 /* star-particle.png */; settings = {ASSET_TAGS = (); }; };
+		C826BFD91C0F9E7000940E11 /* vertical-resize-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFD01C0F9E7000940E11 /* vertical-resize-icon.png */; settings = {ASSET_TAGS = (); }; };
+		C826BFDA1C0F9E7000940E11 /* vertical-resize-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFD11C0F9E7000940E11 /* vertical-resize-icon@2x.png */; settings = {ASSET_TAGS = (); }; };
+		C826BFDB1C0F9E7000940E11 /* vertical-resize-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFD21C0F9E7000940E11 /* vertical-resize-icon@3x.png */; settings = {ASSET_TAGS = (); }; };
 		C82E49231BED606C00EB8382 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E49221BED606C00EB8382 /* DatabaseManager.m */; settings = {ASSET_TAGS = (); }; };
 		C82E492B1BED64DE00EB8382 /* ChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C82E492A1BED64DE00EB8382 /* ChatMessage.m */; settings = {ASSET_TAGS = (); }; };
 		C847CA911C0F7B6C0076FE78 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C877A8E11C0F79A500FF56CA /* libRCTPushNotification.a */; };
@@ -188,34 +200,23 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		C81541B01C0F7ED70046AE47 /* Aileron-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aileron-Light.otf"; sourceTree = "<group>"; };
-		C81541B11C0F7ED70046AE47 /* Aileron-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aileron-Regular.otf"; sourceTree = "<group>"; };
-		C81541B21C0F7ED70046AE47 /* ClearSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClearSans-Light.ttf"; sourceTree = "<group>"; };
-		C81541B31C0F7ED70046AE47 /* ClearSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ClearSans-Regular.ttf"; sourceTree = "<group>"; };
-		C81541B41C0F7ED70046AE47 /* ComputerModernSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ComputerModernSans.ttf; sourceTree = "<group>"; };
-		C81541B51C0F7ED70046AE47 /* CothamSans.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CothamSans.otf; sourceTree = "<group>"; };
-		C81541B61C0F7ED70046AE47 /* Grammatika-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Grammatika-Regular.otf"; sourceTree = "<group>"; };
-		C81541B71C0F7ED70046AE47 /* SaniTrixieSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SaniTrixieSans.ttf; sourceTree = "<group>"; };
-		C81541B81C0F7ED70046AE47 /* SourceCodePro-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Black.otf"; sourceTree = "<group>"; };
-		C81541B91C0F7ED70046AE47 /* SourceCodePro-BlackIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BlackIt.otf"; sourceTree = "<group>"; };
-		C81541BA1C0F7ED70046AE47 /* SourceCodePro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.otf"; sourceTree = "<group>"; };
-		C81541BB1C0F7ED70046AE47 /* SourceCodePro-BoldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.otf"; sourceTree = "<group>"; };
-		C81541BC1C0F7ED70046AE47 /* SourceCodePro-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-ExtraLight.otf"; sourceTree = "<group>"; };
-		C81541BD1C0F7ED70046AE47 /* SourceCodePro-ExtraLightIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-ExtraLightIt.otf"; sourceTree = "<group>"; };
-		C81541BE1C0F7ED70046AE47 /* SourceCodePro-It.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-It.otf"; sourceTree = "<group>"; };
-		C81541BF1C0F7ED70046AE47 /* SourceCodePro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Light.otf"; sourceTree = "<group>"; };
-		C81541C01C0F7ED70046AE47 /* SourceCodePro-LightIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-LightIt.otf"; sourceTree = "<group>"; };
-		C81541C11C0F7ED70046AE47 /* SourceCodePro-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Medium.otf"; sourceTree = "<group>"; };
-		C81541C21C0F7ED70046AE47 /* SourceCodePro-MediumIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-MediumIt.otf"; sourceTree = "<group>"; };
-		C81541C31C0F7ED70046AE47 /* SourceCodePro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.otf"; sourceTree = "<group>"; };
-		C81541C41C0F7ED70046AE47 /* SourceCodePro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Semibold.otf"; sourceTree = "<group>"; };
-		C81541C51C0F7ED70046AE47 /* SourceCodePro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-SemiboldIt.otf"; sourceTree = "<group>"; };
-		C81541C61C0F7ED70046AE47 /* Tuffy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tuffy.otf; sourceTree = "<group>"; };
-		C81541C71C0F7ED70046AE47 /* Whois-Mono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Whois-Mono.ttf"; sourceTree = "<group>"; };
 		C81541C81C0F7ED70046AE47 /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
 		C81541C91C0F7ED70046AE47 /* WorkSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Medium.otf"; sourceTree = "<group>"; };
 		C81541CA1C0F7ED70046AE47 /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		C81542051C0F80360046AE47 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		C826BFB31C0F9CE700940E11 /* RCTWelcomeScreenBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTWelcomeScreenBackground.m; sourceTree = "<group>"; };
+		C826BFB41C0F9CE700940E11 /* WelcomeParticleSystem.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = WelcomeParticleSystem.scnp; sourceTree = "<group>"; };
+		C826BFB51C0F9CE700940E11 /* WelcomeScreenBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeScreenBackground.h; sourceTree = "<group>"; };
+		C826BFB61C0F9CE700940E11 /* WelcomeScreenBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeScreenBackground.m; sourceTree = "<group>"; };
+		C826BFCA1C0F9E7000940E11 /* cog-1-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-1-dark.png"; sourceTree = "<group>"; };
+		C826BFCB1C0F9E7000940E11 /* cog-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-1.png"; sourceTree = "<group>"; };
+		C826BFCC1C0F9E7000940E11 /* cog-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-1@2x.png"; sourceTree = "<group>"; };
+		C826BFCD1C0F9E7000940E11 /* cog-1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-1@3x.png"; sourceTree = "<group>"; };
+		C826BFCE1C0F9E7000940E11 /* compose-indicator.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "compose-indicator.gif"; sourceTree = "<group>"; };
+		C826BFCF1C0F9E7000940E11 /* star-particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-particle.png"; sourceTree = "<group>"; };
+		C826BFD01C0F9E7000940E11 /* vertical-resize-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical-resize-icon.png"; sourceTree = "<group>"; };
+		C826BFD11C0F9E7000940E11 /* vertical-resize-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical-resize-icon@2x.png"; sourceTree = "<group>"; };
+		C826BFD21C0F9E7000940E11 /* vertical-resize-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical-resize-icon@3x.png"; sourceTree = "<group>"; };
 		C82B16DA1B824EFC005E9BF9 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "../node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
 		C82E49211BED605700EB8382 /* DatabaseManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DatabaseManager.h; path = ../ios/DatabaseManager.h; sourceTree = "<group>"; };
 		C82E49221BED606C00EB8382 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseManager.m; path = ../ios/DatabaseManager.m; sourceTree = "<group>"; };
@@ -313,6 +314,10 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				C87337A21BC5BAD600C10905 /* SettingsApp.h */,
 				C87337A31BC5BAE600C10905 /* SettingsApp.m */,
+				C826BFB31C0F9CE700940E11 /* RCTWelcomeScreenBackground.m */,
+				C826BFB41C0F9CE700940E11 /* WelcomeParticleSystem.scnp */,
+				C826BFB51C0F9CE700940E11 /* WelcomeScreenBackground.h */,
+				C826BFB61C0F9CE700940E11 /* WelcomeScreenBackground.m */,
 			);
 			name = ColorChat;
 			sourceTree = "<group>";
@@ -341,6 +346,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C826BFC91C0F9E7000940E11 /* images */,
 				C81541AF1C0F7ED70046AE47 /* fonts */,
 				13B07FAE1A68108700A75B9A /* ColorChat */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -363,36 +369,29 @@
 		C81541AF1C0F7ED70046AE47 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
-				C81541B01C0F7ED70046AE47 /* Aileron-Light.otf */,
-				C81541B11C0F7ED70046AE47 /* Aileron-Regular.otf */,
-				C81541B21C0F7ED70046AE47 /* ClearSans-Light.ttf */,
-				C81541B31C0F7ED70046AE47 /* ClearSans-Regular.ttf */,
-				C81541B41C0F7ED70046AE47 /* ComputerModernSans.ttf */,
-				C81541B51C0F7ED70046AE47 /* CothamSans.otf */,
-				C81541B61C0F7ED70046AE47 /* Grammatika-Regular.otf */,
-				C81541B71C0F7ED70046AE47 /* SaniTrixieSans.ttf */,
-				C81541B81C0F7ED70046AE47 /* SourceCodePro-Black.otf */,
-				C81541B91C0F7ED70046AE47 /* SourceCodePro-BlackIt.otf */,
-				C81541BA1C0F7ED70046AE47 /* SourceCodePro-Bold.otf */,
-				C81541BB1C0F7ED70046AE47 /* SourceCodePro-BoldIt.otf */,
-				C81541BC1C0F7ED70046AE47 /* SourceCodePro-ExtraLight.otf */,
-				C81541BD1C0F7ED70046AE47 /* SourceCodePro-ExtraLightIt.otf */,
-				C81541BE1C0F7ED70046AE47 /* SourceCodePro-It.otf */,
-				C81541BF1C0F7ED70046AE47 /* SourceCodePro-Light.otf */,
-				C81541C01C0F7ED70046AE47 /* SourceCodePro-LightIt.otf */,
-				C81541C11C0F7ED70046AE47 /* SourceCodePro-Medium.otf */,
-				C81541C21C0F7ED70046AE47 /* SourceCodePro-MediumIt.otf */,
-				C81541C31C0F7ED70046AE47 /* SourceCodePro-Regular.otf */,
-				C81541C41C0F7ED70046AE47 /* SourceCodePro-Semibold.otf */,
-				C81541C51C0F7ED70046AE47 /* SourceCodePro-SemiboldIt.otf */,
-				C81541C61C0F7ED70046AE47 /* Tuffy.otf */,
-				C81541C71C0F7ED70046AE47 /* Whois-Mono.ttf */,
 				C81541C81C0F7ED70046AE47 /* WorkSans-Light.otf */,
 				C81541C91C0F7ED70046AE47 /* WorkSans-Medium.otf */,
 				C81541CA1C0F7ED70046AE47 /* WorkSans-Regular.otf */,
 			);
 			name = fonts;
 			path = ../fonts;
+			sourceTree = "<group>";
+		};
+		C826BFC91C0F9E7000940E11 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				C826BFCA1C0F9E7000940E11 /* cog-1-dark.png */,
+				C826BFCB1C0F9E7000940E11 /* cog-1.png */,
+				C826BFCC1C0F9E7000940E11 /* cog-1@2x.png */,
+				C826BFCD1C0F9E7000940E11 /* cog-1@3x.png */,
+				C826BFCE1C0F9E7000940E11 /* compose-indicator.gif */,
+				C826BFCF1C0F9E7000940E11 /* star-particle.png */,
+				C826BFD01C0F9E7000940E11 /* vertical-resize-icon.png */,
+				C826BFD11C0F9E7000940E11 /* vertical-resize-icon@2x.png */,
+				C826BFD21C0F9E7000940E11 /* vertical-resize-icon@3x.png */,
+			);
+			name = images;
+			path = ../images;
 			sourceTree = "<group>";
 		};
 		C877A8DD1C0F79A500FF56CA /* Products */ = {
@@ -759,7 +758,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C826BFD31C0F9E7000940E11 /* cog-1-dark.png in Resources */,
+				C826BFD91C0F9E7000940E11 /* vertical-resize-icon.png in Resources */,
+				C826BFD81C0F9E7000940E11 /* star-particle.png in Resources */,
+				C826BFDA1C0F9E7000940E11 /* vertical-resize-icon@2x.png in Resources */,
+				C826BFD61C0F9E7000940E11 /* cog-1@3x.png in Resources */,
+				C826BFD71C0F9E7000940E11 /* compose-indicator.gif in Resources */,
+				C826BFDB1C0F9E7000940E11 /* vertical-resize-icon@3x.png in Resources */,
 				C84B142C1BEC483900557C38 /* Parse.plist in Resources */,
+				C826BFB81C0F9CE700940E11 /* WelcomeParticleSystem.scnp in Resources */,
+				C826BFD51C0F9E7000940E11 /* cog-1@2x.png in Resources */,
+				C826BFD41C0F9E7000940E11 /* cog-1.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C81542131C0F852C0046AE47 /* WorkSans-Regular.otf in Resources */,
 			);
@@ -803,8 +812,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C826BFB71C0F9CE700940E11 /* RCTWelcomeScreenBackground.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				C826BFB91C0F9CE700940E11 /* WelcomeScreenBackground.m in Sources */,
 				C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */,
 				C82E49231BED606C00EB8382 /* DatabaseManager.m in Sources */,
 				C82E492B1BED64DE00EB8382 /* ChatMessage.m in Sources */,

@@ -6,11 +6,16 @@ let initialState = {
 
 let handlers = {
   triggerPermissionsDialog: function (state, action) {
-    let done = action.state !== 'started';
-
     return {
       ...state,
-      requestPermissions: done
+      requestPermissions: true
+    };
+  },
+
+  saveDeviceToken: function (state, action) {
+    return {
+      ...state,
+      requestPermissions: false
     };
   }
 };

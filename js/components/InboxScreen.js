@@ -5,6 +5,7 @@ import { navigateToConversation } from '../actions/NavigationActions';
 import { deleteConversation } from '../actions/ConversationActions';
 import { setMainTab } from '../actions/AppActions';
 import { navigateTo } from '../actions/NavigationActions';
+import { triggerPermissionsDialog } from '../actions/NotificationActions';
 import Style from '../style';
 import ConversationList from './ConversationList';
 import BaseText from './BaseText';
@@ -20,6 +21,10 @@ let {
 const BR = "\n";
 
 let InboxScreen = React.createClass({
+  componentDidMount: function () {
+    this.props.dispatch(triggerPermissionsDialog());
+  },
+
   handleAddButtonPress: function () {
     this.props.dispatch(navigateTo('contacts'));
   },

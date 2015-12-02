@@ -1,7 +1,7 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
 import Header from './Header';
-import countries from '../countries';
+import Countries from '../lib/data/Countries';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
 import { updateData } from '../actions/SignupActions';
@@ -16,7 +16,7 @@ let {
   PixelRatio
 } = React;
 
-let groupedCountries = countries.reduce((memo, country) => {
+let groupedCountries = Countries.reduce((memo, country) => {
   let letter = country.label[0].toUpperCase();
   if (!memo[letter]) memo[letter] = [];
   memo[letter].push(country);

@@ -2,7 +2,7 @@ import React from 'react-native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import Style from '../style';
 import Message from './Message';
-import measure from '../measure';
+import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
 
 let {

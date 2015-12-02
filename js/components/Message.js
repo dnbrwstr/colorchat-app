@@ -2,7 +2,7 @@ import React from 'react-native';
 import Color from 'color';
 import moment from 'moment';
 import Style from '../style';
-import measure from '../measure';
+import measure from '../lib/measure';
 import EditableMessage from './EditableMessage';
 import BaseText from './BaseText';
 import PressableView from './PressableView';

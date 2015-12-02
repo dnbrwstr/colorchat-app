@@ -1,6 +1,6 @@
 import React  from 'react-native';
 import Style  from '../style';
-import measure  from '../measure';
+import measure  from '../lib/measure';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
 

@@ -2,7 +2,7 @@ import React from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import BaseText from './BaseText';
-import measure from '../measure';
+import measure from '../lib/measure';
 
 let {
   Text,

@@ -2,7 +2,7 @@ import React from 'react-native';
 import KeyboardMixin from './mixins/KeyboardMixin';
 import Style from '../style';
 import Header from './Header';
-import measure from '../measure';
+import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
 
 let {

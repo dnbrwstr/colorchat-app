@@ -2,7 +2,7 @@ import React from 'react-native';
 import Touchable from 'Touchable';
 import { merge } from 'ramda';
 import { extractSingleTouch } from 'TouchEventUtils';
-import measure from '../measure';
+import measure from '../lib/measure';
 import NativeMethodsMixin from 'NativeMethodsMixin';
 
 let {

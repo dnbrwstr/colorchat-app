@@ -2,7 +2,7 @@ import React from 'react-native';
 import Header from './Header';
 import Style from '../style';
 import ScrollBridge from '../lib/ScrollBridge';
-import measure from '../measure';
+import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
 
 let {

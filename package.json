@@ -12,7 +12,7 @@
     "merge": "^1.2.0",
     "moment": "^2.10.6",
     "ramda": "^0.18.0",
-    "react-native": "^0.14.2",
+    "react-native": "^0.15.0",
     "react-native-addressbook": "^1.2.0",
     "react-native-invertible-scroll-view": "^0.1.0",
     "react-native-message-composer": "0.0.3",

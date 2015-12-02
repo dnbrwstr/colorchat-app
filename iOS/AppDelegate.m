@@ -8,9 +8,9 @@
 {
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.5:8081/js/index.ios.bundle?dev=true&platform=ios"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.5:8081/index.ios.bundle?dev=true&platform=ios"];
 
-  // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"ColorChat"

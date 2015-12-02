@@ -4,6 +4,8 @@ import App from './App';
 import config from '../config';
 import { seedMessages } from '../lib/DatabaseUtils';
 import { receiveMessage } from '../actions/MessageActions';
+import { seedAddressBook as shouldSeedAddressBook } from '../config';
+import { seedAddressBook } from '../lib/ContactUtils';
 import createStore from '../lib/createStore';
 import createSocketService from '../lib/createSocketService';
 import createNotificationService from '../lib/createNotificationService';
@@ -16,6 +18,10 @@ let ColorChat = React.createClass({
 
   componentDidMount: async function () {
     let store = await createStore();
+
+    if (shouldSeedAddressBook) {
+      seedAddressBook();
+    }
 
     if (config.seedMessages) {
       seedMessages(config.seedMessageCount)

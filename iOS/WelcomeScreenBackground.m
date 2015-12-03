@@ -47,13 +47,15 @@
   SCNNode *cameraNode = [[SCNNode alloc] init];
   SCNNode *particleNode = [[SCNNode alloc] init];
   SCNCamera *camera = [[SCNCamera alloc] init];
+  camera.usesOrthographicProjection = true;
+  camera.orthographicScale = 8;
   cameraNode.camera = camera;
   cameraNode.position = SCNVector3Make(0, 0, 8);
   particleNode.position = SCNVector3Make(0, 0, 0);
   particleNode.rotation = SCNVector4Make(0, 0, 0, 0);
   SCNParticleSystem *particleSystem = [SCNParticleSystem particleSystemNamed:@"WelcomeParticleSystem" inDirectory:@""];
   view.frame = self.frame;
-  view.backgroundColor = [UIColor colorWithRed:.08 green:.08 blue:.08 alpha:1];
+  view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
   view.scene = scene;
   [self addSubview:view];
   

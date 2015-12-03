@@ -2,6 +2,8 @@
 
 React-Native/iOS client for ColorChat
 
+![](https://s3.amazonaws.com/gh-readme-images/out2.gif)
+
 ### Getting started
 
 * clone the repo `git clone git@github.com:dnbrwstr/colorchat-app.git`

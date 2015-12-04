@@ -14,9 +14,6 @@
 		C81542071C0F80810046AE47 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81542051C0F80360046AE47 /* Realm.framework */; };
 		C81542081C0F80810046AE47 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C81542051C0F80360046AE47 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C81542131C0F852C0046AE47 /* WorkSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C81541CA1C0F7ED70046AE47 /* WorkSans-Regular.otf */; };
-		C826BFB71C0F9CE700940E11 /* RCTWelcomeScreenBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C826BFB31C0F9CE700940E11 /* RCTWelcomeScreenBackground.m */; settings = {ASSET_TAGS = (); }; };
-		C826BFB81C0F9CE700940E11 /* WelcomeParticleSystem.scnp in Resources */ = {isa = PBXBuildFile; fileRef = C826BFB41C0F9CE700940E11 /* WelcomeParticleSystem.scnp */; settings = {ASSET_TAGS = (); }; };
-		C826BFB91C0F9CE700940E11 /* WelcomeScreenBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C826BFB61C0F9CE700940E11 /* WelcomeScreenBackground.m */; settings = {ASSET_TAGS = (); }; };
 		C826BFD31C0F9E7000940E11 /* cog-1-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCA1C0F9E7000940E11 /* cog-1-dark.png */; settings = {ASSET_TAGS = (); }; };
 		C826BFD41C0F9E7000940E11 /* cog-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCB1C0F9E7000940E11 /* cog-1.png */; settings = {ASSET_TAGS = (); }; };
 		C826BFD51C0F9E7000940E11 /* cog-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C826BFCC1C0F9E7000940E11 /* cog-1@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -204,10 +201,6 @@
 		C81541C91C0F7ED70046AE47 /* WorkSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Medium.otf"; sourceTree = "<group>"; };
 		C81541CA1C0F7ED70046AE47 /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		C81542051C0F80360046AE47 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
-		C826BFB31C0F9CE700940E11 /* RCTWelcomeScreenBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTWelcomeScreenBackground.m; sourceTree = "<group>"; };
-		C826BFB41C0F9CE700940E11 /* WelcomeParticleSystem.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = WelcomeParticleSystem.scnp; sourceTree = "<group>"; };
-		C826BFB51C0F9CE700940E11 /* WelcomeScreenBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeScreenBackground.h; sourceTree = "<group>"; };
-		C826BFB61C0F9CE700940E11 /* WelcomeScreenBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeScreenBackground.m; sourceTree = "<group>"; };
 		C826BFCA1C0F9E7000940E11 /* cog-1-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-1-dark.png"; sourceTree = "<group>"; };
 		C826BFCB1C0F9E7000940E11 /* cog-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-1.png"; sourceTree = "<group>"; };
 		C826BFCC1C0F9E7000940E11 /* cog-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-1@2x.png"; sourceTree = "<group>"; };
@@ -314,10 +307,6 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				C87337A21BC5BAD600C10905 /* SettingsApp.h */,
 				C87337A31BC5BAE600C10905 /* SettingsApp.m */,
-				C826BFB31C0F9CE700940E11 /* RCTWelcomeScreenBackground.m */,
-				C826BFB41C0F9CE700940E11 /* WelcomeParticleSystem.scnp */,
-				C826BFB51C0F9CE700940E11 /* WelcomeScreenBackground.h */,
-				C826BFB61C0F9CE700940E11 /* WelcomeScreenBackground.m */,
 			);
 			name = ColorChat;
 			sourceTree = "<group>";
@@ -769,7 +758,6 @@
 				C826BFD71C0F9E7000940E11 /* compose-indicator.gif in Resources */,
 				C826BFDB1C0F9E7000940E11 /* vertical-resize-icon@3x.png in Resources */,
 				C84B142C1BEC483900557C38 /* Parse.plist in Resources */,
-				C826BFB81C0F9CE700940E11 /* WelcomeParticleSystem.scnp in Resources */,
 				C826BFD51C0F9E7000940E11 /* cog-1@2x.png in Resources */,
 				C826BFD41C0F9E7000940E11 /* cog-1.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
@@ -815,10 +803,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C826BFB71C0F9CE700940E11 /* RCTWelcomeScreenBackground.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				C826BFB91C0F9CE700940E11 /* WelcomeScreenBackground.m in Sources */,
 				C87337A41BC5BAE600C10905 /* SettingsApp.m in Sources */,
 				C82E49231BED606C00EB8382 /* DatabaseManager.m in Sources */,
 				C82E492B1BED64DE00EB8382 /* ChatMessage.m in Sources */,

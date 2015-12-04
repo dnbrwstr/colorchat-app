@@ -5,31 +5,49 @@ import PressableView from './PressableView';
 import LoaderButton from './LoaderButton';
 import { navigateTo } from '../actions/NavigationActions';
 import { appName } from '../config';
+import { rand } from '../lib/Utils';
+import TimerMixin from './mixins/TimerMixin';
 import BaseText from './BaseText';
 
 let {
   View,
-  Text,
-  requireNativeComponent
+  Text
 } = React;
 
-let WelcomeScreenBackground = requireNativeComponent('RCTWelcomeScreenBackground', null);
-
 let WelcomeScreen = React.createClass({
+  mixins: [TimerMixin],
+
+  componentDidMount: function () {
+    this.setIntervalTimer('refresh', () => this.setState({}), 1000);
+  },
+
+  randomColor: function () {
+    return `hsl(${rand(360)},100%,65%)`;
+  },
+
+  handlePressNext: function () {
+    this.props.dispatch(navigateTo('signup'));
+  },
+
   render: function () {
     return (
       <View style={style.wrapper}>
-        <WelcomeScreenBackground style={style.welcome} />
         <View style={style.titleContainer}>
           <BaseText style={style.title}>ColorChat</BaseText>
         </View>
+
         <View style={style.floatMessageContainer}>
           <View style={style.floatMessage}>
-            <BaseText style={style.floatMessageText}>Chat with{"\n"}colors instead{"\n"}of words</BaseText>
+            <BaseText style={style.floatMessageText}>
+              { this.renderColorizedText('Chat with') }{"\n"}
+              { this.renderColorizedText('colors instead') }{"\n"}
+              { this.renderColorizedText('of words') }
+            </BaseText>
           </View>
         </View>
+
         <View style={style.bottomBar}>
-          <PressableView style={style.bottomBarButton} onPress={this.onPressNext}>
+          <PressableView style={style.bottomBarButton} onPress={this.handlePressNext}>
             <BaseText style={style.bottomBarButtonText}>Setup</BaseText>
           </PressableView>
         </View>
@@ -37,15 +55,17 @@ let WelcomeScreen = React.createClass({
     );
   },
 
-  onPressNext: function () {
-    this.props.dispatch(navigateTo('signup'));
+  renderColorizedText: function (text) {
+    return text.split('').map(letter => {
+      return <BaseText style={{color: this.randomColor()}}>{letter}</BaseText>;
+    });
   }
 });
 
 let style = Style.create({
   wrapper: {
     ...Style.mixins.outerWrapperBase,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: 'black',
     flex: 1
   },
   welcome: {
@@ -105,7 +125,8 @@ let style = Style.create({
   },
   floatMessageText: {
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: 24
   }
 });
 

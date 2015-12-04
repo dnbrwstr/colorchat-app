@@ -48,6 +48,7 @@ let Router = React.createClass({
   configureScene: function (route) {
     switch (route.title) {
       case 'contacts':
+      case 'settings':
         return SlideOverFromBottom
       case 'conversation':
         return SlideOverFromRight

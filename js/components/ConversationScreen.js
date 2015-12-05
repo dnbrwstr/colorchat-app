@@ -106,15 +106,15 @@ let ConversationScreen = React.createClass({
           onBeginningReached={this.handleScrollToBottom}
           onEndReached={this.loadNextPage}
         />
+        <PlusButton
+          onPress={this.onStartComposing}
+          visible={!this.props.composing && !this.props.sending && !this.props.cancelling}
+        />
         <ComposeBar
           ref="composeBar"
           active={this.props.composing}
           onSend={this.onSendMessage}
           onCancel={this.onStopComposing}
-        />
-        <PlusButton
-          onPress={this.onStartComposing}
-          visible={!this.props.composing && !this.props.sending && !this.props.cancelling}
         />
         <StickyView
           scrollBridge={this.state.scrollBridge}

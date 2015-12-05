@@ -106,7 +106,7 @@ let SignupScreen = React.createClass({
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8'
+    backgroundColor: Style.values.backgroundGray
   },
   screenContent: {
     ...Style.mixins.contentWrapperBase,

@@ -15,9 +15,12 @@ let values = {
   darkGrayHighlight,
   midLightGray: '#DFDFDF',
   lightGray: '#EFEFEF',
+  fairlyLightGray: '#F8F8F8',
   veryLightGray: '#FAFAFA',
   outerPadding: 20,
   rowHeight: 80
 };
+
+values.backgroundGray = values.lightGray;
 
 module.exports = values;

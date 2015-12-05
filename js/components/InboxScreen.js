@@ -91,7 +91,7 @@ let {
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: Style.values.lightGray,
+    backgroundColor: Style.values.backgroundGray,
   },
   emptyMessageWrapper: {
     ...contentWrapperBase,

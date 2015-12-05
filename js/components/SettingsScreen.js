@@ -147,7 +147,7 @@ let SettingsScreen = React.createClass({
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: Style.values.lightGray
+    backgroundColor: Style.values.backgroundGray
   },
   content: {
     ...Style.mixins.contentWrapperBase,

@@ -119,7 +119,7 @@ let {
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: Style.values.lightGray
+    backgroundColor: Style.values.backgroundGray
   },
   headerWrapper: {
     position: 'absolute',
@@ -135,7 +135,7 @@ let importStyle = Style.create({
     ...contentWrapperBase,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: Style.values.lightGray
+    backgroundColor: Style.values.backgroundGray
   },
   messageText: {
     marginBottom: 24,

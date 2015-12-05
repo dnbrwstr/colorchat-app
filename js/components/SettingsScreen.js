@@ -90,6 +90,7 @@ let SettingsScreen = React.createClass({
           title="Settings"
           showBack={true}
           onBack={this.handleBack}
+          highlightColor={'#E6E6E6'}
         />
         <ScrollView>
           <View style={style.content}>

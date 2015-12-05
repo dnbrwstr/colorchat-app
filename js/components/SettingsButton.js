@@ -26,10 +26,7 @@ let marginSize = (buttonSize - iconSize) / 2
 
 let style = Style.create({
   button: {
-    ...Style.mixins.shadowBase,
-    shadowOpacity: .25,
-    shadowRadius: 1,
-    backgroundColor: '#white'
+    backgroundColor: 'white'
   },
   image: {
     position: 'absolute',

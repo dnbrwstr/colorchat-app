@@ -91,7 +91,7 @@ let {
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: Style.values.lightGray,
   },
   emptyMessageWrapper: {
     ...contentWrapperBase,
@@ -114,7 +114,7 @@ let style = Style.create({
     flex: 0
   },
   settingsButton: {
-    bottom: 88
+    bottom: 84
   }
 });
 

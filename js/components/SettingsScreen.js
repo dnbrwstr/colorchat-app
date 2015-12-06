@@ -211,7 +211,7 @@ let style = Style.create({
 let settingsScreenSelector = state => {
   return {
     user: state.user,
-    transitioning: state.navigation.transitioning
+    transitioning: state.navigation.state === 'transitioning'
   }
 }
 

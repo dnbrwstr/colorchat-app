@@ -121,7 +121,6 @@ let style = Style.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'black',
-    color: '#999'
   },
   floatMessageText: {
     color: 'white',

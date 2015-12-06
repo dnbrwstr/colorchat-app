@@ -27,6 +27,10 @@ let ContactsScreen = React.createClass({
     }
   },
 
+  handleShowContactsInfo: function () {
+    this.props.dispatch(navigateTo('contactsInfo'))
+  },
+
   render: function () {
     return (
       <View style={style.container}>
@@ -71,6 +75,13 @@ let ContactsScreen = React.createClass({
           activeStyle={importStyle.buttonActive}
         >
           <BaseText style={importStyle.buttonText}>Import Contacts</BaseText>
+        </PressableView>
+
+        <PressableView
+          style={importStyle.infoLink}
+          onPress={this.handleShowContactsInfo}
+        >
+          <BaseText style={importStyle.infoLinkText}>How ColorChat uses your contacts</BaseText>
         </PressableView>
       </View>
     );
@@ -152,6 +163,12 @@ let importStyle = Style.create({
     backgroundColor: Style.values.veryLightGray
   },
   buttonText: {
+  },
+  infoLink: {
+    marginTop: 20
+  },
+  infoLinkText: {
+    textDecorationLine: 'underline',
   }
 })
 

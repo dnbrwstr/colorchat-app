@@ -8,6 +8,9 @@ import WelcomeScreen from '../components/WelcomeScreen';
 import InboxScreen from '../components/InboxScreen';
 import ContactsScreen from '../components/ContactsScreen';
 import SettingsScreen from '../components/SettingsScreen';
+import AboutScreen from '../components/AboutScreen';
+import NumberInfoScreen from '../components/NumberInfoScreen';
+import ContactsInfoScreen from '../components/ContactsInfoScreen';
 
 let AppRoutes = {
   welcome: {
@@ -20,7 +23,14 @@ let AppRoutes = {
     component: SignupStartScreen,
     links: {
       countryPicker: 'push',
-      confirmCode: 'push'
+      confirmCode: 'push',
+      numberInfo: 'push'
+    }
+  },
+  numberInfo: {
+    component: NumberInfoScreen,
+    links: {
+      'signup': 'pop'
     }
   },
   countryPicker: {
@@ -55,7 +65,14 @@ let AppRoutes = {
     component: ContactsScreen,
     links: {
       conversation: 'push',
+      contactsInfo: 'push',
       inbox: 'pop'
+    }
+  },
+  contactsInfo: {
+    component: ContactsInfoScreen,
+    links: {
+      contacts: 'pop'
     }
   },
   conversation: {
@@ -67,7 +84,14 @@ let AppRoutes = {
   settings: {
     component: SettingsScreen,
     links: {
-      inbox: 'pop'
+      inbox: 'pop',
+      about: 'push'
+    }
+  },
+  about: {
+    component: AboutScreen,
+    links: {
+      settings: 'pop'
     }
   }
 };

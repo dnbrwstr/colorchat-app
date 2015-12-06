@@ -48,7 +48,9 @@ let SettingsScreen = React.createClass({
     this.props.dispatch(logout())
   },
 
-  handleAboutPress: function () {},
+  handleAboutPress: function () {
+    this.props.dispatch(navigateTo('about'));
+  },
 
   handleInputBlur: function () {
     this.maybeUpdateUser();

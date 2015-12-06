@@ -27,6 +27,10 @@ let {
 } = SignupActions;
 
 let SignupStartScreen = React.createClass({
+  handleNumberInfoLinkPress: function () {
+    this.props.dispatch(navigateTo('numberInfo'));
+  },
+
   render: function() {
     let { dispatch, error } = this.props;
 
@@ -81,6 +85,12 @@ let SignupStartScreen = React.createClass({
             />
           </View>
         </View>
+
+        <PressableView style={style.numberInfoLink} onPress={this.handleNumberInfoLinkPress}>
+          <BaseText style={style.numberInfoText}>
+           How ColorChat uses your number
+          </BaseText>
+        </PressableView>
       </SignupScreen>
     );
   },
@@ -181,6 +191,13 @@ let style = Style.create({
   countryCodeInput: {
     ...inputBase,
     paddingLeft: 12
+  },
+  numberInfoLink: {
+    marginTop: 20,
+    flex: 0
+  },
+  numberInfoText: {
+    textDecorationLine: 'underline',
   }
 });
 

@@ -24,7 +24,14 @@ let TextScreen = React.createClass({
 });
 
 let style = Style.create({
-  container: {}
+  container: {
+    flex: 1,
+    backgroundColor: Style.values.backgroundGray
+  },
+  content: {
+    ...Style.mixins.contentWrapperBase,
+    paddingTop: 0
+  }
 });
 
 export default TextScreen;

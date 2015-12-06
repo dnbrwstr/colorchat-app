@@ -7,6 +7,7 @@ let darkGrayHighlight = Color(darkGray)
   .lighten(0.1).hexString();
 
 let values = {
+  smallFontSize: 12,
   borderWidth: 1 / PixelRatio.get(),
   basePadding: 10,
   horizontalPadding: 18,

@@ -50,7 +50,7 @@ let ConfirmCodeScreen = React.createClass({
       <LoaderButton
         loading={this.props.loading}
         onPress={this.onSubmit}
-        message="Confirm code"
+        message="Confirm"
       />
     );
   },

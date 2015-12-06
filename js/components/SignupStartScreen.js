@@ -143,11 +143,11 @@ let style = Style.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    marginBottom: 5
+    marginBottom: 15
   },
   countryInput: {
     ...grayBottomBorder,
-    height: inputBase.height - 2,
+    height: inputBase.height + 1,
     paddingTop: 0,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -183,7 +183,7 @@ let style = Style.create({
   },
   countryCodePlus: {
     position: 'absolute',
-    top: 15,
+    top: 13,
     bottom: 0,
     left: 0,
     backgroundColor: 'transparent'
@@ -193,10 +193,11 @@ let style = Style.create({
     paddingLeft: 12
   },
   numberInfoLink: {
-    marginTop: 20,
-    flex: 0
+    marginTop: 10
   },
   numberInfoText: {
+    fontSize: Style.values.smallFontSize,
+    textAlign: 'center',
     textDecorationLine: 'underline',
   }
 });

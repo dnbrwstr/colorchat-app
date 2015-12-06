@@ -31,7 +31,7 @@ let grayBottomBorder = {
 
 let inputBase = {
   ...textBase,
-  height: 42,
+  height: 36,
   lineHeight: 1,
   paddingTop: 10,
 };

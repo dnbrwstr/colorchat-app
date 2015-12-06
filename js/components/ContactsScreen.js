@@ -51,13 +51,13 @@ let ContactsScreen = React.createClass({
   },
 
   renderContent: function () {
-    if (this.props.imported) {
-      return this.renderContactsList();
-    } else if (this.props.importError) {
+    // if (this.props.imported) {
+    //   return this.renderContactsList();
+    // } else if (this.props.importError) {
       return this.renderImportPrompt();
-    } else {
-      return this.renderLoader();
-    }
+    // } else {
+    //   return this.renderLoader();
+    // }
   },
 
   renderImportPrompt: function () {
@@ -81,7 +81,7 @@ let ContactsScreen = React.createClass({
           style={importStyle.infoLink}
           onPress={this.handleShowContactsInfo}
         >
-          <BaseText style={importStyle.infoLinkText}>How ColorChat uses your contacts</BaseText>
+          <BaseText style={importStyle.infoLinkText}>More about how ColorChat{"\n"}uses your contacts</BaseText>
         </PressableView>
       </View>
     );
@@ -169,6 +169,8 @@ let importStyle = Style.create({
   },
   infoLinkText: {
     textDecorationLine: 'underline',
+    textAlign: 'center',
+    fontSize: Style.values.smallFontSize
   }
 })
 

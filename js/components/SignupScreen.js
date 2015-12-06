@@ -18,8 +18,8 @@ let SignupScreen = React.createClass({
 
   getInitialState: function () {
     return {
-      contentHeight: null,
-      animatedContentHeight: new Animated.Value(Dimensions.get('window').height)
+      contentHeight: Dimensions.get('window').height,
+      scrollHeight: Dimensions.get('window').height
     };
   },
 
@@ -27,57 +27,32 @@ let SignupScreen = React.createClass({
     this.clearAllTimers();
   },
 
-  handleLayout: async function () {
-    this.setDebounceTimer('measure', this.measureContentSize, 200);
-  },
-
-  measureContentSize: async function () {
-    let headerSize = await measure(this.refs.header);
-    // Content stretches to fill all available space, so we add an
-    // extra wrapper and use it to get the minimum size of the content
-    let contentInnerSize = await measure(this.refs.contentInner);
-    let buttonSize = await measure(this.refs.button);
-
-    let contentHeight = Math.max(400, headerSize.height + contentInnerSize.height + buttonSize.height);
-    this.setState({ contentHeight });
-  },
-
   keyboardMixinHandleKeyboardWillShow: function (frames) {
-    let toValue = Math.max(
-      Dimensions.get('window').height - frames.endCoordinates.height,
-      this.state.contentHeight
-    );
-
-    Animated.timing(this.state.animatedContentHeight, {
-      toValue,
-      duration: 200,
-      easing: Easing.inOut(Easing.ease)
-    }).start();
+    this.setState({
+      scrollHeight: Dimensions.get('window').height - frames.endCoordinates.height
+    });
   },
 
   keyboardMixinHandleKeyboardWillHide: function () {
-    Animated.timing(this.state.animatedContentHeight, {
-      toValue: Dimensions.get('window').height,
-      duration: 200,
-      easing: Easing.inOut(Easing.ease)
-    }).start();
+    this.setState({
+      scrollHeight: Dimensions.get('window').height
+    });
   },
 
   render: function () {
-    let shadowStyle = [
-      style.bottomShadow,
-      { bottom: this.state.animatedKeyboardHeight }
-    ];
+    let scrollWrapperStyle = [style.scrollWrapper, {
+      height: this.state.scrollHeight
+    }];
 
-    let wrapperStyle = [
-      { height: this.state.animatedKeyboardEmptySpace }
-    ];
+    let contentStyle = [{
+      height: this.state.contentHeight,
+    }];
 
     return (
       <View style={style.container}>
-        <Animated.View style={wrapperStyle}>
-          <ScrollView keyboardShouldPersistTaps={true}>
-            <Animated.View style={{height: this.state.animatedContentHeight}} onLayout={this.handleLayout}>
+        <View style={scrollWrapperStyle}>
+          <ScrollView>
+            <View style={contentStyle}>
               <Header
                 ref="header"
                 title={this.props.title}
@@ -94,9 +69,9 @@ let SignupScreen = React.createClass({
               <View ref="button">
                 { this.props.renderNextButton() }
               </View>
-            </Animated.View>
+            </View>
           </ScrollView>
-        </Animated.View>
+        </View>
       </View>
     );
   }
@@ -107,6 +82,9 @@ let style = Style.create({
   container: {
     flex: 1,
     backgroundColor: Style.values.backgroundGray
+  },
+  scrollWrapper: {
+    overflow: 'hidden',
   },
   screenContent: {
     ...Style.mixins.contentWrapperBase,

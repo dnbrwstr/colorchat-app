@@ -51,13 +51,13 @@ let ContactsScreen = React.createClass({
   },
 
   renderContent: function () {
-    // if (this.props.imported) {
-    //   return this.renderContactsList();
-    // } else if (this.props.importError) {
+    if (this.props.imported) {
+      return this.renderContactsList();
+    } else if (this.props.importError) {
       return this.renderImportPrompt();
-    // } else {
-    //   return this.renderLoader();
-    // }
+    } else {
+      return this.renderLoader();
+    }
   },
 
   renderImportPrompt: function () {

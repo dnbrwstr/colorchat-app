@@ -16,8 +16,8 @@ export let receiveMessage = message => async (dispatch, getState) => {
   await DatabaseUtils.storeMessage(message);
 
   let inCurrentConversation =
-      navigation.route.title !== 'conversation' ||
-      navigation.route.data.contactId !== message.senderId;
+      navigation.route.title === 'conversation' &&
+      navigation.route.data.contactId === message.senderId;
 
   dispatch({
     type: 'receiveMessage',

@@ -3,6 +3,7 @@ import createRoutingReducer from '../lib/createRoutingReducer';
 import { generateId } from '../lib/MessageUtils';
 
 let initialState = {
+  appState: 'active',
   alerts: [],
   signup: {
     loading: false,
@@ -121,11 +122,13 @@ let handlers = {
   },
 
   changeAppState: function (state, action) {
+    state = assoc('appState', action.newState, state);
+
     if (action.newState === 'active') {
-      return assocPath(['contacts', 'shouldRefresh'], true, state);
-    } else {
-      return state;
+      state = assocPath(['contacts', 'shouldRefresh'], true, state);
     }
+
+    return state;
   }
 };
 

@@ -18,7 +18,9 @@
           [self getDateAsString], @"createdAt",
           self.color, @"color",
           (NSNumber *)self.width, @"width",
-          (NSNumber *)self.height, @"height", nil];
+          (NSNumber *)self.height, @"height",
+          self.state, @"state",
+          nil];
 }
 
 - (NSString *) getDateAsString

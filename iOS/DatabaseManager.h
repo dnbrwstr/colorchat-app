@@ -13,6 +13,9 @@
 #import "ChatMessage.h"
 
 @interface DatabaseManager : NSObject <RCTBridgeModule>
+
++(void)runMigrations;
+
 @end
 
 #endif /* DatabaseManager_h */

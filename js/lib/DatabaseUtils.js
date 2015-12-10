@@ -14,7 +14,8 @@ let ALLOWED_MESSAGE_PROPS = [
   'createdAt',
   'color',
   'width',
-  'height'
+  'height',
+  'state'
 ];
 
 export let loadMessages = _options => {
@@ -59,6 +60,15 @@ export let storeMessage = _message => {
     );
   });
 };
+
+export let getUnreadCount = () => {
+  return new Promise(function (resolve, reject) {
+    DatabaseManager.getUnreadCount(function (error, count) {
+      if (error) reject(error);
+      else resolve(count);
+    });
+  });
+}
 
 export let purgeMessages = () => {
   return new Promise(function (resolve, reject) {

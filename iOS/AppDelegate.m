@@ -1,6 +1,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "RCTRootView.h"
+#import "DatabaseManager.h"
 
 @implementation AppDelegate
 
@@ -22,8 +23,10 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
   [self setupParse];
-
+  [DatabaseManager runMigrations];
+  
   return YES;
 }
 

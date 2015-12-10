@@ -2,16 +2,20 @@ import React from 'react-native';
 import { saveDeviceToken } from '../actions/NotificationActions';
 import { presentInternalAlert } from '../actions/AppActions';
 import createService from './createService';
+import { getUnreadCount } from './DatabaseUtils';
 
 let {
-  PushNotificationIOS
+  PushNotificationIOS,
+  NativeModules
 } = React;
+
+let { ParseBridge } = NativeModules;
 
 let notificationServiceBase = {
   onDidInitialize: function () {
     PushNotificationIOS.addEventListener('register', this.onRegister);
     PushNotificationIOS.addEventListener('notification', this.onReceiveNotification);
-    PushNotificationIOS.setApplicationIconBadgeNumber(this.props.unreadCount);
+    this.updateUnreadCount();
   },
 
   onDidUpdate: function (prevProps) {
@@ -19,9 +23,22 @@ let notificationServiceBase = {
       PushNotificationIOS.requestPermissions();
     }
 
-    if (prevProps.unreadCount !== this.props.unreadCount) {
-      PushNotificationIOS.setApplicationIconBadgeNumber(this.props.unreadCount);
+    if (!prevProps.appActive && this.props.appActive) {
+      this.updateUnreadCount();
     }
+
+    if (prevProps.route !== this.props.route &&
+        (this.props.route.title === 'conversation' ||
+        this.props.route.title === 'inbox')) {
+      // Delay before updating to prevent this
+      // coinciding with navigation animation
+      setTimeout(this.updateUnreadCount, 500);
+    }
+  },
+
+  updateUnreadCount: async function () {
+    let count = await getUnreadCount();
+    ParseBridge.setBadgeCount(count);
   },
 
   onRegister: function (token) {
@@ -35,7 +52,7 @@ let notificationServiceBase = {
   },
 
   onReceiveMessage: function (message) {
-    let { title, data } = this.props.currentRoute;
+    let { title, data } = this.props.route;
     let senderId = message._data.senderId;
     if (title === 'conversation' && data.contactId === senderId) return;
 
@@ -49,9 +66,10 @@ let notificationServiceBase = {
 
 let notificationServiceSelector = state => {
   return {
+    localNotifications: state.ui.alerts,
+    appActive: state.ui.appState === 'active',
     requestPermissions: state.notifications.requestPermissions,
-    currentRoute: state.navigation.route,
-    unreadCount: state.messages.static.filter(m => m.state === 'fresh').length
+    route: state.navigation.route
   };
 };
 

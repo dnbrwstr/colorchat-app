@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSString *color;
 @property (nonatomic, strong) NSNumber<RLMInt> *width;
 @property (nonatomic, strong) NSNumber<RLMInt> *height;
+@property (nonatomic, strong) NSString *state;
 
 - (NSDictionary *) toDict;
 

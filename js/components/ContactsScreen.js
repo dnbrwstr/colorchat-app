@@ -51,7 +51,7 @@ let ContactsScreen = React.createClass({
   },
 
   renderContent: function () {
-    if (this.props.imported) {
+    if (this.props.contacts.length) {
       return this.renderContactsList();
     } else if (this.props.importError) {
       return this.renderImportPrompt();

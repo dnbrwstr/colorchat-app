@@ -49,7 +49,8 @@ let InteractiveView = React.createClass({
       targetOffset: new Animated.ValueXY(0, 0),
       viewSize: null,
       animatingOut: false,
-      animatedWrapperHeight: new Animated.Value(0)
+      animatedWrapperHeight: new Animated.Value(0),
+      interacting: false
     };
   },
 
@@ -108,8 +109,6 @@ let InteractiveView = React.createClass({
         y: touch.pageY
       }
     });
-
-    this.props.onInteractionStart();
   },
 
   onTouchMove: function (e) {
@@ -124,11 +123,13 @@ let InteractiveView = React.createClass({
 
     if (this.props.xAxisEnabled && Math.abs(offsetX) > this.props.xAxisThreshold) {
       swipeStarted = true;
+      this.onInteractionStart();
       this.state.targetOffset.x.setValue(offsetX);
     }
 
     if (this.props.yAxisEnabled && Math.abs(offsetY) > this.props.yAxisEnabled) {
       swipeStarted = true;
+      this.onInteractionStart();
       this.state.targetOffset.y.setValue(offsetY);
     }
 
@@ -144,7 +145,7 @@ let InteractiveView = React.createClass({
   onTouchEnd: function (e) {
     this.touchableHandleResponderRelease.apply(this, arguments);
 
-    this.props.onInteractionEnd();
+    this.onInteractionEnd();
 
     if (!this.state.swipeStarted) return;
 
@@ -161,6 +162,20 @@ let InteractiveView = React.createClass({
       swipeStarted: false,
       touchOrigin: null
     });
+  },
+
+  onInteractionStart: function () {
+    if (!this.state.interacting) {
+      this.setState({ interacting: true });
+      this.props.onInteractionStart();
+    }
+  },
+
+  onInteractionEnd: function () {
+    if (this.state.interacting) {
+      this.setState({ interacting: false });
+      this.props.onInteractionEnd();
+    }
   },
 
   maybeTriggerDelete: function () {

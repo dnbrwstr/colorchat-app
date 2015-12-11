@@ -55,6 +55,9 @@
 		C878D4731B7AA9ED0041C35C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4721B7AA9ED0041C35C /* Accounts.framework */; };
 		C878D4751B7AA9F30041C35C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C878D4741B7AA9F30041C35C /* Social.framework */; };
 		C87DE8BD1C19FB68004DBB99 /* ParseBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C87DE8BC1C19FB68004DBB99 /* ParseBridge.m */; settings = {ASSET_TAGS = (); }; };
+		C87DE8BF1C1A3F35004DBB99 /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C81541C81C0F7ED70046AE47 /* WorkSans-Light.otf */; };
+		C87DE8C11C1A4F2B004DBB99 /* WorkSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C87DE8C01C1A4F17004DBB99 /* WorkSans-Bold.otf */; };
+		C87DE8C31C1A502D004DBB99 /* WorkSans-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C87DE8C21C1A5025004DBB99 /* WorkSans-ExtraBold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +237,8 @@
 		C878D4741B7AA9F30041C35C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C87DE8BB1C19FB5A004DBB99 /* ParseBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseBridge.h; sourceTree = "<group>"; };
 		C87DE8BC1C19FB68004DBB99 /* ParseBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseBridge.m; sourceTree = "<group>"; };
+		C87DE8C01C1A4F17004DBB99 /* WorkSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Bold.otf"; sourceTree = "<group>"; };
+		C87DE8C21C1A5025004DBB99 /* WorkSans-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-ExtraBold.otf"; sourceTree = "<group>"; };
 		C8B93BF11BBAD7B900AB1C07 /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "../node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		C8B93C171BBCC06700AB1C07 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		C8F650731B964FE000BF9AAB /* RNMessageComposer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMessageComposer.xcodeproj; path = "../node_modules/react-native-message-composer/RNMessageComposer.xcodeproj"; sourceTree = "<group>"; };
@@ -367,6 +372,8 @@
 				C81541C81C0F7ED70046AE47 /* WorkSans-Light.otf */,
 				C81541C91C0F7ED70046AE47 /* WorkSans-Medium.otf */,
 				C81541CA1C0F7ED70046AE47 /* WorkSans-Regular.otf */,
+				C87DE8C21C1A5025004DBB99 /* WorkSans-ExtraBold.otf */,
+				C87DE8C01C1A4F17004DBB99 /* WorkSans-Bold.otf */,
 			);
 			name = fonts;
 			path = ../fonts;
@@ -764,10 +771,13 @@
 				C826BFD71C0F9E7000940E11 /* compose-indicator.gif in Resources */,
 				C826BFDB1C0F9E7000940E11 /* vertical-resize-icon@3x.png in Resources */,
 				C84B142C1BEC483900557C38 /* Parse.plist in Resources */,
+				C87DE8BF1C1A3F35004DBB99 /* WorkSans-Light.otf in Resources */,
+				C81542131C0F852C0046AE47 /* WorkSans-Regular.otf in Resources */,
+				C87DE8C11C1A4F2B004DBB99 /* WorkSans-Bold.otf in Resources */,
+				C87DE8C31C1A502D004DBB99 /* WorkSans-ExtraBold.otf in Resources */,
 				C826BFD51C0F9E7000940E11 /* cog-1@2x.png in Resources */,
 				C826BFD41C0F9E7000940E11 /* cog-1.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				C81542131C0F852C0046AE47 /* WorkSans-Regular.otf in Resources */,
 				C80661741C113498003380C6 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,7 @@ let fonts = [
   // 'SaniTrixieSans',
   // 'Tuffy',
   // 'WorkSans-Light',
-  'WorkSans-Regular'
+  'Work Sans'
 ];
 
 let font = fonts[Math.floor(Math.random() * fonts.length)];

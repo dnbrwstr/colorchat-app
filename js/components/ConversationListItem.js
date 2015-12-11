@@ -69,6 +69,10 @@ let ConversationListItem = React.createClass({
       backgroundColor: this.getActiveBackgroundColor()
     };
 
+    let textStyles = [this.props.unread && {
+      fontWeight: '500'
+    }];
+
     return (
       <InteractiveView
         style={conversationStyles}
@@ -82,11 +86,11 @@ let ConversationListItem = React.createClass({
         onPressOut={this.handlePressOut}
         onDelete={this.props.onDelete}
       >
-        <BaseText visibleOn={this.getColor()}>
+        <BaseText visibleOn={this.getColor()} style={textStyles}>
           {contact.firstName} {contact.lastName}
         </BaseText>
         { this.props.lastMessage &&
-          <BaseText visibleOn={this.getColor()}>
+          <BaseText visibleOn={this.getColor()} style={textStyles}>
             { shortHumanDate(getTimestamp(this.props.lastMessage)) }
           </BaseText> }
       </InteractiveView>

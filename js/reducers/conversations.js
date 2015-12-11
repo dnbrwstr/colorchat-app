@@ -27,7 +27,8 @@ let handlers = {
   navigateTo: function (state, action) {
     if (action.route.title === 'conversation') {
       return createOrUpdateConversation({
-        recipientId: action.route.data.contactId
+        recipientId: action.route.data.contactId,
+        unread: false
       }, state);
     } else {
       return state;
@@ -39,26 +40,17 @@ let handlers = {
 
     return createOrUpdateConversation({
       recipientId: last(action.messages).recipientId,
-      lastMessage: last(action.messages)
+      lastMessage: last(action.messages),
+      unread: false
     }, state);
   },
 
   receiveMessage: function (state, action) {
     return createOrUpdateConversation({
       recipientId: action.message.senderId,
-      lastMessage: action.message
+      lastMessage: action.message,
+      unread: !action.inCurrentConversation
     }, state);
-  },
-
-  receivePendingMessages: function (state, action) {
-    let conversations = state;
-    action.messages.forEach(m => {
-      conversations = createOrUpdateConversation({
-        recipientId: m.senderId,
-        lastMessage: m
-      }, conversations);
-    });
-    return conversations;
   },
 
   deleteConversation: function (state, action) {

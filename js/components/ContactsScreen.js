@@ -40,7 +40,6 @@ let ContactsScreen = React.createClass({
           <Header
             title={'Contacts'}
             backgroundColor={'rgba(255,255,255,.95)'}
-            borderColor={Style.values.midLightGray}
             highlightColor={Style.values.veryLightGray}
             showBack={true}
             onBack={() => this.props.dispatch(navigateTo('inbox'))}

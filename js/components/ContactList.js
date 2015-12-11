@@ -47,7 +47,6 @@ export default ContactList = React.createClass({
         automaticallyAdjustContentInsets={false}
         dataSource={this.state.dataSource}
         renderScrollComponent={this.renderScrollComponent}
-        renderHeader={this.renderHeader}
         renderRow={this.renderContact}
         renderSeperator={this.renderSeperator}
         initialListSize={12}
@@ -63,23 +62,6 @@ export default ContactList = React.createClass({
     return (
       <ScrollView {...props} contentInset={inset} contentOffset={offset} />
     )
-  },
-
-  renderHeader: function () {
-    let viewStyle = {
-      padding: 20,
-      paddingVertical: 30
-    };
-
-    let textStyle = {
-      textAlign: 'center'
-    };
-
-    return (
-      <View style={viewStyle}>
-        <BaseText style={textStyle}>Select a contact to start{BR}a conversation</BaseText>
-      </View>
-    );
   },
 
   renderContact: function (contact, section, row) {

@@ -22,21 +22,6 @@ let ConversationListItem = React.createClass({
     };
   },
 
-  getInitialState: function () {
-    return {
-      animatedOpacity: new Animated.Value(0)
-    };
-  },
-
-  componentDidMount: function () {
-    setTimeout(() => {
-      Animated.spring(this.state.animatedOpacity, {
-        toValue: 1,
-        duration: 200
-      }).start();
-    }, 100 * this.props.itemIndex)
-  },
-
   getActiveBackgroundColor: function () {
     let color = this.getColor();
     let isLight = Color(color).luminosity() > .5;
@@ -57,12 +42,7 @@ let ConversationListItem = React.createClass({
 
     let conversationStyles = [
       { backgroundColor: this.getColor() },
-      style.item,
-      { opacity: this.state.animatedOpacity },
-      { height: this.state.animatedOpacity.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, Style.values.rowHeight]
-      }) },
+      style.item
     ];
 
     let conversationActiveStyle = {

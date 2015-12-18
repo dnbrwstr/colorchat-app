@@ -81,7 +81,7 @@ let SignupScreen = React.createClass({
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: Style.values.backgroundGray
+    backgroundColor: 'white'
   },
   scrollWrapper: {
     overflow: 'hidden',

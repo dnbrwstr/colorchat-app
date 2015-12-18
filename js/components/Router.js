@@ -49,11 +49,14 @@ let Router = React.createClass({
     switch (route.title) {
       case 'contacts':
       case 'settings':
-        return SlideOverFromBottom
+      case 'countryPicker':
+      case 'about':
+      case 'numberInfo':
+      case 'contactsInfo':
       case 'conversation':
-        return SlideOverFromRight
+        return SlideOverFromBottom;
       default:
-        return FromBottom
+        return FromBottom;
     }
   },
 

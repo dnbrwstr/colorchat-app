@@ -26,6 +26,7 @@ let WelcomeScreen = React.createClass({
   },
 
   handlePressNext: function () {
+    this.clearIntervalTimer('refresh');
     this.props.dispatch(navigateTo('signup'));
   },
 

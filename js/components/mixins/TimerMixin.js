@@ -21,7 +21,7 @@ let TimerMixin = {
     });
   },
 
-  clearIntervalTimer: function () {
+  clearIntervalTimer: function (name) {
     let handle = getHandle(name, 'Interval');
     clearInterval(handle);
     this.setState({ [handle]: null });

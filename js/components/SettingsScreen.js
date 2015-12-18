@@ -47,6 +47,17 @@ let SettingsScreen = React.createClass({
   },
 
   handleLogout: function () {
+    let message = 'Log out of this device?';
+
+    AlertIOS.alert(
+      message,
+      null,
+      [{ text: 'Cancel', onPress: () => {} },
+      { text: 'Logout', onPress: this.handleLogoutConfirmation }]
+    );
+  },
+
+  handleLogoutConfirmation: function () {
     this.props.dispatch(logout())
   },
 

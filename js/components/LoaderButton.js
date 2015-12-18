@@ -58,14 +58,14 @@ let style = Style.create({
   button: {
     flex: 0,
     justifyContent: 'center',
-    height: Style.values.rowHeight,
+    height: Style.values.buttonHeight,
     margin: Style.values.outerPadding,
     padding: Style.values.basePadding * 1.5,
     borderColor: Style.values.midGray,
     borderWidth: 1 / PixelRatio.get(),
   },
   buttonActive: {
-    backgroundColor: '#EFEFEF'
+    backgroundColor: Style.values.fairlyLightGray
   },
   ellipsisContainer: {
     position: 'absolute',

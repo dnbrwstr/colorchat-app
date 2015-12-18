@@ -154,7 +154,7 @@ let importStyle = Style.create({
   button: {
     backgroundColor: 'white',
     flex: 0,
-    height: Style.values.rowHeight,
+    height: Style.values.buttonHeight,
     alignItems: 'center',
     justifyContent: 'center'
   },

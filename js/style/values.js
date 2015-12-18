@@ -19,7 +19,8 @@ let values = {
   fairlyLightGray: '#F8F8F8',
   veryLightGray: '#FAFAFA',
   outerPadding: 20,
-  rowHeight: 80
+  rowHeight: 80,
+  buttonHeight: 60
 };
 
 values.backgroundGray = values.lightGray;

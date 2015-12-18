@@ -5,6 +5,7 @@ import { appName } from '../config';
 import BaseText from './BaseText';
 import Header from './Header';
 import PressableView from './PressableView';
+import SquareButton from './SquareButton';
 import { navigateTo } from '../actions/NavigationActions';
 import { loadUserInfo, updateUserInfo, logout, deleteAccount } from '../actions/AppActions';
 
@@ -13,7 +14,8 @@ let {
   TextInput,
   PixelRatio,
   ScrollView,
-  AlertIOS
+  AlertIOS,
+  Dimensions
 } = React;
 
 let SettingsScreen = React.createClass({
@@ -86,6 +88,10 @@ let SettingsScreen = React.createClass({
   },
 
   render: function () {
+    let contentStyles = [style.content, {
+      height: Dimensions.get('window').height - Style.values.rowHeight
+    }];
+
     return (
       <View style={style.container}>
         <Header
@@ -95,11 +101,8 @@ let SettingsScreen = React.createClass({
           highlightColor={'#E6E6E6'}
         />
         <ScrollView>
-          <View style={style.content}>
-            <View style={[style.section, style.changeName]}>
-              <View style={style.sectionLabelWrapper}>
-                <BaseText style={style.sectionLabelText}>PROFILE</BaseText>
-              </View>
+          <View style={contentStyles}>
+            <View style={[style.section, style.nameSection]}>
               <View style={style.sectionContent}>
                 <PressableView style={style.inputRow} onPress={this.handleInputRowPress.bind(this, 'nameInput')}>
                   <View style={style.inputRowLabel}>
@@ -118,25 +121,27 @@ let SettingsScreen = React.createClass({
                 </PressableView>
               </View>
             </View>
-            <View style={[style.section, style.deleteAccountWrapper]}>
-              <View style={style.sectionLabelWrapper}>
-                <BaseText style={style.sectionLabelText}>ACCOUNT</BaseText>
-              </View>
-              <PressableView style={style.button} activeStyle={style.buttonActive} onPress={this.handleLogout}>
-                <BaseText style={style.buttonText}>Logout</BaseText>
-              </PressableView>
-              <View style={style.divider}><View style={style.dividerInner}></View></View>
-              <PressableView style={style.button} activeStyle={style.buttonActive} onPress={this.handleDeleteAccount}>
-                <BaseText style={style.buttonText}>Delete account</BaseText>
-              </PressableView>
+
+            <View style={[style.section]}>
+              <SquareButton
+                label="Logout"
+                onPress={this.handleLogout}
+                style={style.button}
+              />
+              <SquareButton
+                label="Delete account"
+                onPress={this.handleDeleteAccount}
+                style={style.button}
+              />
             </View>
 
-            <View style={[style.section, style.aboutWrapper]}>
-              <View style={style.sectionLabelWrapper}>
-                <BaseText style={style.sectionLabelText}>{ appName.toUpperCase()  }</BaseText>
-              </View>
-              <PressableView style={[style.button, style.aboutButton]} activeStyle={style.buttonActive} onPress={this.handleAboutPress}>
-                <BaseText style={style.buttonText}>About { appName }</BaseText>
+            <View style={[style.section, style.aboutSection]}>
+              <PressableView
+                label="About ColorChat"
+                onPress={this.handleAboutPress}
+                style={style.aboutButton}
+              >
+                <BaseText style={style.aboutButtonText}>About ColorChat</BaseText>
               </PressableView>
             </View>
           </View>
@@ -149,64 +154,56 @@ let SettingsScreen = React.createClass({
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: Style.values.backgroundGray
+    backgroundColor: 'white'
   },
   content: {
     ...Style.mixins.contentWrapperBase,
     padding: 0,
-    paddingBottom: 40
+    flex: 1
   },
   inputRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 50
   },
   inputRowLabel: {
-    flex: 1,
-    justifyContent: 'center'
+    flex: 0,
+    justifyContent: 'center',
+    width: 60
   },
   input: {
     ...Style.mixins.inputBase,
     color: 'black',
-    paddingTop: 0
+    paddingTop: 0,
   },
   inputWrapper: {
-    flex: 1
+    flex: 1,
+    borderBottomWidth: Style.values.borderWidth,
+    borderBottomColor: Style.values.midGray
   },
   button: {
-    height: Style.values.rowHeight,
-    justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  buttonActive: {
-    backgroundColor: Style.values.veryLightGray
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: 'black'
+    marginTop: 0,
+    marginBottom: 10
   },
   section: {
-  },
-  sectionLabelWrapper: {
-    padding: Style.values.horizontalPadding,
-    paddingBottom: 10,
-    paddingTop: 20
-  },
-  sectionLabelText: {
-    fontSize: 12,
-    letterSpacing: 1
+    flex: 1,
   },
   sectionContent: {
-    backgroundColor: 'white',
     padding: Style.values.horizontalPadding,
   },
-  divider: {
-    backgroundColor: 'white',
-    paddingHorizontal: Style.values.horizontalPadding
+  nameSection: {
+    flex: 0,
   },
-  dividerInner: {
-    borderBottomWidth: Style.values.borderWidth,
-    borderBottomColor: Style.values.midLightGray
+  aboutSection: {
+    flex: 0,
+    justifyContent: 'flex-end',
+  },
+  aboutButton: {
+    padding: Style.values.outerPadding,
+  },
+  aboutButtonText: {
+    textAlign: 'center'
   }
 });
 

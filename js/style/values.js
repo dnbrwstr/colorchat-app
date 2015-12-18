@@ -12,6 +12,7 @@ let values = {
   basePadding: 10,
   horizontalPadding: 18,
   midGray: '#878787',
+  almostBlack: '#111',
   darkGray,
   darkGrayHighlight,
   midLightGray: '#DFDFDF',

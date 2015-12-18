@@ -83,7 +83,7 @@ let style = Style.create({
     borderRightWidth: 1
   },
   buttonActive: {
-    backgroundColor: Style.values.darkGray
+    backgroundColor: Style.values.almostBlack
   }
 });
 

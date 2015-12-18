@@ -1,6 +1,7 @@
 import React from 'react-native';
 import Style from '../style';
 import Header from './Header';
+import BaseText from './BaseText';
 
 let {
   View
@@ -16,7 +17,9 @@ let TextScreen = React.createClass({
           onBack={this.props.onNavigateBack}
         />
         <View style={style.content}>
-          {this.props.children}
+          <BaseText style={style.text}>
+            {this.props.children}
+          </BaseText>
         </View>
       </View>
     );
@@ -26,11 +29,14 @@ let TextScreen = React.createClass({
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: Style.values.backgroundGray
+    backgroundColor: 'white'
   },
   content: {
     ...Style.mixins.contentWrapperBase,
     paddingTop: 0
+  },
+  text: {
+    lineHeight: 21
   }
 });
 

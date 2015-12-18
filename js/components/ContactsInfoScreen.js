@@ -21,8 +21,8 @@ let ContactsInfoScreen = React.createClass({
         title="Contacts usage"
         onNavigateBack={this.handleNavigateBack}
       >
-        <BaseText>ColorChat uses your contacts to show you which of your friends are already using ColorChat{"\n"}</BaseText>
-        <BaseText>ColorChat does not store your contacts, and does not share them with other users or with third parties for any reason.{"\n"}</BaseText>
+        <BaseText>ColorChat uses your contacts to show you which of your friends are already using ColorChat{"\n\n"}</BaseText>
+        <BaseText>ColorChat does not store your contacts, and does not have the ability to share them with other users or with third parties.{"\n\n"}</BaseText>
         <BaseText>If you have any questions, please contact <TextLink href="mailto:hello@soft.works" style={style.link}>hello@soft.works</TextLink>.</BaseText>
       </TextScreen>
     );

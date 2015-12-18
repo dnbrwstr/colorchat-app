@@ -18,11 +18,10 @@ let AboutScreen = React.createClass({
   render: function () {
     return (
       <TextScreen
-        title="About ColorChat"
+        title="About"
         onNavigateBack={this.handleNavigateBack}
       >
-        <BaseText>ColorChat is a messaging application that allows you to chat with colors instead of words.{"\n"}</BaseText>
-        <BaseText>ColorChat is built by Dan Brewster under the auspices of <TextLink style={style.link} href="http://soft.works">Soft</TextLink>.{"\n"}</BaseText>
+        <BaseText>ColorChat is a color-based messaging application, built by Dan Brewster under the auspices of <TextLink style={style.link} href="http://soft.works">Soft</TextLink>.{"\n\n"}</BaseText>
         <BaseText>Please contact <TextLink style={style.link} href="mailto:hello@soft.works">hello@soft.works</TextLink> with any questions.</BaseText>
       </TextScreen>
     );

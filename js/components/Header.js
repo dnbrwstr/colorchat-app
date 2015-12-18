@@ -117,7 +117,7 @@ let style = Style.create({
     paddingHorizontal: Style.values.horizontalPadding
   },
   buttonActive: {
-    backgroundColor: '#EFEFEF'
+    backgroundColor: Style.values.fairlyLightGray
   },
   buttonText: {
     ...Style.mixins.textBase,

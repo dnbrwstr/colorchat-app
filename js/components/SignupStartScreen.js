@@ -155,7 +155,7 @@ let style = Style.create({
   },
   countryInputActive: {
     color: 'white',
-    backgroundColor: Color('#EFEFEF').darken(.1).hexString()
+    backgroundColor: Style.values.fairlyLightGray
   },
   countryInputText: {
     flex: 1,

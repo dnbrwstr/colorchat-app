@@ -114,7 +114,7 @@ let style = Style.create({
     flex: 0
   },
   settingsButton: {
-    bottom: 84
+    bottom: 82
   }
 });
 

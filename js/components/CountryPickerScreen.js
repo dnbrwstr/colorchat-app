@@ -116,7 +116,7 @@ var style = Style.create({
     backgroundColor: Style.values.midGray
   },
   countryHeader: {
-    paddingHorizontal: 24,
+    paddingHorizontal: Style.values.horizontalPadding,
   },
   countryHeaderInner: {
     paddingVertical: 3,
@@ -124,7 +124,7 @@ var style = Style.create({
     borderBottomColor: Style.values.midGray
   },
   country: {
-    paddingHorizontal: 24,
+    paddingHorizontal: Style.values.horizontalPadding,
     paddingVertical: 9
   },
   firstCountry: {

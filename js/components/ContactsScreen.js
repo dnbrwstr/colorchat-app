@@ -10,6 +10,7 @@ import { navigateTo } from '../actions/NavigationActions';
 import { appName } from '../config';
 import BaseText from './BaseText';
 import Header from './Header';
+import SquareButton from './SquareButton';
 
 let {
   View,
@@ -68,13 +69,11 @@ let ContactsScreen = React.createClass({
           { appName } uses your{BR}contacts to determine{BR}who you can chat with
         </BaseText>
 
-        <PressableView
+        <SquareButton
+          label="Import Contacts"
           onPress={() => this.importContacts(true)}
           style={importStyle.button}
-          activeStyle={importStyle.buttonActive}
-        >
-          <BaseText style={importStyle.buttonText}>Import Contacts</BaseText>
-        </PressableView>
+        />
 
         <PressableView
           style={importStyle.infoLink}
@@ -153,10 +152,7 @@ let importStyle = Style.create({
   },
   button: {
     backgroundColor: 'white',
-    flex: 0,
-    height: Style.values.buttonHeight,
-    alignItems: 'center',
-    justifyContent: 'center'
+    borderWidth: 0
   },
   buttonActive: {
     backgroundColor: Style.values.veryLightGray

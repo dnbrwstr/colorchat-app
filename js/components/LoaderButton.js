@@ -3,6 +3,7 @@ import darken from 'color';
 import Style from '../style';
 import PressableView from './PressableView';
 import AnimatedEllipsis from './AnimatedEllipsis';
+import SquareButton from './SquareButton';
 
 let {
   View,
@@ -42,43 +43,25 @@ let LoaderButton = React.createClass({
             <AnimatedEllipsis />
           </View>  }
 
-        <PressableView
-          style={[style.button, {opacity: this.state.buttonOpacity}]}
-          activeStyle={style.buttonActive}
+        <SquareButton
+          style={{opacity: this.state.buttonOpacity}}
+          label={this.props.message}
           onPress={this.props.onPress}
-        >
-          <Text style={style.text}>{this.props.message}</Text>
-        </PressableView>
+        />
       </View>
     );
   }
 });
 
 let style = Style.create({
-  button: {
-    flex: 0,
-    justifyContent: 'center',
-    height: Style.values.buttonHeight,
-    margin: Style.values.outerPadding,
-    padding: Style.values.basePadding * 1.5,
-    borderColor: Style.values.midGray,
-    borderWidth: 1 / PixelRatio.get(),
-  },
-  buttonActive: {
-    backgroundColor: Style.values.fairlyLightGray
-  },
   ellipsisContainer: {
     position: 'absolute',
     top: Style.values.outerPadding,
     left: Style.values.outerPadding,
     right: Style.values.outerPadding,
     bottom: Style.values.outerPadding,
-    height: Style.values.rowHeight,
+    height: Style.values.buttonHeight,
     padding: Style.values.basePadding * 1.5
-  },
-  text: {
-    mixins: [Style.mixins.textBase],
-    textAlign: 'center'
   }
 });
 

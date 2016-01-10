@@ -199,7 +199,7 @@ let ConversationScreen = React.createClass({
   },
 
   onRetryMessageSend: function (message) {
-    this.props.dispatch(sendMessage(message));
+    this.props.dispatch(resendMessage(message));
   },
 
   onPresentMessage: function (message) {

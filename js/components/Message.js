@@ -8,6 +8,7 @@ import BaseText from './BaseText';
 import PressableView from './PressableView';
 import PlaceholderMessage from './PlaceholderMessage';
 import { humanDate } from '../lib/Utils';
+import TimerMixin from './mixins/TimerMixin';
 
 let {
   View,
@@ -26,6 +27,8 @@ const FAILED_MIN_WIDTH = 250;
 const FAILED_MIN_HEIGHT = 100;
 
 let Message = React.createClass({
+  mixins: [TimerMixin],
+
   getDefaultProps: function () {
     return {
       onToggleExpansion: () => {},
@@ -42,7 +45,8 @@ let Message = React.createClass({
       height: defaultHeight,
       animatedWidth: new Animated.Value(defaultWidth),
       animatedHeight: new Animated.Value(defaultHeight),
-      currentAnimation: null
+      currentAnimation: null,
+      retrying: false
     };
   },
 
@@ -66,7 +70,7 @@ let Message = React.createClass({
         width: 0,
         height: 0
       }, this.props.onPresent);
-    } else if (this.props.state === 'complete') {
+    } else if (this.props.state === 'complete' || this.state.retrying) {
       if (this.props.expanded) {
         // unexpanded => expanded
         this.resize({
@@ -185,7 +189,7 @@ let Message = React.createClass({
   },
 
   renderContent: function () {
-    if (this.props.state === 'failed') {
+    if (this.props.state === 'failed' && !this.state.retrying) {
       return (
         <View style={style.textContainer}>
           <BaseText visibleOn={this.props.color}>
@@ -216,7 +220,11 @@ let Message = React.createClass({
 
   onPress: async function () {
     if (this.props.state === 'failed') {
-      this.props.onRetrySend();
+      this.setState({ retrying: true });
+      this.setDelayTimer('resend', () => {
+        this.setState({ retrying: false });
+        this.props.onRetrySend();
+      }, 500);
     } else if (this.props.state === 'complete') {
       let position = await measure(this.refs.message);
       this.props.onToggleExpansion(position, {

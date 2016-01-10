@@ -1,8 +1,10 @@
 import { AsyncStorage, AlertIOS } from 'react-native';
-import { serverRoot } from '../config';
+import config from '../config';
 import { putAuthenticatedJSON, getAuthenticated, deleteAuthenticated } from '../lib/RequestHelpers';
 import * as DatabaseUtils from '../lib/DatabaseUtils';
 import send from '../lib/send';
+
+let { serverRoot } = config;
 
 export let setMainTab = tabTitle => {
   return {

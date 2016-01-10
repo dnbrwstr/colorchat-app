@@ -7,10 +7,12 @@ import ContactList from './ContactList';
 import AnimatedEllipsis from './AnimatedEllipsis';
 import { importContacts, sendInvite } from '../actions/ContactActions';
 import { navigateTo } from '../actions/NavigationActions';
-import { appName } from '../config';
+import config from '../config';
 import BaseText from './BaseText';
 import Header from './Header';
 import SquareButton from './SquareButton';
+
+let { appName } = config;
 
 let {
   View,

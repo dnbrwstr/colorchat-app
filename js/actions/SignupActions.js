@@ -1,7 +1,9 @@
 import { merge } from 'ramda';
-import { serverRoot } from '../config';
+import config from '../config';
 import { postJSON, putAuthenticatedJSON } from '../lib/RequestHelpers';
 import send from '../lib/send';
+
+let { serverRoot } = config;
 
 let sanitizeNumber = number => number.replace(/[^0-9]/g, '');
 
@@ -17,8 +19,6 @@ export let registerPhoneNumber = () => async (dispatch, getState) => {
   let state = getState();
   let { countryCode, baseNumber } = state.signup;
   let phoneNumber = formatPhoneNumber(countryCode, baseNumber);
-
-  console.log('sending');
 
   send({
     dispatch,

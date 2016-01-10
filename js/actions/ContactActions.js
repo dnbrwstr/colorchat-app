@@ -1,8 +1,10 @@
 import { RNMessageComposer as Composer, SettingsApp } from 'NativeModules';
 import AddressBook from 'react-native-addressbook';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
-import { serverRoot, inviteLink } from '../config';
+import config from '../config';
 import send from '../lib/send';
+
+let { serverRoot, inviteLink } = config;
 
 /**
  * Attempt to import contacts from address book, sending

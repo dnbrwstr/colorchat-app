@@ -1,13 +1,15 @@
 import React from 'react-native';
 import { connect } from 'react-redux/native';
 import Style from '../style';
-import { appName } from '../config';
+import config from '../config';
 import BaseText from './BaseText';
 import Header from './Header';
 import PressableView from './PressableView';
 import SquareButton from './SquareButton';
 import { navigateTo } from '../actions/NavigationActions';
 import { loadUserInfo, updateUserInfo, logout, deleteAccount } from '../actions/AppActions';
+
+let { appName } = config;
 
 let {
   View,

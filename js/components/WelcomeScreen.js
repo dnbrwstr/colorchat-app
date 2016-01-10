@@ -4,10 +4,12 @@ import Style from '../style';
 import PressableView from './PressableView';
 import LoaderButton from './LoaderButton';
 import { navigateTo } from '../actions/NavigationActions';
-import { appName } from '../config';
+import config from '../config';
 import { rand } from '../lib/Utils';
 import TimerMixin from './mixins/TimerMixin';
 import BaseText from './BaseText';
+
+let { appName } = config;
 
 let {
   View,
@@ -34,7 +36,7 @@ let WelcomeScreen = React.createClass({
     return (
       <View style={style.wrapper}>
         <View style={style.titleContainer}>
-          <BaseText style={style.title}>ColorChat</BaseText>
+          <BaseText style={style.title}>{ appName }</BaseText>
         </View>
 
         <View style={style.floatMessageContainer}>
@@ -57,8 +59,8 @@ let WelcomeScreen = React.createClass({
   },
 
   renderColorizedText: function (text) {
-    return text.split('').map(letter => {
-      return <BaseText style={{color: this.randomColor()}}>{letter}</BaseText>;
+    return text.split('').map((letter, i) => {
+      return <BaseText key={`letter-${i}`} style={{color: this.randomColor()}}>{letter}</BaseText>;
     });
   }
 });

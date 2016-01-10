@@ -1,7 +1,7 @@
 import io from 'socket.io-client/socket.io';
 import React from 'react-native';
 import { difference } from 'ramda';
-import { serverRoot } from '../config';
+import config from '../config';
 import createService from '../lib/createService';
 import { socketServiceSelector } from './Selectors';
 import { receiveMessage, sendMessages, sendEnqueuedMessages } from '../actions/MessageActions';
@@ -14,6 +14,7 @@ const MESSAGE_EVENT = 'messagedata';
 const COMPOSE_EVENT = 'composeevent';
 const COMPOSE_EVENT_INTERVAL = 1500;
 
+let { serverRoot } = config;
 let { InteractionManager } = React;
 
 let getSocketOptions = token => ({

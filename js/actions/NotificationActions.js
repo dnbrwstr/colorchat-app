@@ -1,6 +1,8 @@
 import { putAuthenticatedJSON } from '../lib/RequestHelpers';
-import { serverRoot } from '../config';
+import config from '../config';
 import send from '../lib/send';
+
+let { serverRoot } = config;
 
 export let triggerPermissionsDialog = () => {
   return {

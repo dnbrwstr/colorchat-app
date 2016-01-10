@@ -3,7 +3,9 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import saveStateMiddleware from './saveStateMiddleware';
 import * as reducers from '../reducers';
-import { rehydrate, rehydrateBlacklist } from '../config';
+import config from '../config';
+
+let { rehydrate, rehydrateBlacklist } = config;
 
 let createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,

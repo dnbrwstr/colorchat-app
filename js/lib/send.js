@@ -95,7 +95,9 @@ let onError = async (options, attempt, err) => {
       retryIntervals[attempt]
     );
   } else {
+    debugger
     let isConnected = await NetInfo.isConnected.fetch();
+    console.log(isConnected);
     let errorType = isConnected ? 'serverUnreachable' : 'noNetwork';
 
     dispatchWith(options, {

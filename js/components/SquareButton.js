@@ -14,7 +14,7 @@ let SquareButton = React.createClass({
     onPressIn: React.PropTypes.func,
     onPressOut: React.PropTypes.func,
     onPress: React.PropTypes.func,
-    style: View.propTypes.style,
+    style: Animated.View.propTypes.style,
     activeStyle: View.propTypes.style,
     textStyle: View.propTypes.style,
     activeTextStyle: View.propTypes.style

@@ -2,8 +2,10 @@ import React from 'react-native';
 import { merge, find, propEq, anyPass, filter, map, zipWith } from 'ramda';
 import { InteractionManager } from 'react-native';
 import { postJSON } from '../lib/RequestHelpers';
-import { serverRoot } from '../config';
+import config from '../config';
 import * as DatabaseUtils from '../lib/DatabaseUtils';
+
+let { serverRoot } = config;
 
 export let receiveMessage = message => async (dispatch, getState) => {
   let { contacts, navigation } = getState();

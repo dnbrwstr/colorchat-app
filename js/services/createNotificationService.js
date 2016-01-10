@@ -2,7 +2,7 @@ import React from 'react-native';
 import { saveDeviceToken } from '../actions/NotificationActions';
 import { presentInternalAlert } from '../actions/AppActions';
 import createService from './createService';
-import { getUnreadCount } from './DatabaseUtils';
+import { getUnreadCount } from '../lib/DatabaseUtils';
 
 let {
   PushNotificationIOS,

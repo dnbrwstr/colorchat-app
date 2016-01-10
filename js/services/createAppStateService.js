@@ -1,5 +1,6 @@
 import { AppStateIOS } from 'react-native';
 import { changeAppState, triggerMemoryWarning } from '../actions/AppActions';
+import createService from './createService';
 
 let appStateServiceSelector = state => {
   return {};

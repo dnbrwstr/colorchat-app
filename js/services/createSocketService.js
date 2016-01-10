@@ -2,8 +2,8 @@ import io from 'socket.io-client/socket.io';
 import React from 'react-native';
 import { difference } from 'ramda';
 import config from '../config';
-import createService from '../lib/createService';
-import { socketServiceSelector } from './Selectors';
+import createService from './createService';
+import { socketServiceSelector } from '../lib/Selectors';
 import { receiveMessage, sendMessages, sendEnqueuedMessages } from '../actions/MessageActions';
 import { receiveComposeEvent, resetComposeEvents } from '../actions/ConversationActions';
 

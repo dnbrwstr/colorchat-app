@@ -7,9 +7,9 @@ import { receiveMessage } from '../actions/MessageActions';
 import { seedAddressBook as shouldSeedAddressBook } from '../config';
 import { seedAddressBook } from '../lib/ContactUtils';
 import createStore from '../lib/createStore';
-import createSocketService from '../lib/createSocketService';
-import createNotificationService from '../lib/createNotificationService';
-import createAppStateService from '../lib/createAppStateService';
+import createSocketService from '../services/createSocketService';
+import createNotificationService from '../services/createNotificationService';
+import createAppStateService from '../services/createAppStateService';
 
 let ColorChat = React.createClass({
   getInitialState: () => ({

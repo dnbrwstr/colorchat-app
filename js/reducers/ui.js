@@ -4,6 +4,7 @@ import { generateId } from '../lib/MessageUtils';
 
 let initialState = {
   appState: 'active',
+  network: null,
   alerts: [],
   signup: {
     loading: false,
@@ -129,6 +130,10 @@ let handlers = {
     }
 
     return state;
+  },
+
+  changeNetwork: function (state, action) {
+    return assoc('network', action.network, state);
   }
 };
 

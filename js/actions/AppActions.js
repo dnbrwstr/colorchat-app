@@ -62,6 +62,13 @@ export let changeAppState = newState => {
   };
 };
 
+export let changeNetwork = network => {
+  return {
+    type: 'changeNetwork',
+    network
+  };
+};
+
 export let triggerMemoryWarning = () => {
   return {
     type: 'memoryWarning'

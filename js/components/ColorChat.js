@@ -10,6 +10,7 @@ import createStore from '../lib/createStore';
 import createSocketService from '../services/createSocketService';
 import createNotificationService from '../services/createNotificationService';
 import createAppStateService from '../services/createAppStateService';
+import createNetworkService from '../services/createNetworkService';
 
 let ColorChat = React.createClass({
   getInitialState: () => ({
@@ -29,6 +30,7 @@ let ColorChat = React.createClass({
 
     this.setState({
       store: store,
+      networkService: createNetworkService(store),
       socketService: createSocketService(store),
       notificationService: createNotificationService(store),
       appStateService: createAppStateService(store)

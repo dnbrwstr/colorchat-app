@@ -17,12 +17,22 @@ RCT_EXPORT_MODULE();
 +(void)runMigrations
 {
   RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
-  config.schemaVersion = 1;
+  config.schemaVersion = 2;
   config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
     [migration enumerateObjects:ChatMessage.className
                           block:^(RLMObject *oldObject, RLMObject *newObject) {
                             if (oldSchemaVersion < 1) {
                               newObject[@"state"] = @"complete";
+                            }
+                            
+                            if (oldSchemaVersion < 2) {
+                              NSNumber *width = oldObject[@"width"];
+                              NSNumber *height = oldObject[@"height"];
+                              
+                              if (width.intValue == 0 && height.intValue == 0) {
+                                newObject[@"width"] = [NSNumber numberWithInt:240];
+                                newObject[@"height"] = [NSNumber numberWithInt:150];
+                              }
                             }
                           }];
   };

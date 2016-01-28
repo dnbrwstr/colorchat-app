@@ -15,11 +15,11 @@ export let receiveMessage = message => async (dispatch, getState) => {
     return;
   }
 
+  message.state = 'fresh';
+
   let inCurrentConversation =
     navigation.route.title === 'conversation' &&
     navigation.route.data.contactId === message.senderId;
-
-  if (!inCurrentConversation) message.state = 'fresh';
 
   await DatabaseUtils.storeMessage(message);
 

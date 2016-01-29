@@ -17,8 +17,10 @@ RCT_EXPORT_MODULE();
 +(void)runMigrations
 {
   RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
-  config.schemaVersion = 2;
+  config.schemaVersion = 3;
   config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+    NSMutableArray *seenIds = [[NSMutableArray alloc] init];
+
     [migration enumerateObjects:ChatMessage.className
                           block:^(RLMObject *oldObject, RLMObject *newObject) {
                             if (oldSchemaVersion < 1) {
@@ -34,6 +36,15 @@ RCT_EXPORT_MODULE();
                                 newObject[@"height"] = [NSNumber numberWithInt:150];
                               }
                             }
+                            
+                            if (oldSchemaVersion < 3) {
+                              if ([seenIds containsObject: oldObject[@"id"]]) {
+                                [migration deleteObject: newObject];
+                              } else {
+                                [seenIds addObject:oldObject[@"id"]];
+                              }
+                            }
+
                           }];
   };
   [RLMRealmConfiguration setDefaultConfiguration:config];
@@ -41,6 +52,13 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(storeMessage:(NSDictionary *)messageData callback:(RCTResponseSenderBlock)callback)
 {
+  // Return if message already exists in database
+  NSString *queryString = [NSString stringWithFormat:@"id = '%@'", messageData[@"id"]];
+  RLMResults *messages = [ChatMessage objectsWhere:queryString];
+  if (messages.count > 0) {
+    return callback(@[@"Message already exists"]);
+  }
+
   // Convert props as necessary
   // Transform date string to actual date so we can sort on it
   NSDate *createdAt = [RCTConvert NSDate: messageData[@"createdAt"]];

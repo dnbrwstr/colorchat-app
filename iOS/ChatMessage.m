@@ -8,6 +8,9 @@
 #import "ChatMessage.h"
 
 @implementation ChatMessage
++ (NSString *)primaryKey {
+  return @"id";
+}
 
 - (NSDictionary *) toDict
 {

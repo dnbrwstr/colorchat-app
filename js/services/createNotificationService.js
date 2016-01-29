@@ -3,6 +3,7 @@ import { saveDeviceToken } from '../actions/NotificationActions';
 import { presentInternalAlert } from '../actions/AppActions';
 import createService from './createService';
 import { getUnreadCount } from '../lib/DatabaseUtils';
+import { receiveMessage } from '../actions/MessageActions';
 
 let {
   PushNotificationIOS,
@@ -51,14 +52,20 @@ let notificationServiceBase = {
     }
   },
 
-  onReceiveMessage: function (message) {
+  onReceiveMessage: function (messageData) {
     let { title, data } = this.props.route;
-    let senderId = message._data.senderId;
+    let { senderId, message} = messageData._data;
+
+    if (message) {
+      this.props.dispatch(receiveMessage(message));
+    }
+
     if (title === 'conversation' && data.contactId === senderId) return;
+    if (!this.props.appActive) return;
 
     this.props.dispatch(presentInternalAlert({
       type: 'message',
-      message: message._alert,
+      message: messageData._alert,
       senderId
     }));
   }

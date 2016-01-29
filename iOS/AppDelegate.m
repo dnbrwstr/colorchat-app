@@ -48,9 +48,9 @@
   NSLog(@"%@",[error localizedDescription]);
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
-{
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   [RCTPushNotificationManager application:application didReceiveRemoteNotification:notification];
+  completionHandler(UIBackgroundFetchResultNewData);
 }
 
 @end

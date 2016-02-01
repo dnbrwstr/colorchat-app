@@ -152,7 +152,9 @@ let EditableMessage = React.createClass({
               onChange={this.onColorChange}
               initialValue={this.state.workingColor} />
             { handles.map(handle =>
-              <DragHandle style={handleStyles[handle]}
+              <DragHandle
+                key={`${handle}-handle`}
+                style={handleStyles[handle]}
                 ref={`${handle}Handle`}
                 onDragMove={this.onDragHandle.bind(this, handle)}
                 onDragStop={this.onDragStop}

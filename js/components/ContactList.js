@@ -57,8 +57,18 @@ export default ContactList = React.createClass({
   },
 
   renderScrollComponent: function (props) {
-    let inset = [Style.values.rowHeight, 0, 0, 0];
-    let offset = [0, -Style.values.rowHeight];
+    let inset = {
+      top: Style.values.rowHeight,
+      right: 0,
+      bottom: 0,
+      left: 0
+    };
+
+    let offset = {
+      x: 0,
+      y: -Style.values.rowHeight
+    };
+
     return (
       <ScrollView {...props} contentInset={inset} contentOffset={offset} />
     )

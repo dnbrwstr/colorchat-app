@@ -22,6 +22,7 @@ let AboutScreen = React.createClass({
         onNavigateBack={this.handleNavigateBack}
       >
         <BaseText>ColorChat is a color-based messaging application, built by Dan Brewster under the auspices of <TextLink style={style.link} href="http://soft.works">Soft</TextLink>.{"\n\n"}</BaseText>
+        <BaseText>ColorChat is set in <TextLink style={style.link} href="http://weiweihuanghuang.github.io/Work-Sans/">Work Sans</TextLink> by Wei Huang.{"\n\n"}</BaseText>
         <BaseText>Please contact <TextLink style={style.link} href="mailto:hello@soft.works">hello@soft.works</TextLink> with any questions.</BaseText>
       </TextScreen>
     );

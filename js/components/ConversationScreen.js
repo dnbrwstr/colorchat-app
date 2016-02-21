@@ -90,8 +90,6 @@ let ConversationScreen = React.createClass({
 
   render: function () {
     let { contact, dispatch } = this.props;
-    let name = [contact.firstName, contact.lastName]
-      .filter(n => !!n).join(' ');
 
     return (
       <View style={style.container}>
@@ -121,7 +119,7 @@ let ConversationScreen = React.createClass({
           autoHide={this.shouldHideHeader()}
         >
           <Header
-            title={name}
+            title={contact.name}
             showBack={true}
             color="white"
             backgroundColor={'rgba(0,0,0,.8)'}
@@ -204,8 +202,7 @@ let ConversationScreen = React.createClass({
 
   onPresentMessage: function (message) {
     this.props.dispatch(markMessageStale(message));
-  },
-
+  }
 });
 
 let style = Style.create({

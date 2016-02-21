@@ -74,3 +74,7 @@ export let shortHumanDate = date => {
     currentDay: 'h:mm A'
   })(date);
 };
+
+export let formatName = (firstName, lastName) => {
+  return [firstName, lastName].filter(n => !!n).join(' ');
+}

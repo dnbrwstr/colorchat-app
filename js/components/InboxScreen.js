@@ -72,7 +72,7 @@ let InboxScreen = React.createClass({
   },
 
   onSelectConversation: function (conversation) {
-    this.props.dispatch(navigateToConversation(conversation.contact.id));
+    this.props.dispatch(navigateToConversation(conversation.recipientId));
   },
 
   onDeleteConversation: function (conversation) {

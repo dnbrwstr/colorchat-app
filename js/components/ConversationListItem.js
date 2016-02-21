@@ -3,7 +3,7 @@ import Color from 'color';
 import Style from '../style';
 import InteractiveView from './InteractiveView';
 import BaseText from './BaseText';
-import { shortHumanDate } from '../lib/Utils';
+import { shortHumanDate, formatName } from '../lib/Utils';
 import { getTimestamp } from '../lib/MessageUtils';
 
 let {
@@ -37,6 +37,17 @@ let ConversationListItem = React.createClass({
     }
   },
 
+  getName: function () {
+    if (this.props.contact) {
+      let { firstName, lastName } = this.props.contact;
+      return formatName(firstName, lastName);
+    } else if (this.props.recipientName) {
+      return this.props.recipientName;
+    } else {
+      return 'Unknown';
+    }
+  },
+
   render: function () {
     let { contact, lastMessage } = this.props;
 
@@ -67,7 +78,7 @@ let ConversationListItem = React.createClass({
         onDelete={this.props.onDelete}
       >
         <BaseText visibleOn={this.getColor()} style={textStyles}>
-          {contact.firstName} {contact.lastName}
+          { this.getName() }
         </BaseText>
         { this.props.lastMessage &&
           <BaseText visibleOn={this.getColor()} style={textStyles}>

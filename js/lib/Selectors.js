@@ -1,5 +1,6 @@
 import { merge, find, propEq, filter, reduce, concat } from 'ramda';
 import { createSelector } from 'reselect';
+import { formatName } from './Utils';
 
 // Selector creaters
 
@@ -14,6 +15,9 @@ export let selectMessages = createSelector([
 export let createContactSelector = contactId => state =>
   state.contacts.filter(c => c.id === contactId)[0];
 
+let createConversationSelector = contactId => state =>
+  state.conversations.filter(c => c.recipientId === contactId)[0];
+
 // Selectors
 
 export let conversationScreenSelector = createSelector([
@@ -21,13 +25,25 @@ export let conversationScreenSelector = createSelector([
     state => state.user,
     (state, ownProps) => createContactSelector(ownProps.contactId)(state),
     selectMessages,
-    state => state.navigation
+    state => state.navigation,
+    (state, ownProps) => createConversationSelector(ownProps.contactId)(state)
   ],
-  (ui, user, contact, messages, navigation) => {
+  (ui, user, contact, messages, navigation, conversation) => {
+    let contactId = contact ?
+      contact.id :
+      conversation.recipientId;
+
+    let contactName = contact ?
+      formatName(contact.firstName, contact.lastName) :
+      conversation.recipientName;
+
     return {
       ...ui,
       user: user,
-      contact: contact,
+      contact: {
+        id: contactId,
+        name: contactName
+      },
       messages: messages,
       transitioning: navigation.state === 'transitioning'
     }

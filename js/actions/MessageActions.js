@@ -8,13 +8,7 @@ import * as DatabaseUtils from '../lib/DatabaseUtils';
 let { serverRoot } = config;
 
 export let receiveMessage = message => async (dispatch, getState) => {
-  let { contacts, navigation, ui } = getState();
-  let contactIds = contacts.map(c => c.id);
-
-  // Bail if this message is from an unknown sender
-  if (contactIds.indexOf(message.senderId) === -1) {
-    return;
-  }
+  let { navigation, ui } = getState();
 
   // Treat incoming messages as fresh by default
   message.state = 'fresh';

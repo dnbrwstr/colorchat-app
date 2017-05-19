@@ -1,13 +1,12 @@
-import React from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
-import TimerMixin from './mixins/TimerMixin';
-
-let {
+import React from 'react';
+import {
   View,
   Text,
   Animated
-} = React;
+} from 'react-native';
+import Style from '../style';
+import PressableView from './PressableView';
+import TimerMixin from './mixins/TimerMixin';
 
 const BUTTON_SIZE = 50;
 

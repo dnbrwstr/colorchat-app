@@ -1,12 +1,11 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  LayoutAnimation
+} from 'react-native';
 import { times } from 'ramda';
 import Style from '../style';
 import TimerMixin from './mixins/TimerMixin';
-
-let {
-  View,
-  LayoutAnimation
-} = React;
 
 let AnimatedEllipsis = React.createClass({
   mixins: [TimerMixin],
@@ -20,7 +19,7 @@ let AnimatedEllipsis = React.createClass({
   getInitialState: function () {
     return {
       dots: 2
-    }
+    };
   },
 
   componentDidMount: function () {
@@ -84,6 +83,6 @@ let style = Style.create({
     backgroundColor: Style.values.midGray,
     opacity: 0
   }
-})
+});
 
 export default AnimatedEllipsis;

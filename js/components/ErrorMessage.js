@@ -1,15 +1,14 @@
-import React  from 'react-native';
-import Style  from '../style';
-import measure  from '../lib/measure';
-import PressableView from './PressableView';
-import BaseText from './BaseText';
-
-let {
+import React  from 'react';
+import {
   View,
   Text,
   Animated,
   Easing
-} = React;
+} from 'react-native';
+import Style  from '../style';
+import measure  from '../lib/measure';
+import PressableView from './PressableView';
+import BaseText from './BaseText';
 
 let ErrorMessage = React.createClass({
   getDefaultProps: function () {
@@ -23,13 +22,12 @@ let ErrorMessage = React.createClass({
     opacity: new Animated.Value(0)
   }),
 
-  animateIn: async function () {
-    let size = await measure(this.refs.text);
+  animateIn: async function ({ x, y, width, height }) {
     Animated.parallel([
       Animated.timing(this.state.height, {
         duration: 150,
-        toValue: size.height,
-        easing: Easing.bounce(Easing.ease)
+        toValue: height,
+        easing: Easing.bounce
       }),
       Animated.timing(this.state.opacity, {
         duration: 250,
@@ -85,7 +83,7 @@ let ErrorMessage = React.createClass({
   onPress: function () {
     this.animateOut(() => {
       this.props.onRemove();
-    })
+    });
   }
 });
 

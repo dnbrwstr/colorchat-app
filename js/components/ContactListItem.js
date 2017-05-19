@@ -1,13 +1,12 @@
-import React from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
-import BaseText from './BaseText';
-
-let {
+import React from 'react';
+import {
   View,
   Animated,
   PixelRatio
-} = React;
+} from 'react-native';
+import Style from '../style';
+import PressableView from './PressableView';
+import BaseText from './BaseText';
 
 let ContactListItem = React.createClass({
   getDefaultProps: function () {
@@ -50,7 +49,7 @@ let ContactListItem = React.createClass({
         activeStyle={style.contactActive}
       >
         <View style={{flex: 1, paddingRight: 10}}>
-          <BaseText numberOfLines={1}>{this.props.firstName} {this.props.lastName}</BaseText>
+          <BaseText numberOfLines={1}>{this.props.givenName} {this.props.familyName}</BaseText>
         </View>
         { !this.props.matched &&
           <BaseText style={style.inviteButton}>Invite</BaseText>}

@@ -1,4 +1,10 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  LayoutAnimation,
+  Text,
+  Animated
+} from 'react-native';
 import Color from 'color';
 import moment from 'moment';
 import Style from '../style';
@@ -9,13 +15,6 @@ import PressableView from './PressableView';
 import PlaceholderMessage from './PlaceholderMessage';
 import { humanDate } from '../lib/Utils';
 import TimerMixin from './mixins/TimerMixin';
-
-let {
-  View,
-  LayoutAnimation,
-  Text,
-  Animated
-} = React;
 
 const SPRING_TENSION = 150;
 const SPRING_FRICTION = 10;

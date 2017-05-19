@@ -1,11 +1,10 @@
-import React from 'react-native';
-import Style from '../style';
-
-let {
+import React from 'react';
+import {
   Animated,
   Image,
   requireNativeComponent
-} = React;
+} from 'react-native';
+import Style from '../style';
 
 let PlaceholderMessage = React.createClass({
   render: function () {

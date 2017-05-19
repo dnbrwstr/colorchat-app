@@ -1,5 +1,11 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Animated
+} from 'react-native';
+import { connect } from 'react-redux';
 import Style from '../style';
 import LoaderButton from './LoaderButton';
 import { navigateTo } from '../actions/NavigationActions';
@@ -7,12 +13,6 @@ import { triggerPermissionsDialog } from '../actions/NotificationActions';
 import { saveName } from '../actions/SignupActions';
 import SignupScreen from './SignupScreen';
 
-let {
-  View,
-  Text,
-  TextInput,
-  Animated
-} = React;
 
 let SignupNotificationScreen = React.createClass({
 

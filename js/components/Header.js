@@ -1,13 +1,12 @@
-import React from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
-
-let {
+import React from 'react';
+import {
   View,
   Text,
   TouchableOpacity,
   PixelRatio
-} = React;
+} from 'react-native';
+import Style from '../style';
+import PressableView from './PressableView';
 
 let Header = React.createClass({
   getDefaultProps: function () {

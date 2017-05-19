@@ -1,10 +1,9 @@
-import Color from 'color';
-import React from 'react-native';
-import Style from '../style';
-
-let {
+import React from 'react';
+import {
   Text
-} = React;
+} from 'react-native';
+import Color from 'color';
+import Style from '../style';
 
 /**
  * General purpose wrapper for Text element

@@ -1,5 +1,9 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import {
+  View,
+  Text
+} from 'react-native';
+import { connect } from 'react-redux';
 import { inboxScreenSelector } from '../lib/Selectors';
 import { navigateToConversation } from '../actions/NavigationActions';
 import { deleteConversation } from '../actions/ConversationActions';
@@ -12,11 +16,6 @@ import BaseText from './BaseText';
 import PressableView from './PressableView';
 import PlusButton from './PlusButton';
 import SettingsButton from './SettingsButton';
-
-let {
-  View,
-  Text
-} = React;
 
 const BR = "\n";
 

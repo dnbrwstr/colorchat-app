@@ -1,5 +1,12 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import {
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+  Animated
+} from 'react-native';
+import { connect } from 'react-redux';
 import Color from 'color';
 import merge from 'merge';
 import Style from '../style';
@@ -12,13 +19,6 @@ import * as SignupActions from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
 import SignupScreen from './SignupScreen';
 
-let {
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  Animated
-} = React;
 
 let {
   updateData,

@@ -1,4 +1,4 @@
 import Promise from 'bluebird';
-import AddressBook from 'react-native-addressbook';
+import Contacts from 'react-native-contacts';
 
-Promise.promisifyAll(AddressBook);
+Promise.promisifyAll(Contacts);

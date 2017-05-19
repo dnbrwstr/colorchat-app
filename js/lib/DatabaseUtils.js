@@ -1,9 +1,9 @@
-import React from 'react-native';
+import { NativeModules } from 'react-native';
 import invariant from 'invariant';
 import { merge, partialRight, evolve, pick, __, times, compose } from 'ramda';
 import { createSeedMessage } from '../lib/MessageUtils';
 
-let DatabaseManager = React.NativeModules.DatabaseManager;
+let DatabaseManager = NativeModules.DatabaseManager;
 
 let DEFAULT_PAGE_NUMBER = 0;
 let DEFAULT_MESSAGES_PER_PAGE = 50;

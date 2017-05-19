@@ -1,4 +1,10 @@
-import { Animated, Easing, DeviceEventEmitter, Dimensions } from 'react-native';
+import {
+  Animated,
+  Easing,
+  DeviceEventEmitter,
+  Dimensions,
+  Keyboard
+} from 'react-native';
 
 let KeyboardMixin = {
   getInitialState: function () {
@@ -13,7 +19,7 @@ let KeyboardMixin = {
   },
 
   componentDidMount: function () {
-    var showListener = DeviceEventEmitter.addListener('keyboardWillShow', (frames) => {
+    var showListener = Keyboard.addListener('keyboardWillShow', (frames) => {
       if (this.keyboardMixinHandleKeyboardWillShow) this.keyboardMixinHandleKeyboardWillShow(frames);
 
       this.animate({
@@ -23,7 +29,7 @@ let KeyboardMixin = {
       }, frames.duration);
     });
 
-    var hideListener = DeviceEventEmitter.addListener('keyboardWillHide', frames => {
+    var hideListener = Keyboard.addListener('keyboardWillHide', frames => {
       if (this.keyboardMixinHandleKeyboardWillHide) this.keyboardMixinHandleKeyboardWillHide(frames);
 
       this.animate({

@@ -1,16 +1,15 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  ListView,
+  Dimensions
+} from 'react-native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import Style from '../style';
 import Message from './Message';
 import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
-
-let {
-  View,
-  Text,
-  ListView,
-  Dimensions
-} = React;
 
 let BEGINNING_REACHED_OFFSET = 1000;
 
@@ -81,7 +80,7 @@ let MessageList = React.createClass({
       nextProps.messages[0].state === 'composing';
 
     if (composeStarted) {
-      this.refs.list.getScrollResponder().scrollTo(0);
+      this.refs.list.getScrollResponder().scrollTo({ y: 0 });
     }
   },
 
@@ -188,7 +187,7 @@ let MessageList = React.createClass({
     let nextOffset = nextTop - Style.values.rowHeight;
 
     if (nextOffset < 0) {
-      this.refs.list.getScrollResponder().scrollTo(this.state.scrollOffset - nextOffset);
+      this.refs.list.getScrollResponder().scrollTo({ y: this.state.scrollOffset - nextOffset });
     }
   },
 

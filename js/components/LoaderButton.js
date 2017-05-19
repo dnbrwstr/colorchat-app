@@ -1,16 +1,15 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  Animated,
+  PixelRatio
+} from 'react-native';
 import darken from 'color';
 import Style from '../style';
 import PressableView from './PressableView';
 import AnimatedEllipsis from './AnimatedEllipsis';
 import SquareButton from './SquareButton';
-
-let {
-  View,
-  Text,
-  Animated,
-  PixelRatio
-} = React;
 
 let LoaderButton = React.createClass({
   getInitialState: function () {

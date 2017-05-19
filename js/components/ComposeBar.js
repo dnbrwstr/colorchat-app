@@ -1,13 +1,12 @@
-import React from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
-
-let {
+import React from 'react';
+import {
   Animated,
   View,
   Text,
   InteractionManager
-} = React;
+} from 'react-native';
+import Style from '../style';
+import PressableView from './PressableView';
 
 let ComposeBar = React.createClass({
   getInitialState: function () {

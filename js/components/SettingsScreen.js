@@ -1,5 +1,13 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import { connect } from 'react-redux';
+import {
+  View,
+  TextInput,
+  PixelRatio,
+  ScrollView,
+  AlertIOS,
+  Dimensions
+} from 'react-native';
 import Style from '../style';
 import config from '../config';
 import BaseText from './BaseText';
@@ -11,14 +19,7 @@ import { loadUserInfo, updateUserInfo, logout, deleteAccount } from '../actions/
 
 let { appName } = config;
 
-let {
-  View,
-  TextInput,
-  PixelRatio,
-  ScrollView,
-  AlertIOS,
-  Dimensions
-} = React;
+
 
 let SettingsScreen = React.createClass({
   getInitialState: function () {

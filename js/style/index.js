@@ -1,7 +1,5 @@
-import React from 'react-native';
+import { StyleSheet } from 'react-native';
 import Color from 'color';
-
-let { StyleSheet } = React;
 
 let makeStyles = function (styles) {
   for (let key in styles) {

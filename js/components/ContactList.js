@@ -1,17 +1,16 @@
-import React from 'react-native';
-import Color from 'color';
-import PressableView from './PressableView';
-import Style from '../style';
-import BaseText from './BaseText';
-import ContactListItem from './ContactListItem';
-
-let {
+import React from 'react';
+import {
   View,
   ListView,
   Text,
   PixelRatio,
   ScrollView
-} = React;
+} from 'react-native';
+import Color from 'color';
+import PressableView from './PressableView';
+import Style from '../style';
+import BaseText from './BaseText';
+import ContactListItem from './ContactListItem';
 
 const BR = "\n";
 

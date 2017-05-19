@@ -1,5 +1,4 @@
-import AddressBook from 'react-native-addressbook';
-import Promise from 'bluebird'
+import Contacts from 'react-native-contacts';
 import SeedNumbers from './data/SeedNumbers'
 
 let randomNameishString = () => {
@@ -11,19 +10,19 @@ let randomNameishString = () => {
   }
   string[0] = string[0].toUpperCase();
   return string;
-}
+};
 
-export let seedAddressBook = async () => {
-  let contacts = await AddressBook.getContactsAsync();
+export let seedAddressBook = async () => {  
+  let contacts = await Contacts.getAllAsync();
 
   // Bail out if we've already seeded
   if (contacts.length > 20) return;
 
   try {
     await SeedNumbers.slice(0, 3).map((n) => {
-      return AddressBook.addContactAsync({
-        firstName: randomNameishString(),
-        lastName: randomNameishString(),
+      return Contacts.addContactAsync({
+        givenName: randomNameishString(),
+        familyName: randomNameishString(),
         phoneNumbers: [{
           label: 'mobile',
           number: n
@@ -33,5 +32,4 @@ export let seedAddressBook = async () => {
   } catch (e) {
     console.log(e);
   }
-
-}
+};

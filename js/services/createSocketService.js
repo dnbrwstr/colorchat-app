@@ -1,5 +1,5 @@
-import io from 'socket.io-client/socket.io';
-import React from 'react-native';
+import io from 'socket.io-client';
+import { InteractionManager } from 'react-native';
 import { difference } from 'ramda';
 import config from '../config';
 import createService from './createService';
@@ -15,7 +15,6 @@ const COMPOSE_EVENT = 'composeevent';
 const COMPOSE_EVENT_INTERVAL = 1500;
 
 let { serverRoot } = config;
-let { InteractionManager } = React;
 
 let getSocketOptions = token => ({
   transports: ['websocket'],

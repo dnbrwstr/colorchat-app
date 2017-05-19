@@ -1,6 +1,16 @@
-import React from 'react-native';
+// I've removed the PureRenderMixin from this component
+// for now to make it compatible with the latest version
+// of react, so there may be some performance issues.
+//
+import React from 'react';
+import {
+  View,
+  Text,
+  InteractionManager,
+  Dimensions
+} from 'react-native';
 import ScrollBridge from '../lib/ScrollBridge';
-import { connect } from 'react-redux/native';
+import { connect } from 'react-redux';
 import { merge } from 'ramda';
 import { createSelector } from 'reselect';
 import Style from '../style';
@@ -18,15 +28,6 @@ import PlaceholderMessage from './PlaceholderMessage';
 import TimerMixin from './mixins/TimerMixin';
 
 let {
-  View,
-  Text,
-  InteractionManager,
-  Dimensions
-} = React;
-
-let { PureRenderMixin, Perf } = React.addons;
-
-let {
   resendMessage,
   sendWorkingMessage,
   markMessageStale,
@@ -39,7 +40,7 @@ let {
 } = MessageActions;
 
 let ConversationScreen = React.createClass({
-  mixins: [TimerMixin, PureRenderMixin],
+  mixins: [TimerMixin],
 
   getInitialState: function () {
     return {

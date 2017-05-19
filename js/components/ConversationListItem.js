@@ -1,14 +1,12 @@
-import React from 'react-native';
-import Color from 'color';
+import React from 'react';
+import {
+  Animated
+} from 'react-native';import Color from 'color';
 import Style from '../style';
 import InteractiveView from './InteractiveView';
 import BaseText from './BaseText';
 import { shortHumanDate, formatName } from '../lib/Utils';
 import { getTimestamp } from '../lib/MessageUtils';
-
-let {
-  Animated
-} = React;
 
 const DEFAULT_BG_COLOR = '#EFEFEF';
 
@@ -39,8 +37,8 @@ let ConversationListItem = React.createClass({
 
   getName: function () {
     if (this.props.contact) {
-      let { firstName, lastName } = this.props.contact;
-      return formatName(firstName, lastName);
+      let { givenName, familyName } = this.props.contact;
+      return formatName(givenName, familyName);
     } else if (this.props.recipientName) {
       return this.props.recipientName;
     } else {

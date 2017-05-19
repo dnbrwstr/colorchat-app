@@ -1,4 +1,4 @@
-import React from 'react-native';
+import React from 'react';
 import RoundButton from './RoundButton';
 import Style from '../style';
 import BaseText from './BaseText';

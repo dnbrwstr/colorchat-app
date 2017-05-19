@@ -1,7 +1,3 @@
-# App
-js/config.js
-.env
-
 # OSX
 #
 .DS_Store
@@ -25,7 +21,12 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-iOS/Parse.plist
+
+# Android/IJ
+#
+.idea
+.gradle
+local.properties
 
 # node.js
 #

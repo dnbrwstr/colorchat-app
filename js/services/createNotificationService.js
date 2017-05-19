@@ -1,14 +1,12 @@
-import React from 'react-native';
+import {
+  PushNotificationIOS,
+  NativeModules
+} from 'react-native';
 import { saveDeviceToken } from '../actions/NotificationActions';
 import { presentInternalAlert } from '../actions/AppActions';
 import createService from './createService';
 import { getUnreadCount } from '../lib/DatabaseUtils';
 import { receiveMessage } from '../actions/MessageActions';
-
-let {
-  PushNotificationIOS,
-  NativeModules
-} = React;
 
 let { ParseBridge } = NativeModules;
 
@@ -28,9 +26,11 @@ let notificationServiceBase = {
       this.updateUnreadCount();
     }
 
-    if (prevProps.route !== this.props.route &&
-        (this.props.route.title === 'conversation' ||
-        this.props.route.title === 'inbox')) {
+    if (
+      prevProps.route !== this.props.route &&
+      (this.props.route.title === 'conversation' ||
+      this.props.route.title === 'inbox')
+    ) {
       // Delay before updating to prevent this
       // coinciding with navigation animation
       setTimeout(this.updateUnreadCount, 500);

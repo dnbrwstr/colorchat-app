@@ -1,14 +1,14 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  Animated,
+  View
+} from 'react-native';
 import Touchable from 'Touchable';
 import { merge } from 'ramda';
-import { extractSingleTouch } from 'TouchEventUtils';
+import { extractSingleTouch } from 'fbjs/lib/TouchEventUtils';
 import measure from '../lib/measure';
 import NativeMethodsMixin from 'NativeMethodsMixin';
 
-let {
-  Animated,
-  View
-} = React;
 
 let PRESS_RECT = {
   top: 20, right: 20, bottom: 20, left: 20

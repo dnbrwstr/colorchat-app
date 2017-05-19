@@ -1,5 +1,5 @@
 import { RNMessageComposer as Composer, SettingsApp } from 'NativeModules';
-import AddressBook from 'react-native-addressbook';
+import Contacts from 'react-native-contacts';
 import { postAuthenticatedJSON } from '../lib/RequestHelpers';
 import config from '../config';
 import send from '../lib/send';
@@ -19,10 +19,10 @@ export let importContacts = opts => async (dispatch, getState) => {
     state: 'started'
   });
 
-  let permission = await AddressBook.checkPermissionAsync();
+  let permission = await Contacts.checkPermissionAsync();
 
   if (permission === 'undefined' && opts.askPermission) {
-    permission = await AddressBook.requestPermissionAsync();
+    permission = await Contacts.requestPermissionAsync();
   }
 
   if (permission === 'denied' && opts.askPermission) {
@@ -37,7 +37,8 @@ export let importContacts = opts => async (dispatch, getState) => {
 };
 
 let onPermissionGranted = async (userToken, dispatch) => {
-  let contacts = await AddressBook.getContactsAsync();
+  let contacts = await Contacts.getAllAsync();
+
   let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
   let url = serverRoot + '/match';
   let data = { phoneNumbers };

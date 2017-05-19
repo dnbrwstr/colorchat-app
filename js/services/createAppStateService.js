@@ -1,23 +1,23 @@
-import { AppStateIOS } from 'react-native';
+import { AppState } from 'react-native';
 import { changeAppState, triggerMemoryWarning } from '../actions/AppActions';
 import createService from './createService';
 
 let appStateServiceSelector = state => {
   return {};
-}
+};
 
 let appStateServiceBase = {
   onDidInitialize: function () {
-    AppStateIOS.addEventListener('change', this.onAppStateChange);
-    AppStateIOS.addEventListener('memoryWarning', this.onMemoryWarning);
+    AppState.addEventListener('change', this.onAppStateChange);
+    AppState.addEventListener('memoryWarning', this.onMemoryWarning);
   },
 
   onAppStateChange: function (state) {
-    this.props.dispatch(changeAppState(state))
+    this.props.dispatch(changeAppState(state));
   },
 
   onMemoryWarning: function () {
-    this.props.dispatch(triggerMemoryWarning())
+    this.props.dispatch(triggerMemoryWarning());
   }
 };
 

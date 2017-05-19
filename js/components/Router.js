@@ -1,16 +1,15 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  Dimensions,
+  PixelRatio,
+} from 'react-native';
+import { Navigator } from 'react-native-deprecated-custom-components';
 import invariant from 'invariant';
-import { Provider, connect } from 'react-redux/native';
+import { Provider, connect } from 'react-redux';
 import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
 import { FromBottom, SlideOverFromBottom, SlideFromRight, SlideOverFromRight } from '../lib/SceneConfigs';
 import { completeTransition } from '../actions/NavigationActions';
 import AppRoutes, { getTransitionMethod } from '../lib/AppRoutes';
-
-let {
-  Dimensions,
-  PixelRatio,
-  Navigator
-} = React;
 
 let Router = React.createClass({
   componentDidMount: function () {

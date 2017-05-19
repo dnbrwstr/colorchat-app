@@ -1,10 +1,10 @@
-import React, { View, StatusBarIOS } from 'react-native';
-import { Provider } from 'react-redux/native';
+import React from 'react';
+import { View, StatusBar } from 'react-native';
+import { Provider } from 'react-redux';
 import App from './App';
 import config from '../config';
 import { seedMessages } from '../lib/DatabaseUtils';
 import { receiveMessage } from '../actions/MessageActions';
-import { seedAddressBook as shouldSeedAddressBook } from '../config';
 import { seedAddressBook } from '../lib/ContactUtils';
 import createStore from '../lib/createStore';
 import createSocketService from '../services/createSocketService';
@@ -20,12 +20,12 @@ let ColorChat = React.createClass({
   componentDidMount: async function () {
     let store = await createStore();
 
-    if (shouldSeedAddressBook) {
+    if (config.seedAddressBook) {
       seedAddressBook();
     }
 
     if (config.seedMessages) {
-      seedMessages(config.seedMessageCount)
+      seedMessages(config.seedMessageCount);
     }
 
     this.setState({
@@ -36,7 +36,7 @@ let ColorChat = React.createClass({
       appStateService: createAppStateService(store)
     });
 
-    StatusBarIOS.setHidden(true);
+    StatusBar.setHidden(true);
   },
 
   render: function () {
@@ -47,7 +47,7 @@ let ColorChat = React.createClass({
     } else {
       return (
         <Provider store={this.state.store}>
-          { () => <App /> }
+          <App />
         </Provider>
       );
     }

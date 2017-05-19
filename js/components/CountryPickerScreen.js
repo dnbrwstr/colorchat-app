@@ -1,5 +1,12 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import {
+  ListView,
+  View,
+  Text,
+  ScrollView,
+  PixelRatio
+} from 'react-native';
+import { connect } from 'react-redux';
 import Header from './Header';
 import Countries from '../lib/data/Countries';
 import PressableView from './PressableView';
@@ -7,14 +14,6 @@ import BaseText from './BaseText';
 import { updateData } from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
 import Style from '../style';
-
-let {
-  ListView,
-  View,
-  Text,
-  ScrollView,
-  PixelRatio
-} = React;
 
 let groupedCountries = Countries.reduce((memo, country) => {
   let letter = country.label[0].toUpperCase();

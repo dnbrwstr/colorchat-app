@@ -1,16 +1,15 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  Animated
+} from 'react-native';
 import Style from '../style';
-import { connect } from 'react-redux/native';
+import { connect } from 'react-redux';
 import { navigateToConversation } from '../actions/NavigationActions';
 import { dismissInternalAlert } from '../actions/AppActions';
 import PressableView from './PressableView';
 import TimerMixin from './mixins/TimerMixin';
-
-let {
-  View,
-  Text,
-  Animated
-} = React;
 
 let Alert = React.createClass({
   mixins: [TimerMixin],

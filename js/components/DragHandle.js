@@ -1,12 +1,11 @@
-import React from 'react-native';
-import Style from '../style';
-import Overlay from 'react-native-overlay';
-
-let {
+import React from 'react';
+import {
   Animated,
   View,
   Image
-} = React;
+} from 'react-native';
+import Style from '../style';
+import Overlay from 'react-native-overlay';
 
 let DragHandle = React.createClass({
   getDefaultProps: function () {

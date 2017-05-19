@@ -1,14 +1,15 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  Animated,
+  Dimensions
+} from 'react-native';
 import Header from './Header';
 import Style from '../style';
 import ScrollBridge from '../lib/ScrollBridge';
 import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
 
-let {
-  Animated,
-  Dimensions
-} = React;
+
 
 const HIDE_ANIMATION_DURATION = 200;
 

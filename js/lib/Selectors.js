@@ -34,7 +34,7 @@ export let conversationScreenSelector = createSelector([
       conversation.recipientId;
 
     let contactName = contact ?
-      formatName(contact.firstName, contact.lastName) :
+      formatName(contact.givenName, contact.familyName) :
       conversation.recipientName;
 
     return {

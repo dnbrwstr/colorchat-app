@@ -1,10 +1,9 @@
-import React from 'react-native';
-
-let {
+import React from 'react';
+import {
   TouchableWithoutFeedback,
   View,
   Animated
-} = React;
+} from 'react-native';
 
 let touchablePropKeys = [
   'accessible',

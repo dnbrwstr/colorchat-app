@@ -1,14 +1,13 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
-import Router from './Router';
-import Alert from './Alert';
-import Style from '../style';
-
-let {
+import React from 'react';
+import {
   View,
   Animated,
   Text
-} = React;
+} from 'react-native';
+import { connect } from 'react-redux';
+import Router from './Router';
+import Alert from './Alert';
+import Style from '../style';
 
 let appSelector = state => {
   return {

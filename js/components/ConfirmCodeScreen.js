@@ -1,5 +1,11 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Animated
+} from 'react-native';
+import { connect } from 'react-redux';
 import Style from '../style';
 import LoaderButton from './LoaderButton';
 import ErrorMessage from './ErrorMessage';
@@ -7,13 +13,6 @@ import SignupScreen from './SignupScreen';
 import { navigateTo } from '../actions/NavigationActions';
 import { submitConfirmationCode, updateData, clearConfirmCodeError } from '../actions/SignupActions';
 import { confirmationCodeScreenSelector } from '../lib/Selectors'
-
-let {
-  View,
-  Text,
-  TextInput,
-  Animated
-} = React;
 
 let ConfirmCodeScreen = React.createClass({
   render: function () {

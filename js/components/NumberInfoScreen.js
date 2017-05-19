@@ -1,15 +1,14 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import {
+  View,
+  LinkingIOS
+}  from 'react-native';
+import { connect } from 'react-redux';
 import Style from '../style';
 import TextScreen from './TextScreen';
 import BaseText from './BaseText';
 import { navigateTo } from '../actions/NavigationActions';
 import TextLink from './TextLink';
-
-let {
-  View,
-  LinkingIOS
-} = React;
 
 let NumberInfoScreen = React.createClass({
   handleNavigateBack: function () {

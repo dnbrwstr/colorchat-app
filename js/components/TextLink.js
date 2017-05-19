@@ -1,9 +1,8 @@
-import React from 'react-native';
-import BaseText from './BaseText';
-
-let {
+import React from 'react';
+import {
   LinkingIOS
-} = React;
+} from 'react-native';
+import BaseText from './BaseText';
 
 let TextLink = React.createClass({
   handlePress: function () {

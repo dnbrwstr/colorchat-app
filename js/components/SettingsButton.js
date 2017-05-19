@@ -1,12 +1,13 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  Image
+} from 'react-native';
 import { merge } from 'ramda';
 import RoundButton from './RoundButton';
 import Style from '../style';
 import BaseText from './BaseText';
 
-let {
-  Image
-} = React;
+
 
 let SettingsButton = React.createClass({
   render: function () {

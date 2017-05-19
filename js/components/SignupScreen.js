@@ -1,17 +1,18 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  Animated,
+  ScrollView,
+  Dimensions,
+  Easing
+} from 'react-native';
 import KeyboardMixin from './mixins/KeyboardMixin';
 import Style from '../style';
 import Header from './Header';
 import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
 
-let {
-  View,
-  Animated,
-  ScrollView,
-  Dimensions,
-  Easing
-} = React;
+
 
 let SignupScreen = React.createClass({
   mixins: [KeyboardMixin, TimerMixin],

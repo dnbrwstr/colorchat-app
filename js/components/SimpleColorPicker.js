@@ -1,13 +1,12 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  Text,
+  View
+} from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import BaseText from './BaseText';
 import measure from '../lib/measure';
-
-let {
-  Text,
-  View
-} = React;
 
 let SATURATION = 75;
 

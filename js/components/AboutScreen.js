@@ -1,14 +1,11 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import { View } from 'react-native';
+import { connect } from 'react-redux';
 import Style from '../style';
 import TextScreen from './TextScreen';
 import BaseText from './BaseText';
 import TextLink from './TextLink';
 import { navigateTo } from '../actions/NavigationActions';
-
-let {
-  View
-} = React;
 
 let AboutScreen = React.createClass({
   handleNavigateBack: function () {

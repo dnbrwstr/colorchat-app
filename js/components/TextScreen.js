@@ -1,11 +1,10 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View
+} from 'react-native';
 import Style from '../style';
 import Header from './Header';
 import BaseText from './BaseText';
-
-let {
-  View
-} = React;
 
 let TextScreen = React.createClass({
   render: function () {

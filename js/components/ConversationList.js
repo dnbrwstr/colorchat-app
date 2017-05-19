@@ -1,12 +1,11 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  ListView
+} from 'react-native';
 import Style from '../style';
 import BaseText from './BaseText';
 import ConversationListItem from './ConversationListItem';
-
-let {
-  View,
-  ListView
-} = React;
 
 let ConversationList = React.createClass({
   getDefaultProps: function () {
@@ -51,7 +50,7 @@ let ConversationList = React.createClass({
     });
   },
 
-  render: function () {
+  render: function () {    
     return (
       <ListView
         scrollEnabled={!this.state.scrollLocked}

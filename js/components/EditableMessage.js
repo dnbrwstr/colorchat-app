@@ -1,18 +1,17 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
-import Style from '../style';
-import DragHandle from './DragHandle';
-import { updateWorkingMessage } from '../actions/MessageActions';
-import SimpleColorPicker from './SimpleColorPicker';
-import { constrain } from '../lib/Utils';
-
-let {
+import React from 'react';
+import {
   View,
   Dimensions,
   Animated,
   InteractionManager,
   Text
-} = React;
+} from 'react-native';
+import { connect } from 'react-redux';
+import Style from '../style';
+import DragHandle from './DragHandle';
+import { updateWorkingMessage } from '../actions/MessageActions';
+import SimpleColorPicker from './SimpleColorPicker';
+import { constrain } from '../lib/Utils';
 
 const MIN_MESSAGE_HEIGHT = 50;
 const MAX_MESSAGE_HEIGHT = 400;

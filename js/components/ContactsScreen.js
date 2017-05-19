@@ -1,7 +1,11 @@
-import React from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text
+} from 'react-native';
 import Color from 'color';
 import Style from '../style';
-import { connect } from 'react-redux/native';
+import { connect } from 'react-redux';
 import PressableView from './PressableView';
 import ContactList from './ContactList';
 import AnimatedEllipsis from './AnimatedEllipsis';
@@ -13,11 +17,6 @@ import Header from './Header';
 import SquareButton from './SquareButton';
 
 let { appName } = config;
-
-let {
-  View,
-  Text
-} = React;
 
 const BR = "\n";
 

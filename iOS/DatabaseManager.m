@@ -7,8 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "DatabaseManager.h"
-#import "RCTLog.h"
-#import "RCTConvert.h"
+#import <React/RCTLog.h>
+#import <React/RCTConvert.h>
 
 @implementation DatabaseManager
 

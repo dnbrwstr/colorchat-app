@@ -1,5 +1,9 @@
-import React from 'react-native';
-import { connect } from 'react-redux/native';
+import React from 'react';
+import {
+  View,
+  Text
+} from 'react-native';
+import { connect } from 'react-redux';
 import Style from '../style';
 import PressableView from './PressableView';
 import LoaderButton from './LoaderButton';
@@ -10,11 +14,6 @@ import TimerMixin from './mixins/TimerMixin';
 import BaseText from './BaseText';
 
 let { appName } = config;
-
-let {
-  View,
-  Text
-} = React;
 
 let WelcomeScreen = React.createClass({
   mixins: [TimerMixin],

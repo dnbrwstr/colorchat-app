@@ -8,8 +8,8 @@ let networkServiceSelector = state => {
 
 let networkServiceBase = {
   onDidInitialize: async function () {
-    NetInfo.addEventListener('change', this.onNetworkChange);
-    let initialState = await NetInfo.fetch();
+    NetInfo.addEventListener('connectionChange', this.onNetworkChange);
+    let initialState = await NetInfo.getConnectionInfo();
     this.onNetworkChange(initialState);
   },
 

@@ -2807,9 +2807,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-contacts@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-0.8.1.tgz#ff1e90ab7da432763d2c5a62bd22e2157caffc70"
+react-native-contacts@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-0.9.0.tgz#2ad6a9502d184bb3127c71f4cd0d4043e67487e0"
 
 react-native-deprecated-custom-components@^0.1.0:
   version "0.1.1"

@@ -5,7 +5,6 @@ import {
   Image
 } from 'react-native';
 import Style from '../style';
-import Overlay from 'react-native-overlay';
 
 let DragHandle = React.createClass({
   getDefaultProps: function () {
@@ -28,20 +27,18 @@ let DragHandle = React.createClass({
     };
 
     return (
-      <Overlay isVisible={true}>
-        <Animated.View
-          style={[style.target, this.props.style, transformStyle]}
-          onStartShouldSetResponder={()=>true}
-          onResponderGrant={this.onDragStart}
-          onResponderMove={this.onDragMove}
-          onResponderReject={this.onDragStop}
-          onResponderTerminate={this.onDragStop}
-          onResponderRelease={this.onDragStop}
-          onResponderTerminationRequest={()=>false}
-        >
-          <View style={style.handle} />
-        </Animated.View>
-      </Overlay>
+      <Animated.View
+        style={[style.target, this.props.style, transformStyle]}
+        onStartShouldSetResponder={()=>true}
+        onResponderGrant={this.onDragStart}
+        onResponderMove={this.onDragMove}
+        onResponderReject={this.onDragStop}
+        onResponderTerminate={this.onDragStop}
+        onResponderRelease={this.onDragStop}
+        onResponderTerminationRequest={()=>false}
+      >
+        <View style={style.handle} />
+      </Animated.View>
     );
   },
 

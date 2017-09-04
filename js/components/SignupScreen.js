@@ -12,8 +12,6 @@ import Header from './Header';
 import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
 
-
-
 let SignupScreen = React.createClass({
   mixins: [KeyboardMixin, TimerMixin],
 

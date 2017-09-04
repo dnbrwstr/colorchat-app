@@ -80,6 +80,6 @@ let notificationServiceSelector = state => {
   };
 };
 
-export default createSocketService = store => {
+export default createNotificationService = store => {
   return createService(store)(notificationServiceBase, notificationServiceSelector);
 };

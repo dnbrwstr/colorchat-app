@@ -70,6 +70,7 @@ let SignupStartScreen = React.createClass({
               value={this.props.countryCode}
               onChangeText={countryCode => { this.updateData({ countryCode }) }}
               keyboardType="phone-pad"
+              underlineColorAndroid="transparent"
             />
             <BaseText style={style.countryCodePlus}>+</BaseText>
           </View>
@@ -78,10 +79,11 @@ let SignupStartScreen = React.createClass({
             <TextInput
               ref="baseNumberInput"
               style={style.numberInput}
+              value={this.props.baseNumber}
+              onChangeText={baseNumber => { this.updateData({ baseNumber }) }}
               placeholder="Phone Number"
               keyboardType="phone-pad"
-              onChangeText={baseNumber => { this.updateData({ baseNumber }) }}
-              value={this.props.baseNumber}
+              underlineColorAndroid="transparent"
             />
           </View>
         </View>
@@ -154,7 +156,6 @@ let style = Style.create({
     marginBottom: 5
   },
   countryInputActive: {
-    color: 'white',
     backgroundColor: Style.values.fairlyLightGray
   },
   countryInputText: {

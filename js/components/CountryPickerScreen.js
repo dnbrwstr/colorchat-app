@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   ListView,
+  SectionList,
   View,
   Text,
   ScrollView,
@@ -18,22 +19,19 @@ import Style from '../style';
 let groupedCountries = Countries.reduce((memo, country) => {
   let letter = country.label[0].toUpperCase();
   if (!memo[letter]) memo[letter] = [];
-  memo[letter].push(country);
+  memo[letter].push({ ...country, key: country.label });
   return memo;
 }, {});
 
-let CountryPickerScreen = React.createClass({
-  getInitialState: function () {
-    let dataSource = new ListView.DataSource({
-      sectionHeaderHasChanged: (s1, s2) => false,
-      rowHasChanged: (r1, r2) => false,
-      getSectionHeaderData: (data, id) => id
-    });
+let countrySections = Object.keys(groupedCountries).reduce((memo, key) => {  
+  memo.push({
+    data: groupedCountries[key],
+    key: key
+  });
+  return memo;
+}, []);
 
-    return {
-      countryDataSource: dataSource.cloneWithRowsAndSections(groupedCountries)
-    };
-  },
+let CountryPickerScreen = React.createClass({
 
   render: function () {
     let { dispatch } = this.props;
@@ -43,28 +41,21 @@ let CountryPickerScreen = React.createClass({
         <Header title="Select a country" showBack={true} onBack={() =>
           dispatch(navigateTo('signup'))
         }/>
-        <ListView
-          initialListSize={12}
-          pageSize={1}
-          scrollRenderAheadDistance={100}
-          removeClippedSubviews={true}
-          automaticallyAdjustContentInsets={false}
-          dataSource={this.state.countryDataSource}
-          renderRow={this.renderCountry}
-          renderSeperator={this.renderSeperator}
-          renderSectionHeader={this.renderCountryHeader} />
+
+        <SectionList
+          initialNumToRender={16}
+          maxToRenderPerBatch={16}
+          renderItem={this.renderCountry}
+          renderSectionHeader={this.renderCountryHeader}
+          sections={countrySections}
+        />
       </View>
     );
   },
 
-  renderSeperator: function () {
-    return (<View style={style.separator} />)
-  },
-
-
-  renderCountry: function (country, sectionId, rowId) {
-    let isFirst = rowId === '0';
-    let isLast = (groupedCountries[sectionId].length - 1).toString() === rowId;
+  renderCountry: function (data) {
+    let isFirst = data.index == 0;
+    let isLast = (countrySections.length - 1).toString() === data.index;
 
     let styles = [
       style.country,
@@ -74,20 +65,21 @@ let CountryPickerScreen = React.createClass({
 
     return (
       <PressableView
+        key={`item-${data.item.label}`}
         style={styles}
         activeStyle={style.countryActive}
-        onPress={this.onSelect.bind(this, country)}
+        onPress={this.onSelect.bind(this, data.item)}
       >
-        <BaseText style={style.countryText}>{country.label}</BaseText>
+        <BaseText style={style.countryText}>{data.item.label}</BaseText>
       </PressableView>
     );
   },
 
-  renderCountryHeader: function (id) {
+  renderCountryHeader: function (data) {
     return (
-      <View style={style.countryHeader}>
+      <View style={style.countryHeader} key={`section-${data.section.key}`}>
         <View style={style.countryHeaderInner}>
-          <BaseText style={style.countryText}>{id}</BaseText>
+          <BaseText style={style.countryText}>{data.section.key}</BaseText>
         </View>
       </View>
     );
@@ -116,6 +108,7 @@ var style = Style.create({
   },
   countryHeader: {
     paddingHorizontal: Style.values.horizontalPadding,
+    backgroundColor: 'white'
   },
   countryHeaderInner: {
     paddingVertical: 3,

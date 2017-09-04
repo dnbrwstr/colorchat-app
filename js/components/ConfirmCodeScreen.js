@@ -38,6 +38,7 @@ let ConfirmCodeScreen = React.createClass({
             value={this.props.confirmationCode}
             onChangeText={ confirmationCode => {dispatch(updateData({ confirmationCode }))}}
             keyboardType="phone-pad"
+            underlineColorAndroid="transparent"
           />
         </View>
       </SignupScreen>

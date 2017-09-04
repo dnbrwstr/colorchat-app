@@ -37,6 +37,7 @@ let SignupNotificationScreen = React.createClass({
             ref="nameInput"
             value={this.props.name}
             onChangeText={ name => this.setState({ name }) }
+            underlineColorAndroid="transparent"
           />
         </View>
 

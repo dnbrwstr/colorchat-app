@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import values from './values';
 
 let textBase = {
@@ -16,6 +17,15 @@ let inputBase = {
   height: 36,
   lineHeight: 1,
   paddingTop: 10,
+  ...Platform.select({
+    ios: {
+
+    },
+    android: {
+      textAlignVertical: 'bottom',
+      paddingBottom: 6
+    }
+  })
 };
 
 let outerWrapperBase = {

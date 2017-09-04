@@ -19,7 +19,8 @@ let { serverRoot } = config;
 let getSocketOptions = token => ({
   transports: ['websocket'],
   'force new connection': true,
-  query: 'token=' + token
+  query: 'token=' + token,
+  pingTimeout: 30000
 });
 
 let authErrors = [

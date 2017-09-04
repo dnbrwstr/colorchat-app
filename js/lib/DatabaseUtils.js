@@ -2,8 +2,7 @@ import { NativeModules } from 'react-native';
 import invariant from 'invariant';
 import { merge, partialRight, evolve, pick, __, times, compose } from 'ramda';
 import { createSeedMessage } from '../lib/MessageUtils';
-
-let DatabaseManager = NativeModules.DatabaseManager;
+import DatabaseManager from './DatabaseManager';
 
 let DEFAULT_PAGE_NUMBER = 0;
 let DEFAULT_MESSAGES_PER_PAGE = 50;
@@ -18,7 +17,7 @@ let ALLOWED_MESSAGE_PROPS = [
   'state'
 ];
 
-export let loadMessages = _options => {
+export let loadMessages = async _options => {
   let defaults = {
     page: DEFAULT_PAGE_NUMBER,
     per: DEFAULT_MESSAGES_PER_PAGE
@@ -31,52 +30,24 @@ export let loadMessages = _options => {
     'Attempt to load messages with contactId of invalid type ' + typeof options.contactId
   );
 
-  return new Promise(function (resolve, reject) {
-    DatabaseManager.loadMessagesForContact(
-      options.contactId,
-      options.page,
-      options.per,
-      function (error, _messages, total) {
-        if (error) reject(error);
-        let messages = _messages.map(m => merge(m, { state: 'complete' }));
-        resolve({
-          messages,
-          total
-        });
-      }
-    );
-  });
+  return DatabaseManager.loadMessagesForContact(
+    options.contactId,
+    options.page,
+    options.per
+  );
 };
 
 export let storeMessage = _message => {
   let message = pick(ALLOWED_MESSAGE_PROPS, _message);
-  return new Promise(function (resolve, reject) {
-    DatabaseManager.storeMessage(
-      message,
-      function (error, message) {
-        if (error) reject(error);
-        else resolve(message);
-      }
-    );
-  });
+  return DatabaseManager.storeMessage(message);
 };
 
 export let getUnreadCount = () => {
-  return new Promise(function (resolve, reject) {
-    DatabaseManager.getUnreadCount(function (error, count) {
-      if (error) reject(error);
-      else resolve(count);
-    });
-  });
+  return DatabaseManager.getUnreadCount();
 }
 
 export let purgeMessages = () => {
-  return new Promise(function (resolve, reject) {
-    DatabaseManager.purgeMessages(function (error, message) {
-      if (error) reject(error);
-      else resolve(message);
-    });
-  });
+  return DatabaseManager.purgeMessages();
 }
 
 export let seedMessages = messageCount => {

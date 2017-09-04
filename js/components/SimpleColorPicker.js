@@ -46,7 +46,8 @@ let SimpleColorPicker = React.createClass({
   getInitialState: function () {
     return {
       value: this.props.initialValue,
-      pristine: true
+      pristine: true,
+      touchOffset: null
     };
   },
 
@@ -81,24 +82,33 @@ let SimpleColorPicker = React.createClass({
     );
   },
 
-  onLayout: async function () {
+  onLayout: async function (e) {
     this.setState({
-      size: null
-    });
-
-    let size = await measure(this.refs.main);
-
-    this.setState({
-      size: size
+      size: e.nativeEvent.layout
     });
   },
 
   onTouchMove: function (e) {
     if (!this.state.size) return;
 
-    let { locationX, locationY } = e.nativeEvent;
-    let progressX = Math.max(Math.min(locationX / this.state.size.width, 1), 0);
-    let progressY = Math.max(Math.min(locationY / this.state.size.height, 1), 0);
+    // As of react-native 0.48:
+    // locationX and locationY are correct ONLY w regard to the first touch
+    // move event in a given gesture, so we use pageX and pageY instead
+    let { pageX, pageY, locationX, locationY } = e.nativeEvent;
+    let { width, height } = this.state.size;
+    let touchOffset;
+
+    if (!this.state.touchOffset) {
+      touchOffset = { x: pageX - locationX, y: pageY - locationY };
+      this.setState({ touchOffset });
+    } else {
+      touchOffset = this.state.touchOffset;
+    }
+
+    let x = pageX - touchOffset.x;
+    let y = pageY - touchOffset.y;
+    let progressX = Math.max(Math.min(x / width, 1), 0);
+    let progressY = Math.max(Math.min(y / height, 1), 0);
 
     let h = Math.floor(360 * progressX);
     let l = Math.floor(100 * progressY);
@@ -110,7 +120,11 @@ let SimpleColorPicker = React.createClass({
   },
 
   onTouchEnd: function () {
-    this.props.onChange(this.state.value)
+    this.setState({
+      touchOffset: null
+    });
+
+    this.props.onChange(this.state.value);
   },
 
   getValue: function () {

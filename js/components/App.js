@@ -5,6 +5,7 @@ import {
   Text
 } from 'react-native';
 import { connect } from 'react-redux';
+import { GatewayDest } from 'react-gateway';
 import Router from './Router';
 import Alert from './Alert';
 import Style from '../style';
@@ -71,6 +72,8 @@ let App = React.createClass({
             return ( <Alert key={a.id} {...a} /> );
           }) }
         </View>
+
+        <GatewayDest name="top" component={View} style={{position: 'absolute', top: 0, left: 0, flex: 1}} />
       </Animated.View>
     )
   }

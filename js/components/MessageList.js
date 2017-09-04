@@ -3,7 +3,9 @@ import {
   View,
   Text,
   ListView,
-  Dimensions
+  FlatList,
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import Style from '../style';
@@ -37,6 +39,8 @@ let messageHasChanged = (a, b) => {
 let getMessageData = (dataBlob, sectionId, rowId) => {
   return dataBlob[sectionId][rowId];
 };
+
+let getMessageKey = message => message.id;
 
 let MessageList = React.createClass({
   mixins: [TimerMixin],
@@ -107,17 +111,17 @@ let MessageList = React.createClass({
 
   render: function () {
     return (
-      <ListView
+      <FlatList
         ref="list"
         style={style.list}
-        automaticallyAdjustContentInsets={false}
-        renderScrollComponent={this.renderScrollComponent}
-        dataSource={this.state.workingData}
-        removeClippedSubviews={true}
-        initialListSize={12}
-        scrollRenderAheadDistance={12}
+        data={this.props.messages}
+        keyExtractor={getMessageKey}
+        inverted={true}
+        initialNumToRender={16}
+        maxToRenderPerBatch={16}
         pageSize={1}
-        renderRow={this.renderMessage}
+        renderItem={this.renderMessage}
+        renderScrollComponent={this.renderScrollComponent}
         onEndReached={this.props.onEndReached}
       />
     );
@@ -130,20 +134,19 @@ let MessageList = React.createClass({
     };
 
     return (
-      <InvertibleScrollView {...props}
-        inverted
+      <ScrollView {...props}
         onScroll={onScroll}
         scrollEnabled={!this.props.scrollLocked}
       />
     );
   },
 
-  renderMessage: function (messageData, sectionId, rowId) {
+  renderMessage: function ({ index, item }) {
     let fromCurrentUser =
-      this.props.user.id === messageData.senderId ||
-      !messageData.senderId;
+      this.props.user.id === item.senderId ||
+      !item.senderId;
 
-    let bind = fn => fn.bind(this, messageData);
+    let bind = fn => fn.bind(this, item);
 
     return (
       <Message
@@ -151,9 +154,8 @@ let MessageList = React.createClass({
         onPresent={bind(this.onPresentMessage)}
         onRetrySend={bind(this.onRetryMessageSend)}
         fromCurrentUser={fromCurrentUser}
-        key={messageData.id || messageData.clientId}
-        message={messageData}
-        { ...messageData }
+        message={item}
+        { ...item }
       />
     );
   },

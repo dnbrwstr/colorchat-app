@@ -4,6 +4,7 @@ import {
   View,
   Image
 } from 'react-native';
+import { Gateway } from 'react-gateway';
 import Style from '../style';
 
 let DragHandle = React.createClass({
@@ -27,18 +28,20 @@ let DragHandle = React.createClass({
     };
 
     return (
-      <Animated.View
-        style={[style.target, this.props.style, transformStyle]}
-        onStartShouldSetResponder={()=>true}
-        onResponderGrant={this.onDragStart}
-        onResponderMove={this.onDragMove}
-        onResponderReject={this.onDragStop}
-        onResponderTerminate={this.onDragStop}
-        onResponderRelease={this.onDragStop}
-        onResponderTerminationRequest={()=>false}
-      >
-        <View style={style.handle} />
-      </Animated.View>
+      <Gateway into="top">
+        <Animated.View
+          style={[style.target, this.props.style, transformStyle]}
+          onStartShouldSetResponder={()=>true}
+          onResponderGrant={this.onDragStart}
+          onResponderMove={this.onDragMove}
+          onResponderReject={this.onDragStop}
+          onResponderTerminate={this.onDragStop}
+          onResponderRelease={this.onDragStop}
+          onResponderTerminationRequest={()=>false}
+        >
+          <View style={style.handle} />
+        </Animated.View>
+      </Gateway>
     );
   },
 

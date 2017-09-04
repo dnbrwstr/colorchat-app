@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
+import { GatewayProvider } from 'react-gateway';
 import App from './App';
 import config from '../config';
 import { seedMessages } from '../lib/DatabaseUtils';
@@ -46,9 +47,11 @@ let ColorChat = React.createClass({
       );
     } else {
       return (
-        <Provider store={this.state.store}>
-          <App />
-        </Provider>
+        <GatewayProvider>
+          <Provider store={this.state.store}>
+            <App />
+          </Provider>
+        </GatewayProvider>
       );
     }
   }

@@ -21,6 +21,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		651438E1D00541028E3BDEB7 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6DADF8E95CB4052A86305EE /* libRNFIRMessaging.a */; };
 		6AF56915169E4DCBAFFFC8EE /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 62346DC947D44A3CB2C25233 /* libc++.tbd */; };
 		74F0AF5E0B6F4095872DE948 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D999E91C17D1488A98B9329B /* libz.tbd */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -29,7 +30,6 @@
 		C841D3FC1ECD3B3B006D5EEB /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D3EA1ECD3B32006D5EEB /* libRCTPushNotification.a */; };
 		C841D4071ECD3BA7006D5EEB /* ParseBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C841D4021ECD3BA7006D5EEB /* ParseBridge.m */; };
 		C841D4081ECD3BA7006D5EEB /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C841D4041ECD3BA7006D5EEB /* SettingsApp.m */; };
-		C841D40A1ECD3BC2006D5EEB /* Frameworks in Resources */ = {isa = PBXBuildFile; fileRef = C841D4091ECD3BC2006D5EEB /* Frameworks */; };
 		C841D40F1ECD3BDA006D5EEB /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40C1ECD3BDA006D5EEB /* Bolts.framework */; };
 		C841D4101ECD3BDA006D5EEB /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40D1ECD3BDA006D5EEB /* Parse.framework */; };
 		C841D4131ECE0BD5006D5EEB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */; };
@@ -39,9 +39,12 @@
 		C841D4301ECE144E006D5EEB /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42B1ECE144E006D5EEB /* WorkSans-Light.otf */; };
 		C841D4311ECE144E006D5EEB /* WorkSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42C1ECE144E006D5EEB /* WorkSans-Medium.otf */; };
 		C841D4321ECE144E006D5EEB /* WorkSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42D1ECE144E006D5EEB /* WorkSans-Regular.otf */; };
+		C85535A41F607615006AAF31 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C85535A31F607615006AAF31 /* GoogleService-Info.plist */; };
 		C87246F61ECD060500EC0C4F /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C87246F51ECD05FA00EC0C4F /* libRCTContacts.a */; };
 		C87278551F5CDE8B00CB4972 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		C8A493E01F5CCE4F00F95BE4 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A493BD1F5CCE4600F95BE4 /* libRCTAnimation.a */; };
+		E0072F8AFE7064A6D9E1367E /* libPods-ColorChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F08C1D259C652674BF8D0BB4 /* libPods-ColorChat.a */; };
+		F3DEDEE94DD54F1CE62E1138 /* libPods-ColorChatTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E760EFF1704E546880FC7C9 /* libPods-ColorChatTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +209,13 @@
 			remoteGlobalIDString = F60690131CA2766F0003FB26;
 			remoteInfo = RealmReact;
 		};
+		C8727A6A1F5F00FD00CB4972 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFIRMessaging;
+		};
 		C8A493BC1F5CCE4600F95BE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C8A493B61F5CCE4600F95BE4 /* RCTAnimation.xcodeproj */;
@@ -304,13 +314,6 @@
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
 		};
-		C8C119B31F5CA07200404D26 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FE30DBEBE8054521B9128958 /* RNOverlay.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNOverlay;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -323,6 +326,7 @@
 		00E356EE1AD99517003FC87E /* ColorChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ColorChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorChatTests.m; sourceTree = "<group>"; };
+		0E760EFF1704E546880FC7C9 /* libPods-ColorChatTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ColorChatTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ColorChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -333,22 +337,21 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ColorChat/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ColorChat/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		4794F251534389E2C288B329 /* Pods-ColorChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat.release.xcconfig"; sourceTree = "<group>"; };
 		4C1BA4F16E874F9590ACA925 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		62346DC947D44A3CB2C25233 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		6AB3733FAF5C53F9BC3905F8 /* Pods-ColorChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChatTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests.debug.xcconfig"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9C8B4F35787C4ADE8DF403E4 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		BFA83DFB075120947C9BCDFB /* Pods-ColorChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChatTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests.release.xcconfig"; sourceTree = "<group>"; };
+		C80402CD1F605FD7004D6DAB /* ColorChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ColorChat.entitlements; path = ColorChat/ColorChat.entitlements; sourceTree = "<group>"; };
 		C841D3DB1ECD3B32006D5EEB /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
-		C841D3FD1ECD3BA7006D5EEB /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatMessage.h; sourceTree = "<group>"; };
-		C841D3FE1ECD3BA7006D5EEB /* ChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatMessage.m; sourceTree = "<group>"; };
-		C841D3FF1ECD3BA7006D5EEB /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
-		C841D4001ECD3BA7006D5EEB /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
-		C841D4011ECD3BA7006D5EEB /* ParseBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseBridge.h; sourceTree = "<group>"; };
-		C841D4021ECD3BA7006D5EEB /* ParseBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseBridge.m; sourceTree = "<group>"; };
-		C841D4031ECD3BA7006D5EEB /* SettingsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsApp.h; sourceTree = "<group>"; };
-		C841D4041ECD3BA7006D5EEB /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsApp.m; sourceTree = "<group>"; };
-		C841D4091ECD3BC2006D5EEB /* Frameworks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Frameworks; sourceTree = "<group>"; };
+		C841D4011ECD3BA7006D5EEB /* ParseBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseBridge.h; path = ColorChat/ParseBridge.h; sourceTree = "<group>"; };
+		C841D4021ECD3BA7006D5EEB /* ParseBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseBridge.m; path = ColorChat/ParseBridge.m; sourceTree = "<group>"; };
+		C841D4031ECD3BA7006D5EEB /* SettingsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsApp.h; path = ColorChat/SettingsApp.h; sourceTree = "<group>"; };
+		C841D4041ECD3BA7006D5EEB /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsApp.m; path = ColorChat/SettingsApp.m; sourceTree = "<group>"; };
 		C841D40C1ECD3BDA006D5EEB /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		C841D40D1ECD3BDA006D5EEB /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		C841D40E1ECD3BDA006D5EEB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Frameworks/Realm.framework; sourceTree = "<group>"; };
@@ -359,10 +362,14 @@
 		C841D42B1ECE144E006D5EEB /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Light.otf"; path = "../fonts/WorkSans-Light.otf"; sourceTree = "<group>"; };
 		C841D42C1ECE144E006D5EEB /* WorkSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Medium.otf"; path = "../fonts/WorkSans-Medium.otf"; sourceTree = "<group>"; };
 		C841D42D1ECE144E006D5EEB /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Regular.otf"; path = "../fonts/WorkSans-Regular.otf"; sourceTree = "<group>"; };
+		C85535A31F607615006AAF31 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ColorChat/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C87246F01ECD05FA00EC0C4F /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
 		C8A493B61F5CCE4600F95BE4 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		D999E91C17D1488A98B9329B /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		FE30DBEBE8054521B9128958 /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "../node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
+		E6DADF8E95CB4052A86305EE /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
+		F08C1D259C652674BF8D0BB4 /* libPods-ColorChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ColorChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEB83A14EED13D4EABFFD345 /* Pods-ColorChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C87278551F5CDE8B00CB4972 /* libReact.a in Frameworks */,
+				F3DEDEE94DD54F1CE62E1138 /* libPods-ColorChatTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +407,8 @@
 				B23C1F7F4ABB405C8B6EBBC1 /* libRealmReact.a in Frameworks */,
 				6AF56915169E4DCBAFFFC8EE /* libc++.tbd in Frameworks */,
 				74F0AF5E0B6F4095872DE948 /* libz.tbd in Frameworks */,
+				651438E1D00541028E3BDEB7 /* libRNFIRMessaging.a in Frameworks */,
+				E0072F8AFE7064A6D9E1367E /* libPods-ColorChat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,20 +495,17 @@
 		13B07FAE1A68108700A75B9A /* ColorChat */ = {
 			isa = PBXGroup;
 			children = (
-				C841D4091ECD3BC2006D5EEB /* Frameworks */,
+				C80402CD1F605FD7004D6DAB /* ColorChat.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				C841D3FD1ECD3BA7006D5EEB /* ChatMessage.h */,
-				C841D3FE1ECD3BA7006D5EEB /* ChatMessage.m */,
-				C841D3FF1ECD3BA7006D5EEB /* DatabaseManager.h */,
-				C841D4001ECD3BA7006D5EEB /* DatabaseManager.m */,
+				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				C841D4011ECD3BA7006D5EEB /* ParseBridge.h */,
 				C841D4021ECD3BA7006D5EEB /* ParseBridge.m */,
 				C841D4031ECD3BA7006D5EEB /* SettingsApp.h */,
 				C841D4041ECD3BA7006D5EEB /* SettingsApp.m */,
-				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				C85535A31F607615006AAF31 /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -551,8 +558,8 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				FE30DBEBE8054521B9128958 /* RNOverlay.xcodeproj */,
 				9C8B4F35787C4ADE8DF403E4 /* RealmReact.xcodeproj */,
+				CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -575,6 +582,7 @@
 				00E356EF1AD99517003FC87E /* ColorChatTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				C841D40B1ECD3BD9006D5EEB /* Frameworks */,
+				E8EA629E492C161DB22589BE /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -617,6 +625,8 @@
 				C841D40E1ECD3BDA006D5EEB /* Realm.framework */,
 				62346DC947D44A3CB2C25233 /* libc++.tbd */,
 				D999E91C17D1488A98B9329B /* libz.tbd */,
+				F08C1D259C652674BF8D0BB4 /* libPods-ColorChat.a */,
+				0E760EFF1704E546880FC7C9 /* libPods-ColorChatTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -657,6 +667,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C8727A441F5F00FD00CB4972 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8727A6B1F5F00FD00CB4972 /* libRNFIRMessaging.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C8A493B71F5CCE4600F95BE4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -666,12 +684,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C8C119771F5CA07200404D26 /* Products */ = {
+		E8EA629E492C161DB22589BE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C8C119B41F5CA07200404D26 /* libRNOverlay.a */,
+				FEB83A14EED13D4EABFFD345 /* Pods-ColorChat.debug.xcconfig */,
+				4794F251534389E2C288B329 /* Pods-ColorChat.release.xcconfig */,
+				6AB3733FAF5C53F9BC3905F8 /* Pods-ColorChatTests.debug.xcconfig */,
+				BFA83DFB075120947C9BCDFB /* Pods-ColorChatTests.release.xcconfig */,
 			);
-			name = Products;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -681,9 +702,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ColorChatTests" */;
 			buildPhases = (
+				1FB55A4ECD3A622CBAEAC89D /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				8902BD45C3E639A9E9B32C18 /* [CP] Embed Pods Frameworks */,
+				F5DD73D9A13C36980A2D45F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -699,9 +723,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ColorChat" */;
 			buildPhases = (
+				5485513531F30BF26BA257E0 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				254BAD5C045A823D107A02B4 /* [CP] Embed Pods Frameworks */,
+				1775DACC646E97886649306D /* [CP] Copy Pods Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 			);
 			buildRules = (
@@ -725,6 +752,17 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = GXRKD3PLUA;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -801,12 +839,12 @@
 					ProjectRef = 9C8B4F35787C4ADE8DF403E4 /* RealmReact.xcodeproj */;
 				},
 				{
-					ProductGroup = C841D41C1ECE0D84006D5EEB /* Products */;
-					ProjectRef = C841D41B1ECE0D84006D5EEB /* RNMessageComposer.xcodeproj */;
+					ProductGroup = C8727A441F5F00FD00CB4972 /* Products */;
+					ProjectRef = CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */;
 				},
 				{
-					ProductGroup = C8C119771F5CA07200404D26 /* Products */;
-					ProjectRef = FE30DBEBE8054521B9128958 /* RNOverlay.xcodeproj */;
+					ProductGroup = C841D41C1ECE0D84006D5EEB /* Products */;
+					ProjectRef = C841D41B1ECE0D84006D5EEB /* RNMessageComposer.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -972,6 +1010,13 @@
 			remoteRef = C87279F91F5DDDDB00CB4972 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C8727A6B1F5F00FD00CB4972 /* libRNFIRMessaging.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFIRMessaging.a;
+			remoteRef = C8727A6A1F5F00FD00CB4972 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C8A493BD1F5CCE4600F95BE4 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1070,13 +1115,6 @@
 			remoteRef = C8C119AF1F5CA07200404D26 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C8C119B41F5CA07200404D26 /* libRNOverlay.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNOverlay.a;
-			remoteRef = C8C119B31F5CA07200404D26 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1091,8 +1129,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C841D40A1ECD3BC2006D5EEB /* Frameworks in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				C85535A41F607615006AAF31 /* GoogleService-Info.plist in Resources */,
 				C841D42E1ECE144E006D5EEB /* WorkSans-Bold.otf in Resources */,
 				C841D42F1ECE144E006D5EEB /* WorkSans-ExtraBold.otf in Resources */,
 				C841D4301ECE144E006D5EEB /* WorkSans-Light.otf in Resources */,
@@ -1118,6 +1156,102 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		1775DACC646E97886649306D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1FB55A4ECD3A622CBAEAC89D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ColorChatTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		254BAD5C045A823D107A02B4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5485513531F30BF26BA257E0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ColorChat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8902BD45C3E639A9E9B32C18 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5DD73D9A13C36980A2D45F8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1166,6 +1300,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AB3733FAF5C53F9BC3905F8 /* Pods-ColorChatTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1182,6 +1317,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ColorChat.app/ColorChat";
@@ -1190,6 +1326,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFA83DFB075120947C9BCDFB /* Pods-ColorChatTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -1203,6 +1340,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ColorChat.app/ColorChat";
@@ -1211,9 +1349,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FEB83A14EED13D4EABFFD345 /* Pods-ColorChat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ColorChat/ColorChat.entitlements;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = GXRKD3PLUA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -1222,24 +1363,31 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native-overlay",
 					"$(SRCROOT)/../node_modules/realm/src/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
 				);
 				INFOPLIST_FILE = ColorChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.soft.ColorChat;
 				PRODUCT_NAME = ColorChat;
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4794F251534389E2C288B329 /* Pods-ColorChat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ColorChat/ColorChat.entitlements;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = GXRKD3PLUA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -1248,16 +1396,19 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native-overlay",
 					"$(SRCROOT)/../node_modules/realm/src/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
 				);
 				INFOPLIST_FILE = ColorChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.soft.ColorChat;
 				PRODUCT_NAME = ColorChat;
 			};
 			name = Release;

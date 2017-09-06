@@ -2885,6 +2885,10 @@ react-native-deprecated-custom-components@^0.1.0:
     react-timer-mixin "^0.13.2"
     rebound "^0.0.13"
 
+react-native-fcm@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-9.1.0.tgz#c772c2a26c1fd81c255469ce1539d44a3a1ecf52"
+
 react-native-invertible-scroll-view@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-invertible-scroll-view/-/react-native-invertible-scroll-view-1.1.0.tgz#bfd50a3f5d66ca12639b7c7a9844ceddd1d16890"

@@ -94,7 +94,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.colorchat"
+        applicationId "com.soft.colorchat"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -133,6 +133,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fcm')
+    compile 'com.google.firebase:firebase-core:10.0.1' //this decides your firebase SDK version
+    compile project(':react-native-fcm')
     compile project(':realm')
     compile project(':react-native-contacts')
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -146,3 +149,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

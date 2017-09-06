@@ -39,5 +39,6 @@ npm-debug.log
 
 # ColorChat 
 # 
+android/app/colorchat-release-key.keystore
 android/app/google-services.json
 iOS/ColorChat/GoogleService-Info.plist

@@ -5,7 +5,7 @@ import {
   TextInput,
   PixelRatio,
   ScrollView,
-  AlertIOS,
+  Alert,
   Dimensions
 } from 'react-native';
 import Style from '../style';
@@ -18,8 +18,6 @@ import { navigateTo } from '../actions/NavigationActions';
 import { loadUserInfo, updateUserInfo, logout, deleteAccount } from '../actions/AppActions';
 
 let { appName } = config;
-
-
 
 let SettingsScreen = React.createClass({
   getInitialState: function () {
@@ -52,11 +50,14 @@ let SettingsScreen = React.createClass({
   handleLogout: function () {
     let message = 'Log out of this device?';
 
-    AlertIOS.alert(
+    Alert.alert(
       message,
       null,
-      [{ text: 'Cancel', onPress: () => {} },
-      { text: 'Logout', onPress: this.handleLogoutConfirmation }]
+      [
+        { text: 'Cancel', onPress: () => {} },
+        { text: 'Logout', onPress: this.handleLogoutConfirmation }
+      ],
+      { cancelable: false }
     );
   },
 

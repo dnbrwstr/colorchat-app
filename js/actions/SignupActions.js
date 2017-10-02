@@ -39,14 +39,18 @@ export let submitConfirmationCode = () => async (dispatch, getState) => {
 
   let phoneNumber = formatPhoneNumber(countryCode, baseNumber);
 
-  send({
-    dispatch,
-    actionType: 'submitConfirmationCode',
-    getRequest: () => postJSON(serverRoot + '/auth/confirm', {
-      phoneNumber: phoneNumber,
-      code: confirmationCode
-    })
-  });
+  try {
+    await send({
+      dispatch,
+      actionType: 'submitConfirmationCode',
+      getRequest: () => postJSON(serverRoot + '/auth/confirm', {
+        phoneNumber: phoneNumber,
+        code: confirmationCode
+      })
+    });
+  } catch (error) {
+    console.log('Failed to submit confirmation code');
+  }
 };
 
 export let saveName = name => async (dispatch, getState) => {

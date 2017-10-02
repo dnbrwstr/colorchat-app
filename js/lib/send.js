@@ -60,7 +60,6 @@ export default send;
 
 let onComplete = async (options, res) => {
   if (res.ok) {
-    console.log('complete')
     let rawData;
     try {
       rawData = await res.json();
@@ -79,7 +78,6 @@ let onComplete = async (options, res) => {
       state: 'complete'
     }, data);
   } else {
-    console.log('error')
     dispatchWith(options, {
       state: 'failed',
       error: getErrorMessage(options.actionType, res.status)
@@ -88,16 +86,15 @@ let onComplete = async (options, res) => {
 };
 
 let onError = async (options, attempt, err) => {
-  console.log('realerror')
   if (typeof retryIntervals[attempt] !== 'undefined') {
+    console.log('Request failed with', err, ', retrying');
     setTimeout(
       () => send(options, ++attempt),
       retryIntervals[attempt]
     );
   } else {
-    debugger
+    console.log('Request failed:', err);
     let isConnected = await NetInfo.isConnected.fetch();
-    console.log(isConnected);
     let errorType = isConnected ? 'serverUnreachable' : 'noNetwork';
 
     dispatchWith(options, {

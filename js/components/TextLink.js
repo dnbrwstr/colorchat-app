@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  LinkingIOS
+  Linking
 } from 'react-native';
 import BaseText from './BaseText';
 
 let TextLink = React.createClass({
   handlePress: function () {
-    LinkingIOS.openURL(this.props.href)
+    Linking.openURL(this.props.href)
   },
 
   render: function () {

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -583,6 +582,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				C841D40B1ECD3BD9006D5EEB /* Frameworks */,
 				E8EA629E492C161DB22589BE /* Pods */,
+				9FDE399F37744885BC7FA619 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -694,6 +694,14 @@
 			);
 			name = Pods;
 			sourceTree = "<group>";
+		};
+		9FDE399F37744885BC7FA619 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 

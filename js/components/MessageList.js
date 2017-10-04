@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  ListView,
   FlatList,
   Dimensions,
   ScrollView
@@ -40,7 +39,7 @@ let getMessageData = (dataBlob, sectionId, rowId) => {
   return dataBlob[sectionId][rowId];
 };
 
-let getMessageKey = message => message.id;
+let getMessageKey = message => message.id || message.state;
 
 let MessageList = React.createClass({
   mixins: [TimerMixin],
@@ -57,24 +56,18 @@ let MessageList = React.createClass({
 
   getInitialState: function () {
     return {
-      scrollOffset: 0,
-      workingData: this.getDataSource(this.props.messages)
+      scrollOffset: 0
     };
   },
 
   shouldComponentUpdate: function (nextProps, nextState) {
     return this.props.messages !== nextProps.messages ||
       this.props.scrollLocked !== nextProps.scrollLocked ||
-      this.props.user.id !== nextProps.user.id ||
-      this.state.workingData !== nextState.workingData;
+      this.props.user.id !== nextProps.user.id;
   },
 
   componentWillReceiveProps: function (nextProps) {
     if (this.props.messages === nextProps.messages) return;
-
-    this.setState({
-      workingData: this.getDataSource(nextProps.messages)
-    });
 
     if (!this.props.messages.length || !nextProps.messages.length) return;
 
@@ -86,20 +79,6 @@ let MessageList = React.createClass({
     if (composeStarted) {
       this.refs.list.getScrollResponder().scrollTo({ y: 0 });
     }
-  },
-
-  getDataSource: function (_messages) {
-    let messages = this.formatMessages(_messages);
-    let messageIds = _messages.map(m => m.clientId || m.id);
-
-    let dataSource =
-      (this.state && this.state.workingData) ||
-      new ListView.DataSource({
-        rowHasChanged: messageHasChanged,
-        getRowData: getMessageData
-      });
-
-    return dataSource.cloneWithRows(messages, messageIds);
   },
 
   formatMessages: function (messages) {

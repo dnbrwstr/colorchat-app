@@ -8,20 +8,17 @@ import Style from '../style';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
 
-let ContactListItem = React.createClass({
-  getDefaultProps: function () {
-    return {
-      onPress: () => {},
-    }
-  },
+class ContactListItem extends React.PureComponent {
 
-  getInitialState: function () {
-    return {
+  constructor (...args) {
+    super(...args);
+
+    this.state = {
       animatedOpacity: new Animated.Value(0)
-    }
-  },
+    };
+  }
 
-  componentDidMount: function () {
+  componentDidMount () {
     let animation = Animated.timing(this.state.animatedOpacity, {
       toValue: 1,
       duration: 100
@@ -34,9 +31,9 @@ let ContactListItem = React.createClass({
     } else {
       runAnimation();
     }
-  },
+  }
 
-  render: function () {
+  render () {
     let contactStyles = [
       style.contact,
       { opacity: this.state.animatedOpacity }
@@ -56,7 +53,7 @@ let ContactListItem = React.createClass({
       </PressableView>
     )
   }
-});
+}
 
 let { midGray } = Style.values;
 

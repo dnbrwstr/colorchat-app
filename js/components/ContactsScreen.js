@@ -22,9 +22,11 @@ const BR = "\n";
 
 let ContactsScreen = React.createClass({
   componentDidUpdate: function (prevProps) {
-    if (!this.props.transitioning &&
-         prevProps.transitioning &&
-         this.props.shouldRefresh) {
+    if (
+      !this.props.transitioning &&
+      prevProps.transitioning &&
+      this.props.shouldRefresh
+    ) {
       this.importContacts();
     }
   },

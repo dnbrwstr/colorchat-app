@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   View,
-  ListView,
+  FlatList,
   Text,
   PixelRatio,
   ScrollView
@@ -19,37 +19,19 @@ export default ContactList = React.createClass({
     onSelect: () => {}
   },
 
-  getInitialState: function () {
-    let source = new ListView.DataSource({
-      sectionHeaderHasChanged: (s1, s2) => false,
-      rowHasChanged: (r1, r2) => r1.id !== r2.id || r1.recordID !== r2.recordID,
-      getSectionHeaderData: (data, id) => id
-    });
-
-    return {
-      dataSource: source.cloneWithRows(this.props.contacts)
-    }
-  },
-
-  componentDidUpdate: function (prevProps) {
-    if (this.props.contacts !== prevProps.contacts) {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.props.contacts)
-      });
-    }
-  },
-
   render: function () {
     return (
-      <ListView
-        removeClippedSubviews={true}
-        automaticallyAdjustContentInsets={false}
-        dataSource={this.state.dataSource}
+      <FlatList
+        data={this.props.contacts}
         renderScrollComponent={this.renderScrollComponent}
-        renderRow={this.renderContact}
+        renderItem={this.renderContact}
         renderSeperator={this.renderSeperator}
-        initialListSize={12}
-        scrollRenderAheadDistance={12}
+        keyExtractor={c => c.recordID}
+        getItemLayout={(data, index) => (
+          {length: Style.values.rowHeight, offset: Style.values.rowHeight * index, index}
+        )}
+        initialNumToRender={12}
+        maxToRenderPerBatch={16}
         pageSize={1}
       />
     );
@@ -73,12 +55,12 @@ export default ContactList = React.createClass({
     )
   },
 
-  renderContact: function (contact, section, row) {
+  renderContact: function ({ index, item }) {
     return (
       <ContactListItem
-        {...contact}
-        itemIndex={parseInt(row)}
-        onPress={ () => this.onSelectContact(contact) }
+        {...item}
+        itemIndex={index}
+        onPress={ () => this.onSelectContact(item) }
       />
     );
   },

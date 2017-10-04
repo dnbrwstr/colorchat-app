@@ -7,7 +7,8 @@ import {
   View,
   Text,
   InteractionManager,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from 'react-native';
 import ScrollBridge from '../lib/ScrollBridge';
 import { connect } from 'react-redux';
@@ -64,6 +65,10 @@ let ConversationScreen = React.createClass({
     }
   },
 
+  componentWillUnmount: function () {
+    this.clearAllTimers();
+  },
+
   loadNextPage: function () {
     if (this.props.transitioning) {
       return this.setState({ loadPending: true })
@@ -94,6 +99,10 @@ let ConversationScreen = React.createClass({
 
     return (
       <View style={style.container}>
+        <StatusBar
+          backgroundColor="#111111"
+          barStyle="light-content"
+        />
         <MessageList
           scrollBridge={this.state.scrollBridge}
           onPresentMessage={this.onPresentMessage}

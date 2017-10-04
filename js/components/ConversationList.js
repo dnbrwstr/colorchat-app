@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   View,
-  ListView
+  FlatList
 } from 'react-native';
 import Style from '../style';
 import BaseText from './BaseText';
@@ -17,59 +17,37 @@ let ConversationList = React.createClass({
 
   getInitialState: function () {
     return {
-      dataSource: this.getDataSource(),
       scrollLocked: false
     };
   },
 
-  componentDidUpdate: function (prevProps, prevState) {
-    if (prevProps.conversations !== this.props.conversations) {
-      this.setState({
-        dataSource: this.getDataSource()
-      });
-    }
-  },
-
-  getDataSource: function () {
-    let source;
-
-    if (this.state && this.state.dateSource) {
-      source = this.state.dataSource;
-    } else {
-      source = this.createDataSource();
-    }
-
-    return source.cloneWithRows(this.props.conversations);
-  },
-
-  createDataSource: function () {
-    return new ListView.DataSource({
-      rowHasChanged: (r1, r2) => {
-        return r1 !== r2
-      }
-    });
-  },
-
   render: function () {    
     return (
-      <ListView
+      <FlatList
         scrollEnabled={!this.state.scrollLocked}
         removeClippedSubviews={true}
-        automaticallyAdjustsContentInsets={false}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderConversation} />
+        data={this.props.conversations}
+        renderItem={this.renderConversation}
+        keyExtractor={c => c.recipientId}
+        getItemLayout={(data, index) => (
+          {length: Style.values.rowHeight, offset: Style.values.rowHeight * index, index}
+        )}
+        initialNumToRender={12}
+        maxToRenderPerBatch={16}
+        pageSize={1}
+      />
     );
   },
 
-  renderConversation: function (conversation, section, row) {
+  renderConversation: function ({ index, item }) {
     return (
       <ConversationListItem
-        {...conversation}
-        itemIndex={parseInt(row)}
-        onPress={() => this.onSelect(conversation)}
+        {...item}
+        itemIndex={index}
+        onPress={() => this.onSelect(item)}
         onInteractionStart={this.lockScroll}
         onInteractionEnd={this.unlockScroll}
-        onDelete={() => this.onDelete(conversation)}
+        onDelete={() => this.onDelete(item)}
       />
     );
   },

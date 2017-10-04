@@ -1,4 +1,4 @@
-import { merge, find, propEq, anyPass, filter, map, zipWith } from 'ramda';
+import { merge, mergeAll, find, propEq, anyPass, filter, map, zipWith } from 'ramda';
 import { InteractionManager } from 'react-native';
 import { postJSON } from '../lib/RequestHelpers';
 import config from '../config';
@@ -68,8 +68,8 @@ export let sendWorkingMessage = message => {
 export let sendMessages = (messages, state, data) => async (dispatch, getState) => {
   if (state === 'complete') {
     map(DatabaseUtils.storeMessage, zipWith(
-      merge,
-      messages,
+      (a, b) => mergeAll([a, b, { state: 'complete' }]),
+      messages, 
       data.responseMessages
     ));
   }

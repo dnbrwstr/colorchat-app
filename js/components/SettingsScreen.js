@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   View,
-  TextInput,
   PixelRatio,
   ScrollView,
   Alert,
@@ -10,6 +9,7 @@ import {
 } from 'react-native';
 import Style from '../style';
 import config from '../config';
+import BaseTextInput from './BaseTextInput';
 import BaseText from './BaseText';
 import Header from './Header';
 import PressableView from './PressableView';
@@ -124,7 +124,7 @@ let SettingsScreen = React.createClass({
                     <BaseText>Name</BaseText>
                   </View>
                   <View style={style.inputWrapper}>
-                    <TextInput
+                    <BaseTextInput
                       ref="nameInput"
                       value={this.state.name}
                       style={style.input}
@@ -188,9 +188,7 @@ let style = Style.create({
     width: 60
   },
   input: {
-    ...Style.mixins.inputBase,
     color: 'black',
-    paddingTop: 0,
   },
   inputWrapper: {
     flex: 1,

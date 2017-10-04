@@ -2,17 +2,16 @@ import React from 'react';
 import {
   View,
   Text,
-  TextInput,
   Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import Style from '../style';
+import BaseTextInput from './BaseTextInput';
 import LoaderButton from './LoaderButton';
 import { navigateTo } from '../actions/NavigationActions';
 import { triggerPermissionsDialog } from '../actions/NotificationActions';
 import { saveName } from '../actions/SignupActions';
 import SignupScreen from './SignupScreen';
-
 
 let SignupNotificationScreen = React.createClass({
 
@@ -31,13 +30,11 @@ let SignupNotificationScreen = React.createClass({
         renderNextButton={this.renderNextButton}
       >
         <View style={style.inputWrapper}>
-          <TextInput
-            style={style.input}
+          <BaseTextInput
             placeholder="Name"
             ref="nameInput"
             value={this.props.name}
             onChangeText={ name => this.setState({ name }) }
-            underlineColorAndroid="transparent"
           />
         </View>
 
@@ -75,9 +72,6 @@ let {
 var style = Style.create({
   inputWrapper: {
     ...grayBottomBorder,
-  },
-  input: {
-    ...inputBase,
   },
   text: {
     ...textBase,

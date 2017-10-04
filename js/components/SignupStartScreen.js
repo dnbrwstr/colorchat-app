@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   Text,
-  TextInput,
   View,
   ScrollView,
   Animated
 } from 'react-native';
+import BaseTextInput from './BaseTextInput';
 import { connect } from 'react-redux';
 import Color from 'color';
 import merge from 'merge';
@@ -18,7 +18,6 @@ import { signupScreenSelector } from '../lib/Selectors';
 import * as SignupActions from '../actions/SignupActions';
 import { navigateTo } from '../actions/NavigationActions';
 import SignupScreen from './SignupScreen';
-
 
 let {
   updateData,
@@ -64,26 +63,24 @@ let SignupStartScreen = React.createClass({
 
         <View style={style.inputContainer}>
           <View style={style.countryCodeWrapper}>
-            <TextInput
+            <BaseTextInput
               ref="countryCodeInput"
               style={style.countryCodeInput}
               value={this.props.countryCode}
               onChangeText={countryCode => { this.updateData({ countryCode }) }}
               keyboardType="phone-pad"
-              underlineColorAndroid="transparent"
             />
             <BaseText style={style.countryCodePlus}>+</BaseText>
           </View>
 
           <View style={style.numberInputWrapper}>
-            <TextInput
+            <BaseTextInput
               ref="baseNumberInput"
               style={style.numberInput}
               value={this.props.baseNumber}
               onChangeText={baseNumber => { this.updateData({ baseNumber }) }}
               placeholder="Phone Number"
               keyboardType="phone-pad"
-              underlineColorAndroid="transparent"
             />
           </View>
         </View>
@@ -145,7 +142,7 @@ let style = Style.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    marginBottom: 15
+    marginBottom: 16
   },
   countryInput: {
     ...grayBottomBorder,
@@ -153,26 +150,22 @@ let style = Style.create({
     paddingTop: 0,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 5
+    alignItems: 'center',
+    marginBottom: 5,
   },
   countryInputActive: {
     backgroundColor: Style.values.fairlyLightGray
   },
   countryInputText: {
     flex: 1,
-    paddingTop: 13
   },
   countryInputArrow: {
     flex: 0,
-    paddingTop: 13
   },
   numberInputWrapper: {
     ...grayBottomBorder,
     alignSelf: 'stretch',
     flex: 1,
-  },
-  numberInput: {
-    ...inputBase,
   },
   countryCodeWrapper: {
     ...grayBottomBorder,
@@ -184,14 +177,13 @@ let style = Style.create({
   },
   countryCodePlus: {
     position: 'absolute',
-    top: 13,
+    top: 9,
     bottom: 0,
     left: 0,
     backgroundColor: 'transparent'
   },
   countryCodeInput: {
-    ...inputBase,
-    paddingLeft: 12
+    paddingLeft: 12,
   },
   numberInfoLink: {
     marginTop: 10

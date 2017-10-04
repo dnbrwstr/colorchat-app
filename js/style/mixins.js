@@ -2,7 +2,10 @@ import { Platform } from 'react-native';
 import values from './values';
 
 let textBase = {
-  fontFamily: 'Work Sans',
+  ...Platform.select({
+    ios: { fontFamily: 'Work Sans' },
+    android: { fontFamily: 'WorkSans-Regular' },
+  }),
   fontSize: 16,
   color: values.midGray
 };
@@ -15,15 +18,15 @@ let grayBottomBorder = {
 let inputBase = {
   ...textBase,
   height: 36,
-  lineHeight: 1,
-  paddingTop: 10,
+  lineHeight: 36,
   ...Platform.select({
     ios: {
 
     },
     android: {
-      textAlignVertical: 'bottom',
-      paddingBottom: 6
+      textAlignVertical: 'center',
+      includeFontPadding: false,
+      paddingBottom: 7
     }
   })
 };

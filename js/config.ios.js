@@ -4,14 +4,14 @@
  */
 export default {
   appName: 'ColorChat',
-  inviteLink: 'http://appstore.com/colorchatbysoft',
-  serverRoot: 'http://localhost:3000',
+  inviteLink: 'http://soft.works/colorchat',
+  serverRoot: 'http://colorchat-server.color.slow.so',
   logState: false,
   logActions: false,
   saveState: true,
   rehydrate: true,
   rehydrateBlacklist: ['ui', 'navigation', 'notifications', 'messages'],
-  seedAddressBook: true,
+  seedAddressBook: false,
   seedMessages: false,
   seedMessageCount: 10
 };

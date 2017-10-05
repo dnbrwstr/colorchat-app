@@ -4,8 +4,8 @@
  */
 export default {
   appName: 'ColorChat',
-  inviteLink: 'http://appstore.com/colorchatbysoft',
-  serverRoot: 'http://10.0.2.2:3000',
+  inviteLink: 'http://soft.works/colorchat',
+  serverRoot: 'http://colorchat-server.color.slow.so',
   logState: false,
   logActions: false,
   saveState: true,

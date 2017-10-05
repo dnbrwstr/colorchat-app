@@ -57,7 +57,7 @@ const DatabaseManager = {
       realm.create('ChatMessage', {
         ...message,
         createdAt: new Date(message.createdAt)
-      });
+      }, true);
     });
   },
 

@@ -22,20 +22,23 @@ let initialState = {
   placeholder: []
 };
 
-let getId = message => message.clientId || message.id;
-
 let findMessageIndex = curry((message, messages) => {
-  return findIndex(m => getId(m) === getId(message), messages);
+  return findIndex(m => messageEquals(m, message), messages);
 });
 
 let messageEquals = curry((messageA, messageB) => {
-  return getId(messageA) === getId(messageB);
+  return (messageA.clientId && messageA.clientId === messageB.clientId) ||
+    (messageA.id && messageA.id === messageB.id);
 });
 
 let addMessage = (type, message, state) => {
-  return evolve({
-    [type]: prepend(message)
-  }, state);
+  if (findMessageIndex(message, state[type]) !== -1) {
+    return state;
+  } else {
+    return evolve({
+      [type]: prepend(message)
+    }, state);
+  }
 };
 
 let updateMessage = (type, message, data, state) => {

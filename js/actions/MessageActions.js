@@ -90,6 +90,11 @@ export let resendMessage = message => {
 };
 
 export let markMessageStale = message => {
+  DatabaseUtils.storeMessage({
+    ...message,
+    state: 'complete'
+  });
+
   return {
     type: 'markMessageStale',
     message

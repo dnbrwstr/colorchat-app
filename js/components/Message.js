@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   LayoutAnimation,
@@ -25,7 +26,8 @@ const EXPANDED_MIN_HEIGHT = 320;
 const FAILED_MIN_WIDTH = 250;
 const FAILED_MIN_HEIGHT = 100;
 
-let Message = React.createClass({
+let Message = createReactClass({
+  displayName: 'Message',
   mixins: [TimerMixin],
 
   getDefaultProps: function () {
@@ -248,7 +250,7 @@ let Message = React.createClass({
   getRGBFormattedColor: function () {
     let rgb = Color(this.props.color).rgb();
     return `R ${rgb.r}\nG ${rgb.g}\nB ${rgb.b}`;
-  }
+  },
 });
 
 let style = Style.create({

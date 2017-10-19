@@ -5,14 +5,14 @@ import Style from '../style';
 import TextScreen from './TextScreen';
 import BaseText from './BaseText';
 import TextLink from './TextLink';
-import { navigateTo } from '../actions/NavigationActions';
+import { navigateBack } from '../actions/NavigationActions';
 
-let AboutScreen = React.createClass({
-  handleNavigateBack: function () {
-    this.props.dispatch(navigateTo('settings'));
-  },
+class AboutScreen extends React.Component {
+  handleNavigateBack = () => {
+    this.props.dispatch(navigateBack());
+  };
 
-  render: function () {
+  render() {
     return (
       <TextScreen
         title="About"
@@ -24,7 +24,7 @@ let AboutScreen = React.createClass({
       </TextScreen>
     );
   }
-});
+}
 
 let style = Style.create({
   container: {},

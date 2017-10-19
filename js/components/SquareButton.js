@@ -1,4 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   Animated,
   View
@@ -7,14 +9,14 @@ import Style from '../style';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
 
+let SquareButton = createReactClass({
+  displayName: 'SquareButton',
 
-
-let SquareButton = React.createClass({
   propTypes: {
-    label: React.PropTypes.string,
-    onPressIn: React.PropTypes.func,
-    onPressOut: React.PropTypes.func,
-    onPress: React.PropTypes.func,
+    label: PropTypes.string,
+    onPressIn: PropTypes.func,
+    onPressOut: PropTypes.func,
+    onPress: PropTypes.func,
     style: Animated.View.propTypes.style,
     activeStyle: View.propTypes.style,
     textStyle: View.propTypes.style,
@@ -95,7 +97,7 @@ let SquareButton = React.createClass({
         <BaseText style={textStyles}>{this.props.label}</BaseText>
       </PressableView>
     );
-  }
+  },
 });
 
 let style = Style.create({

@@ -19,20 +19,20 @@ import SettingsButton from './SettingsButton';
 
 const BR = "\n";
 
-let InboxScreen = React.createClass({
-  componentDidMount: function () {
+class InboxScreen extends React.Component {
+  componentDidMount() {
     this.props.dispatch(triggerPermissionsDialog());
-  },
+  }
 
-  handleAddButtonPress: function () {
+  handleAddButtonPress = () => {
     this.props.dispatch(navigateTo('contacts'));
-  },
+  };
 
-  handelSettingsButtonPress: function () {
+  handelSettingsButtonPress = () => {
     this.props.dispatch(navigateTo('settings'));
-  },
+  };
 
-  render: function () {
+  render() {
     return (
       <View style={style.container}>
         { this.props.conversations.length ?
@@ -44,13 +44,14 @@ let InboxScreen = React.createClass({
         <PlusButton onPress={this.handleAddButtonPress} />
       </View>
     );
-  },
+  }
 
-  renderConversations: function () {
+  renderConversations = () => {
     let conversations = this.props.conversations.map(c => ({
       ...c,
       contact: this.props.contacts[c.recipientId]
-    }))
+    }));
+    
     return (
       <ConversationList
         conversations={conversations}
@@ -58,9 +59,9 @@ let InboxScreen = React.createClass({
         onDelete={this.onDeleteConversation}
       />
     );
-  },
+  };
 
-  renderEmptyMessage: function () {
+  renderEmptyMessage = () => {
     return (
       <View style={style.emptyMessageWrapper}>
         <BaseText style={style.emptyMessage}>
@@ -68,20 +69,20 @@ let InboxScreen = React.createClass({
         </BaseText>
       </View>
     );
-  },
+  };
 
-  onSelectConversation: function (conversation) {
+  onSelectConversation = (conversation) => {
     this.props.dispatch(navigateToConversation(conversation.recipientId));
-  },
+  };
 
-  onDeleteConversation: function (conversation) {
+  onDeleteConversation = (conversation) => {
     this.props.dispatch(deleteConversation(conversation));
-  },
+  };
 
-  onPressContactsButton: function () {
+  onPressContactsButton = () => {
     this.props.dispatch(setMainTab('Contacts'))
-  }
-});
+  };
+}
 
 let {
   contentWrapperBase

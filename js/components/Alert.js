@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   Text,
@@ -11,7 +12,8 @@ import { dismissInternalAlert } from '../actions/AppActions';
 import PressableView from './PressableView';
 import TimerMixin from './mixins/TimerMixin';
 
-let Alert = React.createClass({
+let Alert = createReactClass({
+  displayName: 'Alert',
   mixins: [TimerMixin],
 
   getInitialState: function () {
@@ -66,7 +68,7 @@ let Alert = React.createClass({
     }).start(() => {
       this.props.dispatch(dismissInternalAlert(this.props.id))
     });
-  }
+  },
 });
 
 let style = Style.create({

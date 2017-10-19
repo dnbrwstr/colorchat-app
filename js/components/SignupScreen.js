@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   Animated,
@@ -12,7 +13,8 @@ import Header from './Header';
 import measure from '../lib/measure';
 import TimerMixin from './mixins/TimerMixin';
 
-let SignupScreen = React.createClass({
+let SignupScreen = createReactClass({
+  displayName: 'SignupScreen',
   mixins: [KeyboardMixin, TimerMixin],
 
   getInitialState: function () {
@@ -73,8 +75,7 @@ let SignupScreen = React.createClass({
         </View>
       </View>
     );
-  }
-
+  },
 });
 
 let style = Style.create({

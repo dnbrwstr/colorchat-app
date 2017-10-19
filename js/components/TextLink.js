@@ -4,14 +4,14 @@ import {
 } from 'react-native';
 import BaseText from './BaseText';
 
-let TextLink = React.createClass({
-  handlePress: function () {
+class TextLink extends React.Component {
+  handlePress = () => {
     Linking.openURL(this.props.href)
-  },
+  };
 
-  render: function () {
+  render() {
     return <BaseText {...this.props} onPress={this.handlePress} />;
   }
-});
+}
 
 export default TextLink;

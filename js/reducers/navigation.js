@@ -1,45 +1,33 @@
 import invariant from 'invariant';
 import { findIndex, propEq } from 'ramda';
+import { NavigationActions } from 'react-navigation';
 import createRoutingReducer from '../lib/createRoutingReducer';
 import { getTransitionMethod } from '../lib/AppRoutes';
+import AppNavigator from '../components/AppNavigator';
 
-let initialRoute = {
-  title: 'main',
-  data: {},
-};
-
-let initialState = {
-  history: [initialRoute],
-  route: initialRoute,
-  state: 'ready'
-};
+const initialState = AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'main' }));
 
 let handlers = {
   init: function (state, action) {
-    let { appState } = action;
-    let route, history;
-
-    if (appState.navigation && appState.navigation.history.length) {
-      history = appState.navigation.history;
-      route = history[history.length - 1];
-    } else if (!appState.user || !appState.user.token) {
-      route = {
-        title: 'welcome'
-      };
+    const { appState } = action;
+    if (appState.user && appState.user.token) {
+      return this.navigateToTitle('inbox', state);
     } else {
-      route = {
-        title: 'inbox'
-      };
+      return this.navigateToTitle('welcome', state);
     }
+  },
 
-    if (!history) {
-      history = [route]
-    }
-
+  startNavigationTransition: function (state, action) {
     return {
-      state: 'ready',
-      history: history,
-      route: route
+      ...state,
+      transitioning: true
+    };
+  },
+
+  endNavigationTransition: function (state, action) {
+    return {
+      ...state,
+      transitioning: false
     };
   },
 
@@ -61,61 +49,29 @@ let handlers = {
     return this.navigateToTitle('inbox', state);
   },
 
-  completeTransition: function (state, action) {
-    let newState = {
-      ...state,
-      state: 'ready'
-    };
-    return newState;
-  },
-
-  navigateToTitle: function (title, state) {
-    return this.navigateTo(state, {
-      route: {
-        title: title
-      }
-    });
-  },
-
-  navigateTo: (state, action) => {
-    let { route, history } = state;
-    let newRoute = action.route;
-    let newHistory;
-
-    if (newRoute.title !== route.title || newRoute.data !== route.data) {
-      let method = getTransitionMethod(route.title, newRoute.title);
-      if (method === 'push') {
-        newHistory = [...history, newRoute];
-      } else if (method === 'pop') {
-        let index = findIndex(propEq('title', newRoute.title))(history);
-        newHistory = history.slice(0, index + 1);
-        newRoute = history[index];
-      } else if (method === 'reset') {
-        newHistory = [newRoute];
-      }
-
-      return {
-        ...state,
-        state: 'transitioning',
-        history: newHistory,
-        route: newRoute
-      }
-    } else {
-      return state;
-    }
-  },
-
   logout: function (state, action) {
     return this.navigateToTitle('welcome', state);
   },
 
   deleteAccount: function (state, action) {
     return this.navigateToTitle('welcome', state)
+  },
+
+  navigateToTitle: function (title, state) {
+    return AppNavigator.router.getStateForAction(
+      NavigationActions.navigate({ routeName: title }),
+      state
+    );
   }
 };
 
-export default createRoutingReducer({
-  key: 'navigation',
-  handlers,
-  initialState
-});
+const navReducer = (state = initialState, action) => {
+  if (handlers[action.type]) {
+    return handlers[action.type](state, action);
+  } else {
+    const nextState = AppNavigator.router.getStateForAction(action, state) || state;
+    return nextState;
+  }
+};
+
+export default navReducer;

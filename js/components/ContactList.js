@@ -14,12 +14,12 @@ import ContactListItem from './ContactListItem';
 
 const BR = "\n";
 
-export default ContactList = React.createClass({
-  getDefaultProps: function () {
+export default ContactList = class extends React.Component {
+  static defaultProps = function () {
     onSelect: () => {}
-  },
+  }();
 
-  render: function () {
+  render() {
     return (
       <FlatList
         data={this.props.contacts}
@@ -35,9 +35,9 @@ export default ContactList = React.createClass({
         pageSize={1}
       />
     );
-  },
+  }
 
-  renderScrollComponent: function (props) {
+  renderScrollComponent = (props) => {
     let inset = {
       top: Style.values.rowHeight,
       right: 0,
@@ -53,9 +53,9 @@ export default ContactList = React.createClass({
     return (
       <ScrollView {...props} contentInset={inset} contentOffset={offset} />
     )
-  },
+  };
 
-  renderContact: function ({ index, item }) {
+  renderContact = ({ index, item }) => {
     return (
       <ContactListItem
         {...item}
@@ -63,14 +63,14 @@ export default ContactList = React.createClass({
         onPress={ () => this.onSelectContact(item) }
       />
     );
-  },
+  };
 
-  renderSeperator: function () {
+  renderSeperator = () => {
     return (<View style={style.separator} />)
-  },
+  };
 
-  onSelectContact: function (contact) {
+  onSelectContact = (contact) => {
     this.props.onSelect(contact);
-  }
-});
+  };
+};
 

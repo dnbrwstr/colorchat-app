@@ -14,40 +14,36 @@ import BaseText from './BaseText';
 import Header from './Header';
 import PressableView from './PressableView';
 import SquareButton from './SquareButton';
-import { navigateTo } from '../actions/NavigationActions';
+import { navigateTo, navigateBack } from '../actions/NavigationActions';
 import { loadUserInfo, updateUserInfo, logout, deleteAccount } from '../actions/AppActions';
 
 let { appName } = config;
 
-let SettingsScreen = React.createClass({
-  getInitialState: function () {
-    return {
-      name: this.props.user.name || ''
-    };
-  },
+class SettingsScreen extends React.Component {
+  state = {
+    name: this.props.user.name || ''
+  };
 
-  componentWillUpdate: function (nextProps, nextState) {
+  componentDidMount(prevProps) {
+    this.props.dispatch(loadUserInfo())
+  }
+
+  componentWillUpdate(nextProps, nextState) {
     if (nextProps.user.name !== this.props.user.name) {
       this.setState({ name: nextProps.user.name });
     }
-  },
+  }
 
-  componentDidUpdate: function (prevProps) {
-    if (prevProps.transitioning && !this.props.transitioning) {
-      this.props.dispatch(loadUserInfo())
-    }
-  },
-
-  handleBack: function () {
+  handleBack = () => {
     this.maybeUpdateUser();
-    this.props.dispatch(navigateTo('inbox'));
-  },
+    this.props.dispatch(navigateBack());
+  };
 
-  handleInputRowPress: function (inputRef) {
+  handleInputRowPress = (inputRef) => {
     this.refs[inputRef].focus();
-  },
+  };
 
-  handleLogout: function () {
+  handleLogout = () => {
     let message = 'Log out of this device?';
 
     Alert.alert(
@@ -59,21 +55,21 @@ let SettingsScreen = React.createClass({
       ],
       { cancelable: false }
     );
-  },
+  };
 
-  handleLogoutConfirmation: function () {
+  handleLogoutConfirmation = () => {
     this.props.dispatch(logout())
-  },
+  };
 
-  handleAboutPress: function () {
+  handleAboutPress = () => {
     this.props.dispatch(navigateTo('about'));
-  },
+  };
 
-  handleInputBlur: function () {
+  handleInputBlur = () => {
     this.maybeUpdateUser();
-  },
+  };
 
-  handleDeleteAccount: function (e, retry) {
+  handleDeleteAccount = (e, retry) => {
     let message = `Enter your phone number (including area code and country code) to delete your account. This is not reversible.`;
 
     if (retry) message = 'Invalid number. ' + message
@@ -83,9 +79,9 @@ let SettingsScreen = React.createClass({
       [{ text: 'Cancel', onPress: () => {} },
       { text: 'Delete', onPress: this.handleDeleteAccountConfirmation }]
     );
-  },
+  };
 
-  handleDeleteAccountConfirmation: function (value) {
+  handleDeleteAccountConfirmation = (value) => {
     let isValidConfirmation =
       '+' + value.replace(/[^0-9]/g, '') === this.props.user.phoneNumber;
 
@@ -94,15 +90,15 @@ let SettingsScreen = React.createClass({
     } else {
       this.handleDeleteAccount(null, true);
     }
-  },
+  };
 
-  maybeUpdateUser: function () {
+  maybeUpdateUser = () => {
     if (this.props.user.name !== this.state.name) {
       this.props.dispatch(updateUserInfo({ name: this.state.name }));
     }
-  },
+  };
 
-  render: function () {
+  render() {
     let contentStyles = [style.content, {
       height: Dimensions.get('window').height - Style.values.rowHeight
     }];
@@ -164,7 +160,7 @@ let SettingsScreen = React.createClass({
       </View>
     );
   }
-});
+}
 
 let style = Style.create({
   container: {
@@ -222,9 +218,8 @@ let style = Style.create({
 
 let settingsScreenSelector = state => {
   return {
-    user: state.user,
-    transitioning: state.navigation.state === 'transitioning'
-  }
-}
+    user: state.user
+  };
+};
 
 export default connect(settingsScreenSelector)(SettingsScreen);

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Text
@@ -10,33 +11,33 @@ import Style from '../style';
  * Applies default styling & optionally adjusts color
  * to be visible on a given background
  */
-let BaseText = React.createClass({
-  propTypes: {
+class BaseText extends React.Component {
+  static propTypes = {
     /**
      * Background color on which text will appear
      * If set, text color will be adjusted to ensure visibility
      */
-    visibleOn: React.PropTypes.string
-  },
+    visibleOn: PropTypes.string
+  };
 
-  render: function () {
+  render() {
     return (
       <Text {...this.props} style={this.getStyles()} />
     );
-  },
+  }
 
-  getStyles: function () {
+  getStyles = () => {
     return [
       style.text,
       this.props.visibleOn && { color: this.getColor() },
       this.props.style
     ];
-  },
+  };
 
-  getColor: function () {
+  getColor = () => {
     return Color(this.props.visibleOn).luminosity() > .5 ? 'black' : 'white'
-  }
-});
+  };
+}
 
 let style = Style.create({
   text: {

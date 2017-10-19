@@ -30,9 +30,8 @@ let countrySections = Object.keys(groupedCountries).reduce((memo, key) => {
   return memo;
 }, []);
 
-let CountryPickerScreen = React.createClass({
-
-  render: function () {
+class CountryPickerScreen extends React.Component {
+  render() {
     let { dispatch } = this.props;
 
     return (
@@ -50,9 +49,9 @@ let CountryPickerScreen = React.createClass({
         />
       </View>
     );
-  },
+  }
 
-  renderCountry: function (data) {
+  renderCountry = (data) => {
     let isFirst = data.index == 0;
     let isLast = (countrySections.length - 1).toString() === data.index;
 
@@ -72,9 +71,9 @@ let CountryPickerScreen = React.createClass({
         <BaseText style={style.countryText}>{data.item.label}</BaseText>
       </PressableView>
     );
-  },
+  };
 
-  renderCountryHeader: function (data) {
+  renderCountryHeader = (data) => {
     return (
       <View style={style.countryHeader} key={`section-${data.section.key}`}>
         <View style={style.countryHeaderInner}>
@@ -82,9 +81,9 @@ let CountryPickerScreen = React.createClass({
         </View>
       </View>
     );
-  },
+  };
 
-  onSelect: function (country) {
+  onSelect = (country) => {
     let { dispatch } = this.props;
 
     dispatch(updateData({
@@ -93,8 +92,8 @@ let CountryPickerScreen = React.createClass({
     }));
 
     dispatch(navigateTo('signup'));
-  }
-});
+  };
+}
 
 var style = Style.create({
   container: {

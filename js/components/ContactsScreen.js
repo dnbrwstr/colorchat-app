@@ -5,12 +5,12 @@ import {
 } from 'react-native';
 import Color from 'color';
 import Style from '../style';
-import { connect } from 'react-redux';
+import connectWithNavigation from '../lib/connectWithNavigation';
 import PressableView from './PressableView';
 import ContactList from './ContactList';
 import AnimatedEllipsis from './AnimatedEllipsis';
 import { importContacts, sendInvite } from '../actions/ContactActions';
-import { navigateTo } from '../actions/NavigationActions';
+import { navigateTo, navigateBack } from '../actions/NavigationActions';
 import config from '../config';
 import BaseText from './BaseText';
 import Header from './Header';
@@ -20,22 +20,27 @@ let { appName } = config;
 
 const BR = "\n";
 
-let ContactsScreen = React.createClass({
-  componentDidUpdate: function (prevProps) {
+class ContactsScreen extends React.Component {
+
+  componentDidMount() {
+    this.importContacts();
+  }
+
+  componentDidUpdate(prevProps) {
     if (
-      !this.props.transitioning &&
-      prevProps.transitioning &&
+      !this.props.isTransitioning &&
+      prevProps.isTransitioning &&
       this.props.shouldRefresh
     ) {
       this.importContacts();
     }
-  },
+  }
 
-  handleShowContactsInfo: function () {
+  handleShowContactsInfo = () => {
     this.props.dispatch(navigateTo('contactsInfo'))
-  },
+  };
 
-  render: function () {
+  render() {
     return (
       <View style={style.container}>
         { this.renderContent() }
@@ -46,14 +51,14 @@ let ContactsScreen = React.createClass({
             backgroundColor={'rgba(255,255,255,.95)'}
             highlightColor={Style.values.veryLightGray}
             showBack={true}
-            onBack={() => this.props.dispatch(navigateTo('inbox'))}
+            onBack={() => this.props.dispatch(navigateBack())}
           />
         </View>
       </View>
     );
-  },
+  }
 
-  renderContent: function () {
+  renderContent = () => {
     if (this.props.contacts.length) {
       return this.renderContactsList();
     } else if (this.props.importError) {
@@ -61,9 +66,9 @@ let ContactsScreen = React.createClass({
     } else {
       return this.renderLoader();
     }
-  },
+  };
 
-  renderImportPrompt: function () {
+  renderImportPrompt = () => {
     let { dispatch } = this.props;
 
     return (
@@ -86,41 +91,41 @@ let ContactsScreen = React.createClass({
         </PressableView>
       </View>
     );
-  },
+  };
 
-  renderContactsList: function () {
+  renderContactsList = () => {
     return (
       <ContactList
         contacts={this.props.contacts}
         onSelect={this.onSelectContact}
       />
     );
-  },
+  };
 
-  renderLoader: function () {
+  renderLoader = () => {
     return (
       <View style={{flex: 1}}>
         <AnimatedEllipsis />
       </View>
     );
-  },
+  };
 
-  importContacts: function (askPermission) {
+  importContacts = (askPermission) => {
     this.props.dispatch(importContacts({
       askPermission
     }));
-  },
+  };
 
-  onSelectContact: function (contact) {
+  onSelectContact = (contact) => {
     if (contact.matched) {
       this.props.dispatch(navigateTo('conversation', {
-        data: { contactId: contact.id }
+        contactId: contact.id
       }));
     } else {
       this.props.dispatch(sendInvite(contact))
     }
-  }
-});
+  };
+}
 
 let { midGray } = Style.values;
 
@@ -172,12 +177,11 @@ let importStyle = Style.create({
   }
 })
 
-let selectContacts = state => {
+let selectContacts = (state, props) => {
   return {
-    transitioning: state.navigation.state === 'transitioning',
     contacts: state.contacts,
     ...state.ui.contacts
   };
 };
 
-export default connect(selectContacts)(ContactsScreen);
+export default connectWithNavigation(selectContacts)(ContactsScreen);

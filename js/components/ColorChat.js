@@ -13,12 +13,12 @@ import createNotificationService from '../services/createNotificationService';
 import createAppStateService from '../services/createAppStateService';
 import createNetworkService from '../services/createNetworkService';
 
-let ColorChat = React.createClass({
-  getInitialState: () => ({
+class ColorChat extends React.Component {
+  state = {
     store: null
-  }),
+  };
 
-  componentDidMount: async function () {
+  async componentDidMount() {
     let store = await createStore();
 
     if (config.seedAddressBook) {
@@ -38,9 +38,9 @@ let ColorChat = React.createClass({
     });
 
     StatusBar.setHidden(true);
-  },
+  }
 
-  render: function () {
+  render() {
     if (!this.state.store) {
       return (
         <View style={{backgroundColor: '#EFEFEF'}}></View>
@@ -55,6 +55,6 @@ let ColorChat = React.createClass({
       );
     }
   }
-});
+}
 
 export default ColorChat;

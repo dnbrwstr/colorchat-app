@@ -9,8 +9,8 @@ import BaseText from './BaseText';
 
 
 
-let SettingsButton = React.createClass({
-  render: function () {
+class SettingsButton extends React.Component {
+  render() {
     let buttonStyles = [style.button, this.props.style];
 
     return (
@@ -19,7 +19,7 @@ let SettingsButton = React.createClass({
       </RoundButton>
     );
   }
-});
+}
 
 let buttonSize = 50;
 let iconSize = 24;

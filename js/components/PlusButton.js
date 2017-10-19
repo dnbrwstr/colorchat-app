@@ -3,15 +3,15 @@ import RoundButton from './RoundButton';
 import Style from '../style';
 import BaseText from './BaseText';
 
-let PlusButton = React.createClass({
-  render: function () {
+class PlusButton extends React.Component {
+  render() {
     return (
       <RoundButton {...this.props}>
         <BaseText style={style.text}>+</BaseText>
       </RoundButton>
     );
   }
-});
+}
 
 let style = Style.create({
   text: {

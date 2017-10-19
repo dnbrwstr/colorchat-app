@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   Text,
@@ -41,7 +42,8 @@ let getMessageData = (dataBlob, sectionId, rowId) => {
 
 let getMessageKey = message => message.id || message.state;
 
-let MessageList = React.createClass({
+let MessageList = createReactClass({
+  displayName: 'MessageList',
   mixins: [TimerMixin],
 
   getDefaultProps: function () {
@@ -178,7 +180,7 @@ let MessageList = React.createClass({
 
   onPresentMessage: function (message) {
     this.props.onPresentMessage(message)
-  }
+  },
 });
 
 let style = Style.create({

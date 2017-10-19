@@ -7,14 +7,14 @@ import Style from '../style';
 import TextScreen from './TextScreen';
 import TextLink from './TextLink';
 import BaseText from './BaseText';
-import { navigateTo } from '../actions/NavigationActions';
+import { navigateTo, navigateBack } from '../actions/NavigationActions';
 
-let ContactsInfoScreen = React.createClass({
-  handleNavigateBack: function () {
-    this.props.dispatch(navigateTo('contacts'));
-  },
+class ContactsInfoScreen extends React.Component {
+  handleNavigateBack = () => {
+    this.props.dispatch(navigateBack());
+  };
 
-  render: function () {
+  render() {
     return (
       <TextScreen
         title="Contacts usage"
@@ -26,7 +26,7 @@ let ContactsInfoScreen = React.createClass({
       </TextScreen>
     );
   }
-});
+}
 
 let style = Style.create({
   container: {},

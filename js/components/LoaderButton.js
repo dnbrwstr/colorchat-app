@@ -11,16 +11,17 @@ import PressableView from './PressableView';
 import AnimatedEllipsis from './AnimatedEllipsis';
 import SquareButton from './SquareButton';
 
-let LoaderButton = React.createClass({
-  getInitialState: function () {
-    let buttonOpacity = this.props.loading ? 0 : 1;
+class LoaderButton extends React.Component {
+  constructor(props) {
+    super(props);
+    let buttonOpacity = props.loading ? 0 : 1;
 
-    return {
+    this.state = {
       buttonOpacity: new Animated.Value(buttonOpacity)
     };
-  },
+  }
 
-  componentWillUpdate: function (nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
     if (nextProps.loading && !this.props.loading) {
       Animated.timing(this.state.buttonOpacity, {
         toValue: 0,
@@ -32,9 +33,9 @@ let LoaderButton = React.createClass({
         duration: 100
       }).start();
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <View>
         { this.props.loading &&
@@ -50,7 +51,7 @@ let LoaderButton = React.createClass({
       </View>
     );
   }
-});
+}
 
 let style = Style.create({
   ellipsisContainer: {

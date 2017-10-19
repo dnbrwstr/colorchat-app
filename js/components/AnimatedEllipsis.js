@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   LayoutAnimation
@@ -7,7 +8,8 @@ import { times } from 'ramda';
 import Style from '../style';
 import TimerMixin from './mixins/TimerMixin';
 
-let AnimatedEllipsis = React.createClass({
+let AnimatedEllipsis = createReactClass({
+  displayName: 'AnimatedEllipsis',
   mixins: [TimerMixin],
 
   getDefaultProps: function () {
@@ -62,7 +64,7 @@ let AnimatedEllipsis = React.createClass({
     return (
       <View style={style.container}>{ dots }</View>
     );
-  }
+  },
 });
 
 let size = 2;

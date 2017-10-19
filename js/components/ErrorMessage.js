@@ -10,19 +10,17 @@ import measure  from '../lib/measure';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
 
-let ErrorMessage = React.createClass({
-  getDefaultProps: function () {
-    return {
-      onRemove: () => {}
-    }
-  },
+class ErrorMessage extends React.Component {
+  static defaultProps = {
+    onRemove: () => {}
+  };
 
-  getInitialState: () => ({
+  state = {
     height: new Animated.Value(0),
     opacity: new Animated.Value(0)
-  }),
+  };
 
-  animateIn: async function ({ x, y, width, height }) {
+  animateIn = async ({ x, y, width, height }) => {
     Animated.parallel([
       Animated.timing(this.state.height, {
         duration: 150,
@@ -36,9 +34,9 @@ let ErrorMessage = React.createClass({
         easing: Easing.out(Easing.ease)
       })
     ]).start();
-  },
+  };
 
-  animateOut: function (cb) {
+  animateOut = (cb) => {
     Animated.parallel([
       Animated.timing(this.state.height, {
         duration: 150,
@@ -53,13 +51,13 @@ let ErrorMessage = React.createClass({
         easing: Easing.out(Easing.ease)
       })
     ]).start(cb);
-  },
+  };
 
-  componentWillUpdate: function (nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
     nextState.closing && this.onRemove();
-  },
+  }
 
-  render: function () {
+  render() {
     let styles = [
       style.message,
       {
@@ -78,14 +76,14 @@ let ErrorMessage = React.createClass({
         <BaseText style={style.text} onLayout={this.animateIn} ref="text">{this.props.message}</BaseText>
       </PressableView>
     );
-  },
+  }
 
-  onPress: function () {
+  onPress = () => {
     this.animateOut(() => {
       this.props.onRemove();
     });
-  }
-});
+  };
+}
 
 let textPadding = 10;
 

@@ -7,21 +7,17 @@ import Style from '../style';
 import BaseText from './BaseText';
 import ConversationListItem from './ConversationListItem';
 
-let ConversationList = React.createClass({
-  getDefaultProps: function () {
-    return {
-      onSelect: () => {},
-      onDelete: () => {}
-    };
-  },
+class ConversationList extends React.Component {
+  static defaultProps = {
+    onSelect: () => {},
+    onDelete: () => {}
+  };
 
-  getInitialState: function () {
-    return {
-      scrollLocked: false
-    };
-  },
+  state = {
+    scrollLocked: false
+  };
 
-  render: function () {    
+  render() {    
     return (
       <FlatList
         scrollEnabled={!this.state.scrollLocked}
@@ -37,9 +33,9 @@ let ConversationList = React.createClass({
         pageSize={1}
       />
     );
-  },
+  }
 
-  renderConversation: function ({ index, item }) {
+  renderConversation = ({ index, item }) => {
     return (
       <ConversationListItem
         {...item}
@@ -50,27 +46,27 @@ let ConversationList = React.createClass({
         onDelete={() => this.onDelete(item)}
       />
     );
-  },
+  };
 
-  lockScroll: function () {
+  lockScroll = () => {
     this.setState({
       scrollLocked: true
     });
-  },
+  };
 
-  unlockScroll: function () {
+  unlockScroll = () => {
     this.setState({
       scrollLocked: false
     });
-  },
+  };
 
-  onSelect: function (conversation) {
+  onSelect = (conversation) => {
     this.props.onSelect(conversation);
-  },
+  };
 
-  onDelete: function (conversation) {
+  onDelete = (conversation) => {
     this.props.onDelete(conversation);
-  }
-});
+  };
+}
 
 export default ConversationList;

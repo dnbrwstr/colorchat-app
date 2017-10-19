@@ -3,6 +3,7 @@
 // of react, so there may be some performance issues.
 //
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   Text,
@@ -11,7 +12,7 @@ import {
   StatusBar
 } from 'react-native';
 import ScrollBridge from '../lib/ScrollBridge';
-import { connect } from 'react-redux';
+import connectWithNavigation from '../lib/connectWithNavigation';
 import { merge } from 'ramda';
 import { createSelector } from 'reselect';
 import Style from '../style';
@@ -21,7 +22,7 @@ import PressableView from './PressableView';
 import MessageList from './MessageList';
 import ComposeBar from './ComposeBar';
 import PlusButton from './PlusButton';
-import { navigateTo } from '../actions/NavigationActions';
+import { navigateTo, navigateBack } from '../actions/NavigationActions';
 import * as MessageActions from '../actions/MessageActions';
 import { conversationScreenSelector } from '../lib/Selectors';
 import { updateConversationUi } from '../actions/AppActions';
@@ -40,7 +41,8 @@ let {
   unloadOldMessages
 } = MessageActions;
 
-let ConversationScreen = React.createClass({
+let ConversationScreen = createReactClass({
+  displayName: 'ConversationScreen',
   mixins: [TimerMixin],
 
   getInitialState: function () {
@@ -48,21 +50,8 @@ let ConversationScreen = React.createClass({
       page: 0,
       loadedAll: false,
       scrollBridge: new ScrollBridge,
-      lastOffset: 0,
-      loadPending: false
+      lastOffset: 0
     };
-  },
-
-  componentDidUpdate: function (prevProps) {
-    let triggerPendingLoad =
-      prevProps.transitioning &&
-      !this.props.transitioning &&
-      this.state.loadPending;
-
-    if (triggerPendingLoad) {
-      this.setState({ loadPending: false });
-      this.loadNextPage();
-    }
   },
 
   componentWillUnmount: function () {
@@ -70,10 +59,6 @@ let ConversationScreen = React.createClass({
   },
 
   loadNextPage: function () {
-    if (this.props.transitioning) {
-      return this.setState({ loadPending: true })
-    }
-
     this.setThrottleTimer('loadNext', () => {
       let nextPage = ++this.state.page;
       this.props.dispatch(
@@ -99,6 +84,14 @@ let ConversationScreen = React.createClass({
 
     return (
       <View style={style.container}>
+        <Header
+          title={contact.name}
+          showBack={true}
+          color="white"
+          backgroundColor={'rgba(0,0,0,.8)'}
+          highlightColor={'rgba(30,30,30,.8)'}
+          onBack={() => dispatch(navigateBack())}
+        />
         <StatusBar
           backgroundColor="#111111"
           barStyle="light-content"
@@ -124,19 +117,6 @@ let ConversationScreen = React.createClass({
           onSend={this.onSendMessage}
           onCancel={this.onStopComposing}
         />
-        <StickyView
-          scrollBridge={this.state.scrollBridge}
-          autoHide={this.shouldHideHeader()}
-        >
-          <Header
-            title={contact.name}
-            showBack={true}
-            color="white"
-            backgroundColor={'rgba(0,0,0,.8)'}
-            highlightColor={'rgba(30,30,30,.8)'}
-            onBack={() => dispatch(navigateTo('inbox'))}
-          />
-        </StickyView>
       </View>
     );
   },
@@ -212,7 +192,7 @@ let ConversationScreen = React.createClass({
 
   onPresentMessage: function (message) {
     this.props.dispatch(markMessageStale(message));
-  }
+  },
 });
 
 let style = Style.create({
@@ -222,4 +202,4 @@ let style = Style.create({
   }
 });
 
-export default connect(conversationScreenSelector)(ConversationScreen);
+export default connectWithNavigation(conversationScreenSelector)(ConversationScreen);

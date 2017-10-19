@@ -10,12 +10,12 @@ import BaseText from './BaseText';
 import { navigateTo } from '../actions/NavigationActions';
 import TextLink from './TextLink';
 
-let NumberInfoScreen = React.createClass({
-  handleNavigateBack: function () {
+class NumberInfoScreen extends React.Component {
+  handleNavigateBack = () => {
     this.props.dispatch(navigateTo('signup'));
-  },
+  };
 
-  render: function () {
+  render() {
     return (
       <TextScreen
         title="Number usage"
@@ -28,7 +28,7 @@ let NumberInfoScreen = React.createClass({
       </TextScreen>
     );
   }
-});
+}
 
 let style = Style.create({
   container: {},

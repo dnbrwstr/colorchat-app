@@ -1,4 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   Animated,
   Dimensions
@@ -13,13 +15,14 @@ import TimerMixin from './mixins/TimerMixin';
 
 const HIDE_ANIMATION_DURATION = 200;
 
-let StickyView = React.createClass({
+let StickyView = createReactClass({
+  displayName: 'StickyView',
   mixins: [TimerMixin],
 
   propTypes: {
-    autoHide: React.PropTypes.bool,
-    autoHideDelay: React.PropTypes.number,
-    scrollBridge: React.PropTypes.object
+    autoHide: PropTypes.bool,
+    autoHideDelay: PropTypes.number,
+    scrollBridge: PropTypes.object
   },
 
   getDefaultProps: function () {
@@ -112,7 +115,7 @@ let StickyView = React.createClass({
         { this.props.children }
       </Animated.View>
     );
-  }
+  },
 });
 
 let style = Style.create({

@@ -1,13 +1,14 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   Text
 } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import Style from '../style';
 import PressableView from './PressableView';
 import LoaderButton from './LoaderButton';
-import { navigateTo } from '../actions/NavigationActions';
 import config from '../config';
 import { rand } from '../lib/Utils';
 import TimerMixin from './mixins/TimerMixin';
@@ -15,7 +16,8 @@ import BaseText from './BaseText';
 
 let { appName } = config;
 
-let WelcomeScreen = React.createClass({
+let WelcomeScreen = createReactClass({
+  displayName: 'WelcomeScreen',
   mixins: [TimerMixin],
 
   componentDidMount: function () {
@@ -28,7 +30,7 @@ let WelcomeScreen = React.createClass({
 
   handlePressNext: function () {
     this.clearIntervalTimer('refresh');
-    this.props.dispatch(navigateTo('signup'));
+    this.props.dispatch(NavigationActions.navigate({ routeName: 'signup' }));
   },
 
   render: function () {
@@ -61,7 +63,7 @@ let WelcomeScreen = React.createClass({
     return text.split('').map((letter, i) => {
       return <BaseText key={`letter-${i}`} style={{color: this.randomColor()}}>{letter}</BaseText>;
     });
-  }
+  },
 });
 
 let style = Style.create({

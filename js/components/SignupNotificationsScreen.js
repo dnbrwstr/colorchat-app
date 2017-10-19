@@ -13,15 +13,12 @@ import { triggerPermissionsDialog } from '../actions/NotificationActions';
 import { saveName } from '../actions/SignupActions';
 import SignupScreen from './SignupScreen';
 
-let SignupNotificationScreen = React.createClass({
+class SignupNotificationScreen extends React.Component {
+  state = {
+    name: ''
+  };
 
-  getInitialState: function () {
-    return {
-      name: ''
-    };
-  },
-
-  render: function () {
+  render() {
     let { dispatch, error, loading } = this.props;
 
     return (
@@ -43,9 +40,9 @@ let SignupNotificationScreen = React.createClass({
         </Text>
       </SignupScreen>
     )
-  },
+  }
 
-  renderNextButton: function () {
+  renderNextButton = () => {
     return (
       <LoaderButton
         style={style.submit}
@@ -54,14 +51,14 @@ let SignupNotificationScreen = React.createClass({
         message="Save"
       />
     );
-  },
+  };
 
-  onPressNext: function () {
+  onPressNext = () => {
     this.props.dispatch(saveName(this.state.name));
     this.props.dispatch(triggerPermissionsDialog());
     this.props.dispatch(navigateTo('inbox'));
-  }
-});
+  };
+}
 
 let {
   textBase,

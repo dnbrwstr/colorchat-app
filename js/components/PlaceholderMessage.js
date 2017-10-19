@@ -6,13 +6,13 @@ import {
 } from 'react-native';
 import Style from '../style';
 
-let PlaceholderMessage = React.createClass({
-  render: function () {
+class PlaceholderMessage extends React.Component {
+  render() {
     return (
       <Image style={style.image} source={require('../../images/compose-indicator.gif')} />
     );
-  },
-});
+  }
+}
 
 let style = Style.create({
   placeholder: {

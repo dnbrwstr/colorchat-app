@@ -24,10 +24,10 @@ let createOrUpdateConversation = (conversation, state) => {
 }
 
 let handlers = {
-  navigateTo: function (state, action) {
-    if (action.route.title === 'conversation') {
+  'Navigation/NAVIGATE': function (state, action) {
+    if (action.routeName === 'conversation') {
       return createOrUpdateConversation({
-        recipientId: action.route.data.contactId,
+        recipientId: action.params.contactId,
         unread: false
       }, state);
     } else {

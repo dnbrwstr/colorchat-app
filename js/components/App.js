@@ -17,28 +17,24 @@ let appSelector = state => {
   };
 };
 
-let App = React.createClass({
-  getDefaultProps: function () {
-    return {
-      alerts: []
-    };
-  },
+class App extends React.Component {
+  static defaultProps = {
+    alerts: []
+  };
 
-  getInitialState: function () {
-    return {
-      animatedOpacity: new Animated.Value(0),
-      animatedOfflineMessageHeight: new Animated.Value(0)
-    };
-  },
+  state = {
+    animatedOpacity: new Animated.Value(0),
+    animatedOfflineMessageHeight: new Animated.Value(0)
+  };
 
-  componentDidMount: function () {
+  componentDidMount() {
     Animated.timing(this.state.animatedOpacity, {
       toValue: 1,
       duration: 200
     }).start();
-  },
+  }
 
-  componentDidUpdate: function (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.offline !== prevProps.offline) {
       if (this.props.offline) {
         Animated.timing(this.state.animatedOfflineMessageHeight, {
@@ -52,9 +48,9 @@ let App = React.createClass({
         }).start();
       }
     }
-  },
+  }
 
-  render: function () {
+  render() {
     let offlineMessageStyle = [style.offlineMessage, {
       height: this.state.animatedOfflineMessageHeight
     }];
@@ -77,7 +73,7 @@ let App = React.createClass({
       </Animated.View>
     )
   }
-});
+}
 
 let style = Style.create({
   alerts: {

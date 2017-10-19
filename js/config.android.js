@@ -11,7 +11,7 @@ export default {
   saveState: true,
   rehydrate: true,
   rehydrateBlacklist: ['ui', 'navigation', 'notifications', 'messages'],
-  seedAddressBook: true,
+  seedAddressBook: false,
   seedMessages: false,
   seedMessageCount: 10
 };

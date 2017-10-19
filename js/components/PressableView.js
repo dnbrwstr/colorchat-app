@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   TouchableWithoutFeedback,
   View,
@@ -28,7 +29,9 @@ let sortProps = props =>
     viewProps: {}
   });
 
-let PressableView = React.createClass({
+let PressableView = createReactClass({
+  displayName: 'PressableView',
+
   getDefaultProps: function () {
     return {
       onPressIn: () => {},
@@ -78,7 +81,7 @@ let PressableView = React.createClass({
     });
 
     this.props.onPressOut.apply(null, arguments);
-  }
+  },
 });
 
 export default PressableView;

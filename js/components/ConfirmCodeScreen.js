@@ -14,8 +14,8 @@ import { navigateTo } from '../actions/NavigationActions';
 import { submitConfirmationCode, updateData, clearConfirmCodeError } from '../actions/SignupActions';
 import { confirmationCodeScreenSelector } from '../lib/Selectors'
 
-let ConfirmCodeScreen = React.createClass({
-  render: function () {
+class ConfirmCodeScreen extends React.Component {
+  render() {
     let { dispatch, error, loading } = this.props;
 
     return (
@@ -41,9 +41,9 @@ let ConfirmCodeScreen = React.createClass({
         </View>
       </SignupScreen>
     )
-  },
+  }
 
-  renderNextButton: function () {
+  renderNextButton = () => {
     return (
       <LoaderButton
         loading={this.props.loading}
@@ -51,13 +51,13 @@ let ConfirmCodeScreen = React.createClass({
         message="Confirm"
       />
     );
-  },
+  };
 
-  onSubmit: function () {
+  onSubmit = () => {
     this.refs.confirmationCodeInput.blur();
     this.props.dispatch(submitConfirmationCode());
-  }
-});
+  };
+}
 
 var style = Style.create({
   inputWrapper: {

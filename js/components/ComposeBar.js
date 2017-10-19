@@ -8,14 +8,12 @@ import {
 import Style from '../style';
 import PressableView from './PressableView';
 
-let ComposeBar = React.createClass({
-  getInitialState: function () {
-    return {
-      animationValue: new Animated.Value(this.props.active ? 1 : 0),
-    };
-  },
+class ComposeBar extends React.Component {
+  state = {
+    animationValue: new Animated.Value(this.props.active ? 1 : 0),
+  };
 
-  componentDidUpdate: function (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.active !== prevProps.active) {
       let nextValue = this.props.active ? 1 : 0;
 
@@ -24,9 +22,9 @@ let ComposeBar = React.createClass({
         duration: 250
       }).start();
     }
-  },
+  }
 
-  render: function () {
+  render() {
     let composeBarStyle = [
       style.composeBar,
       {
@@ -60,7 +58,7 @@ let ComposeBar = React.createClass({
       </Animated.View>
     );
   }
-});
+}
 
 let style = Style.create({
   composeBar: {

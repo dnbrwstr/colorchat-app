@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   View,
   Text,
@@ -10,7 +11,8 @@ import TimerMixin from './mixins/TimerMixin';
 
 const BUTTON_SIZE = 50;
 
-let RoundButton = React.createClass({
+let RoundButton = createReactClass({
+  displayName: 'RoundButton',
   mixins: [TimerMixin],
 
   getDefaultProps: function () {
@@ -107,7 +109,7 @@ let RoundButton = React.createClass({
       this.props.onPress();
       this.setState({ leaving: false });
     }, 200);
-  }
+  },
 });
 
 let style = Style.create({

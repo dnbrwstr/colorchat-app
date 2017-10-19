@@ -1,3 +1,4 @@
+import { NavigationActions } from 'react-navigation';
 import * as DatabaseUtils from '../lib/DatabaseUtils';
 
 export let navigateTo = (a, b) => async (dispatch, getState) => {
@@ -5,21 +6,18 @@ export let navigateTo = (a, b) => async (dispatch, getState) => {
 
   if (typeof a === 'string') {
     route = {
-      title: a,
-      ...b
+      routeName: a,
+      params: b
     };
   } else {
     route = a;
   }
 
-  let navigate = () => dispatch({
-    type: 'navigateTo',
-    route: route
-  });
+  let navigate = () => dispatch(NavigationActions.navigate(route));
 
-  if (route.title === 'conversation') {
+  if (route.routeName === 'conversation') {
     let { messages, total } = await DatabaseUtils.loadMessages({
-      contactId: route.data.contactId,
+      contactId: route.params.contactId,
       page: 0
     });
 
@@ -35,12 +33,20 @@ export let navigateTo = (a, b) => async (dispatch, getState) => {
   }
 };
 
+export let navigateBack = () => NavigationActions.back();
+
 export let navigateToConversation = contactId => {
-  return navigateTo('conversation', { data: { contactId } });
+  return navigateTo('conversation', { contactId });
 }
 
-export let completeTransition = () => {
+export let startNavigationTransition = () => {
   return {
-    type: 'completeTransition'
+    type: 'startNavigationTransition'
+  };
+};
+
+export let endNavigationTransition = () => {
+  return {
+    type: 'endNavigationTransition'
   };
 };

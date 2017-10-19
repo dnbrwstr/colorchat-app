@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {
   Animated,
   View
@@ -14,7 +15,8 @@ let PRESS_RECT = {
   top: 20, right: 20, bottom: 20, left: 20
 };
 
-let InteractiveView = React.createClass({
+let InteractiveView = createReactClass({
+  displayName: 'InteractiveView',
   mixins: [Touchable.Mixin, NativeMethodsMixin],
 
   getDefaultProps: function () {
@@ -286,7 +288,7 @@ let InteractiveView = React.createClass({
 
   touchableGetPressOutDelayMS: function () {
     return this.props.delayPressOut || 0;
-  }
+  },
 });
 
 export default InteractiveView;

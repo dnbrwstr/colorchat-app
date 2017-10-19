@@ -1,4 +1,3 @@
-import invariant from 'invariant';
 import SignupStartScreen from '../components/SignupStartScreen';
 import CountryPickerScreen from '../components/CountryPickerScreen';
 import ConfirmCodeScreen from '../components/ConfirmCodeScreen';
@@ -14,98 +13,41 @@ import ContactsInfoScreen from '../components/ContactsInfoScreen';
 
 let AppRoutes = {
   welcome: {
-    component: WelcomeScreen,
-    links: {
-      signup: 'push'
-    }
+    screen: WelcomeScreen
   },
   signup: {
-    component: SignupStartScreen,
-    links: {
-      countryPicker: 'push',
-      confirmCode: 'push',
-      numberInfo: 'push'
-    }
+    screen: SignupStartScreen
   },
   numberInfo: {
-    component: NumberInfoScreen,
-    links: {
-      'signup': 'pop'
-    }
+    screen: NumberInfoScreen
   },
   countryPicker: {
-    component: CountryPickerScreen,
-    links: {
-      signup: 'pop'
-    }
+    screen: CountryPickerScreen
   },
   confirmCode: {
-    component: ConfirmCodeScreen,
-    links: {
-      notifications: 'push',
-      signup: 'pop'
-    }
+    screen: ConfirmCodeScreen
   },
   notifications: {
-    component: SignupNotificationsScreen,
-    links: {
-      main: 'reset',
-      'confirmCode': 'pop'
-    }
+    screen: SignupNotificationsScreen
   },
   inbox: {
-    component: InboxScreen,
-    links: {
-      conversation: 'push',
-      contacts: 'push',
-      'settings': 'push'
-    }
+    screen: InboxScreen
   },
   contacts: {
-    component: ContactsScreen,
-    links: {
-      conversation: 'push',
-      contactsInfo: 'push',
-      inbox: 'pop'
-    }
+    screen: ContactsScreen
   },
   contactsInfo: {
-    component: ContactsInfoScreen,
-    links: {
-      contacts: 'pop'
-    }
+    screen: ContactsInfoScreen
   },
   conversation: {
-    component: ConversationScreen,
-    links: {
-      inbox: 'pop'
-    }
+    screen: ConversationScreen
   },
   settings: {
-    component: SettingsScreen,
-    links: {
-      inbox: 'pop',
-      about: 'push'
-    }
+    screen: SettingsScreen
   },
   about: {
-    component: AboutScreen,
-    links: {
-      settings: 'pop'
-    }
+    screen: AboutScreen
   }
 };
 
 export default AppRoutes;
-
-export let getTransitionMethod = (fromTitle, toTitle) => {
-  let method;
-
-  if (!AppRoutes[fromTitle] || !AppRoutes[fromTitle].links[toTitle]) {
-    method = 'reset';
-  } else {
-    method = AppRoutes[fromTitle].links[toTitle];
-  }
-
-  return method;
-};

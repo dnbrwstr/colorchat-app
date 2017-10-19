@@ -7,22 +7,18 @@ import {
 import { Gateway } from 'react-gateway';
 import Style from '../style';
 
-let DragHandle = React.createClass({
-  getDefaultProps: function () {
-    return {
-      onDragStart: () => {},
-      onDragMove: () => {},
-      onDragStop: () => {}
-    };
-  },
+class DragHandle extends React.Component {
+  static defaultProps = {
+    onDragStart: () => {},
+    onDragMove: () => {},
+    onDragStop: () => {}
+  };
 
-  getInitialState: function () {
-    return {
-      animatedScale: new Animated.Value(1)
-    };
-  },
+  state = {
+    animatedScale: new Animated.Value(1)
+  };
 
-  render: function () {
+  render() {
     let transformStyle = {
       transform: [{ scale: this.state.animatedScale }]
     };
@@ -43,30 +39,30 @@ let DragHandle = React.createClass({
         </Animated.View>
       </Gateway>
     );
-  },
+  }
 
-  onDragStart: function (e) {
+  onDragStart = (e) => {
     Animated.spring(this.state.animatedScale, {
       toValue: .75,
       friction: 7,
       tension: 150
     }).start();
     this.props.onDragStart(e)
-  },
+  };
 
-  onDragMove: function (e) {
+  onDragMove = (e) => {
     this.props.onDragMove(e)
-  },
+  };
 
-  onDragStop: function (e) {
+  onDragStop = (e) => {
     Animated.spring(this.state.animatedScale, {
       toValue: 1,
       tension: 400,
       friction: 10
     }).start();
     this.props.onDragStop(e)
-  }
-});
+  };
+}
 
 const HANDLE_SIZE = 25;
 

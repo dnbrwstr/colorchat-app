@@ -12,36 +12,35 @@ import DragHandle from './DragHandle';
 import { updateWorkingMessage } from '../actions/MessageActions';
 import SimpleColorPicker from './SimpleColorPicker';
 import { constrain } from '../lib/Utils';
+import connectWithNavigation from '../lib/connectWithNavigation';
 
 const MIN_MESSAGE_HEIGHT = 50;
 const MAX_MESSAGE_HEIGHT = 400;
 const MIN_MESSAGE_WIDTH = 50;
 const MAX_MESSAGE_WIDTH = 290;
 
-let EditableMessage = React.createClass({
-  getInitialState: function () {
-    return {
-      workingHeight: this.props.height,
-      workingWidth: this.props.width,
-      workingColor: this.props.color,
-      animatedHeight: new Animated.Value(0),
-      animatedOpacity: new Animated.Value(0)
-    };
-  },
+class EditableMessage extends React.Component {
+  state = {
+    workingHeight: this.props.height,
+    workingWidth: this.props.width,
+    workingColor: this.props.color,
+    animatedHeight: new Animated.Value(0),
+    animatedOpacity: new Animated.Value(0)
+  };
 
-  shouldComponentUpdate: function (prevProps, prevState) {
+  shouldComponentUpdate(prevProps, prevState) {
     return prevState !== this.state ||
       prevProps.composing !== this.props.composing ||
-      prevProps.routeName !== this.props.routeName ||
-      prevProps.navigationState !== this.props.navigationState;
-  },
+      prevProps.isCurrentScreen !== this.props.isCurrentScreen ||
+      prevProps.isTransitioning !== this.props.isTransitioning;
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     let stoppedComposing = this.props.composing && !nextProps.composing;
-    let navigatedAway = this.props.routeName === 'conversation' &&
-      nextProps.routeName !== 'conversation';
-    let navigatedBack = nextProps.routeName === 'conversation' &&
-      nextProps.navigationState === 'ready';
+    let navigatedAway = this.props.isCurrentScreen &&
+      !nextProps.isCurrentScreen;
+    let navigatedBack = nextProps.isCurrentScreen &&
+      !nextProps.isTransitioning
 
     if (stoppedComposing || navigatedAway) {
       this.state.animatedOpacity.setValue(0);
@@ -51,9 +50,9 @@ let EditableMessage = React.createClass({
         duration: 200
       }).start();
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     let animations = [Animated.timing(this.state.animatedHeight, {
       toValue: 1,
       duration: 200
@@ -67,9 +66,9 @@ let EditableMessage = React.createClass({
     }
 
     Animated.sequence(animations).start();
-  },
+  }
 
-  render: function () {
+  render() {
     let messageStyle = this.shouldShowHandles() ? {
       width: this.state.workingWidth,
       height: this.state.animatedHeight.interpolate({
@@ -163,16 +162,16 @@ let EditableMessage = React.createClass({
         }
       </Animated.View>
     );
-  },
+  }
 
-  shouldShowHandles: function () {
+  shouldShowHandles = () => {
     return this.props.composing &&
       this.props.state === 'composing' &&
-      this.props.routeName === 'conversation' &&
-      this.props.navigationState === 'ready';
-  },
+      this.props.isCurrentScreen &&
+      !this.props.isTransitioning
+  };
 
-  onDragHandle: function (axis, e) {
+  onDragHandle = (axis, e) => {
     let screenWidth = Dimensions.get('window').width;
     let screenHeight = Dimensions.get('window').height;
     let nextState = {};
@@ -194,17 +193,17 @@ let EditableMessage = React.createClass({
     }
 
     this.setState(nextState);
-  },
+  };
 
-  onDragStop: function () {
+  onDragStop = () => {
     this.props.dispatch(updateWorkingMessage(this.props.message, {
       color: this.state.workingColor,
       height: this.state.workingHeight,
       width: this.state.workingWidth
     }));
-  },
+  };
 
-  onColorChange: function (color) {
+  onColorChange = (color) => {
     this.setState({
       workingColor: color
     });
@@ -212,20 +211,18 @@ let EditableMessage = React.createClass({
     this.props.dispatch(updateWorkingMessage(this.props.message, {
       color: color
     }));
-  }
-});
+  };
+}
 
 let style = Style.create({
   message: {}
 });
 
-let selectData = state => {
+let selectData = (state, props) => {
   return {
     messageCount: state.messages.length,
-    composing: state.ui.conversation.composing,
-    routeName: state.navigation.route.title,
-    navigationState: state.navigation.state
+    composing: state.ui.conversation.composing
   };
 };
 
-export default connect(selectData)(EditableMessage);
+export default connectWithNavigation(selectData)(EditableMessage);

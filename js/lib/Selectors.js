@@ -44,8 +44,7 @@ export let conversationScreenSelector = createSelector([
         id: contactId,
         name: contactName
       },
-      messages: messages,
-      transitioning: navigation.state === 'transitioning'
+      messages: messages
     }
   }
 );

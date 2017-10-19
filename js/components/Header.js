@@ -8,15 +8,13 @@ import {
 import Style from '../style';
 import PressableView from './PressableView';
 
-let Header = React.createClass({
-  getDefaultProps: function () {
-    return {
-      onBack: () => {},
-      onClose: () => {}
-    };
-  },
+class Header extends React.Component {
+  static defaultProps = {
+    onBack: () => {},
+    onClose: () => {}
+  };
 
-  render: function () {
+  render() {
     let barStyles = [
       style.bar,
       this.props.borderColor && {
@@ -79,16 +77,16 @@ let Header = React.createClass({
         </View>
       </View>
     )
-  },
-
-  onBack: function () {
-    this.props.onBack();
-  },
-
-  onClose: function () {
-    this.props.onClose();
   }
-});
+
+  onBack = () => {
+    this.props.onBack();
+  };
+
+  onClose = () => {
+    this.props.onClose();
+  };
+}
 
 let style = Style.create({
   bar: {

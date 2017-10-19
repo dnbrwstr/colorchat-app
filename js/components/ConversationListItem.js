@@ -10,32 +10,30 @@ import { getTimestamp } from '../lib/MessageUtils';
 
 const DEFAULT_BG_COLOR = '#EFEFEF';
 
-let ConversationListItem = React.createClass({
-  getDefaultProps: function () {
-    return {
-      onPress: () => {},
-      onInteractionStart: () => {},
-      onInteractionEnd: () => {},
-      onDelete: () => {}
-    };
-  },
+class ConversationListItem extends React.Component {
+  static defaultProps = {
+    onPress: () => {},
+    onInteractionStart: () => {},
+    onInteractionEnd: () => {},
+    onDelete: () => {}
+  };
 
-  getActiveBackgroundColor: function () {
+  getActiveBackgroundColor = () => {
     let color = this.getColor();
     let isLight = Color(color).luminosity() > .5;
     let colorFn = isLight ? 'darken' : 'lighten';
     return Color(color)[colorFn](.2).hexString()
-  },
+  };
 
-  getColor: function () {
+  getColor = () => {
     if (this.props.lastMessage && this.props.lastMessage.color) {
       return this.props.lastMessage.color;
     } else {
       return DEFAULT_BG_COLOR;
     }
-  },
+  };
 
-  getName: function () {
+  getName = () => {
     if (this.props.contact) {
       let { givenName, familyName } = this.props.contact;
       return formatName(givenName, familyName);
@@ -44,9 +42,9 @@ let ConversationListItem = React.createClass({
     } else {
       return 'Unknown';
     }
-  },
+  };
 
-  render: function () {
+  render() {
     let { contact, lastMessage } = this.props;
 
     let conversationStyles = [
@@ -71,8 +69,6 @@ let ConversationListItem = React.createClass({
         onPress={this.props.onPress}
         onInteractionStart={this.props.onInteractionStart}
         onInteractionEnd={this.props.onInteractionEnd}
-        onPressIn={this.handlePressIn}
-        onPressOut={this.handlePressOut}
         onDelete={this.props.onDelete}
       >
         <BaseText visibleOn={this.getColor()} style={textStyles}>
@@ -85,7 +81,7 @@ let ConversationListItem = React.createClass({
       </InteractiveView>
     );
   }
-});
+}
 
 export default ConversationListItem;
 

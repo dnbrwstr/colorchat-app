@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Text,
@@ -17,41 +18,37 @@ let SATURATION = 75;
  *
  * Resizes to fit its container
  */
-let SimpleColorPicker = React.createClass({
-  propTypes: {
+class SimpleColorPicker extends React.Component {
+  static propTypes = {
     /**
      * Background color prior to user interaction
      */
-    initialValue: React.PropTypes.string,
+    initialValue: PropTypes.string,
 
     /**
      * Custom style for container
      */
-    style: React.PropTypes.any,
+    style: PropTypes.any,
 
     /**
      * Called when picker value changes.
      * Passes current value as an argument.
      */
-    onChange: React.PropTypes.func
-  },
+    onChange: PropTypes.func
+  };
 
-  getDefaultProps: function () {
-    return {
-      initialValue: '#ccc',
-      onChange: () => {}
-    };
-  },
+  static defaultProps = {
+    initialValue: '#ccc',
+    onChange: () => {}
+  };
 
-  getInitialState: function () {
-    return {
-      value: this.props.initialValue,
-      pristine: true,
-      touchOffset: null
-    };
-  },
+  state = {
+    value: this.props.initialValue,
+    pristine: true,
+    touchOffset: null
+  };
 
-  render: function () {
+  render() {
     let viewStyles = [
       style.container,
       { backgroundColor: this.state.value },
@@ -70,9 +67,9 @@ let SimpleColorPicker = React.createClass({
           this.renderInstructions() }
       </View>
     );
-  },
+  }
 
-  renderInstructions: function () {
+  renderInstructions = () => {
     return (
       <View pointerEvents="none" style={style.instructions}>
         <BaseText style={{textAlign: 'center'}} visibleOn={this.state.color}>
@@ -80,15 +77,15 @@ let SimpleColorPicker = React.createClass({
         </BaseText>
       </View>
     );
-  },
+  };
 
-  onLayout: async function (e) {
+  onLayout = async (e) => {
     this.setState({
       size: e.nativeEvent.layout
     });
-  },
+  };
 
-  onTouchMove: function (e) {
+  onTouchMove = (e) => {
     if (!this.state.size) return;
 
     // As of react-native 0.48:
@@ -117,20 +114,20 @@ let SimpleColorPicker = React.createClass({
       value: Color({ h, s: SATURATION, l }).hexString(),
       pristine: false
     });
-  },
+  };
 
-  onTouchEnd: function () {
+  onTouchEnd = () => {
     this.setState({
       touchOffset: null
     });
 
     this.props.onChange(this.state.value);
-  },
+  };
 
-  getValue: function () {
+  getValue = () => {
     return this.state.value;
-  }
-});
+  };
+}
 
 let style = Style.create({
   container: {

@@ -6,8 +6,8 @@ import Style from '../style';
 import Header from './Header';
 import BaseText from './BaseText';
 
-let TextScreen = React.createClass({
-  render: function () {
+class TextScreen extends React.Component {
+  render() {
     return (
       <View style={style.container}>
         <Header
@@ -23,7 +23,7 @@ let TextScreen = React.createClass({
       </View>
     );
   }
-});
+}
 
 let style = Style.create({
   container: {

@@ -25,12 +25,12 @@ let {
   clearSignupError
 } = SignupActions;
 
-let SignupStartScreen = React.createClass({
-  handleNumberInfoLinkPress: function () {
+class SignupStartScreen extends React.Component {
+  handleNumberInfoLinkPress = () => {
     this.props.dispatch(navigateTo('numberInfo'));
-  },
+  };
 
-  render: function() {
+  render() {
     let { dispatch, error } = this.props;
 
     return (
@@ -92,9 +92,9 @@ let SignupStartScreen = React.createClass({
         </PressableView>
       </SignupScreen>
     );
-  },
+  }
 
-  renderNextButton: function () {
+  renderNextButton = () => {
     return (
       <LoaderButton
         style={style.submit}
@@ -103,27 +103,27 @@ let SignupStartScreen = React.createClass({
         message="Send message"
       />
     );
-  },
+  };
 
-  showCountryPicker: function () {
+  showCountryPicker = () => {
     this.hideKeyboard();
     this.props.dispatch(navigateTo('countryPicker'));
-  },
+  };
 
-  onSubmitNumber: function () {
+  onSubmitNumber = () => {
     this.hideKeyboard();
     this.props.dispatch(registerPhoneNumber());
-  },
+  };
 
-  hideKeyboard: function () {
+  hideKeyboard = () => {
     this.refs.countryCodeInput.blur();
     this.refs.baseNumberInput.blur();
-  },
+  };
 
-  updateData: function (newData) {
+  updateData = (newData) => {
     this.props.dispatch(updateData(newData));
-  }
-});
+  };
+}
 
 let {
   inputBase,

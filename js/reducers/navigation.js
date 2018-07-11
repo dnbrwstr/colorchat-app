@@ -2,18 +2,60 @@ import invariant from 'invariant';
 import { findIndex, propEq } from 'ramda';
 import { NavigationActions } from 'react-navigation';
 import createRoutingReducer from '../lib/createRoutingReducer';
-import { getTransitionMethod } from '../lib/AppRoutes';
 import AppNavigator from '../components/AppNavigator';
 
-const initialState = AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'main' }));
+const getStateForAction = (action, state) => AppNavigator.router.getStateForAction(action, state);
+const getActionForPath = (path, params) => AppNavigator.router.getActionForPathAndParams(path, params);
 
-let handlers = {
+const logoutAction = getActionForPath('login');
+const loginAction = getActionForPath('welcome');
+
+const loggedOutState = getStateForAction(logoutAction);
+const loggedInState = getStateForAction(loginAction);
+
+const initialState = {
+  loggedOutState,
+  loggedInState
+};
+
+const handlers = {
   init: function (state, action) {
-    const { appState } = action;
-    if (appState.user && appState.user.token) {
-      return this.navigateToTitle('inbox', state);
+    return {
+      ...state,
+      loggedInState: getStateForAction(loginAction, loggedOutState)     
+    }
+  },
+
+  login: function (state, action) {
+    if (action.state === 'complete') {
+      return {
+        ...state,
+        loggedInState: getStateForAction(loginAction, loggedOutState)     
+      }
     } else {
-      return this.navigateToTitle('welcome', state);
+      return state;
+    }
+  },
+
+  logout: function (state, action) {
+    const newLoggedOutState = getStateForAction(
+      NavigationActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "login" })]
+      })
+    );
+
+    return {
+      ...state,
+      loggedOutState: newLoggedOutState
+    };
+  },
+
+  connectToCamera: function (state, action) {
+    if (action.state === 'complete') {
+      return NavigationActions.navigate({ routeName: 'pairingSuccess'});
+    } else {
+      return state;
     }
   },
 
@@ -29,43 +71,11 @@ let handlers = {
       ...state,
       transitioning: false
     };
-  },
-
-  authError: function (state, action) {
-    return this.navigateToTitle('welcome', state);
-  },
-
-  registerPhoneNumber: function (state, action) {
-    if (action.state !== 'complete') return state;
-    return this.navigateToTitle('confirmCode', state);
-  },
-
-  submitConfirmationCode: function (state, action) {
-    if (action.state !== 'complete') return state;
-    return this.navigateToTitle('notifications', state);
-  },
-
-  submitNotificationName: function (state, action) {
-    return this.navigateToTitle('inbox', state);
-  },
-
-  logout: function (state, action) {
-    return this.navigateToTitle('welcome', state);
-  },
-
-  deleteAccount: function (state, action) {
-    return this.navigateToTitle('welcome', state)
-  },
-
-  navigateToTitle: function (title, state) {
-    return AppNavigator.router.getStateForAction(
-      NavigationActions.navigate({ routeName: title }),
-      state
-    );
   }
 };
 
-const navReducer = (state = initialState, action) => {
+export const navigationReducer = (state = initialState, action) => {
+  console.log(action.type);
   if (handlers[action.type]) {
     return handlers[action.type](state, action);
   } else {
@@ -73,5 +83,3 @@ const navReducer = (state = initialState, action) => {
     return nextState;
   }
 };
-
-export default navReducer;

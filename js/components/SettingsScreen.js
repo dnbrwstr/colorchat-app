@@ -28,6 +28,10 @@ class SettingsScreen extends React.Component {
     this.props.dispatch(loadUserInfo())
   }
 
+  shouldComponentUpdate() {
+    if (!nextProps.isActive) return;
+  }
+
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.user.name !== this.props.user.name) {
       this.setState({ name: nextProps.user.name });

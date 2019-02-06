@@ -1,16 +1,11 @@
-import React from 'react';
-import {
-  View,
-  Animated,
-  PixelRatio
-} from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
-import BaseText from './BaseText';
+import React from "react";
+import { View, Animated, PixelRatio } from "react-native";
+import Style from "../style";
+import PressableView from "./PressableView";
+import BaseText from "./BaseText";
 
 class ContactListItem extends React.PureComponent {
-
-  constructor (...args) {
+  constructor(...args) {
     super(...args);
 
     this.state = {
@@ -18,7 +13,7 @@ class ContactListItem extends React.PureComponent {
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     let animation = Animated.timing(this.state.animatedOpacity, {
       toValue: 1,
       duration: 100
@@ -33,7 +28,7 @@ class ContactListItem extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     let contactStyles = [
       style.contact,
       { opacity: this.state.animatedOpacity }
@@ -41,17 +36,20 @@ class ContactListItem extends React.PureComponent {
 
     return (
       <PressableView
-        onPress={() => this.props.onPress() }
+        onPress={() => this.props.onPress()}
         style={contactStyles}
         activeStyle={style.contactActive}
       >
-        <View style={{flex: 1, paddingRight: 10}}>
-          <BaseText numberOfLines={1}>{this.props.givenName} {this.props.familyName}</BaseText>
+        <View style={{ flex: 1, paddingRight: 10 }}>
+          <BaseText numberOfLines={1}>
+            {this.props.givenName} {this.props.familyName}
+          </BaseText>
         </View>
-        { !this.props.matched &&
-          <BaseText style={style.inviteButton}>Invite</BaseText>}
+        {!this.props.matched && (
+          <BaseText style={style.inviteButton}>Invite</BaseText>
+        )}
       </PressableView>
-    )
+    );
   }
 }
 
@@ -59,22 +57,22 @@ let { midGray } = Style.values;
 
 let style = Style.create({
   contact: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderTopColor: Style.values.midLightGray,
     borderTopWidth: 1 / PixelRatio.get(),
     height: Style.values.rowHeight,
     paddingHorizontal: Style.values.horizontalPadding,
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   contactActive: {
-    backgroundColor: '#EFEFEF'
+    backgroundColor: "#EFEFEF"
   },
   inviteButton: {
     backgroundColor: midGray,
-    color: 'white',
+    color: "white",
     fontSize: 12,
     padding: 4,
     flex: 0

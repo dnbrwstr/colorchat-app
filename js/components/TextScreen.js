@@ -1,10 +1,8 @@
-import React from 'react';
-import {
-  View
-} from 'react-native';
-import Style from '../style';
-import Header from './Header';
-import BaseText from './BaseText';
+import React from "react";
+import { View } from "react-native";
+import Style from "../style";
+import Header from "./Header";
+import BaseText from "./BaseText";
 
 class TextScreen extends React.Component {
   render() {
@@ -16,9 +14,7 @@ class TextScreen extends React.Component {
           onBack={this.props.onNavigateBack}
         />
         <View style={style.content}>
-          <BaseText style={style.text}>
-            {this.props.children}
-          </BaseText>
+          <BaseText style={style.text}>{this.props.children}</BaseText>
         </View>
       </View>
     );
@@ -28,7 +24,7 @@ class TextScreen extends React.Component {
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white"
   },
   content: {
     ...Style.mixins.contentWrapperBase,

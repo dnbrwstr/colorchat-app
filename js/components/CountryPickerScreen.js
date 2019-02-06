@@ -1,19 +1,13 @@
-import React from 'react';
-import {
-  SectionList,
-  View,
-  Text,
-  ScrollView,
-  PixelRatio
-} from 'react-native';
-import { connect } from 'react-redux';
-import Header from './Header';
-import Countries from '../lib/data/Countries';
-import PressableView from './PressableView';
-import BaseText from './BaseText';
-import { updateData } from '../actions/SignupActions';
-import { navigateTo } from '../actions/NavigationActions';
-import Style from '../style';
+import React from "react";
+import { SectionList, View, Text, ScrollView, PixelRatio } from "react-native";
+import { connect } from "react-redux";
+import Header from "./Header";
+import Countries from "../lib/data/Countries";
+import PressableView from "./PressableView";
+import BaseText from "./BaseText";
+import { updateData } from "../actions/SignupActions";
+import { navigateTo } from "../actions/NavigationActions";
+import Style from "../style";
 
 let groupedCountries = Countries.reduce((memo, country) => {
   let letter = country.label[0].toUpperCase();
@@ -22,7 +16,7 @@ let groupedCountries = Countries.reduce((memo, country) => {
   return memo;
 }, {});
 
-let countrySections = Object.keys(groupedCountries).reduce((memo, key) => {  
+let countrySections = Object.keys(groupedCountries).reduce((memo, key) => {
   memo.push({
     data: groupedCountries[key],
     key: key
@@ -36,9 +30,11 @@ class CountryPickerScreen extends React.Component {
 
     return (
       <View style={style.container}>
-        <Header title="Select a country" showBack={true} onBack={() =>
-          dispatch(navigateTo('signup'))
-        }/>
+        <Header
+          title="Select a country"
+          showBack={true}
+          onBack={() => dispatch(navigateTo("signup"))}
+        />
 
         <SectionList
           initialNumToRender={16}
@@ -51,7 +47,7 @@ class CountryPickerScreen extends React.Component {
     );
   }
 
-  renderCountry = (data) => {
+  renderCountry = data => {
     let isFirst = data.index == 0;
     let isLast = (countrySections.length - 1).toString() === data.index;
 
@@ -73,7 +69,7 @@ class CountryPickerScreen extends React.Component {
     );
   };
 
-  renderCountryHeader = (data) => {
+  renderCountryHeader = data => {
     return (
       <View style={style.countryHeader} key={`section-${data.section.key}`}>
         <View style={style.countryHeaderInner}>
@@ -83,22 +79,24 @@ class CountryPickerScreen extends React.Component {
     );
   };
 
-  onSelect = (country) => {
+  onSelect = country => {
     let { dispatch } = this.props;
 
-    dispatch(updateData({
-      country: country.label,
-      countryCode: country.code
-    }));
+    dispatch(
+      updateData({
+        country: country.label,
+        countryCode: country.code
+      })
+    );
 
-    dispatch(navigateTo('signup'));
+    dispatch(navigateTo("signup"));
   };
 }
 
 var style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white"
   },
   separator: {
     height: 1,
@@ -106,7 +104,7 @@ var style = Style.create({
   },
   countryHeader: {
     paddingHorizontal: Style.values.horizontalPadding,
-    backgroundColor: 'white'
+    backgroundColor: "white"
   },
   countryHeaderInner: {
     paddingVertical: 3,
@@ -127,7 +125,7 @@ var style = Style.create({
     color: Style.values.midGray
   },
   countryActive: {
-    backgroundColor: '#EEE'
+    backgroundColor: "#EEE"
   }
 });
 

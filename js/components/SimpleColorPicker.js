@@ -1,13 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import {
-  Text,
-  View
-} from 'react-native';
-import Color from 'color';
-import Style from '../style';
-import BaseText from './BaseText';
-import measure from '../lib/measure';
+import PropTypes from "prop-types";
+import React from "react";
+import { Text, View } from "react-native";
+import Color from "color";
+import Style from "../style";
+import BaseText from "./BaseText";
+import measure from "../lib/measure";
 
 let SATURATION = 75;
 
@@ -38,7 +35,7 @@ class SimpleColorPicker extends React.Component {
   };
 
   static defaultProps = {
-    initialValue: '#ccc',
+    initialValue: "#ccc",
     onChange: () => {}
   };
 
@@ -56,15 +53,17 @@ class SimpleColorPicker extends React.Component {
     ];
 
     return (
-      <View ref="main"
+      <View
+        ref="main"
         onLayout={this.onLayout}
         onStartShouldSetResponder={() => true}
         onResponderMove={this.onTouchMove}
         onResponderRelease={this.onTouchEnd}
         style={viewStyles}
       >
-        { this.props.showInstructions && this.state.pristine &&
-          this.renderInstructions() }
+        {this.props.showInstructions &&
+          this.state.pristine &&
+          this.renderInstructions()}
       </View>
     );
   }
@@ -72,20 +71,20 @@ class SimpleColorPicker extends React.Component {
   renderInstructions = () => {
     return (
       <View pointerEvents="none" style={style.instructions}>
-        <BaseText style={{textAlign: 'center'}} visibleOn={this.state.color}>
+        <BaseText style={{ textAlign: "center" }} visibleOn={this.state.color}>
           Swipe to{"\n"}change color
         </BaseText>
       </View>
     );
   };
 
-  onLayout = async (e) => {
+  onLayout = async e => {
     this.setState({
       size: e.nativeEvent.layout
     });
   };
 
-  onTouchMove = (e) => {
+  onTouchMove = e => {
     if (!this.state.size) return;
 
     // As of react-native 0.48:
@@ -135,14 +134,14 @@ let style = Style.create({
     flex: 0
   },
   instructions: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     padding: 12,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

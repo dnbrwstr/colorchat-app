@@ -4,38 +4,48 @@ import {
   DeviceEventEmitter,
   Dimensions,
   Keyboard
-} from 'react-native';
+} from "react-native";
 
 let KeyboardMixin = {
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       keyboardHeight: 0,
       keyboardIsAnimating: false,
       animatedKeyboardHeight: new Animated.Value(0),
-      animatedKeyboardEmptySpace: new Animated.Value(Dimensions.get('window').height),
+      animatedKeyboardEmptySpace: new Animated.Value(
+        Dimensions.get("window").height
+      ),
       keyboardShowListener: null,
       keyboardHideListener: null
-    }
+    };
   },
 
-  componentDidMount: function () {
-    var showListener = Keyboard.addListener('keyboardWillShow', (frames) => {
-      if (this.keyboardMixinHandleKeyboardWillShow) this.keyboardMixinHandleKeyboardWillShow(frames);
+  componentDidMount: function() {
+    var showListener = Keyboard.addListener("keyboardWillShow", frames => {
+      if (this.keyboardMixinHandleKeyboardWillShow)
+        this.keyboardMixinHandleKeyboardWillShow(frames);
 
-      this.animate({
-        toValue: frames.endCoordinates.height,
-        duration: frames.duration,
-        easing: Easing.inOut(Easing.ease)
-      }, frames.duration);
+      this.animate(
+        {
+          toValue: frames.endCoordinates.height,
+          duration: frames.duration,
+          easing: Easing.inOut(Easing.ease)
+        },
+        frames.duration
+      );
     });
 
-    var hideListener = Keyboard.addListener('keyboardWillHide', frames => {
-      if (this.keyboardMixinHandleKeyboardWillHide) this.keyboardMixinHandleKeyboardWillHide(frames);
+    var hideListener = Keyboard.addListener("keyboardWillHide", frames => {
+      if (this.keyboardMixinHandleKeyboardWillHide)
+        this.keyboardMixinHandleKeyboardWillHide(frames);
 
-      this.animate({
-        toValue: 0,
-        duration: 200
-      }, frames.duration);
+      this.animate(
+        {
+          toValue: 0,
+          duration: 200
+        },
+        frames.duration
+      );
     });
 
     this.setState({
@@ -44,12 +54,8 @@ let KeyboardMixin = {
     });
   },
 
-  animate: function (options, nativeDuration) {
-    let {
-      toValue,
-      duration,
-      easing
-    } = options;
+  animate: function(options, nativeDuration) {
+    let { toValue, duration, easing } = options;
 
     this.setState({
       keyboardIsAnimating: true
@@ -57,7 +63,7 @@ let KeyboardMixin = {
 
     Animated.parallel([
       Animated.timing(this.state.animatedKeyboardEmptySpace, {
-        toValue: Dimensions.get('window').height - toValue,
+        toValue: Dimensions.get("window").height - toValue,
         duration,
         easing
       }),
@@ -76,7 +82,7 @@ let KeyboardMixin = {
     }, nativeDuration);
   },
 
-  componentWillUnmount: function () {
+  componentWillUnmount: function() {
     this.state.keyboardShowListener.remove();
     this.state.keyboardHideListener.remove();
   }

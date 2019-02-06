@@ -1,5 +1,5 @@
-import { merge } from 'ramda';
-import createRoutingReducer from '../lib/createRoutingReducer';
+import { merge } from "ramda";
+import createRoutingReducer from "../lib/createRoutingReducer";
 
 let initialState = {
   id: null,
@@ -19,11 +19,11 @@ let handlers = {
   },
 
   submitConfirmationCode: (state, action) => {
-    if (action.state == 'complete') {
+    if (action.state == "complete") {
       return {
         ...state,
         ...action.data.user
-      }
+      };
     } else {
       return state;
     }
@@ -32,12 +32,12 @@ let handlers = {
   saveDeviceToken: (state, action) => {
     return merge(state, {
       deviceToken: action.deviceToken,
-      deviceTokenSaved: action.state === 'complete'
+      deviceTokenSaved: action.state === "complete"
     });
   },
 
   loadUserInfo: (state, action) => {
-    if (action.state === 'complete') {
+    if (action.state === "complete") {
       return merge(state, action.data);
     } else {
       return state;
@@ -54,7 +54,7 @@ let handlers = {
 };
 
 export default createRoutingReducer({
-  key: 'user',
+  key: "user",
   handlers,
   initialState
 });

@@ -1,35 +1,34 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
+import { View, PixelRatio, ScrollView, Alert, Dimensions } from "react-native";
+import Style from "../style";
+import config from "../config";
+import BaseTextInput from "./BaseTextInput";
+import BaseText from "./BaseText";
+import Header from "./Header";
+import PressableView from "./PressableView";
+import SquareButton from "./SquareButton";
+import { navigateTo, navigateBack } from "../actions/NavigationActions";
 import {
-  View,
-  PixelRatio,
-  ScrollView,
-  Alert,
-  Dimensions
-} from 'react-native';
-import Style from '../style';
-import config from '../config';
-import BaseTextInput from './BaseTextInput';
-import BaseText from './BaseText';
-import Header from './Header';
-import PressableView from './PressableView';
-import SquareButton from './SquareButton';
-import { navigateTo, navigateBack } from '../actions/NavigationActions';
-import { loadUserInfo, updateUserInfo, logout, deleteAccount } from '../actions/AppActions';
+  loadUserInfo,
+  updateUserInfo,
+  logout,
+  deleteAccount
+} from "../actions/AppActions";
 
 let { appName } = config;
 
 class SettingsScreen extends React.Component {
   state = {
-    name: this.props.user.name || ''
+    name: this.props.user.name || ""
   };
 
   componentDidMount(prevProps) {
-    this.props.dispatch(loadUserInfo())
+    this.props.dispatch(loadUserInfo());
   }
 
-  shouldComponentUpdate() {
-    if (!nextProps.isActive) return;
+  shouldComponentUpdate(nextProps) {
+    return !!nextProps.isActive;
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -43,30 +42,30 @@ class SettingsScreen extends React.Component {
     this.props.dispatch(navigateBack());
   };
 
-  handleInputRowPress = (inputRef) => {
+  handleInputRowPress = inputRef => {
     this.refs[inputRef].focus();
   };
 
   handleLogout = () => {
-    let message = 'Log out of this device?';
+    let message = "Log out of this device?";
 
     Alert.alert(
       message,
       null,
       [
-        { text: 'Cancel', onPress: () => {} },
-        { text: 'Logout', onPress: this.handleLogoutConfirmation }
+        { text: "Cancel", onPress: () => {} },
+        { text: "Logout", onPress: this.handleLogoutConfirmation }
       ],
       { cancelable: false }
     );
   };
 
   handleLogoutConfirmation = () => {
-    this.props.dispatch(logout())
+    this.props.dispatch(logout());
   };
 
   handleAboutPress = () => {
-    this.props.dispatch(navigateTo('about'));
+    this.props.dispatch(navigateTo("about"));
   };
 
   handleInputBlur = () => {
@@ -76,18 +75,17 @@ class SettingsScreen extends React.Component {
   handleDeleteAccount = (e, retry) => {
     let message = `Enter your phone number (including area code and country code) to delete your account. This is not reversible.`;
 
-    if (retry) message = 'Invalid number. ' + message
+    if (retry) message = "Invalid number. " + message;
 
-    AlertIOS.prompt(
-      message,
-      [{ text: 'Cancel', onPress: () => {} },
-      { text: 'Delete', onPress: this.handleDeleteAccountConfirmation }]
-    );
+    AlertIOS.prompt(message, [
+      { text: "Cancel", onPress: () => {} },
+      { text: "Delete", onPress: this.handleDeleteAccountConfirmation }
+    ]);
   };
 
-  handleDeleteAccountConfirmation = (value) => {
+  handleDeleteAccountConfirmation = value => {
     let isValidConfirmation =
-      '+' + value.replace(/[^0-9]/g, '') === this.props.user.phoneNumber;
+      "+" + value.replace(/[^0-9]/g, "") === this.props.user.phoneNumber;
 
     if (isValidConfirmation) {
       this.props.dispatch(deleteAccount());
@@ -103,9 +101,12 @@ class SettingsScreen extends React.Component {
   };
 
   render() {
-    let contentStyles = [style.content, {
-      height: Dimensions.get('window').height - Style.values.rowHeight
-    }];
+    let contentStyles = [
+      style.content,
+      {
+        height: Dimensions.get("window").height - Style.values.rowHeight
+      }
+    ];
 
     return (
       <View style={style.container}>
@@ -113,13 +114,16 @@ class SettingsScreen extends React.Component {
           title="Settings"
           showBack={true}
           onBack={this.handleBack}
-          highlightColor={'#E6E6E6'}
+          highlightColor={"#E6E6E6"}
         />
         <ScrollView>
           <View style={contentStyles}>
             <View style={[style.section, style.nameSection]}>
               <View style={style.sectionContent}>
-                <PressableView style={style.inputRow} onPress={this.handleInputRowPress.bind(this, 'nameInput')}>
+                <PressableView
+                  style={style.inputRow}
+                  onPress={this.handleInputRowPress.bind(this, "nameInput")}
+                >
                   <View style={style.inputRowLabel}>
                     <BaseText>Name</BaseText>
                   </View>
@@ -128,8 +132,8 @@ class SettingsScreen extends React.Component {
                       ref="nameInput"
                       value={this.state.name}
                       style={style.input}
-                      onBlur={this.handleInputBlur.bind(this, 'name')}
-                      onChangeText={name => this.setState({name})}
+                      onBlur={this.handleInputBlur.bind(this, "name")}
+                      onChangeText={name => this.setState({ name })}
                       value={this.state.name}
                     />
                   </View>
@@ -152,11 +156,13 @@ class SettingsScreen extends React.Component {
 
             <View style={[style.section, style.aboutSection]}>
               <PressableView
-                label="About ColorChat"
+                label="About Color Chat"
                 onPress={this.handleAboutPress}
                 style={style.aboutButton}
               >
-                <BaseText style={style.aboutButtonText}>About ColorChat</BaseText>
+                <BaseText style={style.aboutButtonText}>
+                  About Color Chat
+                </BaseText>
               </PressableView>
             </View>
           </View>
@@ -169,7 +175,7 @@ class SettingsScreen extends React.Component {
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white"
   },
   content: {
     ...Style.mixins.contentWrapperBase,
@@ -177,18 +183,18 @@ let style = Style.create({
     flex: 1
   },
   inputRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 50
   },
   inputRowLabel: {
     flex: 0,
-    justifyContent: 'center',
+    justifyContent: "center",
     width: 60
   },
   input: {
-    color: 'black',
+    color: "black"
   },
   inputWrapper: {
     flex: 1,
@@ -200,23 +206,23 @@ let style = Style.create({
     marginBottom: 10
   },
   section: {
-    flex: 1,
+    flex: 1
   },
   sectionContent: {
-    padding: Style.values.horizontalPadding,
+    padding: Style.values.horizontalPadding
   },
   nameSection: {
-    flex: 0,
+    flex: 0
   },
   aboutSection: {
     flex: 0,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end"
   },
   aboutButton: {
-    padding: Style.values.outerPadding,
+    padding: Style.values.outerPadding
   },
   aboutButtonText: {
-    textAlign: 'center'
+    textAlign: "center"
   }
 });
 

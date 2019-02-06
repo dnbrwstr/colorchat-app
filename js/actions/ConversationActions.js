@@ -1,9 +1,10 @@
+import NavigationService from "../lib/NavigationService";
 
 const COMPOSE_EVENT_TIMEOUT = 3000;
 
 export let deleteConversation = conversation => {
   return {
-    type: 'deleteConversation',
+    type: "deleteConversation",
     conversation
   };
 };
@@ -11,25 +12,32 @@ export let deleteConversation = conversation => {
 let composeTimeout;
 
 export let receiveComposeEvent = data => (dispatch, getState) => {
-  let { route } = getState().navigation;
+  let { contactId } = getState().ui.conversation;
 
-  if (route.title !== 'conversation' || route.data.contactId !== data.senderId) {
+  if (
+    NavigationService.getCurrentRoute() !== "conversation" ||
+    contactId !== data.senderId
+  ) {
     return;
   }
 
   dispatch({
-    type: 'receiveComposeEvent',
+    type: "receiveComposeEvent",
     ...data
   });
 
   clearTimeout(composeTimeout);
 
-  composeTimeout = setTimeout(() => dispatch({
-    type: 'composeEventExpire',
-    ...data
-  }), COMPOSE_EVENT_TIMEOUT)
+  composeTimeout = setTimeout(
+    () =>
+      dispatch({
+        type: "composeEventExpire",
+        ...data
+      }),
+    COMPOSE_EVENT_TIMEOUT
+  );
 };
 
 export let resetComposeEvents = () => ({
-  type: 'resetComposeEvents'
+  type: "resetComposeEvents"
 });

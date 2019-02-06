@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -20,19 +21,19 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		651438E1D00541028E3BDEB7 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6DADF8E95CB4052A86305EE /* libRNFIRMessaging.a */; };
+		3880E7BEABA846F0A5FEB8E2 /* libSendSMS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41973F651E3B495F875806EB /* libSendSMS.a */; };
 		6AF56915169E4DCBAFFFC8EE /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 62346DC947D44A3CB2C25233 /* libc++.tbd */; };
 		74F0AF5E0B6F4095872DE948 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D999E91C17D1488A98B9329B /* libz.tbd */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B23C1F7F4ABB405C8B6EBBC1 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1BA4F16E874F9590ACA925 /* libRealmReact.a */; };
+		B57A6B41C5604228A150DA70 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECB37BFEC37A4CE985301C58 /* libRNFirebase.a */; };
 		C841D3FC1ECD3B3B006D5EEB /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D3EA1ECD3B32006D5EEB /* libRCTPushNotification.a */; };
 		C841D4071ECD3BA7006D5EEB /* ParseBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C841D4021ECD3BA7006D5EEB /* ParseBridge.m */; };
 		C841D4081ECD3BA7006D5EEB /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C841D4041ECD3BA7006D5EEB /* SettingsApp.m */; };
 		C841D40F1ECD3BDA006D5EEB /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40C1ECD3BDA006D5EEB /* Bolts.framework */; };
 		C841D4101ECD3BDA006D5EEB /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40D1ECD3BDA006D5EEB /* Parse.framework */; };
 		C841D4131ECE0BD5006D5EEB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */; };
-		C841D4211ECE0D89006D5EEB /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D4201ECE0D85006D5EEB /* libRNMessageComposer.a */; };
 		C841D42E1ECE144E006D5EEB /* WorkSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D4291ECE144E006D5EEB /* WorkSans-Bold.otf */; };
 		C841D42F1ECE144E006D5EEB /* WorkSans-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42A1ECE144E006D5EEB /* WorkSans-ExtraBold.otf */; };
 		C841D4301ECE144E006D5EEB /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42B1ECE144E006D5EEB /* WorkSans-Light.otf */; };
@@ -131,6 +132,48 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		C81D599F21053D6800561B75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DBE0D001F3B181A0099AA32;
+			remoteInfo = fishhook;
+		};
+		C81D59A121053D6800561B75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DBE0D0D1F3B181C0099AA32;
+			remoteInfo = "fishhook-tvOS";
+		};
+		C81D59B321053D6800561B75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
+			remoteInfo = jsinspector;
+		};
+		C81D59B521053D6800561B75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
+			remoteInfo = "jsinspector-tvOS";
+		};
+		C81D59B721053D6800561B75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
+			remoteInfo = privatedata;
+		};
+		C81D59B921053D6800561B75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
+			remoteInfo = "privatedata-tvOS";
+		};
 		C841D3E91ECD3B32006D5EEB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C841D3DB1ECD3B32006D5EEB /* RCTPushNotification.xcodeproj */;
@@ -144,13 +187,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D05745F1DE6004600184BB4;
 			remoteInfo = "RCTPushNotification-tvOS";
-		};
-		C841D41F1ECE0D85006D5EEB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C841D41B1ECE0D84006D5EEB /* RNMessageComposer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C23F08041AFAB5C100312C72;
-			remoteInfo = RNMessageComposer;
 		};
 		C87246C31ECCFE7100EC0C4F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -207,13 +243,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = F60690131CA2766F0003FB26;
 			remoteInfo = RealmReact;
-		};
-		C8727A6A1F5F00FD00CB4972 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNFIRMessaging;
 		};
 		C8A493BC1F5CCE4600F95BE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -313,6 +342,20 @@
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
 		};
+		C8C41E622106BB5F0069B2FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 098F76C6A9E54ECB9C336C53 /* RNFirebase.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFirebase;
+		};
+		C8C41ECA2106FD7B0069B2FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95688E1A1D38251600F72D63;
+			remoteInfo = SendSMS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -325,6 +368,7 @@
 		00E356EE1AD99517003FC87E /* ColorChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ColorChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorChatTests.m; sourceTree = "<group>"; };
+		098F76C6A9E54ECB9C336C53 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		0E760EFF1704E546880FC7C9 /* libPods-ColorChatTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ColorChatTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -336,6 +380,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ColorChat/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ColorChat/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SendSMS.xcodeproj; path = "../node_modules/react-native-sms/SendSMS.xcodeproj"; sourceTree = "<group>"; };
+		41973F651E3B495F875806EB /* libSendSMS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSendSMS.a; sourceTree = "<group>"; };
 		4794F251534389E2C288B329 /* Pods-ColorChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat.release.xcconfig"; sourceTree = "<group>"; };
 		4C1BA4F16E874F9590ACA925 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		62346DC947D44A3CB2C25233 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -355,7 +401,6 @@
 		C841D40D1ECD3BDA006D5EEB /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		C841D40E1ECD3BDA006D5EEB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Frameworks/Realm.framework; sourceTree = "<group>"; };
 		C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		C841D41B1ECE0D84006D5EEB /* RNMessageComposer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMessageComposer.xcodeproj; path = "../node_modules/react-native-message-composer/RNMessageComposer.xcodeproj"; sourceTree = "<group>"; };
 		C841D4291ECE144E006D5EEB /* WorkSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Bold.otf"; path = "../fonts/WorkSans-Bold.otf"; sourceTree = "<group>"; };
 		C841D42A1ECE144E006D5EEB /* WorkSans-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-ExtraBold.otf"; path = "../fonts/WorkSans-ExtraBold.otf"; sourceTree = "<group>"; };
 		C841D42B1ECE144E006D5EEB /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Light.otf"; path = "../fonts/WorkSans-Light.otf"; sourceTree = "<group>"; };
@@ -364,9 +409,9 @@
 		C85535A31F607615006AAF31 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ColorChat/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C87246F01ECD05FA00EC0C4F /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
 		C8A493B61F5CCE4600F95BE4 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		D999E91C17D1488A98B9329B /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E6DADF8E95CB4052A86305EE /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
+		ECB37BFEC37A4CE985301C58 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		F08C1D259C652674BF8D0BB4 /* libPods-ColorChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ColorChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEB83A14EED13D4EABFFD345 /* Pods-ColorChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -401,13 +446,13 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				C841D4211ECE0D89006D5EEB /* libRNMessageComposer.a in Frameworks */,
 				C87246F61ECD060500EC0C4F /* libRCTContacts.a in Frameworks */,
 				B23C1F7F4ABB405C8B6EBBC1 /* libRealmReact.a in Frameworks */,
 				6AF56915169E4DCBAFFFC8EE /* libc++.tbd in Frameworks */,
 				74F0AF5E0B6F4095872DE948 /* libz.tbd in Frameworks */,
-				651438E1D00541028E3BDEB7 /* libRNFIRMessaging.a in Frameworks */,
 				E0072F8AFE7064A6D9E1367E /* libPods-ColorChat.a in Frameworks */,
+				B57A6B41C5604228A150DA70 /* libRNFirebase.a in Frameworks */,
+				3880E7BEABA846F0A5FEB8E2 /* libSendSMS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +532,8 @@
 			children = (
 				139FDEF41B06529B00C62182 /* libRCTWebSocket.a */,
 				C87246D91ECCFE7100EC0C4F /* libRCTWebSocket-tvOS.a */,
+				C81D59A021053D6800561B75 /* libfishhook.a */,
+				C81D59A221053D6800561B75 /* libfishhook-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -522,10 +569,14 @@
 				C8C119A41F5CA07200404D26 /* libcxxreact.a */,
 				C8C119A61F5CA07200404D26 /* libjschelpers.a */,
 				C8C119A81F5CA07200404D26 /* libjschelpers.a */,
+				C81D59B421053D6800561B75 /* libjsinspector.a */,
+				C81D59B621053D6800561B75 /* libjsinspector-tvOS.a */,
 				C8C119AA1F5CA07200404D26 /* libthird-party.a */,
 				C8C119AC1F5CA07200404D26 /* libthird-party.a */,
 				C8C119AE1F5CA07200404D26 /* libdouble-conversion.a */,
 				C8C119B01F5CA07200404D26 /* libdouble-conversion.a */,
+				C81D59B821053D6800561B75 /* libprivatedata.a */,
+				C81D59BA21053D6800561B75 /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -543,7 +594,6 @@
 			isa = PBXGroup;
 			children = (
 				C8A493B61F5CCE4600F95BE4 /* RCTAnimation.xcodeproj */,
-				C841D41B1ECE0D84006D5EEB /* RNMessageComposer.xcodeproj */,
 				C841D3DB1ECD3B32006D5EEB /* RCTPushNotification.xcodeproj */,
 				C87246F01ECD05FA00EC0C4F /* RCTContacts.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -558,7 +608,8 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				9C8B4F35787C4ADE8DF403E4 /* RealmReact.xcodeproj */,
-				CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */,
+				098F76C6A9E54ECB9C336C53 /* RNFirebase.xcodeproj */,
+				38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -583,6 +634,7 @@
 				C841D40B1ECD3BD9006D5EEB /* Frameworks */,
 				E8EA629E492C161DB22589BE /* Pods */,
 				9FDE399F37744885BC7FA619 /* Resources */,
+				C81D598621053D6700561B75 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -598,6 +650,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9FDE399F37744885BC7FA619 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,6 +664,17 @@
 				C8C1197D1F5CA07200404D26 /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C81D598621053D6700561B75 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				4C1BA4F16E874F9590ACA925 /* libRealmReact.a */,
+				E6DADF8E95CB4052A86305EE /* libRNFIRMessaging.a */,
+				ECB37BFEC37A4CE985301C58 /* libRNFirebase.a */,
+				41973F651E3B495F875806EB /* libSendSMS.a */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		C841D3DC1ECD3B32006D5EEB /* Products */ = {
@@ -629,14 +699,6 @@
 				0E760EFF1704E546880FC7C9 /* libPods-ColorChatTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C841D41C1ECE0D84006D5EEB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C841D4201ECE0D85006D5EEB /* libRNMessageComposer.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C841D4341ECE1467006D5EEB /* Fonts */ = {
@@ -667,19 +729,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C8727A441F5F00FD00CB4972 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C8727A6B1F5F00FD00CB4972 /* libRNFIRMessaging.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C8A493B71F5CCE4600F95BE4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				C8A493BD1F5CCE4600F95BE4 /* libRCTAnimation.a */,
 				C8A493BF1F5CCE4600F95BE4 /* libRCTAnimation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8C41E5F2106BB5F0069B2FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8C41E632106BB5F0069B2FC /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8C41EC72106FD7A0069B2FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8C41ECB2106FD7B0069B2FC /* libSendSMS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -695,14 +765,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		9FDE399F37744885BC7FA619 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -714,8 +776,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				8902BD45C3E639A9E9B32C18 /* [CP] Embed Pods Frameworks */,
-				F5DD73D9A13C36980A2D45F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -735,8 +795,6 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
-				254BAD5C045A823D107A02B4 /* [CP] Embed Pods Frameworks */,
-				1775DACC646E97886649306D /* [CP] Copy Pods Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 			);
 			buildRules = (
@@ -847,12 +905,12 @@
 					ProjectRef = 9C8B4F35787C4ADE8DF403E4 /* RealmReact.xcodeproj */;
 				},
 				{
-					ProductGroup = C8727A441F5F00FD00CB4972 /* Products */;
-					ProjectRef = CCD4266709394E8DB56174CD /* RNFIRMessaging.xcodeproj */;
+					ProductGroup = C8C41E5F2106BB5F0069B2FC /* Products */;
+					ProjectRef = 098F76C6A9E54ECB9C336C53 /* RNFirebase.xcodeproj */;
 				},
 				{
-					ProductGroup = C841D41C1ECE0D84006D5EEB /* Products */;
-					ProjectRef = C841D41B1ECE0D84006D5EEB /* RNMessageComposer.xcodeproj */;
+					ProductGroup = C8C41EC72106FD7A0069B2FC /* Products */;
+					ProjectRef = 38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -941,6 +999,48 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C81D59A021053D6800561B75 /* libfishhook.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfishhook.a;
+			remoteRef = C81D599F21053D6800561B75 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C81D59A221053D6800561B75 /* libfishhook-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libfishhook-tvOS.a";
+			remoteRef = C81D59A121053D6800561B75 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C81D59B421053D6800561B75 /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = C81D59B321053D6800561B75 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C81D59B621053D6800561B75 /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = C81D59B521053D6800561B75 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C81D59B821053D6800561B75 /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = C81D59B721053D6800561B75 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C81D59BA21053D6800561B75 /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = C81D59B921053D6800561B75 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C841D3EA1ECD3B32006D5EEB /* libRCTPushNotification.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -953,13 +1053,6 @@
 			fileType = archive.ar;
 			path = "libRCTPushNotification-tvOS.a";
 			remoteRef = C841D3EB1ECD3B32006D5EEB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C841D4201ECE0D85006D5EEB /* libRNMessageComposer.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNMessageComposer.a;
-			remoteRef = C841D41F1ECE0D85006D5EEB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C87246C41ECCFE7100EC0C4F /* libRCTImage-tvOS.a */ = {
@@ -1016,13 +1109,6 @@
 			fileType = archive.ar;
 			path = libRealmReact.a;
 			remoteRef = C87279F91F5DDDDB00CB4972 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C8727A6B1F5F00FD00CB4972 /* libRNFIRMessaging.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFIRMessaging.a;
-			remoteRef = C8727A6A1F5F00FD00CB4972 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C8A493BD1F5CCE4600F95BE4 /* libRCTAnimation.a */ = {
@@ -1123,6 +1209,20 @@
 			remoteRef = C8C119AF1F5CA07200404D26 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C8C41E632106BB5F0069B2FC /* libRNFirebase.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFirebase.a;
+			remoteRef = C8C41E622106BB5F0069B2FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C8C41ECB2106FD7B0069B2FC /* libSendSMS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSendSMS.a;
+			remoteRef = C8C41ECA2106FD7B0069B2FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1165,21 +1265,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		1775DACC646E97886649306D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1FB55A4ECD3A622CBAEAC89D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1198,21 +1283,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		254BAD5C045A823D107A02B4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		5485513531F30BF26BA257E0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1229,36 +1299,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8902BD45C3E639A9E9B32C18 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F5DD73D9A13C36980A2D45F8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1326,6 +1366,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ColorChat.app/ColorChat";
@@ -1347,6 +1389,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1374,9 +1418,11 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 				);
 				INFOPLIST_FILE = ColorChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1407,9 +1453,11 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-sms/SendSMS",
 				);
 				INFOPLIST_FILE = ColorChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

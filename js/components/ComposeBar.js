@@ -1,16 +1,11 @@
-import React from 'react';
-import {
-  Animated,
-  View,
-  Text,
-  InteractionManager
-} from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
+import React from "react";
+import { Animated, View, Text, InteractionManager } from "react-native";
+import Style from "../style";
+import PressableView from "./PressableView";
 
 class ComposeBar extends React.Component {
   state = {
-    animationValue: new Animated.Value(this.props.active ? 1 : 0),
+    animationValue: new Animated.Value(this.props.active ? 1 : 0)
   };
 
   componentDidUpdate(prevProps) {
@@ -39,10 +34,7 @@ class ComposeBar extends React.Component {
     return (
       <Animated.View style={composeBarStyle}>
         <PressableView
-          style={[
-            style.button,
-            style.buttonFirst
-          ]}
+          style={[style.button, style.buttonFirst]}
           activeStyle={style.buttonActive}
           onPress={this.props.onCancel}
         >
@@ -63,20 +55,20 @@ class ComposeBar extends React.Component {
 let style = Style.create({
   composeBar: {
     height: Style.values.rowHeight,
-    flexDirection: 'row',
-    overflow: 'hidden'
+    flexDirection: "row",
+    overflow: "hidden"
   },
   button: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: "center"
   },
   buttonText: {
     ...Style.mixins.textBase,
-    color: 'white',
-    textAlign: 'center'
+    color: "white",
+    textAlign: "center"
   },
   buttonFirst: {
-    borderRightColor: 'rgba(255,255,255,.03)',
+    borderRightColor: "rgba(255,255,255,.03)",
     borderRightWidth: 1
   },
   buttonActive: {

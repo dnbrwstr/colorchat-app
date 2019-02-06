@@ -1,19 +1,22 @@
-import { merge } from 'ramda';
-import { rand } from './Utils';
+import { merge } from "ramda";
+import { rand } from "./Utils";
 
 export let generateId = () =>
   Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
 
 export let createMessage = data => {
-  return merge({
-    clientId: generateId(),
-    clientTimestamp: new Date().toJSON(),
-    state: 'composing',
-    expanded: false,
-    color: '#CCC',
-    width: 240,
-    height: 150
-  }, data);
+  return merge(
+    {
+      clientId: generateId(),
+      clientTimestamp: new Date().toJSON(),
+      state: "composing",
+      expanded: false,
+      color: "#CCC",
+      width: 240,
+      height: 150
+    },
+    data
+  );
 };
 
 export let createSeedMessage = () => {
@@ -28,7 +31,7 @@ export let createSeedMessage = () => {
     height: 75 + Math.floor(Math.random() * 300),
     recipientId: recipientId,
     color: `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`,
-    state: 'complete'
+    state: "complete"
   });
 };
 

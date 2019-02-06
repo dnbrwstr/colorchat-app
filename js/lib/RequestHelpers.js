@@ -17,43 +17,44 @@ export let deleteAuthenticated = (url, token) => {
 export let postJSON = (url, data) => {
   console.log(url);
   return fetch(url, postRequest(json(data)));
-}
+};
 
-export let json = (data, requestObj={}) => ({
+export let json = (data, requestObj = {}) => ({
   ...requestObj,
   headers: {
     ...requestObj.headers,
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    Accept: "application/json",
+    "Content-Type": "application/json"
   },
   body: JSON.stringify(data)
 });
 
-let postRequest = (requestObj={}) => ({
+let postRequest = (requestObj = {}) => ({
   ...requestObj,
-  method: 'post'
+  method: "post"
 });
 
-let putRequest = (requestObj={}) => ({
+let putRequest = (requestObj = {}) => ({
   ...requestObj,
-  method: 'put'
+  method: "put"
 });
 
-let deleteRequest = (requestObj={}) => ({
+let deleteRequest = (requestObj = {}) => ({
   ...requestObj,
-  method: 'delete'
+  method: "delete"
 });
 
-export let authenticated = (token, requestObj={}) => {
+export let authenticated = (token, requestObj = {}) => {
   if (!token) {
-    throw new Error('Token required send authenticated request');
+    debugger;
+    throw new Error("Token required to send authenticated request");
   }
 
   return {
     ...requestObj,
     headers: {
       ...requestObj.headers,
-      'X-Auth-Token': token
+      "X-Auth-Token": token
     }
   };
 };

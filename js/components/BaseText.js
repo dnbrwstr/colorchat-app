@@ -1,10 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import {
-  Text
-} from 'react-native';
-import Color from 'color';
-import Style from '../style';
+import PropTypes from "prop-types";
+import React from "react";
+import { Text } from "react-native";
+import Color from "color";
+import Style from "../style";
 
 /**
  * General purpose wrapper for Text element
@@ -21,9 +19,7 @@ class BaseText extends React.Component {
   };
 
   render() {
-    return (
-      <Text {...this.props} style={this.getStyles()} />
-    );
+    return <Text {...this.props} style={this.getStyles()} />;
   }
 
   getStyles = () => {
@@ -35,7 +31,7 @@ class BaseText extends React.Component {
   };
 
   getColor = () => {
-    return Color(this.props.visibleOn).luminosity() > .5 ? 'black' : 'white'
+    return Color(this.props.visibleOn).luminosity() > 0.5 ? "black" : "white";
   };
 }
 

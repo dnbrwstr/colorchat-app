@@ -1,21 +1,21 @@
-import { StyleSheet } from 'react-native';
-import Color from 'color';
+import { StyleSheet } from "react-native";
+import Color from "color";
 
-let makeStyles = function (styles) {
+let makeStyles = function(styles) {
   for (let key in styles) {
     makeStyle(styles[key]);
   }
 
   return styles;
-}
+};
 
-let makeStyle = function (style) {
-  if (style.mixins  && style.mixins instanceof Array) {
-    style.mixins.forEach((mixin) => {
+let makeStyle = function(style) {
+  if (style.mixins && style.mixins instanceof Array) {
+    style.mixins.forEach(mixin => {
       mixin = makeStyle(mixin);
 
       for (let prop in mixin) {
-        if (typeof style[prop] == 'undefined') {
+        if (typeof style[prop] == "undefined") {
           style[prop] = mixin[prop];
         }
       }
@@ -25,16 +25,22 @@ let makeStyle = function (style) {
   }
 
   return style;
-}
+};
 
 let Style = {
-  create: (style) => StyleSheet.create(makeStyles(style)),
-  mixins: require('./mixins'),
+  create: style => StyleSheet.create(makeStyles(style)),
+  mixins: require("./mixins"),
   util: {
-    lighten: (hexString, amount) => Color(hexString).lighten(amount).hexString(),
-    darken: (hexString, amount) => Color(hexString).darken(amount).hexString()
+    lighten: (hexString, amount) =>
+      Color(hexString)
+        .lighten(amount)
+        .hexString(),
+    darken: (hexString, amount) =>
+      Color(hexString)
+        .darken(amount)
+        .hexString()
   },
-  values: require('./values')
+  values: require("./values")
 };
 
 module.exports = Style;

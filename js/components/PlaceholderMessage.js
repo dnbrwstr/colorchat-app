@@ -1,15 +1,14 @@
-import React from 'react';
-import {
-  Animated,
-  Image,
-  requireNativeComponent
-} from 'react-native';
-import Style from '../style';
+import React from "react";
+import { Animated, Image, requireNativeComponent } from "react-native";
+import Style from "../style";
 
 class PlaceholderMessage extends React.Component {
   render() {
     return (
-      <Image style={style.image} source={require('../../images/compose-indicator.gif')} />
+      <Image
+        style={style.image}
+        source={require("../../images/compose-indicator.gif")}
+      />
     );
   }
 }
@@ -19,7 +18,7 @@ let style = Style.create({
     width: 100,
     height: 10,
     margin: 0,
-    backgroundColor: 'black'
+    backgroundColor: "black"
   }
 });
 

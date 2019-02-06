@@ -1,85 +1,80 @@
-import invariant from 'invariant';
-import { findIndex, propEq } from 'ramda';
-import { NavigationActions } from 'react-navigation';
-import createRoutingReducer from '../lib/createRoutingReducer';
-import AppNavigator from '../components/AppNavigator';
+import invariant from "invariant";
+import { findIndex, propEq } from "ramda";
+import { NavigationActions } from "react-navigation";
+import createRoutingReducer from "../lib/createRoutingReducer";
+import { getTransitionMethod } from "../lib/AppRoutes";
+import AppNavigator from "../components/AppNavigator";
 
-const getStateForAction = (action, state) => AppNavigator.router.getStateForAction(action, state);
-const getActionForPath = (path, params) => AppNavigator.router.getActionForPathAndParams(path, params);
+const initialState = AppNavigator.router.getStateForAction(
+  NavigationActions.navigate({ routeName: "main" })
+);
 
-const logoutAction = getActionForPath('login');
-const loginAction = getActionForPath('welcome');
-
-const loggedOutState = getStateForAction(logoutAction);
-const loggedInState = getStateForAction(loginAction);
-
-const initialState = {
-  loggedOutState,
-  loggedInState
-};
-
-const handlers = {
-  init: function (state, action) {
-    return {
-      ...state,
-      loggedInState: getStateForAction(loginAction, loggedOutState)     
-    }
-  },
-
-  login: function (state, action) {
-    if (action.state === 'complete') {
-      return {
-        ...state,
-        loggedInState: getStateForAction(loginAction, loggedOutState)     
-      }
+let handlers = {
+  init: function(state, action) {
+    const { appState } = action;
+    if (appState.user && appState.user.token) {
+      return this.navigateToTitle("inbox", state);
     } else {
-      return state;
+      return this.navigateToTitle("welcome", state);
     }
   },
 
-  logout: function (state, action) {
-    const newLoggedOutState = getStateForAction(
-      NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: "login" })]
-      })
-    );
-
-    return {
-      ...state,
-      loggedOutState: newLoggedOutState
-    };
-  },
-
-  connectToCamera: function (state, action) {
-    if (action.state === 'complete') {
-      return NavigationActions.navigate({ routeName: 'pairingSuccess'});
-    } else {
-      return state;
-    }
-  },
-
-  startNavigationTransition: function (state, action) {
+  startNavigationTransition: function(state, action) {
     return {
       ...state,
       transitioning: true
     };
   },
 
-  endNavigationTransition: function (state, action) {
+  endNavigationTransition: function(state, action) {
     return {
       ...state,
       transitioning: false
     };
+  },
+
+  authError: function(state, action) {
+    return this.navigateToTitle("welcome", state);
+  },
+
+  registerPhoneNumber: function(state, action) {
+    if (action.state !== "complete") return state;
+    return this.navigateToTitle("confirmCode", state);
+  },
+
+  submitConfirmationCode: function(state, action) {
+    if (action.state !== "complete") return state;
+    return this.navigateToTitle("notifications", state);
+  },
+
+  submitNotificationName: function(state, action) {
+    return this.navigateToTitle("inbox", state);
+  },
+
+  logout: function(state, action) {
+    return this.navigateToTitle("welcome", state);
+  },
+
+  deleteAccount: function(state, action) {
+    return this.navigateToTitle("welcome", state);
+  },
+
+  navigateToTitle: function(title, state) {
+    return AppNavigator.router.getStateForAction(
+      NavigationActions.navigate({ routeName: title }),
+      state
+    );
   }
 };
 
-export const navigationReducer = (state = initialState, action) => {
-  console.log(action.type);
+const navReducer = (state = initialState, action) => {
   if (handlers[action.type]) {
     return handlers[action.type](state, action);
   } else {
-    const nextState = AppNavigator.router.getStateForAction(action, state) || state;
+    const nextState =
+      AppNavigator.router.getStateForAction(action, state) || state;
     return nextState;
   }
 };
+
+export default navReducer;

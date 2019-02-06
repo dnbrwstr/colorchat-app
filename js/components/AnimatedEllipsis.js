@@ -1,50 +1,47 @@
-import React from 'react';
-import createReactClass from 'create-react-class';
-import {
-  View,
-  LayoutAnimation
-} from 'react-native';
-import { times } from 'ramda';
-import Style from '../style';
-import TimerMixin from './mixins/TimerMixin';
+import React from "react";
+import createReactClass from "create-react-class";
+import { View, LayoutAnimation } from "react-native";
+import { times } from "ramda";
+import Style from "../style";
+import TimerMixin from "./mixins/TimerMixin";
 
 let AnimatedEllipsis = createReactClass({
-  displayName: 'AnimatedEllipsis',
+  displayName: "AnimatedEllipsis",
   mixins: [TimerMixin],
 
-  getDefaultProps: function () {
+  getDefaultProps: function() {
     return {
       duration: 2000
     };
   },
 
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       dots: 2
     };
   },
 
-  componentDidMount: function () {
-    this.setIntervalTimer('update', this.step, this.props.duration);
+  componentDidMount: function() {
+    this.setIntervalTimer("update", this.step, this.props.duration);
   },
 
-  componentWillUnmount: function () {
+  componentWillUnmount: function() {
     this.clearAllTimers();
   },
 
-  step: function () {
+  step: function() {
     let dots = ++this.state.dots;
-    if (dots > 3)  dots = 0;
+    if (dots > 3) dots = 0;
 
     LayoutAnimation.spring();
 
     this.setState({
-      dots: dots,
+      dots: dots
     });
   },
 
-  render: function () {
-    let dots = times((i) => {
+  render: function() {
+    let dots = times(i => {
       let dotStyle = [
         style.dot,
         i < this.state.dots && {
@@ -52,19 +49,15 @@ let AnimatedEllipsis = createReactClass({
           width: 5,
           height: 5,
           borderRadius: 2.5,
-          margin: 5/3
+          margin: 5 / 3
         }
       ];
 
-      return (
-        <View style={dotStyle} key={`dot-${i}`} />
-      );
+      return <View style={dotStyle} key={`dot-${i}`} />;
     }, 3);
 
-    return (
-      <View style={style.container}>{ dots }</View>
-    );
-  },
+    return <View style={style.container}>{dots}</View>;
+  }
 });
 
 let size = 2;
@@ -72,10 +65,10 @@ let size = 2;
 let style = Style.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent"
   },
   dot: {
     borderRadius: size / 2,

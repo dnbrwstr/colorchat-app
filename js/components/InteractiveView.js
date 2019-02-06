@@ -1,25 +1,24 @@
-import React from 'react';
-import createReactClass from 'create-react-class';
-import {
-  Animated,
-  View
-} from 'react-native';
-import Touchable from 'Touchable';
-import { merge } from 'ramda';
-import { extractSingleTouch } from 'fbjs/lib/TouchEventUtils';
-import measure from '../lib/measure';
-import NativeMethodsMixin from 'NativeMethodsMixin';
-
+import React from "react";
+import createReactClass from "create-react-class";
+import { Animated, View } from "react-native";
+import Touchable from "Touchable";
+import { merge } from "ramda";
+import { extractSingleTouch } from "fbjs/lib/TouchEventUtils";
+import measure from "../lib/measure";
+import NativeMethodsMixin from "NativeMethodsMixin";
 
 let PRESS_RECT = {
-  top: 20, right: 20, bottom: 20, left: 20
+  top: 20,
+  right: 20,
+  bottom: 20,
+  left: 20
 };
 
 let InteractiveView = createReactClass({
-  displayName: 'InteractiveView',
+  displayName: "InteractiveView",
   mixins: [Touchable.Mixin, NativeMethodsMixin],
 
-  getDefaultProps: function () {
+  getDefaultProps: function() {
     return {
       onInteractionStart: () => {},
       onInteractionEnd: () => {},
@@ -27,7 +26,7 @@ let InteractiveView = createReactClass({
     };
   },
 
-  getDefaultProps: function () {
+  getDefaultProps: function() {
     return {
       swipeEnabled: false,
       xAxisEnabled: true,
@@ -36,12 +35,12 @@ let InteractiveView = createReactClass({
       yAxisThreshold: 20,
       springBack: true,
       deleteEnabled: false,
-      deleteAxis: 'x',
-      deleteThreshold: .5
+      deleteAxis: "x",
+      deleteThreshold: 0.5
     };
   },
 
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       ...this.touchableGetInitialState(),
       lastTouch: null,
@@ -56,7 +55,7 @@ let InteractiveView = createReactClass({
     };
   },
 
-  render: function () {
+  render: function() {
     let swipeTargetStyle = {
       transform: [
         { translateX: this.state.targetOffset.x },
@@ -66,11 +65,15 @@ let InteractiveView = createReactClass({
 
     return (
       <Animated.View
-        style={[ this.state.animatingOut && {
-          height: this.state.animatedWrapperHeight
-        }]}
+        style={[
+          this.state.animatingOut && {
+            height: this.state.animatedWrapperHeight
+          }
+        ]}
         onStartShouldSetResponder={this.touchableHandleStartShouldSetResponder}
-        onResponderTerminationRequest={this.touchableHandleResponderTerminationRequest}
+        onResponderTerminationRequest={
+          this.touchableHandleResponderTerminationRequest
+        }
         onResponderTerminate={this.touchableHandleResponderTerminate}
         onResponderGrant={this.onTouchStart}
         onResponderMove={this.onTouchMove}
@@ -87,13 +90,13 @@ let InteractiveView = createReactClass({
           ]}
           ref="content"
         >
-          { this.props.children }
+          {this.props.children}
         </Animated.View>
       </Animated.View>
     );
   },
 
-  measureView: async function () {
+  measureView: async function() {
     let size = await measure(this.refs.content);
 
     this.setState({
@@ -101,7 +104,7 @@ let InteractiveView = createReactClass({
     });
   },
 
-  onTouchStart: function (e) {
+  onTouchStart: function(e) {
     this.touchableHandleResponderGrant.apply(this, arguments);
 
     let touch = extractSingleTouch(e.nativeEvent);
@@ -113,7 +116,7 @@ let InteractiveView = createReactClass({
     });
   },
 
-  onTouchMove: function (e) {
+  onTouchMove: function(e) {
     this.touchableHandleResponderMove.apply(this, arguments);
 
     if (!this.props.swipeEnabled) return;
@@ -123,13 +126,19 @@ let InteractiveView = createReactClass({
     let offsetX = touch.pageX - this.state.touchOrigin.x;
     let offsetY = touch.pageY - this.state.touchOrigin.y;
 
-    if (this.props.xAxisEnabled && Math.abs(offsetX) > this.props.xAxisThreshold) {
+    if (
+      this.props.xAxisEnabled &&
+      Math.abs(offsetX) > this.props.xAxisThreshold
+    ) {
       swipeStarted = true;
       this.onInteractionStart();
       this.state.targetOffset.x.setValue(offsetX);
     }
 
-    if (this.props.yAxisEnabled && Math.abs(offsetY) > this.props.yAxisEnabled) {
+    if (
+      this.props.yAxisEnabled &&
+      Math.abs(offsetY) > this.props.yAxisEnabled
+    ) {
       swipeStarted = true;
       this.onInteractionStart();
       this.state.targetOffset.y.setValue(offsetY);
@@ -144,7 +153,7 @@ let InteractiveView = createReactClass({
     });
   },
 
-  onTouchEnd: function (e) {
+  onTouchEnd: function(e) {
     this.touchableHandleResponderRelease.apply(this, arguments);
 
     this.onInteractionEnd();
@@ -153,10 +162,10 @@ let InteractiveView = createReactClass({
 
     if (!this.maybeTriggerDelete() && this.props.springBack) {
       Animated.spring(this.state.targetOffset, {
-        toValue: {x: 0, y: 0},
+        toValue: { x: 0, y: 0 },
         tension: 100,
         friction: 6
-      }).start()
+      }).start();
     }
 
     this.setState({
@@ -166,32 +175,26 @@ let InteractiveView = createReactClass({
     });
   },
 
-  onInteractionStart: function () {
+  onInteractionStart: function() {
     if (!this.state.interacting) {
       this.setState({ interacting: true });
       this.props.onInteractionStart();
     }
   },
 
-  onInteractionEnd: function () {
+  onInteractionEnd: function() {
     if (this.state.interacting) {
       this.setState({ interacting: false });
       this.props.onInteractionEnd();
     }
   },
 
-  maybeTriggerDelete: function () {
+  maybeTriggerDelete: function() {
     if (!this.props.deleteEnabled) return;
 
     let { touchOrigin, lastTouch, size } = this.state;
 
-    let {
-      startVal,
-      endVal,
-      axisSize,
-      finalPositive,
-      finalNegative
-    } = {
+    let { startVal, endVal, axisSize, finalPositive, finalNegative } = {
       x: {
         startVal: touchOrigin.x,
         endVal: lastTouch.x,
@@ -215,10 +218,7 @@ let InteractiveView = createReactClass({
       axisValue[this.props.deleteAxis] =
         finalOffset > 0 ? finalPositive : finalNegative;
 
-      let finalValue = merge(
-        {x: 0, y: 0 },
-        axisValue
-      );
+      let finalValue = merge({ x: 0, y: 0 }, axisValue);
 
       this.setState({
         animatingOut: true
@@ -251,45 +251,45 @@ let InteractiveView = createReactClass({
    * Touchable callbacks copied almost verbatim
    * from TouchableWithoutFeedback.js
    */
-  touchableHandlePress: function (e) {
+  touchableHandlePress: function(e) {
     if (this.state.swipeStarted) return;
     this.props.onPress && this.props.onPress(e);
   },
 
-  touchableHandleActivePressIn: function (e) {
+  touchableHandleActivePressIn: function(e) {
     this.setState({ pressStarted: true });
     if (this.state.swipeStarted) return;
     this.props.onPressIn && this.props.onPressIn(e);
   },
 
-  touchableHandleActivePressOut: function (e) {
+  touchableHandleActivePressOut: function(e) {
     this.setState({ pressStarted: false });
     if (this.state.swipeStarted) return;
     this.props.onPressOut && this.props.onPressOut(e);
   },
 
-  touchableHandleLongPress: function (e) {
+  touchableHandleLongPress: function(e) {
     if (this.state.swipeStarted) return;
     this.props.onLongPress && this.props.onLongPress(e);
   },
 
-  touchableGetPressRectOffset: function () {
+  touchableGetPressRectOffset: function() {
     return PRESS_RECT;
   },
 
-  touchableGetHighlightDelayMS: function () {
+  touchableGetHighlightDelayMS: function() {
     return this.props.delayPressIn || 30;
   },
 
-  touchableGetLongPressDelayMS: function () {
-    return this.props.delayLongPress === 0 ? 0 :
-      this.props.delayLongPress || 500;
+  touchableGetLongPressDelayMS: function() {
+    return this.props.delayLongPress === 0
+      ? 0
+      : this.props.delayLongPress || 500;
   },
 
-  touchableGetPressOutDelayMS: function () {
+  touchableGetPressOutDelayMS: function() {
     return this.props.delayPressOut || 0;
-  },
+  }
 });
 
 export default InteractiveView;
-

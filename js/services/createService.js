@@ -1,5 +1,5 @@
-import { merge } from 'ramda';
-import { bindObjectMethods } from '../lib/Utils';
+import { merge } from "ramda";
+import { bindObjectMethods } from "../lib/Utils";
 
 /**
  * Services are like simplified, nonrendering React components
@@ -20,17 +20,21 @@ import { bindObjectMethods } from '../lib/Utils';
  * }
  * ````
  */
-export default createService = store => (serviceObject, selector) => {
-  let service = merge({
-    onDidInitialize: () => {},
-    onDidUpdate: () => {}
-  }, serviceObject);
+export default (createService = store => (serviceObject, selector) => {
+  let service = merge(
+    {
+      onDidInitialize: () => {},
+      onDidUpdate: () => {}
+    },
+    serviceObject
+  );
 
   service = bindObjectMethods(service);
 
-  let getProps = () => merge(selector(store.getState()), {
-    dispatch: store.dispatch
-  });
+  let getProps = () =>
+    merge(selector(store.getState()), {
+      dispatch: store.dispatch
+    });
 
   let props = getProps();
   service.props = props;
@@ -52,5 +56,4 @@ export default createService = store => (serviceObject, selector) => {
 
   service.onDidInitialize();
   return service;
-};
-
+});

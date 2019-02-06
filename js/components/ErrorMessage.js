@@ -1,14 +1,9 @@
-import React  from 'react';
-import {
-  View,
-  Text,
-  Animated,
-  Easing
-} from 'react-native';
-import Style  from '../style';
-import measure  from '../lib/measure';
-import PressableView from './PressableView';
-import BaseText from './BaseText';
+import React from "react";
+import { View, Text, Animated, Easing } from "react-native";
+import Style from "../style";
+import measure from "../lib/measure";
+import PressableView from "./PressableView";
+import BaseText from "./BaseText";
 
 class ErrorMessage extends React.Component {
   static defaultProps = {
@@ -36,7 +31,7 @@ class ErrorMessage extends React.Component {
     ]).start();
   };
 
-  animateOut = (cb) => {
+  animateOut = cb => {
     Animated.parallel([
       Animated.timing(this.state.height, {
         duration: 150,
@@ -73,7 +68,9 @@ class ErrorMessage extends React.Component {
         activeStyle={style.messageActive}
         ref="contentView"
       >
-        <BaseText style={style.text} onLayout={this.animateIn} ref="text">{this.props.message}</BaseText>
+        <BaseText style={style.text} onLayout={this.animateIn} ref="text">
+          {this.props.message}
+        </BaseText>
       </PressableView>
     );
   }
@@ -91,16 +88,16 @@ let style = Style.create({
   message: {
     flex: 0,
     opacity: 0,
-    backgroundColor: 'black',
-    overflow: 'hidden'
+    backgroundColor: "black",
+    overflow: "hidden"
   },
   messageActive: {
-    backgroundColor: '#333'
+    backgroundColor: "#333"
   },
   text: {
-    padding: textPadding * .6,
+    padding: textPadding * 0.6,
     paddingHorizontal: textPadding,
-    color: 'white'
+    color: "white"
   }
 });
 

@@ -1,41 +1,37 @@
-import React from 'react';
-import createReactClass from 'create-react-class';
-import {
-  View,
-  Text,
-  Animated
-} from 'react-native';
-import Style from '../style';
-import { connect } from 'react-redux';
-import { navigateToConversation } from '../actions/NavigationActions';
-import { dismissInternalAlert } from '../actions/AppActions';
-import PressableView from './PressableView';
-import TimerMixin from './mixins/TimerMixin';
+import React from "react";
+import createReactClass from "create-react-class";
+import { View, Text, Animated } from "react-native";
+import Style from "../style";
+import { connect } from "react-redux";
+import { navigateToConversation } from "../actions/NavigationActions";
+import { dismissInternalAlert } from "../actions/AppActions";
+import PressableView from "./PressableView";
+import TimerMixin from "./mixins/TimerMixin";
 
 let Alert = createReactClass({
-  displayName: 'Alert',
+  displayName: "Alert",
   mixins: [TimerMixin],
 
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       animatedValue: new Animated.Value(0)
-    }
+    };
   },
 
-  componentDidMount: function () {
+  componentDidMount: function() {
     Animated.timing(this.state.animatedValue, {
       toValue: 1,
       duration: 200
     }).start();
 
-    this.setDelayTimer('close', this.close, 5000);
+    this.setDelayTimer("close", this.close, 5000);
   },
 
-  componentWillUnmount: function () {
+  componentWillUnmount: function() {
     this.clearAllTimers();
   },
 
-  render: function () {
+  render: function() {
     let alertStyles = [
       style.alert,
       {
@@ -49,46 +45,46 @@ let Alert = createReactClass({
     return (
       <Animated.View style={alertStyles}>
         <PressableView style={style.alertInner} onPress={this.onActivate}>
-          <Text style={style.text}>{ this.props.message }</Text>
+          <Text style={style.text}>{this.props.message}</Text>
         </PressableView>
       </Animated.View>
     );
   },
 
-  onActivate: function () {
-    this.clearDelayTimer('close');
+  onActivate: function() {
+    this.clearDelayTimer("close");
     this.close();
     this.props.dispatch(navigateToConversation(this.props.senderId));
   },
 
-  close: function () {
+  close: function() {
     Animated.timing(this.state.animatedValue, {
       toValue: 0,
       duration: 200
     }).start(() => {
-      this.props.dispatch(dismissInternalAlert(this.props.id))
+      this.props.dispatch(dismissInternalAlert(this.props.id));
     });
-  },
+  }
 });
 
 let style = Style.create({
   alert: {
-    overflow: 'hidden',
-    height: Style.values.rowHeight,
+    overflow: "hidden",
+    height: Style.values.rowHeight
   },
   alertInner: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     height: Style.values.rowHeight,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center"
   },
   text: {
     ...Style.mixins.textBase
   }
 });
 
-export default connect(()=>({}))(Alert);
+export default connect(() => ({}))(Alert);

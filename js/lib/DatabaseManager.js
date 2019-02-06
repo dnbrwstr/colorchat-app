@@ -1,17 +1,17 @@
-import Realm from 'realm';
+import Realm from "realm";
 
 const ChatMessageSchema = {
-  name: 'ChatMessage',
-  primaryKey: 'id',
+  name: "ChatMessage",
+  primaryKey: "id",
   properties: {
-    id: { type: 'string', optional: true },
-    senderId: { type: 'int', optional: true },
-    recipientId: { type: 'int', optional: true },
-    createdAt: { type: 'date', optional: true },
-    color: { type: 'string', optional: true },
-    width: { type: 'int', optional: true },
-    height: { type: 'int', optional: true },
-    state: { type: 'string', optional: true }
+    id: { type: "string", optional: true },
+    senderId: { type: "int", optional: true },
+    recipientId: { type: "int", optional: true },
+    createdAt: { type: "date", optional: true },
+    color: { type: "string", optional: true },
+    width: { type: "int", optional: true },
+    height: { type: "int", optional: true },
+    state: { type: "string", optional: true }
   }
 };
 
@@ -21,10 +21,10 @@ const toPlainObjects = messageArray => messageArray.map(toPlainObject);
 
 const toPlainObject = message => {
   return Object.keys(ChatMessageSchema.properties).reduce((memo, k) => {
-    if (ChatMessageSchema.properties[k].type === 'date') {
+    if (ChatMessageSchema.properties[k].type === "date") {
       memo[k] = message[k].toString();
     } else {
-      memo[k] = message[k];      
+      memo[k] = message[k];
     }
     return memo;
   }, {});
@@ -36,12 +36,12 @@ const DatabaseManager = {
     const allMessages = await this.getChatMessages();
     const messages = allMessages
       .filtered(`senderId=${contactId} OR recipientId=${contactId}`)
-      .sorted('createdAt', true)
+      .sorted("createdAt", true)
       .slice(page * per, per);
 
     realm.write(() => {
       messages.forEach(m => {
-        if (m.state === 'fresh') m.state === 'complete';
+        if (m.state === "fresh") m.state === "complete";
       });
     });
 
@@ -54,10 +54,14 @@ const DatabaseManager = {
   async storeMessage(message) {
     const realm = await this.getRealm();
     return realm.write(() => {
-      realm.create('ChatMessage', {
-        ...message,
-        createdAt: new Date(message.createdAt)
-      }, true);
+      realm.create(
+        "ChatMessage",
+        {
+          ...message,
+          createdAt: new Date(message.createdAt)
+        },
+        true
+      );
     });
   },
 
@@ -76,17 +80,17 @@ const DatabaseManager = {
 
   async getChatMessages() {
     const realm = await this.getRealm();
-    return realm.objects('ChatMessage');
+    return realm.objects("ChatMessage");
   },
 
   async getRealm() {
     if (_realm) return Promise.resolve(_realm);
-    else return Realm.open({schema: [ChatMessageSchema]}).then(openedRealm => {
-      _realm = openedRealm;
-      return _realm;
-    });
+    else
+      return Realm.open({ schema: [ChatMessageSchema] }).then(openedRealm => {
+        _realm = openedRealm;
+        return _realm;
+      });
   }
 };
 
 export default DatabaseManager;
-

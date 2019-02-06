@@ -1,15 +1,10 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  Animated,
-  PixelRatio
-} from 'react-native';
-import darken from 'color';
-import Style from '../style';
-import PressableView from './PressableView';
-import AnimatedEllipsis from './AnimatedEllipsis';
-import SquareButton from './SquareButton';
+import React from "react";
+import { View, Text, Animated, PixelRatio } from "react-native";
+import darken from "color";
+import Style from "../style";
+import PressableView from "./PressableView";
+import AnimatedEllipsis from "./AnimatedEllipsis";
+import SquareButton from "./SquareButton";
 
 class LoaderButton extends React.Component {
   constructor(props) {
@@ -38,13 +33,14 @@ class LoaderButton extends React.Component {
   render() {
     return (
       <View>
-        { this.props.loading &&
+        {this.props.loading && (
           <View style={style.ellipsisContainer}>
             <AnimatedEllipsis />
-          </View>  }
+          </View>
+        )}
 
         <SquareButton
-          style={{opacity: this.state.buttonOpacity}}
+          style={{ opacity: this.state.buttonOpacity }}
           label={this.props.message}
           onPress={this.props.onPress}
         />
@@ -55,7 +51,7 @@ class LoaderButton extends React.Component {
 
 let style = Style.create({
   ellipsisContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: Style.values.outerPadding,
     left: Style.values.outerPadding,
     right: Style.values.outerPadding,

@@ -1,11 +1,8 @@
-import React from 'react';
-import {
-  View,
-  FlatList
-} from 'react-native';
-import Style from '../style';
-import BaseText from './BaseText';
-import ConversationListItem from './ConversationListItem';
+import React from "react";
+import { View, FlatList } from "react-native";
+import Style from "../style";
+import BaseText from "./BaseText";
+import ConversationListItem from "./ConversationListItem";
 
 class ConversationList extends React.Component {
   static defaultProps = {
@@ -17,17 +14,19 @@ class ConversationList extends React.Component {
     scrollLocked: false
   };
 
-  render() {    
+  render() {
     return (
       <FlatList
         scrollEnabled={!this.state.scrollLocked}
         removeClippedSubviews={true}
         data={this.props.conversations}
         renderItem={this.renderConversation}
-        keyExtractor={c => c.recipientId}
-        getItemLayout={(data, index) => (
-          {length: Style.values.rowHeight, offset: Style.values.rowHeight * index, index}
-        )}
+        keyExtractor={c => c.recipientId.toString()}
+        getItemLayout={(data, index) => ({
+          length: Style.values.rowHeight,
+          offset: Style.values.rowHeight * index,
+          index
+        })}
         initialNumToRender={12}
         maxToRenderPerBatch={16}
         pageSize={1}
@@ -60,11 +59,11 @@ class ConversationList extends React.Component {
     });
   };
 
-  onSelect = (conversation) => {
+  onSelect = conversation => {
     this.props.onSelect(conversation);
   };
 
-  onDelete = (conversation) => {
+  onDelete = conversation => {
     this.props.onDelete(conversation);
   };
 }

@@ -1,23 +1,17 @@
-import React from 'react';
-import {
-  View,
-  FlatList,
-  Text,
-  PixelRatio,
-  ScrollView
-} from 'react-native';
-import Color from 'color';
-import PressableView from './PressableView';
-import Style from '../style';
-import BaseText from './BaseText';
-import ContactListItem from './ContactListItem';
+import React from "react";
+import { View, FlatList, Text, PixelRatio, ScrollView } from "react-native";
+import Color from "color";
+import PressableView from "./PressableView";
+import Style from "../style";
+import BaseText from "./BaseText";
+import ContactListItem from "./ContactListItem";
 
 const BR = "\n";
 
-export default ContactList = class extends React.Component {
-  static defaultProps = function () {
-    onSelect: () => {}
-  }();
+export default (ContactList = class extends React.Component {
+  static defaultProps = (function() {
+    onSelect: () => {};
+  })();
 
   render() {
     return (
@@ -27,9 +21,11 @@ export default ContactList = class extends React.Component {
         renderItem={this.renderContact}
         renderSeperator={this.renderSeperator}
         keyExtractor={c => c.recordID}
-        getItemLayout={(data, index) => (
-          {length: Style.values.rowHeight, offset: Style.values.rowHeight * index, index}
-        )}
+        getItemLayout={(data, index) => ({
+          length: Style.values.rowHeight,
+          offset: Style.values.rowHeight * index,
+          index
+        })}
         initialNumToRender={12}
         maxToRenderPerBatch={16}
         pageSize={1}
@@ -37,7 +33,7 @@ export default ContactList = class extends React.Component {
     );
   }
 
-  renderScrollComponent = (props) => {
+  renderScrollComponent = props => {
     let inset = {
       top: Style.values.rowHeight,
       right: 0,
@@ -52,7 +48,7 @@ export default ContactList = class extends React.Component {
 
     return (
       <ScrollView {...props} contentInset={inset} contentOffset={offset} />
-    )
+    );
   };
 
   renderContact = ({ index, item }) => {
@@ -60,17 +56,16 @@ export default ContactList = class extends React.Component {
       <ContactListItem
         {...item}
         itemIndex={index}
-        onPress={ () => this.onSelectContact(item) }
+        onPress={() => this.onSelectContact(item)}
       />
     );
   };
 
   renderSeperator = () => {
-    return (<View style={style.separator} />)
+    return <View style={style.separator} />;
   };
 
-  onSelectContact = (contact) => {
+  onSelectContact = contact => {
     this.props.onSelect(contact);
   };
-};
-
+});

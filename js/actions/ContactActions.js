@@ -1,8 +1,11 @@
-import { RNMessageComposer as Composer, SettingsApp } from 'NativeModules';
-import Contacts from 'react-native-contacts';
-import { postAuthenticatedJSON } from '../lib/RequestHelpers';
-import config from '../config';
-import send from '../lib/send';
+import { Linking, Platform } from "react-native";
+import { SettingsApp } from "NativeModules";
+import Contacts from "react-native-contacts";
+import SendSMS from "react-native-sms";
+import { postAuthenticatedJSON } from "../lib/RequestHelpers";
+import { PermissionsAndroid } from "react-native";
+import config from "../config";
+import send from "../lib/send";
 
 let { serverRoot, inviteLink } = config;
 
@@ -15,21 +18,24 @@ export let importContacts = opts => async (dispatch, getState) => {
   let userToken = getState().user.token;
 
   dispatch({
-    type: 'importContacts',
-    state: 'started'
+    type: "importContacts",
+    state: "started"
   });
 
   let permission = await Contacts.checkPermissionAsync();
 
-  if (permission === 'undefined' && opts.askPermission) {
+  if (
+    (permission === "undefined" || permission == "denied") &&
+    opts.askPermission
+  ) {
     permission = await Contacts.requestPermissionAsync();
   }
 
-  if (permission === 'denied' && opts.askPermission) {
+  if (permission === "denied" && opts.askPermission) {
     SettingsApp.openSettings();
   }
 
-  if (permission === 'authorized') {
+  if (permission === "authorized") {
     onPermissionGranted(userToken, dispatch);
   } else {
     onPermissionDenied(dispatch);
@@ -40,12 +46,12 @@ let onPermissionGranted = async (userToken, dispatch) => {
   let contacts = await Contacts.getAllAsync();
 
   let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
-  let url = serverRoot + '/match';
+  let url = serverRoot + "/match";
   let data = { phoneNumbers };
 
   send({
     dispatch,
-    actionType: 'importContacts',
+    actionType: "importContacts",
     getRequest: () => postAuthenticatedJSON(url, { phoneNumbers }, userToken),
     parse: matches => ({ matches, contacts })
   });
@@ -53,21 +59,26 @@ let onPermissionGranted = async (userToken, dispatch) => {
 
 let onPermissionDenied = dispatch => {
   dispatch({
-    type: 'importContacts',
-    state: 'failed',
-    error: 'Permission denied'
+    type: "importContacts",
+    state: "failed",
+    error: "Permission denied"
   });
 };
 
 export let sendInvite = contact => (dispatch, getState) => {
   // Get invite link from server
   // fetch...
-  let message = 'Join me on Color Chat ' + inviteLink;
+  const message =
+    "Please join me in chatting with colors instead of words on Color Chat " +
+    inviteLink;
+  const number = contact.phoneNumbers[0].number;
 
-  Composer.composeMessageWithArgs({
-    recipients: [contact.phoneNumbers[0].number],
-    messageText: message
-  }, function () {
-    // Throws if there's no callback
-  });
-}
+  SendSMS.send(
+    {
+      body: message,
+      recipients: [number],
+      successTypes: ["all"]
+    },
+    () => {}
+  );
+};

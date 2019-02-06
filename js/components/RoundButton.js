@@ -1,28 +1,24 @@
-import React from 'react';
-import createReactClass from 'create-react-class';
-import {
-  View,
-  Text,
-  Animated
-} from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
-import TimerMixin from './mixins/TimerMixin';
+import React from "react";
+import createReactClass from "create-react-class";
+import { View, Text, Animated } from "react-native";
+import Style from "../style";
+import PressableView from "./PressableView";
+import TimerMixin from "./mixins/TimerMixin";
 
 const BUTTON_SIZE = 50;
 
 let RoundButton = createReactClass({
-  displayName: 'RoundButton',
+  displayName: "RoundButton",
   mixins: [TimerMixin],
 
-  getDefaultProps: function () {
+  getDefaultProps: function() {
     return {
       onPress: () => {},
       visible: true
     };
   },
 
-  getInitialState: function () {
+  getInitialState: function() {
     let initialOpacity = this.props.visible ? 1 : 0;
 
     return {
@@ -31,9 +27,9 @@ let RoundButton = createReactClass({
     };
   },
 
-  componentDidUpdate: function (prevProps) {
+  componentDidUpdate: function(prevProps) {
     if (!prevProps.visible && this.props.visible) {
-      this.state.animatedSize.setValue(.75);
+      this.state.animatedSize.setValue(0.75);
 
       Animated.parallel([
         Animated.timing(this.state.animatedOpacity, {
@@ -46,7 +42,7 @@ let RoundButton = createReactClass({
           tension: 500
         })
       ]).start();
-    } else if (prevProps.visible && !this.props.visible){
+    } else if (prevProps.visible && !this.props.visible) {
       Animated.timing(this.state.animatedOpacity, {
         toValue: 0,
         duration: 200
@@ -54,18 +50,20 @@ let RoundButton = createReactClass({
     }
   },
 
-  componentWillUnmount: function () {
+  componentWillUnmount: function() {
     this.clearAllTimers();
   },
 
-  render: function () {
+  render: function() {
     let viewStyles = [
       style.button,
       {
         opacity: this.state.animatedOpacity,
-        transform: [{
-          scale: this.state.animatedSize
-        }]
+        transform: [
+          {
+            scale: this.state.animatedSize
+          }
+        ]
       },
       this.props.style
     ];
@@ -76,20 +74,20 @@ let RoundButton = createReactClass({
         onPressIn={this.onPressIn}
         onPress={this.onPress}
       >
-        { this.props.children }
+        {this.props.children}
       </PressableView>
     );
   },
 
-  onPressIn: function () {
+  onPressIn: function() {
     Animated.spring(this.state.animatedSize, {
-      toValue: .75,
+      toValue: 0.75,
       friction: 7,
       tension: 150
     }).start();
   },
 
-  onPress: function () {
+  onPress: function() {
     if (this.state.leaving || !this.props.visible) return;
 
     this.setState({
@@ -100,29 +98,33 @@ let RoundButton = createReactClass({
       toValue: 1,
       friction: 10,
       tension: 400
-    })
+    });
 
     animation.start();
 
-    this.setDelayTimer('hide', () => {
-      animation.stop();
-      this.props.onPress();
-      this.setState({ leaving: false });
-    }, 200);
-  },
+    this.setDelayTimer(
+      "hide",
+      () => {
+        animation.stop();
+        this.props.onPress();
+        this.setState({ leaving: false });
+      },
+      200
+    );
+  }
 });
 
 let style = Style.create({
   button: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     width: BUTTON_SIZE,
     height: BUTTON_SIZE,
     borderRadius: BUTTON_SIZE / 2,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

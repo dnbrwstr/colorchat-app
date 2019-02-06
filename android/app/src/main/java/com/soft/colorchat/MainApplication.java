@@ -1,9 +1,11 @@
 package com.soft.colorchat;
 
 import android.app.Application;
-
 import com.facebook.react.ReactApplication;
-import com.evollu.react.fcm.FIRMessagingPackage;
+import com.tkporter.sendsms.SendSMSPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.realm.react.RealmReactPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.facebook.react.ReactNativeHost;
@@ -26,9 +28,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new FIRMessagingPackage(),
-            new RealmReactPackage(),
-            new ReactNativeContacts()
+          SendSMSPackage.getInstance(),
+          new RNFirebasePackage(),
+          new RealmReactPackage(),
+          new ReactNativeContacts(),
+          new RNFirebaseMessagingPackage(),
+          new RNFirebaseNotificationsPackage()
       );
     }
   };

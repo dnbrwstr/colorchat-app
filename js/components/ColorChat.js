@@ -1,17 +1,17 @@
-import React from 'react';
-import { View, StatusBar } from 'react-native';
-import { Provider } from 'react-redux';
-import { GatewayProvider } from 'react-gateway';
-import App from './App';
-import config from '../config';
-import { seedMessages } from '../lib/DatabaseUtils';
-import { receiveMessage } from '../actions/MessageActions';
-import { seedAddressBook } from '../lib/ContactUtils';
-import createStore from '../lib/createStore';
-import createSocketService from '../services/createSocketService';
-import createNotificationService from '../services/createNotificationService';
-import createAppStateService from '../services/createAppStateService';
-import createNetworkService from '../services/createNetworkService';
+import React from "react";
+import { View, StatusBar } from "react-native";
+import { Provider } from "react-redux";
+import { GatewayProvider } from "react-gateway";
+import App from "./App";
+import config from "../config";
+import { seedMessages } from "../lib/DatabaseUtils";
+import { receiveMessage } from "../actions/MessageActions";
+import { seedAddressBook } from "../lib/ContactUtils";
+import createStore from "../lib/createStore";
+import createSocketService from "../services/createSocketService";
+import createNotificationService from "../services/createNotificationService";
+import createAppStateService from "../services/createAppStateService";
+import createNetworkService from "../services/createNetworkService";
 
 class ColorChat extends React.Component {
   state = {
@@ -42,9 +42,7 @@ class ColorChat extends React.Component {
 
   render() {
     if (!this.state.store) {
-      return (
-        <View style={{backgroundColor: '#EFEFEF'}}></View>
-      );
+      return <View style={{ backgroundColor: "#EFEFEF" }} />;
     } else {
       return (
         <GatewayProvider>

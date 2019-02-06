@@ -3,17 +3,17 @@ Adapted from
 https://github.com/facebook/react-native/blob/master/Libraries/CustomComponents/Navigator/NavigatorSceneConfigs.js
 **/
 
-import buildStyleInterpolator from 'react-native/Libraries/Utilities/buildStyleInterpolator';
-import { Dimensions, PixelRatio } from 'react-native';
+import buildStyleInterpolator from "react-native/Libraries/Utilities/buildStyleInterpolator";
+import { Dimensions, PixelRatio } from "react-native";
 
-let screenWidth = Dimensions.get('window').width;
-let screenHeight = Dimensions.get('window').height;
+let screenWidth = Dimensions.get("window").width;
+let screenHeight = Dimensions.get("window").height;
 
 let Base = {
   gestures: null,
   defaultTransitionVelocity: 3,
   springFriction: 20,
-  springTension: 200,
+  springTension: 200
 };
 
 let BaseLeftToRightGesture = {
@@ -25,25 +25,25 @@ let BaseLeftToRightGesture = {
   edgeHitWidth: 30,
   stillCompletionRatio: 3 / 5,
   fullDistance: screenWidth,
-  direction: 'left-to-right',
+  direction: "left-to-right"
 };
 
 let BaseRightToLeftGesture = {
   ...BaseLeftToRightGesture,
-  direction: 'right-to-left'
+  direction: "right-to-left"
 };
 
 let ConstantOpacity = {
   opacity: {
     value: 1.0,
-    type: 'constant',
+    type: "constant"
   }
-}
+};
 
 let TransformPropBase = {
   min: 0,
   max: 1,
-  type: 'linear',
+  type: "linear",
   extrapolate: true,
   round: PixelRatio.get()
 };
@@ -57,16 +57,16 @@ export let FromBottom = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: 0, y: screenHeight, z: 0},
-        to: {x: 0, y: 0, z: 0}
-      },
+        from: { x: 0, y: screenHeight, z: 0 },
+        to: { x: 0, y: 0, z: 0 }
+      }
     }),
     out: buildStyleInterpolator({
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: 0, y: 0, z: 0},
-        to: {x: 0, y: -screenHeight, z: 0}
+        from: { x: 0, y: 0, z: 0 },
+        to: { x: 0, y: -screenHeight, z: 0 }
       }
     })
   }
@@ -79,12 +79,12 @@ export let SlideOverFromBottom = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: 0, y: screenHeight, z: 0},
-        to: {x: 0, y: 0, z: 0}
-      },
+        from: { x: 0, y: screenHeight, z: 0 },
+        to: { x: 0, y: 0, z: 0 }
+      }
     }),
     out: buildStyleInterpolator({
-      ...ConstantOpacity,
+      ...ConstantOpacity
     })
   }
 };
@@ -101,8 +101,8 @@ export let SlideFromRight = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: screenWidth, y: 0, z: 0},
-        to: {x: 0, y: 0, z: 0}
+        from: { x: screenWidth, y: 0, z: 0 },
+        to: { x: 0, y: 0, z: 0 }
       },
       translateX: {
         ...TransformPropBase,
@@ -114,8 +114,8 @@ export let SlideFromRight = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: 0, y: 0, z: 0},
-        to: {x: -screenWidth, y: 0, z: 0}
+        from: { x: 0, y: 0, z: 0 },
+        to: { x: -screenWidth, y: 0, z: 0 }
       },
       translateX: {
         ...TransformPropBase,
@@ -124,7 +124,7 @@ export let SlideFromRight = {
       }
     })
   }
-}
+};
 
 export let SlideOverFromRight = {
   ...Base,
@@ -133,8 +133,8 @@ export let SlideOverFromRight = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: screenWidth, y: 0, z: 0},
-        to: {x: 0, y: 0, z: 0}
+        from: { x: screenWidth, y: 0, z: 0 },
+        to: { x: 0, y: 0, z: 0 }
       },
       translateX: {
         ...TransformPropBase,
@@ -146,17 +146,17 @@ export let SlideOverFromRight = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: 0, y: 0, z: 0},
-        to: {x: -screenWidth * .2, y: 0, z: 0}
+        from: { x: 0, y: 0, z: 0 },
+        to: { x: -screenWidth * 0.2, y: 0, z: 0 }
       },
       translateX: {
         ...TransformPropBase,
         from: 0,
-        to: -screenWidth * .2
+        to: -screenWidth * 0.2
       }
     })
   }
-}
+};
 
 export let SlideFromLeft = {
   ...Base,
@@ -170,8 +170,8 @@ export let SlideFromLeft = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: -screenWidth, y: 0, z: 0},
-        to: {x: 0, y: 0, z: 0}
+        from: { x: -screenWidth, y: 0, z: 0 },
+        to: { x: 0, y: 0, z: 0 }
       },
       translateX: {
         ...TransformPropBase,
@@ -183,8 +183,8 @@ export let SlideFromLeft = {
       ...ConstantOpacity,
       transformTranslate: {
         ...TransformPropBase,
-        from: {x: 0, y: 0, z: 0},
-        to: {x: -screenWidth, y: 0, z: 0}
+        from: { x: 0, y: 0, z: 0 },
+        to: { x: -screenWidth, y: 0, z: 0 }
       },
       translateX: {
         ...TransformPropBase,

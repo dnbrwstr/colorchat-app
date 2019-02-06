@@ -1,20 +1,20 @@
-import { NativeModules } from 'react-native';
-import invariant from 'invariant';
-import { merge, partialRight, evolve, pick, __, times, compose } from 'ramda';
-import { createSeedMessage } from '../lib/MessageUtils';
-import DatabaseManager from './DatabaseManager';
+import { NativeModules } from "react-native";
+import invariant from "invariant";
+import { merge, partialRight, evolve, pick, __, times, compose } from "ramda";
+import { createSeedMessage } from "../lib/MessageUtils";
+import DatabaseManager from "./DatabaseManager";
 
 let DEFAULT_PAGE_NUMBER = 0;
 let DEFAULT_MESSAGES_PER_PAGE = 50;
 let ALLOWED_MESSAGE_PROPS = [
-  'id',
-  'senderId',
-  'recipientId',
-  'createdAt',
-  'color',
-  'width',
-  'height',
-  'state'
+  "id",
+  "senderId",
+  "recipientId",
+  "createdAt",
+  "color",
+  "width",
+  "height",
+  "state"
 ];
 
 export let loadMessages = async _options => {
@@ -26,8 +26,9 @@ export let loadMessages = async _options => {
   let options = merge(defaults, _options);
 
   invariant(
-    typeof options.contactId === 'number',
-    'Attempt to load messages with contactId of invalid type ' + typeof options.contactId
+    typeof options.contactId === "number",
+    "Attempt to load messages with contactId of invalid type " +
+      typeof options.contactId
   );
 
   return DatabaseManager.loadMessagesForContact(
@@ -44,15 +45,18 @@ export let storeMessage = _message => {
 
 export let getUnreadCount = () => {
   return DatabaseManager.getUnreadCount();
-}
+};
 
 export let purgeMessages = () => {
   return DatabaseManager.purgeMessages();
-}
+};
 
 export let seedMessages = messageCount => {
   times(
-    compose(storeMessage, createSeedMessage),
+    compose(
+      storeMessage,
+      createSeedMessage
+    ),
     messageCount
   );
 };

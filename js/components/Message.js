@@ -1,21 +1,16 @@
-import React from 'react';
-import createReactClass from 'create-react-class';
-import {
-  View,
-  LayoutAnimation,
-  Text,
-  Animated
-} from 'react-native';
-import Color from 'color';
-import moment from 'moment';
-import Style from '../style';
-import measure from '../lib/measure';
-import EditableMessage from './EditableMessage';
-import BaseText from './BaseText';
-import PressableView from './PressableView';
-import PlaceholderMessage from './PlaceholderMessage';
-import { humanDate } from '../lib/Utils';
-import TimerMixin from './mixins/TimerMixin';
+import React from "react";
+import createReactClass from "create-react-class";
+import { View, LayoutAnimation, Text, Animated } from "react-native";
+import Color from "color";
+import moment from "moment";
+import Style from "../style";
+import measure from "../lib/measure";
+import EditableMessage from "./EditableMessage";
+import BaseText from "./BaseText";
+import PressableView from "./PressableView";
+import PlaceholderMessage from "./PlaceholderMessage";
+import { humanDate } from "../lib/Utils";
+import TimerMixin from "./mixins/TimerMixin";
 
 const SPRING_TENSION = 150;
 const SPRING_FRICTION = 10;
@@ -27,19 +22,19 @@ const FAILED_MIN_WIDTH = 250;
 const FAILED_MIN_HEIGHT = 100;
 
 let Message = createReactClass({
-  displayName: 'Message',
+  displayName: "Message",
   mixins: [TimerMixin],
 
-  getDefaultProps: function () {
+  getDefaultProps: function() {
     return {
       onToggleExpansion: () => {},
       onRetrySend: () => {}
     };
   },
 
-  getInitialState: function () {
+  getInitialState: function() {
     let defaultWidth = this.props.width;
-    let defaultHeight = this.props.state === 'fresh' ? 0 : this.props.height;
+    let defaultHeight = this.props.state === "fresh" ? 0 : this.props.height;
 
     return {
       width: defaultWidth,
@@ -51,27 +46,31 @@ let Message = createReactClass({
     };
   },
 
-  componentDidMount: function () {
+  componentDidMount: function() {
     this.setSize();
   },
 
-  componentDidUpdate: function (prevProps) {
+  componentDidUpdate: function(prevProps) {
     this.setSize(prevProps);
   },
 
-  setSize: function (prevProps) {
+  setSize: function(prevProps) {
     let baseSize = {
       width: this.props.width,
       height: this.props.height
     };
 
-    if (this.props.state === 'fresh') {
+    if (this.props.state === "fresh") {
       // * => fresh
-      this.resize(baseSize, {
-        width: 0,
-        height: 0
-      }, this.props.onPresent);
-    } else if (this.props.state === 'complete' || this.state.retrying) {
+      this.resize(
+        baseSize,
+        {
+          width: 0,
+          height: 0
+        },
+        this.props.onPresent
+      );
+    } else if (this.props.state === "complete" || this.state.retrying) {
       if (this.props.expanded) {
         // unexpanded => expanded
         this.resize({
@@ -82,21 +81,23 @@ let Message = createReactClass({
         // expanded => unexpanded
         this.resize(baseSize);
       }
-    } else if (this.props.state === 'failed') {
+    } else if (this.props.state === "failed") {
       // * => failed
       this.resize({
         width: Math.max(this.props.width, FAILED_MIN_WIDTH),
         height: Math.max(this.props.height, FAILED_MIN_HEIGHT)
       });
-    } else if (this.props.state === 'composing') {
+    } else if (this.props.state === "composing") {
       // Just keep up with edits if we're composing
-      if (this.props.width !== this.state.width ||
-        this.props.height !== this.state.height) {
+      if (
+        this.props.width !== this.state.width ||
+        this.props.height !== this.state.height
+      ) {
         this.setState(baseSize);
         this.state.animatedWidth.setValue(this.props.width);
         this.state.animatedHeight.setValue(this.props.height);
       }
-    } else if (this.props.state === 'cancelling') {
+    } else if (this.props.state === "cancelling") {
       this.resize({
         height: 0
       });
@@ -105,9 +106,12 @@ let Message = createReactClass({
     }
   },
 
-  resize: function (toSize, fromSize={}, cb) {
-    let shouldSizeWidth = typeof toSize.width !== 'undefined' && toSize.width !== this.state.width;
-    let shouldSizeHeight = typeof toSize.height !== 'undefined' && toSize.height !== this.state.height;
+  resize: function(toSize, fromSize = {}, cb) {
+    let shouldSizeWidth =
+      typeof toSize.width !== "undefined" && toSize.width !== this.state.width;
+    let shouldSizeHeight =
+      typeof toSize.height !== "undefined" &&
+      toSize.height !== this.state.height;
 
     if (!shouldSizeWidth && !shouldSizeHeight) {
       cb && cb();
@@ -132,22 +136,26 @@ let Message = createReactClass({
     };
 
     if (shouldSizeWidth) {
-      let fn = toSize.width > 20 ? 'spring' : 'timing';
-      animations.push(Animated[fn](width, {
-        ...baseOpts,
-        toValue: toSize.width
-      }));
+      let fn = toSize.width > 20 ? "spring" : "timing";
+      animations.push(
+        Animated[fn](width, {
+          ...baseOpts,
+          toValue: toSize.width
+        })
+      );
     }
 
     if (shouldSizeHeight) {
-      let fn = toSize.height > 20 ? 'spring' : 'timing';
-      animations.push(Animated[fn](height, {
-        ...baseOpts,
-        toValue: toSize.height
-      }));
+      let fn = toSize.height > 20 ? "spring" : "timing";
+      animations.push(
+        Animated[fn](height, {
+          ...baseOpts,
+          toValue: toSize.height
+        })
+      );
     }
 
-    let animation = Animated.parallel(animations)
+    let animation = Animated.parallel(animations);
     animation.start(() => {
       cb && cb();
       this.setState({ currentAnimation: null });
@@ -159,74 +167,75 @@ let Message = createReactClass({
     });
   },
 
-  render: function () {
-    if (this.props.state === 'composing') {
+  render: function() {
+    if (this.props.state === "composing") {
       return this.renderEditor();
-    } else if (this.props.state === 'placeholder') {
+    } else if (this.props.state === "placeholder") {
       return this.renderPlaceholder();
     } else {
       return this.renderMessage();
     }
   },
 
-  renderEditor: function () {
-    return <EditableMessage {...this.props} />
+  renderEditor: function() {
+    return <EditableMessage {...this.props} />;
   },
 
-  renderPlaceholder: function () {
-    return <PlaceholderMessage {...this.props} />
+  renderPlaceholder: function() {
+    return <PlaceholderMessage {...this.props} />;
   },
 
-  renderMessage: function () {
+  renderMessage: function() {
     return (
       <PressableView
         ref="message"
         style={this.getMessageStyles()}
         onPress={this.onPress}
       >
-        { this.renderContent() }
+        {this.renderContent()}
       </PressableView>
     );
   },
 
-  renderContent: function () {
-    if (this.props.state === 'failed' && !this.state.retrying) {
+  renderContent: function() {
+    if (this.props.state === "failed" && !this.state.retrying) {
       return (
         <View style={style.textContainer}>
           <BaseText visibleOn={this.props.color}>
             Message failed to send
           </BaseText>
-          <BaseText visibleOn={this.props.color}>
-            Tap to retry
-          </BaseText>
+          <BaseText visibleOn={this.props.color}>Tap to retry</BaseText>
         </View>
       );
-    }
-    else if (this.props.expanded === true){
+    } else if (this.props.expanded === true) {
       return (
         <View style={style.textContainer}>
           <BaseText visibleOn={this.props.color}>
-            { this.props.color + "\n"}
+            {this.props.color + "\n"}
           </BaseText>
           <BaseText visibleOn={this.props.color}>
-            { this.getRGBFormattedColor() }
+            {this.getRGBFormattedColor()}
           </BaseText>
           <BaseText style={style.timestamp} visibleOn={this.props.color}>
-            { humanDate(this.props.createdAt) }
+            {humanDate(this.props.createdAt)}
           </BaseText>
         </View>
       );
     }
   },
 
-  onPress: async function () {
-    if (this.props.state === 'failed') {
+  onPress: async function() {
+    if (this.props.state === "failed") {
       this.setState({ retrying: true });
-      this.setDelayTimer('resend', () => {
-        this.setState({ retrying: false });
-        this.props.onRetrySend();
-      }, 500);
-    } else if (this.props.state === 'complete') {
+      this.setDelayTimer(
+        "resend",
+        () => {
+          this.setState({ retrying: false });
+          this.props.onRetrySend();
+        },
+        500
+      );
+    } else if (this.props.state === "complete") {
       let position = await measure(this.refs.message);
       this.props.onToggleExpansion(position, {
         width: Math.max(this.props.width, EXPANDED_MIN_WIDTH),
@@ -235,7 +244,7 @@ let Message = createReactClass({
     }
   },
 
-  getMessageStyles: function () {
+  getMessageStyles: function() {
     return [
       style.message,
       this.props.fromCurrentUser ? style.sent : style.received,
@@ -247,25 +256,25 @@ let Message = createReactClass({
     ];
   },
 
-  getRGBFormattedColor: function () {
+  getRGBFormattedColor: function() {
     let rgb = Color(this.props.color).rgb();
     return `R ${rgb.r}\nG ${rgb.g}\nB ${rgb.b}`;
-  },
+  }
 });
 
 let style = Style.create({
   message: {
     flex: 0,
-    overflow: 'hidden'
+    overflow: "hidden"
   },
   sent: {
-    alignSelf: 'flex-end'
+    alignSelf: "flex-end"
   },
   received: {
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start"
   },
   timestamp: {
-    position: 'absolute',
+    position: "absolute",
     top: 12,
     right: 12
   },
@@ -276,7 +285,7 @@ let style = Style.create({
   text: {
     ...Style.mixins.textBase,
     top: 15,
-    left: 15,
+    left: 15
   }
 });
 

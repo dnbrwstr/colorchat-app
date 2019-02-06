@@ -2,32 +2,22 @@
 // for now to make it compatible with the latest version
 // of react, so there may be some performance issues.
 //
-import React from 'react';
-import createReactClass from 'create-react-class';
-import {
-  View,
-  Text,
-  InteractionManager,
-  Dimensions,
-  StatusBar
-} from 'react-native';
-import ScrollBridge from '../lib/ScrollBridge';
-import connectWithNavigation from '../lib/connectWithNavigation';
-import { merge } from 'ramda';
-import { createSelector } from 'reselect';
-import Style from '../style';
-import Header from './Header';
-import StickyView from './StickyView';
-import PressableView from './PressableView';
-import MessageList from './MessageList';
-import ComposeBar from './ComposeBar';
-import PlusButton from './PlusButton';
-import { navigateTo, navigateBack } from '../actions/NavigationActions';
-import * as MessageActions from '../actions/MessageActions';
-import { conversationScreenSelector } from '../lib/Selectors';
-import { updateConversationUi } from '../actions/AppActions';
-import PlaceholderMessage from './PlaceholderMessage';
-import TimerMixin from './mixins/TimerMixin';
+import React from "react";
+import createReactClass from "create-react-class";
+import { View, InteractionManager, Dimensions, StatusBar } from "react-native";
+import ScrollBridge from "../lib/ScrollBridge";
+import { connect } from "react-redux";
+import Style from "../style";
+import Header from "./Header";
+import MessageList from "./MessageList";
+import ComposeBar from "./ComposeBar";
+import PlusButton from "./PlusButton";
+import { navigateBack } from "../actions/NavigationActions";
+import * as MessageActions from "../actions/MessageActions";
+import { conversationScreenSelector } from "../lib/Selectors";
+import { updateConversationUi } from "../actions/AppActions";
+import TimerMixin from "./mixins/TimerMixin";
+import { withScreenFocusStateProvider } from "./ScreenFocusState";
 
 let {
   resendMessage,
@@ -42,44 +32,48 @@ let {
 } = MessageActions;
 
 let ConversationScreen = createReactClass({
-  displayName: 'ConversationScreen',
+  displayName: "ConversationScreen",
   mixins: [TimerMixin],
 
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       page: 0,
       loadedAll: false,
-      scrollBridge: new ScrollBridge,
+      scrollBridge: new ScrollBridge(),
       lastOffset: 0
     };
   },
 
-  componentWillUnmount: function () {
+  componentWillUnmount: function() {
     this.clearAllTimers();
   },
 
-  loadNextPage: function () {
-    this.setThrottleTimer('loadNext', () => {
-      let nextPage = ++this.state.page;
-      this.props.dispatch(
-        loadMessages(this.props.contact.id, this.state.page)
-      );
-      this.setState({ page: nextPage });
-    }, 1000);
+  loadNextPage: function() {
+    this.setThrottleTimer(
+      "loadNext",
+      () => {
+        let nextPage = ++this.state.page;
+        this.props.dispatch(
+          loadMessages(this.props.contact.id, this.state.page)
+        );
+        this.setState({ page: nextPage });
+      },
+      1000
+    );
   },
 
-  shouldHideHeader: function () {
-    let wH = Dimensions.get('window').height;
+  shouldHideHeader: function() {
+    let wH = Dimensions.get("window").height;
     let messages = this.props.messages;
 
     for (var h = 0, i = 0; h < wH + 100 && i < messages.length; ++i) {
       h += messages[i].height;
     }
 
-    return  h >= wH + 100;
+    return h >= wH + 100;
   },
 
-  render: function () {
+  render: function() {
     let { contact, dispatch } = this.props;
 
     return (
@@ -88,14 +82,11 @@ let ConversationScreen = createReactClass({
           title={contact.name}
           showBack={true}
           color="white"
-          backgroundColor={'rgba(0,0,0,.8)'}
-          highlightColor={'rgba(30,30,30,.8)'}
+          backgroundColor={"rgba(0,0,0,.8)"}
+          highlightColor={"rgba(30,30,30,.8)"}
           onBack={() => dispatch(navigateBack())}
         />
-        <StatusBar
-          backgroundColor="#111111"
-          barStyle="light-content"
-        />
+        <StatusBar backgroundColor="#111111" barStyle="light-content" />
         <MessageList
           scrollBridge={this.state.scrollBridge}
           onPresentMessage={this.onPresentMessage}
@@ -109,7 +100,11 @@ let ConversationScreen = createReactClass({
         />
         <PlusButton
           onPress={this.onStartComposing}
-          visible={!this.props.composing && !this.props.sending && !this.props.cancelling}
+          visible={
+            !this.props.composing &&
+            !this.props.sending &&
+            !this.props.cancelling
+          }
         />
         <ComposeBar
           ref="composeBar"
@@ -121,17 +116,19 @@ let ConversationScreen = createReactClass({
     );
   },
 
-  handleScrollToBottom: function () {
+  handleScrollToBottom: function() {
     this.props.dispatch(unloadOldMessages());
   },
 
-  onSendMessage: function (message) {
+  onSendMessage: function(message) {
     if (this.props.sending) return;
 
-    this.props.dispatch(updateConversationUi({
-      sending: true,
-      composing: false
-    }));
+    this.props.dispatch(
+      updateConversationUi({
+        sending: true,
+        composing: false
+      })
+    );
 
     setTimeout(() => {
       InteractionManager.runAfterInteractions(() => {
@@ -139,22 +136,26 @@ let ConversationScreen = createReactClass({
 
         setTimeout(() => {
           InteractionManager.runAfterInteractions(() => {
-            this.props.dispatch(updateConversationUi({
-              sending: false
-            }));
+            this.props.dispatch(
+              updateConversationUi({
+                sending: false
+              })
+            );
           });
         }, 0);
       });
     }, 0);
   },
 
-  onStartComposing: function () {
-    this.props.dispatch(startComposingMessage({
-      recipientId: this.props.contact.id,
-    }));
+  onStartComposing: function() {
+    this.props.dispatch(
+      startComposingMessage({
+        recipientId: this.props.contact.id
+      })
+    );
   },
 
-  onStopComposing: function () {
+  onStopComposing: function() {
     this.props.dispatch(cancelComposingMessage(this.getWorkingMessage()));
 
     setTimeout(() => {
@@ -163,43 +164,47 @@ let ConversationScreen = createReactClass({
 
         setTimeout(() => {
           InteractionManager.runAfterInteractions(() => {
-            this.props.dispatch(updateConversationUi({
-              cancelling: false
-            }));
-          })
-        }, 0)
+            this.props.dispatch(
+              updateConversationUi({
+                cancelling: false
+              })
+            );
+          });
+        }, 0);
       });
     }, 0);
   },
 
-  getWorkingMessage: function () {
+  getWorkingMessage: function() {
     return this.props.messages.filter(
-      m => m.state === 'composing' || m.state === 'cancelling'
+      m => m.state === "composing" || m.state === "cancelling"
     )[0];
   },
 
-  onSelectPicker: function (value) {
+  onSelectPicker: function(value) {
     this.props.dispatch(selectColorPicker(value));
   },
 
-  onToggleMessageExpansion: function (message) {
+  onToggleMessageExpansion: function(message) {
     this.props.dispatch(toggleMessageExpansion(message));
   },
 
-  onRetryMessageSend: function (message) {
+  onRetryMessageSend: function(message) {
     this.props.dispatch(resendMessage(message));
   },
 
-  onPresentMessage: function (message) {
+  onPresentMessage: function(message) {
     this.props.dispatch(markMessageStale(message));
-  },
+  }
 });
 
 let style = Style.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: "black"
   }
 });
 
-export default connectWithNavigation(conversationScreenSelector)(ConversationScreen);
+export default withScreenFocusStateProvider(
+  connect(conversationScreenSelector)(ConversationScreen)
+);

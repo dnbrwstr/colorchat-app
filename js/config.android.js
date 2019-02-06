@@ -3,14 +3,14 @@
  * a contacts permissions request on app startup
  */
 export default {
-  appName: 'ColorChat',
-  inviteLink: 'http://soft.works/colorchat',
-  serverRoot: 'http://colorchat-server.color.slow.so',
+  appName: "Color Chat",
+  inviteLink: "http://soft.works/colorchat",
+  serverRoot: "http://colorchat-server.color.slow.so",
   logState: false,
   logActions: false,
   saveState: true,
   rehydrate: true,
-  rehydrateBlacklist: ['ui', 'navigation', 'notifications', 'messages'],
+  rehydrateBlacklist: ["ui", "navigation", "notifications", "messages"],
   seedAddressBook: false,
   seedMessages: false,
   seedMessageCount: 10

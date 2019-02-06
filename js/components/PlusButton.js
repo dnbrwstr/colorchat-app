@@ -1,7 +1,7 @@
-import React from 'react';
-import RoundButton from './RoundButton';
-import Style from '../style';
-import BaseText from './BaseText';
+import React from "react";
+import RoundButton from "./RoundButton";
+import Style from "../style";
+import BaseText from "./BaseText";
 
 class PlusButton extends React.Component {
   render() {
@@ -15,7 +15,7 @@ class PlusButton extends React.Component {
 
 let style = Style.create({
   text: {
-    color: 'white',
+    color: "white",
     fontSize: 26,
     marginTop: -5
   }

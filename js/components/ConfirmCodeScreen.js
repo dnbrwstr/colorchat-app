@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
+import { View, Text, Animated } from "react-native";
+import { connect } from "react-redux";
+import Style from "../style";
+import LoaderButton from "./LoaderButton";
+import ErrorMessage from "./ErrorMessage";
+import SignupScreen from "./SignupScreen";
+import BaseTextInput from "./BaseTextInput";
+import { navigateTo } from "../actions/NavigationActions";
 import {
-  View,
-  Text,
-  Animated
-} from 'react-native';
-import { connect } from 'react-redux';
-import Style from '../style';
-import LoaderButton from './LoaderButton';
-import ErrorMessage from './ErrorMessage';
-import SignupScreen from './SignupScreen';
-import BaseTextInput from './BaseTextInput';
-import { navigateTo } from '../actions/NavigationActions';
-import { submitConfirmationCode, updateData, clearConfirmCodeError } from '../actions/SignupActions';
-import { confirmationCodeScreenSelector } from '../lib/Selectors'
+  submitConfirmationCode,
+  updateData,
+  clearConfirmCodeError
+} from "../actions/SignupActions";
+import { confirmationCodeScreenSelector } from "../lib/Selectors";
 
 class ConfirmCodeScreen extends React.Component {
   render() {
@@ -21,26 +21,29 @@ class ConfirmCodeScreen extends React.Component {
     return (
       <SignupScreen
         title="Confirm code"
-        onNavigateBack={() => dispatch(navigateTo('signup'))}
+        onNavigateBack={() => dispatch(navigateTo("signup"))}
         renderNextButton={this.renderNextButton}
       >
-        { error ?
+        {error ? (
           <ErrorMessage
             message={error.toString()}
             onRemove={() => dispatch(clearConfirmCodeError())}
-          /> : null }
+          />
+        ) : null}
 
         <View style={style.inputWrapper}>
           <BaseTextInput
             ref="confirmationCodeInput"
             placeholder="SMS Code"
             value={this.props.confirmationCode}
-            onChangeText={ confirmationCode => {dispatch(updateData({ confirmationCode }))}}
+            onChangeText={confirmationCode => {
+              dispatch(updateData({ confirmationCode }));
+            }}
             keyboardType="phone-pad"
           />
         </View>
       </SignupScreen>
-    )
+    );
   }
 
   renderNextButton = () => {
@@ -61,8 +64,8 @@ class ConfirmCodeScreen extends React.Component {
 
 var style = Style.create({
   inputWrapper: {
-    ...Style.mixins.grayBottomBorder,
+    ...Style.mixins.grayBottomBorder
   }
-})
+});
 
 module.exports = connect(confirmationCodeScreenSelector)(ConfirmCodeScreen);

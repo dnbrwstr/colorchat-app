@@ -1,13 +1,9 @@
-import React from 'react';
-import {
-  Image
-} from 'react-native';
-import { merge } from 'ramda';
-import RoundButton from './RoundButton';
-import Style from '../style';
-import BaseText from './BaseText';
-
-
+import React from "react";
+import { Image } from "react-native";
+import { merge } from "ramda";
+import RoundButton from "./RoundButton";
+import Style from "../style";
+import BaseText from "./BaseText";
 
 class SettingsButton extends React.Component {
   render() {
@@ -15,7 +11,10 @@ class SettingsButton extends React.Component {
 
     return (
       <RoundButton {...this.props} style={buttonStyles}>
-        <Image style={style.image} source={require('../../images/cog-1-dark.png')} />
+        <Image
+          style={style.image}
+          source={require("../../images/cog-1-dark.png")}
+        />
       </RoundButton>
     );
   }
@@ -23,18 +22,18 @@ class SettingsButton extends React.Component {
 
 let buttonSize = 50;
 let iconSize = 24;
-let marginSize = (buttonSize - iconSize) / 2
+let marginSize = (buttonSize - iconSize) / 2;
 
 let style = Style.create({
   button: {
-    backgroundColor: 'white'
+    backgroundColor: "white"
   },
   image: {
-    position: 'absolute',
+    position: "absolute",
     top: marginSize,
     left: marginSize,
     width: iconSize,
-    height: iconSize,
+    height: iconSize
   }
 });
 

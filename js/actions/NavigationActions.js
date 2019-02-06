@@ -1,10 +1,10 @@
-import { NavigationActions } from 'react-navigation';
-import * as DatabaseUtils from '../lib/DatabaseUtils';
+import { NavigationActions } from "react-navigation";
+import * as DatabaseUtils from "../lib/DatabaseUtils";
 
-export let navigateTo = (a, b) => async (dispatch, getState) => {
+export let navigateTo = (a, b) => {
   let route;
 
-  if (typeof a === 'string') {
+  if (typeof a === "string") {
     route = {
       routeName: a,
       params: b
@@ -13,40 +13,49 @@ export let navigateTo = (a, b) => async (dispatch, getState) => {
     route = a;
   }
 
-  let navigate = () => dispatch(NavigationActions.navigate(route));
-
-  if (route.routeName === 'conversation') {
-    let { messages, total } = await DatabaseUtils.loadMessages({
-      contactId: route.params.contactId,
-      page: 0
-    });
-
-    dispatch({
-      type: 'resetMessages',
-      messages,
-      total
-    });
-
-    setTimeout(navigate, 0);
-  } else {
-    navigate();
-  }
+  return {
+    type: "navigateTo",
+    ...route
+  };
 };
 
-export let navigateBack = () => NavigationActions.back();
+export let navigateBack = () => {
+  return {
+    type: "navigateBack"
+  };
+};
 
-export let navigateToConversation = contactId => {
-  return navigateTo('conversation', { contactId });
-}
+export const navigateToConversation = contactId => async (
+  dispatch,
+  getState
+) => {
+  const { messages, total } = await DatabaseUtils.loadMessages({
+    contactId,
+    page: 0
+  });
+
+  dispatch({
+    type: "resetMessages",
+    messages,
+    total
+  });
+
+  setTimeout(() => {
+    dispatch({
+      type: "navigateToConversation",
+      contactId
+    });
+  }, 0);
+};
 
 export let startNavigationTransition = () => {
   return {
-    type: 'startNavigationTransition'
+    type: "startNavigationTransition"
   };
 };
 
 export let endNavigationTransition = () => {
   return {
-    type: 'endNavigationTransition'
+    type: "endNavigationTransition"
   };
 };

@@ -1,36 +1,39 @@
-import io from 'socket.io-client';
-import { InteractionManager } from 'react-native';
-import { difference } from 'ramda';
-import config from '../config';
-import createService from './createService';
-import { socketServiceSelector } from '../lib/Selectors';
-import { receiveMessage, sendMessages, sendEnqueuedMessages } from '../actions/MessageActions';
-import { receiveComposeEvent, resetComposeEvents } from '../actions/ConversationActions';
+import io from "socket.io-client";
+import { InteractionManager } from "react-native";
+import { difference } from "ramda";
+import config from "../config";
+import createService from "./createService";
+import { socketServiceSelector } from "../lib/Selectors";
+import {
+  receiveMessage,
+  sendMessages,
+  sendEnqueuedMessages
+} from "../actions/MessageActions";
+import {
+  receiveComposeEvent,
+  resetComposeEvents
+} from "../actions/ConversationActions";
 
 let client, store, token;
 let active = false;
 
-const MESSAGE_EVENT = 'messagedata';
-const COMPOSE_EVENT = 'composeevent';
+const MESSAGE_EVENT = "messagedata";
+const COMPOSE_EVENT = "composeevent";
 const COMPOSE_EVENT_INTERVAL = 1500;
 
 let { serverRoot } = config;
 
 let getSocketOptions = token => ({
-  transports: ['websocket'],
-  'force new connection': true,
-  query: 'token=' + token,
+  transports: ["websocket"],
+  "force new connection": true,
+  query: "token=" + token,
   pingTimeout: 30000
 });
 
-let authErrors = [
-  'Missing token',
-  'Invalid token',
-  'Invalid session'
-];
+let authErrors = ["Missing token", "Invalid token", "Invalid session"];
 
 let socketServiceBase = {
-  onDidInitialize: function () {
+  onDidInitialize: function() {
     this.props.dispatch(resetComposeEvents());
     setInterval(this.updateComposeEvents, COMPOSE_EVENT_INTERVAL);
 
@@ -39,10 +42,10 @@ let socketServiceBase = {
     }
   },
 
-  onDidUpdate: function (prevProps) {
+  onDidUpdate: function(prevProps) {
     if (prevProps.token === this.props.token) {
       return this.sendEnqueuedMessages();
-    };
+    }
 
     if (this.client) {
       this.client.disconnect();
@@ -54,21 +57,21 @@ let socketServiceBase = {
       this.client = this.createClient();
     } else {
       this.props.dispatch({
-        type: 'socketDisconnected'
+        type: "socketDisconnected"
       });
     }
   },
 
-  updateComposeEvents: function () {
+  updateComposeEvents: function() {
     this.props.composingMessages.forEach(m => {
       this.client.emit(COMPOSE_EVENT, { recipientId: m.recipientId });
     });
   },
 
-  createClient: function () {
+  createClient: function() {
     let client = io(serverRoot, getSocketOptions(this.props.token));
 
-    client.on('connect', () => {
+    client.on("connect", () => {
       this.active = true;
       this.sendEnqueuedMessages();
     });
@@ -83,19 +86,19 @@ let socketServiceBase = {
       cb && cb();
     });
 
-    client.on('connect_error', e => {
+    client.on("connect_error", e => {
       this.active = false;
 
       this.props.dispatch({
-        type: 'socketDisconnected',
+        type: "socketDisconnected",
         error: e
       });
     });
 
-    client.on('error', e => {
+    client.on("error", e => {
       if (authErrors.indexOf(e) !== -1) {
         this.props.dispatch({
-          type: 'authError'
+          type: "authError"
         });
       }
     });
@@ -103,20 +106,22 @@ let socketServiceBase = {
     return client;
   },
 
-  sendEnqueuedMessages: function () {
+  sendEnqueuedMessages: function() {
     let messages = this.props.enqueuedMessages;
     let hasMessages = !!messages.length;
 
     if (this.active && hasMessages) {
       this.sendMessage(messages);
     } else if (!this.active && hasMessages) {
-      this.props.dispatch(sendMessages(messages, 'failed', {
-        error: 'Unable to connect to server'
-      }));
+      this.props.dispatch(
+        sendMessages(messages, "failed", {
+          error: "Unable to connect to server"
+        })
+      );
     }
   },
 
-  sendMessage: function (data) {
+  sendMessage: function(data) {
     let { dispatch } = this.props;
     let messageData;
     // Dispatch happens synchronously, so if we're sending
@@ -128,26 +133,30 @@ let socketServiceBase = {
       messageData = [data];
     }
 
-    dispatch(sendMessages(messageData, 'started'));
+    dispatch(sendMessages(messageData, "started"));
 
-    let messageTimeout = setTimeout(function () {
-      dispatch(sendMessages(messageData, 'failed', {
-        error: 'Sending timed out'
-      }));
+    let messageTimeout = setTimeout(function() {
+      dispatch(
+        sendMessages(messageData, "failed", {
+          error: "Sending timed out"
+        })
+      );
     }, 6000);
 
-    this.client.emit(MESSAGE_EVENT, messageData, (sentMessages) => {
+    this.client.emit(MESSAGE_EVENT, messageData, sentMessages => {
       clearTimeout(messageTimeout);
 
       InteractionManager.runAfterInteractions(() => {
-        dispatch(sendMessages(messageData, 'complete', {
-          responseMessages: sentMessages
-        }));
+        dispatch(
+          sendMessages(messageData, "complete", {
+            responseMessages: sentMessages
+          })
+        );
       });
     });
   }
 };
 
-export default createSocketService = store => {
+export default (createSocketService = store => {
   return createService(store)(socketServiceBase, socketServiceSelector);
-};
+});

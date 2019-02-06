@@ -1,9 +1,9 @@
-import { AsyncStorage } from 'react-native';
-import config from '../config';
+import { AsyncStorage } from "react-native";
+import config from "../config";
 
 let { logState, saveState, logActions } = config;
 
-export default saveStateMiddleware = store => next => action => {
+export default (saveStateMiddleware = store => next => action => {
   if (logActions) {
     console.log(action.type, action);
   }
@@ -12,16 +12,16 @@ export default saveStateMiddleware = store => next => action => {
   let nextState = store.getState();
 
   if (logState) {
-    console.log('Saving state: ', nextState, action);
+    console.log("Saving state: ", nextState, action);
   }
 
   if (saveState) {
-    AsyncStorage.setItem('appState', JSON.stringify(nextState));
+    AsyncStorage.setItem("appState", JSON.stringify(nextState));
   }
 
-  if (action.type === 'deleteAccount' && action.state === 'complete') {
-    AsyncStorage.removeItem('appState');
+  if (action.type === "deleteAccount" && action.state === "complete") {
+    AsyncStorage.removeItem("appState");
   }
 
   return result;
-};
+});

@@ -1,10 +1,10 @@
-import createRoutingReducer from '../lib/createRoutingReducer';
+import createRoutingReducer from "../lib/createRoutingReducer";
 
 let initialState = {
-  country: 'United States',
-  countryCode: '1',
-  baseNumber: '',
-  confirmationCode: ''
+  country: "United States",
+  countryCode: "1",
+  baseNumber: "",
+  confirmationCode: ""
 };
 
 let handlers = {
@@ -19,7 +19,7 @@ let handlers = {
 };
 
 export default createRoutingReducer({
-  key: 'signup',
+  key: "signup",
   handlers,
   initialState
 });

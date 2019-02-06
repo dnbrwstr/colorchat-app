@@ -1,34 +1,34 @@
 let getHandle = (name, suffix) => `${name}Timer${suffix}`;
 
 let TimerMixin = {
-  setDelayTimer: function (name, fn, duration) {
-    let handle = getHandle(name, 'Delay');
+  setDelayTimer: function(name, fn, duration) {
+    let handle = getHandle(name, "Delay");
     this.setState({
       [handle]: setTimeout(fn, duration)
     });
   },
 
-  clearDelayTimer: function (name) {
-    let handle = getHandle(name, 'Delay');
+  clearDelayTimer: function(name) {
+    let handle = getHandle(name, "Delay");
     clearTimeout(this.state[handle]);
     this.setState({ [handle]: null });
   },
 
-  setIntervalTimer: function (name, fn, duration) {
-    let handle = getHandle(name, 'Interval');
+  setIntervalTimer: function(name, fn, duration) {
+    let handle = getHandle(name, "Interval");
     this.setState({
       [handle]: setInterval(fn, duration)
     });
   },
 
-  clearIntervalTimer: function (name) {
-    let handle = getHandle(name, 'Interval');
+  clearIntervalTimer: function(name) {
+    let handle = getHandle(name, "Interval");
     clearInterval(handle);
     this.setState({ [handle]: null });
   },
 
-  setThrottleTimer: function (name, fn, duration) {
-    let handle = getHandle(name, 'Throttle');
+  setThrottleTimer: function(name, fn, duration) {
+    let handle = getHandle(name, "Throttle");
     if (this.state[handle]) return;
 
     fn();
@@ -40,8 +40,8 @@ let TimerMixin = {
     });
   },
 
-  setDebounceTimer: function (name, fn, duration) {
-    let handle = getHandle(name, 'Debounce');
+  setDebounceTimer: function(name, fn, duration) {
+    let handle = getHandle(name, "Debounce");
 
     if (this.state[handle]) {
       clearTimeout(this.state[handle]);
@@ -52,12 +52,12 @@ let TimerMixin = {
     });
   },
 
-  clearAllTimers: function () {
+  clearAllTimers: function() {
     Object.keys(this.state).forEach(key => {
       if (key.match(/Timer(Delay|Throttle|Debounce)/)) {
         clearTimeout(this.state[key]);
       } else if (key.match(/TimerInterval/)) {
-        clearInterval(this.state[key])
+        clearInterval(this.state[key]);
       }
     });
   }

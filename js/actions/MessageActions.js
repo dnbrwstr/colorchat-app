@@ -1,25 +1,35 @@
-import { merge, mergeAll, find, propEq, anyPass, filter, map, zipWith } from 'ramda';
-import { InteractionManager } from 'react-native';
-import { postJSON } from '../lib/RequestHelpers';
-import config from '../config';
-import * as DatabaseUtils from '../lib/DatabaseUtils';
+import {
+  merge,
+  mergeAll,
+  find,
+  propEq,
+  anyPass,
+  filter,
+  map,
+  zipWith
+} from "ramda";
+import { InteractionManager } from "react-native";
+import { postJSON } from "../lib/RequestHelpers";
+import NavigationService from "../lib/NavigationService";
+import config from "../config";
+import * as DatabaseUtils from "../lib/DatabaseUtils";
 
 let { serverRoot } = config;
- 
+
 export let receiveMessage = message => async (dispatch, getState) => {
   let { navigation, ui } = getState();
 
   // Treat incoming messages as fresh by default
-  message.state = 'fresh';
+  message.state = "fresh";
 
   await DatabaseUtils.storeMessage(message);
 
   let inCurrentConversation =
-    navigation.route.title === 'conversation' &&
-    navigation.route.data.contactId === message.senderId;
+    NavigationService.getCurrentRoute() === "conversation" &&
+    ui.conversation.contactId === message.senderId;
 
   dispatch({
-    type: 'receiveMessage',
+    type: "receiveMessage",
     inCurrentConversation,
     message
   });
@@ -27,32 +37,35 @@ export let receiveMessage = message => async (dispatch, getState) => {
 
 export let startComposingMessage = message => {
   return {
-    type: 'startComposingMessage',
+    type: "startComposingMessage",
     message
   };
 };
 
 export let cancelComposingMessage = message => {
   return {
-    type: 'cancelComposingMessage',
+    type: "cancelComposingMessage",
     message
   };
 };
 
 export let destroyWorkingMessage = message => {
   return {
-    type: 'destroyWorkingMessage',
+    type: "destroyWorkingMessage",
     message
   };
 };
 
-export let updateWorkingMessage = (message, messageData) => (dispatch, getState) => {
+export let updateWorkingMessage = (message, messageData) => (
+  dispatch,
+  getState
+) => {
   let data = merge(messageData, {
-    senderId: getState().user.id,
+    senderId: getState().user.id
   });
 
   dispatch({
-    type: 'updateWorkingMessage',
+    type: "updateWorkingMessage",
     message,
     messageData: data
   });
@@ -60,22 +73,28 @@ export let updateWorkingMessage = (message, messageData) => (dispatch, getState)
 
 export let sendWorkingMessage = message => {
   return {
-    type: 'sendWorkingMessage',
+    type: "sendWorkingMessage",
     message
   };
 };
 
-export let sendMessages = (messages, state, data) => async (dispatch, getState) => {
-  if (state === 'complete') {
-    map(DatabaseUtils.storeMessage, zipWith(
-      (a, b) => mergeAll([a, b, { state: 'complete' }]),
-      messages, 
-      data.responseMessages
-    ));
+export let sendMessages = (messages, state, data) => async (
+  dispatch,
+  getState
+) => {
+  if (state === "complete") {
+    map(
+      DatabaseUtils.storeMessage,
+      zipWith(
+        (a, b) => mergeAll([a, b, { state: "complete" }]),
+        messages,
+        data.responseMessages
+      )
+    );
   }
 
   dispatch({
-    type: 'sendMessages',
+    type: "sendMessages",
     messages,
     state,
     ...data
@@ -84,36 +103,39 @@ export let sendMessages = (messages, state, data) => async (dispatch, getState) 
 
 export let resendMessage = message => {
   return {
-    type: 'resendMessage',
+    type: "resendMessage",
     message
-  }
+  };
 };
 
 export let markMessageStale = message => {
   DatabaseUtils.storeMessage({
     ...message,
-    state: 'complete'
+    state: "complete"
   });
 
   return {
-    type: 'markMessageStale',
+    type: "markMessageStale",
     message
-  }
+  };
 };
 
 export let toggleMessageExpansion = message => {
   return {
-    type: 'toggleMessageExpansion',
+    type: "toggleMessageExpansion",
     message
-  }
+  };
 };
 
-export let loadMessages = (contactId, page=1) => async (dispatch, getState) => {
+export let loadMessages = (contactId, page = 1) => async (
+  dispatch,
+  getState
+) => {
   let per = 20;
 
   dispatch({
-    type: 'loadMessages',
-    state: 'started',
+    type: "loadMessages",
+    state: "started",
     contactId
   });
 
@@ -124,8 +146,8 @@ export let loadMessages = (contactId, page=1) => async (dispatch, getState) => {
   });
 
   dispatch({
-    type: 'loadMessages',
-    state: 'complete',
+    type: "loadMessages",
+    state: "complete",
     messages,
     total
   });
@@ -133,6 +155,6 @@ export let loadMessages = (contactId, page=1) => async (dispatch, getState) => {
 
 export let unloadOldMessages = () => {
   return {
-    type: 'unloadOldMessages'
+    type: "unloadOldMessages"
   };
 };

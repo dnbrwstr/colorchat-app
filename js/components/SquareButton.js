@@ -1,16 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import createReactClass from 'create-react-class';
-import {
-  Animated,
-  View
-} from 'react-native';
-import Style from '../style';
-import PressableView from './PressableView';
-import BaseText from './BaseText';
+import React from "react";
+import { Animated, View, ViewPropTypes } from "react-native";
+import createReactClass from "create-react-class";
+import PropTypes from "prop-types";
+import Style from "../style";
+import PressableView from "./PressableView";
+import BaseText from "./BaseText";
 
 let SquareButton = createReactClass({
-  displayName: 'SquareButton',
+  displayName: "SquareButton",
 
   propTypes: {
     label: PropTypes.string,
@@ -18,12 +15,12 @@ let SquareButton = createReactClass({
     onPressOut: PropTypes.func,
     onPress: PropTypes.func,
     style: Animated.View.propTypes.style,
-    activeStyle: View.propTypes.style,
-    textStyle: View.propTypes.style,
-    activeTextStyle: View.propTypes.style
+    activeStyle: ViewPropTypes.style,
+    textStyle: ViewPropTypes.style,
+    activeTextStyle: ViewPropTypes.style
   },
 
-  getDefaultProps: function () {
+  getDefaultProps: function() {
     return {
       onPressIn: () => {},
       onPressOut: () => {},
@@ -38,9 +35,9 @@ let SquareButton = createReactClass({
     };
   },
 
-  handlePressIn: function () {
+  handlePressIn: function() {
     let animation = Animated.timing(this.state.animatedScale, {
-      toValue: .95,
+      toValue: 0.95,
       duration: 100
     });
     this.runAnimation(animation);
@@ -48,12 +45,12 @@ let SquareButton = createReactClass({
     this.props.onPressIn.apply(null, arguments);
   },
 
-  handlePressOut: function () {
+  handlePressOut: function() {
     this.setState({ active: false });
     this.props.onPressOut.apply(null, arguments);
   },
 
-  handlePress: function () {
+  handlePress: function() {
     let animation = Animated.timing(this.state.animatedScale, {
       toValue: 1,
       duration: 100
@@ -62,7 +59,7 @@ let SquareButton = createReactClass({
     this.props.onPress.apply(null, arguments);
   },
 
-  runAnimation: function (animation) {
+  runAnimation: function(animation) {
     if (this.state.currentAnimation) {
       this.state.currentAnimation.stop();
     }
@@ -73,15 +70,15 @@ let SquareButton = createReactClass({
     });
   },
 
-  render: function () {
-    let buttonStyles = [style.button,
+  render: function() {
+    let buttonStyles = [
+      style.button,
       this.props.style,
-      { transform: [
-        { scale: this.state.animatedScale }
-      ] }
+      { transform: [{ scale: this.state.animatedScale }] }
     ];
 
-    let textStyles = [style.text,
+    let textStyles = [
+      style.text,
       this.props.textStyle,
       this.state.active && style.textActive,
       this.state.active && this.props.activeTextStyle
@@ -97,13 +94,13 @@ let SquareButton = createReactClass({
         <BaseText style={textStyles}>{this.props.label}</BaseText>
       </PressableView>
     );
-  },
+  }
 });
 
 let style = Style.create({
   button: {
     flex: 0,
-    justifyContent: 'center',
+    justifyContent: "center",
     height: Style.values.buttonHeight,
     margin: Style.values.outerPadding,
     padding: Style.values.basePadding * 1.5,
@@ -112,7 +109,7 @@ let style = Style.create({
   },
   buttonActive: {},
   text: {
-    textAlign: 'center'
+    textAlign: "center"
   },
   textActive: {}
 });

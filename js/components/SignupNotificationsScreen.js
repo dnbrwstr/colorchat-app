@@ -1,21 +1,17 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  Animated
-} from 'react-native';
-import { connect } from 'react-redux';
-import Style from '../style';
-import BaseTextInput from './BaseTextInput';
-import LoaderButton from './LoaderButton';
-import { navigateTo } from '../actions/NavigationActions';
-import { triggerPermissionsDialog } from '../actions/NotificationActions';
-import { saveName } from '../actions/SignupActions';
-import SignupScreen from './SignupScreen';
+import React from "react";
+import { View, Text, Animated } from "react-native";
+import { connect } from "react-redux";
+import Style from "../style";
+import BaseTextInput from "./BaseTextInput";
+import LoaderButton from "./LoaderButton";
+import { navigateTo } from "../actions/NavigationActions";
+import { triggerPermissionsDialog } from "../actions/NotificationActions";
+import { saveName } from "../actions/SignupActions";
+import SignupScreen from "./SignupScreen";
 
 class SignupNotificationScreen extends React.Component {
   state = {
-    name: ''
+    name: ""
   };
 
   render() {
@@ -23,7 +19,7 @@ class SignupNotificationScreen extends React.Component {
 
     return (
       <SignupScreen
-        title={'Set display name'}
+        title={"Set display name"}
         renderNextButton={this.renderNextButton}
       >
         <View style={style.inputWrapper}>
@@ -31,7 +27,7 @@ class SignupNotificationScreen extends React.Component {
             placeholder="Name"
             ref="nameInput"
             value={this.props.name}
-            onChangeText={ name => this.setState({ name }) }
+            onChangeText={name => this.setState({ name })}
           />
         </View>
 
@@ -39,7 +35,7 @@ class SignupNotificationScreen extends React.Component {
           Your friends will see this in push notifications when you message them
         </Text>
       </SignupScreen>
-    )
+    );
   }
 
   renderNextButton = () => {
@@ -56,19 +52,15 @@ class SignupNotificationScreen extends React.Component {
   onPressNext = () => {
     this.props.dispatch(saveName(this.state.name));
     this.props.dispatch(triggerPermissionsDialog());
-    this.props.dispatch(navigateTo('inbox'));
+    this.props.dispatch(navigateTo("inbox"));
   };
 }
 
-let {
-  textBase,
-  inputBase,
-  grayBottomBorder,
-} = Style.mixins;
+let { textBase, inputBase, grayBottomBorder } = Style.mixins;
 
 var style = Style.create({
   inputWrapper: {
-    ...grayBottomBorder,
+    ...grayBottomBorder
   },
   text: {
     ...textBase,
@@ -76,4 +68,4 @@ var style = Style.create({
   }
 });
 
-export default connect(()=>({}))(SignupNotificationScreen);
+export default connect(() => ({}))(SignupNotificationScreen);

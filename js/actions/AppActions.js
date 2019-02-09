@@ -94,6 +94,8 @@ export let updateUserInfo = data => async (dispatch, getState) => {
   let url = serverRoot + "/account";
   let authToken = getState().user.token;
 
+  if (!authToken) return;
+
   send({
     dispatch,
     actionType: "updateUserInfo",

@@ -13,10 +13,10 @@
     "moment": "https://github.com/tqc/moment#no-dynamic-import",
     "prop-types": "^15.6.2",
     "ramda": "^0.18.0",
-    "react": "16.4.1",
+    "react": "16.6.1",
     "react-gateway": "^3.0.0",
-    "react-native": "0.56.0",
-    "react-native-contacts": "^2.2.2",
+    "react-native": "0.57.8",
+    "react-native-contacts": "^3.1.2",
     "react-native-deprecated-custom-components": "^0.1.1",
     "react-native-firebase": "^4.3.7",
     "react-native-invertible-scroll-view": "^1.1.1",
@@ -35,5 +35,10 @@
     "assets": [
       "./fonts/"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "metro-react-native-babel-preset": "^0.51.1",
+    "schedule": "0.4.0"
   }
 }

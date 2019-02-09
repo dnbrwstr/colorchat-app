@@ -34,11 +34,6 @@
 		C841D40F1ECD3BDA006D5EEB /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40C1ECD3BDA006D5EEB /* Bolts.framework */; };
 		C841D4101ECD3BDA006D5EEB /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40D1ECD3BDA006D5EEB /* Parse.framework */; };
 		C841D4131ECE0BD5006D5EEB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */; };
-		C841D42E1ECE144E006D5EEB /* WorkSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D4291ECE144E006D5EEB /* WorkSans-Bold.otf */; };
-		C841D42F1ECE144E006D5EEB /* WorkSans-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42A1ECE144E006D5EEB /* WorkSans-ExtraBold.otf */; };
-		C841D4301ECE144E006D5EEB /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42B1ECE144E006D5EEB /* WorkSans-Light.otf */; };
-		C841D4311ECE144E006D5EEB /* WorkSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42C1ECE144E006D5EEB /* WorkSans-Medium.otf */; };
-		C841D4321ECE144E006D5EEB /* WorkSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C841D42D1ECE144E006D5EEB /* WorkSans-Regular.otf */; };
 		C85535A41F607615006AAF31 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C85535A31F607615006AAF31 /* GoogleService-Info.plist */; };
 		C87246F61ECD060500EC0C4F /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C87246F51ECD05FA00EC0C4F /* libRCTContacts.a */; };
 		C87278551F5CDE8B00CB4972 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -1239,11 +1234,6 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C85535A41F607615006AAF31 /* GoogleService-Info.plist in Resources */,
-				C841D42E1ECE144E006D5EEB /* WorkSans-Bold.otf in Resources */,
-				C841D42F1ECE144E006D5EEB /* WorkSans-ExtraBold.otf in Resources */,
-				C841D4301ECE144E006D5EEB /* WorkSans-Light.otf in Resources */,
-				C841D4311ECE144E006D5EEB /* WorkSans-Medium.otf in Resources */,
-				C841D4321ECE144E006D5EEB /* WorkSans-Regular.otf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

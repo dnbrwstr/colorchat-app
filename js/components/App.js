@@ -5,6 +5,7 @@ import { GatewayDest } from "react-gateway";
 import Router from "./Router";
 import Alert from "./Alert";
 import Style from "../style";
+import FunctionView from "./FunctionView";
 
 let appSelector = state => {
   return {
@@ -72,7 +73,7 @@ class App extends React.Component {
 
         <GatewayDest
           name="top"
-          component={View}
+          component={FunctionView}
           style={{ position: "absolute", top: 0, left: 0 }}
         />
       </Animated.View>

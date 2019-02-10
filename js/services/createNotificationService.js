@@ -6,6 +6,7 @@ import createService from "./createService";
 import { getUnreadCount } from "../lib/DatabaseUtils";
 import { receiveMessage } from "../actions/MessageActions";
 import { updateUserInfo } from "../actions/AppActions";
+import { navigateToConversation } from "../actions/NavigationActions";
 
 let notificationServiceBase = {
   onDidInitialize: function() {
@@ -20,6 +21,7 @@ let notificationServiceBase = {
       .onNotificationDisplayed(this.onReceiveNotification);
     firebase.notifications().onNotification(this.onReceiveNotification);
     this.updateUnreadCount();
+    this.checkForInitialNotification();
   },
 
   checkForInitialNotification: async function() {
@@ -30,11 +32,10 @@ let notificationServiceBase = {
       // App was opened by notification
       const action = notificationOpen.action;
       const notification = notificationOpen.notification;
+      const message = JSON.parse(notification.data.message);
       // Handle message + navigate to conversation with sender
-      this.props.dispatch(receiveMessage(notification.data.message));
-      this.props.dispatch(
-        navigateToConversation(notification.data.message.senderId)
-      );
+      this.props.dispatch(receiveMessage(message));
+      this.props.dispatch(navigateToConversation(message.senderId));
     }
   },
 
@@ -69,7 +70,6 @@ let notificationServiceBase = {
   },
 
   onRegister: function(token) {
-    console.log("Saving device token", token);
     this.props.dispatch(saveDeviceToken(token));
   },
 

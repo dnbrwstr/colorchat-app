@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import DeviceInfo from 'react-native-device-info';
 import { putAuthenticatedJSON } from "../lib/RequestHelpers";
 import config from "../config";
 import send from "../lib/send";
@@ -25,6 +26,7 @@ export let saveDeviceToken = deviceToken => async (dispatch, getState) => {
         putAuthenticatedJSON(
           url,
           {
+            deviceId: DeviceInfo.getUniqueID(),
             deviceToken: deviceToken,
             platform: Platform.OS
           },

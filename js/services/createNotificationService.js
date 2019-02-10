@@ -20,6 +20,7 @@ let notificationServiceBase = {
       .notifications()
       .onNotificationDisplayed(this.onReceiveNotification);
     firebase.notifications().onNotification(this.onReceiveNotification);
+    firebase.notifications().onNotificationOpened(this.onOpenNotification)
     this.updateUnreadCount();
     this.checkForInitialNotification();
   },
@@ -31,11 +32,7 @@ let notificationServiceBase = {
     if (notificationOpen) {
       // App was opened by notification
       const action = notificationOpen.action;
-      const notification = notificationOpen.notification;
-      const message = JSON.parse(notification.data.message);
-      // Handle message + navigate to conversation with sender
-      this.props.dispatch(receiveMessage(message));
-      this.props.dispatch(navigateToConversation(message.senderId));
+      this.onOpenNotification(notificationOpen);
     }
   },
 
@@ -89,6 +86,14 @@ let notificationServiceBase = {
         senderId: messageData.senderId
       })
     );
+  },
+
+  onOpenNotification: function (notificationOpen) {
+    const notification = notificationOpen.notification;
+    const message = JSON.parse(notification.data.message);
+    // Handle message + navigate to conversation with sender
+    this.props.dispatch(receiveMessage(message));
+    this.props.dispatch(navigateToConversation(message.senderId));
   }
 };
 

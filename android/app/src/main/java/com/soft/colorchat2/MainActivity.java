@@ -1,4 +1,4 @@
-package com.soft.colorchat;
+package com.soft.colorchat2;
 
 import com.facebook.react.ReactActivity;
 

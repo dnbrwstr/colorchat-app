@@ -1,7 +1,9 @@
-package com.soft.colorchat;
+package com.soft.colorchat2;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import io.invertase.firebase.RNFirebasePackage;
 import com.tkporter.sendsms.SendSMSPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -30,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNFirebasePackage(),
+            new RNDeviceInfo(),
           SendSMSPackage.getInstance(),
           new RealmReactPackage(),
           new ReactNativeContacts(),

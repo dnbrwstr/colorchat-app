@@ -28,6 +28,7 @@ iOS/Pods
 
 # Android/IJ
 #
+*.iml
 .idea
 .gradle
 local.properties
@@ -39,7 +40,7 @@ npm-debug.log
 
 # ColorChat 
 # 
-android/keystores/colorchat-release-key.keystore
+android/keystores/colorchat.keystore
 android/app/google-services.json
 iOS/ColorChat/GoogleService-Info.plist
 

@@ -78,21 +78,6 @@ import com.android.build.OutputFile
 
 apply from: "../../node_modules/react-native/react.gradle"
 
-def getPassword(String currentUser, String keyChain) {
-   def stdout = new ByteArrayOutputStream()
-   def stderr = new ByteArrayOutputStream()
-   exec {
-       commandLine 'security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w'
-       standardOutput = stdout
-       errorOutput = stderr
-       ignoreExitValue true
-   }
-   //noinspection GroovyAssignabilityCheck
-   stdout.toString().trim()
-}
-
-def releaseKeyPass = getPassword("colorchat","colorchat-release-key")
-
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -123,20 +108,21 @@ android {
         }
     }
     signingConfigs {
-        debug {
-            if (project.hasProperty('COLORCHAT_RELEASE_STORE_FILE')) {
-                storeFile file(COLORCHAT_RELEASE_STORE_FILE)
-                storePassword releaseKeyPass
-                keyAlias COLORCHAT_RELEASE_KEY_ALIAS
-                keyPassword releaseKeyPass
-            }            
-        }
         release {
             if (project.hasProperty('COLORCHAT_RELEASE_STORE_FILE')) {
                 storeFile file(COLORCHAT_RELEASE_STORE_FILE)
-                storePassword releaseKeyPass
+                storePassword COLORCHAT_RELEASE_STORE_PASSWORD
                 keyAlias COLORCHAT_RELEASE_KEY_ALIAS
-                keyPassword releaseKeyPass
+                keyPassword COLORCHAT_RELEASE_KEY_PASSWORD
+            }
+        }
+
+        debug {
+            if (project.hasProperty('COLORCHAT_RELEASE_STORE_FILE')) {
+                storeFile file(COLORCHAT_RELEASE_STORE_FILE)
+                storePassword COLORCHAT_RELEASE_STORE_PASSWORD
+                keyAlias COLORCHAT_RELEASE_KEY_ALIAS
+                keyPassword COLORCHAT_RELEASE_KEY_PASSWORD
             }
         }
     }
@@ -171,12 +157,12 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-firebase')
+    compile project(':react-native-device-info')
     compile project(':react-native-sms')
     implementation project(':react-native-firebase')
-    implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.firebase:firebase-core:16.0.1"
-    implementation "com.google.firebase:firebase-messaging:17.1.0"
+    implementation "com.google.android.gms:play-services-base:16.0.1"
+    implementation "com.google.firebase:firebase-core:16.0.6"
+    implementation "com.google.firebase:firebase-messaging:17.3.4"
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
     compile project(':realm')
     compile project(':react-native-contacts')

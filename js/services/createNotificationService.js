@@ -76,9 +76,7 @@ let notificationServiceBase = {
   onReceiveNotification: function(notification) {
     if (notification.data.type !== "message") return;
 
-    console.log("Got notification", notification);
-
-    const messageData = notification.data.message;
+    const messageData = JSON.parse(notification.data.message);
 
     this.props.dispatch(receiveMessage(messageData));
 

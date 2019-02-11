@@ -56,7 +56,8 @@ let style = Style.create({
   composeBar: {
     height: Style.values.rowHeight,
     flexDirection: "row",
-    overflow: "hidden"
+    overflow: "hidden",
+    backgroundColor: Style.values.almostBlack
   },
   button: {
     flex: 1,

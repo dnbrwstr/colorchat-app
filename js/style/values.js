@@ -13,7 +13,7 @@ let values = {
   basePadding: 10,
   horizontalPadding: 18,
   midGray: "#878787",
-  almostBlack: "#111",
+  almostBlack: "#222",
   darkGray,
   darkGrayHighlight,
   midLightGray: "#DFDFDF",
@@ -21,7 +21,7 @@ let values = {
   fairlyLightGray: "#F8F8F8",
   veryLightGray: "#FAFAFA",
   outerPadding: 20,
-  rowHeight: 80,
+  rowHeight: 60,
   buttonHeight: 60
 };
 

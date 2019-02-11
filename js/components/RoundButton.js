@@ -119,7 +119,7 @@ let style = Style.create({
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "black",
+    backgroundColor: Style.values.almostBlack,
     width: BUTTON_SIZE,
     height: BUTTON_SIZE,
     borderRadius: BUTTON_SIZE / 2,

@@ -48,10 +48,11 @@ class ContactsScreen extends React.Component {
         <View style={style.headerWrapper}>
           <Header
             title={"Contacts"}
-            backgroundColor={"rgba(255,255,255,.95)"}
+            backgroundColor={"rgba(255,255,255,1)"}
             highlightColor={Style.values.veryLightGray}
             showBack={true}
             onBack={() => this.props.dispatch(navigateBack())}
+            borderColor={Style.values.midLightGray}
           />
         </View>
       </View>
@@ -152,7 +153,8 @@ let importStyle = Style.create({
     ...contentWrapperBase,
     flex: 1,
     justifyContent: "center",
-    backgroundColor: Style.values.backgroundGray
+    backgroundColor: Style.values.backgroundGray,
+    paddingTop: 100
   },
   messageText: {
     marginBottom: 24,

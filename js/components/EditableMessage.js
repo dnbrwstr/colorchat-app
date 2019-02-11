@@ -2,11 +2,10 @@ import React from "react";
 import {
   View,
   Dimensions,
-  Animated,
-  InteractionManager,
-  Text
+  Animated
 } from "react-native";
 import { connect } from "react-redux";
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import Style from "../style";
 import DragHandle from "./DragHandle";
 import { updateWorkingMessage } from "../actions/MessageActions";
@@ -104,8 +103,9 @@ class EditableMessage extends React.Component {
       }
     ];
 
+    const statusBarHeight = getStatusBarHeight();
     let screenWidth = Dimensions.get("window").width;
-    let screenHeight = Dimensions.get("window").height;
+    let screenHeight = Dimensions.get("window").height - statusBarHeight;
     let width = this.state.workingWidth;
     let height = this.state.workingHeight;
     let verticalOffset = Style.values.rowHeight;
@@ -188,13 +188,14 @@ class EditableMessage extends React.Component {
   };
 
   onDragHandle = (axis, e) => {
+    const statusBarHeight = getStatusBarHeight();
     let screenWidth = Dimensions.get("window").width;
     let screenHeight = Dimensions.get("window").height;
     let nextState = {};
 
     if (axis === "vertical" || axis === "diagonal") {
       nextState.workingHeight = constrain(
-        screenHeight - e.nativeEvent.pageY - Style.values.rowHeight,
+        screenHeight - e.nativeEvent.pageY - Style.values.rowHeight - statusBarHeight,
         MIN_MESSAGE_HEIGHT,
         MAX_MESSAGE_HEIGHT
       );

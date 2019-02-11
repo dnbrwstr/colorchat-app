@@ -82,11 +82,10 @@ let ConversationScreen = createReactClass({
           title={contact.name}
           showBack={true}
           color="white"
-          backgroundColor={"rgba(0,0,0,.8)"}
-          highlightColor={"rgba(30,30,30,.8)"}
+          backgroundColor={Style.values.almostBlack}
+          highlightColor={"rgba(0,0,0,.8)"}
           onBack={() => dispatch(navigateBack())}
         />
-        <StatusBar backgroundColor="#111111" barStyle="light-content" />
         <MessageList
           scrollBridge={this.state.scrollBridge}
           onPresentMessage={this.onPresentMessage}

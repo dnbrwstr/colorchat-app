@@ -15,6 +15,11 @@ let grayBottomBorder = {
   borderBottomColor: values.midGray
 };
 
+let makeGray = (v, a=1) => {
+  const n = v * 255;
+  return `rgba(${n}, ${n}, ${n}, ${a})`;
+};
+
 let inputBase = {
   ...textBase,
   height: 36,
@@ -59,7 +64,8 @@ let mixins = {
   inputBase,
   outerWrapperBase,
   contentWrapperBase,
-  shadowBase
+  shadowBase,
+  makeGray
 };
 
 module.exports = mixins;

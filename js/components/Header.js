@@ -94,7 +94,7 @@ class Header extends React.Component {
 
 let style = Style.create({
   bar: {
-    height: Style.values.rowHeight,
+    height: 60,
     alignItems: "stretch",
     justifyContent: "center",
     flexDirection: "row",
@@ -110,7 +110,7 @@ let style = Style.create({
     bottom: 0
   },
   buttonContainer: {
-    width: Style.values.rowHeight
+    width: 80
   },
   button: {
     flex: 1,

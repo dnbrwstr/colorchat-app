@@ -45,6 +45,16 @@ export let importContacts = opts => async (dispatch, getState) => {
 let onPermissionGranted = async (userToken, dispatch) => {
   let contacts = await Contacts.getAllAsync();
 
+  // TODO: Move sorting to native modules
+  contacts.sort((a, b) => {
+    const first = `${a.givenName} ${a.familyName}`;
+    const second = `${b.givenName} ${b.familyName}`;
+
+    if (first > second) return 1;
+    else if (second > first) return -1;
+    return 0;
+  });
+
   let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
   let url = serverRoot + "/match";
   let data = { phoneNumbers };

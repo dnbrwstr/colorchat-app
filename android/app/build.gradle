@@ -157,9 +157,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-screens')
+    compile project(':react-native-gesture-handler')
+    compile project(':react-native-firebase')
     compile project(':react-native-device-info')
     compile project(':react-native-sms')
-    implementation project(':react-native-firebase')
     implementation "com.google.android.gms:play-services-base:16.0.1"
     implementation "com.google.firebase:firebase-core:16.0.6"
     implementation "com.google.firebase:firebase-messaging:17.3.4"

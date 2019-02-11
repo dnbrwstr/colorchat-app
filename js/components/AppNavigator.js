@@ -1,4 +1,4 @@
-import { createStackNavigator, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator, createSwitchNavigator, createAppContainer } from "react-navigation";
 import SignupStartScreen from "../components/SignupStartScreen";
 import CountryPickerScreen from "../components/CountryPickerScreen";
 import ConfirmCodeScreen from "../components/ConfirmCodeScreen";
@@ -71,7 +71,7 @@ const AuthStack = createStackNavigator(
   }
 );
 
-export default createSwitchNavigator(
+const Navigator = createSwitchNavigator(
   {
     authCheck: AuthCheckScreen,
     mainApp: createStackNavigator(
@@ -89,3 +89,5 @@ export default createSwitchNavigator(
     ...defaultStackOptions
   }
 );
+
+export default createAppContainer(Navigator);

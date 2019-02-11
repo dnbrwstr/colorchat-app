@@ -398,11 +398,6 @@
 		C841D40D1ECD3BDA006D5EEB /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		C841D40E1ECD3BDA006D5EEB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Frameworks/Realm.framework; sourceTree = "<group>"; };
 		C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		C841D4291ECE144E006D5EEB /* WorkSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Bold.otf"; path = "../fonts/WorkSans-Bold.otf"; sourceTree = "<group>"; };
-		C841D42A1ECE144E006D5EEB /* WorkSans-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-ExtraBold.otf"; path = "../fonts/WorkSans-ExtraBold.otf"; sourceTree = "<group>"; };
-		C841D42B1ECE144E006D5EEB /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Light.otf"; path = "../fonts/WorkSans-Light.otf"; sourceTree = "<group>"; };
-		C841D42C1ECE144E006D5EEB /* WorkSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Medium.otf"; path = "../fonts/WorkSans-Medium.otf"; sourceTree = "<group>"; };
-		C841D42D1ECE144E006D5EEB /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Regular.otf"; path = "../fonts/WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		C85535A31F607615006AAF31 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ColorChat/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C87246F01ECD05FA00EC0C4F /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
 		C8A493B61F5CCE4600F95BE4 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -624,7 +619,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				C841D4341ECE1467006D5EEB /* Fonts */,
 				13B07FAE1A68108700A75B9A /* ColorChat */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ColorChatTests */,
@@ -698,18 +692,6 @@
 				0E760EFF1704E546880FC7C9 /* libPods-ColorChatTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C841D4341ECE1467006D5EEB /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				C841D4291ECE144E006D5EEB /* WorkSans-Bold.otf */,
-				C841D42A1ECE144E006D5EEB /* WorkSans-ExtraBold.otf */,
-				C841D42B1ECE144E006D5EEB /* WorkSans-Light.otf */,
-				C841D42C1ECE144E006D5EEB /* WorkSans-Medium.otf */,
-				C841D42D1ECE144E006D5EEB /* WorkSans-Regular.otf */,
-			);
-			name = Fonts;
 			sourceTree = "<group>";
 		};
 		C87246F11ECD05FA00EC0C4F /* Products */ = {

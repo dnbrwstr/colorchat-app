@@ -2,11 +2,11 @@ package com.soft.colorchat2;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.swmansion.rnscreens.RNScreensPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import io.invertase.firebase.RNFirebasePackage;
 import com.tkporter.sendsms.SendSMSPackage;
-import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.realm.react.RealmReactPackage;
@@ -31,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNScreensPackage(),
+            new RNGestureHandlerPackage(),
             new RNFirebasePackage(),
             new RNDeviceInfo(),
           SendSMSPackage.getInstance(),

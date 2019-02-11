@@ -1,13 +1,44 @@
 platform :ios, '9.0'
 
-target 'ColorChat' do
+install! 'cocoapods', :deterministic_uuids => false
 
+target 'ColorChat' do
+  rn_path = '../node_modules/react-native'
+  pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
+  pod 'React', path: rn_path, subspecs: [
+    'Core',
+    'RCTActionSheet',
+    'RCTAnimation',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTLinkingIOS',
+    'RCTNetwork',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket'
+  ]
+  
   pod 'Firebase/Core', '~> 5.15.0'
   pod 'Firebase/Messaging', '~> 5.15.0'
   
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
   target 'ColorChatTests' do
     inherit! :search_paths
   end
+  
+
+end
+
+post_install do |installer_representation|
+    installer_representation.pods_project.targets.each do |target|
+        if target.name == "React"
+            target.remove_from_project
+        end
+    end
 end

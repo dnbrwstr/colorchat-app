@@ -1,8 +1,4 @@
-import invariant from "invariant";
-import { findIndex, propEq } from "ramda";
 import { NavigationActions } from "react-navigation";
-import createRoutingReducer from "../lib/createRoutingReducer";
-import { getTransitionMethod } from "../lib/AppRoutes";
 import AppNavigator from "../components/AppNavigator";
 
 const initialState = AppNavigator.router.getStateForAction(

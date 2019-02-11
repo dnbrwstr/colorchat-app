@@ -42,6 +42,11 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseNotificationsPackage()
       );
     }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
+    }
   };
 
   @Override
@@ -54,4 +59,5 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
   }
+
 }

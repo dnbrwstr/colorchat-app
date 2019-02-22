@@ -16,23 +16,23 @@ class NumberInfoScreen extends React.Component {
     return (
       <TextScreen title="Number usage" onNavigateBack={this.handleNavigateBack}>
         <BaseText>
-          ColorChat uses your phone number to authenticate you and to connect
-          you with friends already on ColorChat.{"\n\n"}
+          Color Chat uses your phone number to authenticate you and to connect
+          you with friends already on Color Chat.{"\n\n"}
         </BaseText>
         <BaseText>
-          ColorChat does not share your phone number with other users, but will
+          Color Chat does not share your phone number with other users, but will
           allow them to message you if you're already listed in their contacts.
           {"\n\n"}
         </BaseText>
         <BaseText>
-          ColorChat does not, and will never, share your phone number with third
+          Color Chat does not, and will never, share your phone number with third
           parties for any reason except to comply with the law or protect the
           rights, property, or safety of you or others.{"\n\n"}
         </BaseText>
         <BaseText>
           If you have any questions, please contact{" "}
           <TextLink href="mailto:hello@soft.works" style={style.link}>
-            hello@soft.works
+            info@soft.works
           </TextLink>
           .
         </BaseText>

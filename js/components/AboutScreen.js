@@ -16,17 +16,17 @@ class AboutScreen extends React.Component {
     return (
       <TextScreen title="About" onNavigateBack={this.handleNavigateBack}>
         <BaseText>
-          ColorChat is a color-based messaging application, built by Dan
+          Color Chat is a color-based messaging application, built by Dan
           Brewster under the auspices of{" "}
-          <TextLink style={style.link} href="http://soft.works">
+          <TextLink style={style.link} href="https://soft.works">
             Soft
           </TextLink>
           .{"\n\n"}
         </BaseText>
         <BaseText>
           Please contact{" "}
-          <TextLink style={style.link} href="mailto:hello@soft.works">
-            hello@soft.works
+          <TextLink style={style.link} href="mailto:info@soft.works">
+            info@soft.works
           </TextLink>{" "}
           with any questions.
         </BaseText>
@@ -36,7 +36,6 @@ class AboutScreen extends React.Component {
 }
 
 let style = Style.create({
-  container: {},
   link: {
     textDecorationLine: "underline"
   }

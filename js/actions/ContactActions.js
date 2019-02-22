@@ -43,8 +43,21 @@ export let importContacts = opts => async (dispatch, getState) => {
 };
 
 let onPermissionGranted = async (userToken, dispatch) => {
-  let contacts = await Contacts.getAllAsync();
+  let rawContacts = await Contacts.getAllAsync();
 
+  const contactsByNumber = {};
+  rawContacts.forEach(c => {
+    const { phoneNumbers, ...info } = c;
+    phoneNumbers.forEach(n => {
+      const normalizedNumber = n.number.replace(/[^\d]/g, "");
+      if (!contactsByNumber[normalizedNumber]) {
+        contactsByNumber[normalizedNumber] = { ...info, phoneNumber: n.number };
+      }
+    });
+  });
+
+  let contacts = Object.keys(contactsByNumber).map(k => contactsByNumber[k]);
+  console.log(contacts);
   // TODO: Move sorting to native modules
   contacts.sort((a, b) => {
     const first = `${a.givenName} ${a.familyName}`;
@@ -55,7 +68,7 @@ let onPermissionGranted = async (userToken, dispatch) => {
     return 0;
   });
 
-  let phoneNumbers = contacts.map(c => c.phoneNumbers.map(n => n.number));
+  let phoneNumbers = contacts.map(c => [c.phoneNumber]);
   let url = serverRoot + "/match";
   let data = { phoneNumbers };
 
@@ -65,6 +78,11 @@ let onPermissionGranted = async (userToken, dispatch) => {
     getRequest: () => postAuthenticatedJSON(url, { phoneNumbers }, userToken),
     parse: matches => ({ matches, contacts })
   });
+};
+
+const loadAvatar = contact => (dispatch, getState) => {
+  let phoneNumber = contact.phoneNumber;
+  // const number =
 };
 
 let onPermissionDenied = dispatch => {
@@ -81,7 +99,7 @@ export let sendInvite = contact => (dispatch, getState) => {
   const message =
     "Please join me in chatting with colors instead of words on Color Chat " +
     inviteLink;
-  const number = contact.phoneNumbers[0].number;
+  const number = contact.phoneNumber;
 
   SendSMS.send(
     {

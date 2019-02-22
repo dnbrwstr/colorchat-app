@@ -1,9 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
-import { merge } from "ramda";
 import RoundButton from "./RoundButton";
 import Style from "../style";
-import BaseText from "./BaseText";
 
 class SettingsButton extends React.Component {
   render() {

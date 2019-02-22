@@ -73,6 +73,7 @@ let RoundButton = createReactClass({
         style={viewStyles}
         onPressIn={this.onPressIn}
         onPress={this.onPress}
+        onPressOut={this.onPressOut}
       >
         {this.props.children}
       </PressableView>
@@ -87,13 +88,7 @@ let RoundButton = createReactClass({
     }).start();
   },
 
-  onPress: function() {
-    if (this.state.leaving || !this.props.visible) return;
-
-    this.setState({
-      leaving: true
-    });
-
+  onPressOut: function() {
     let animation = Animated.spring(this.state.animatedSize, {
       toValue: 1,
       friction: 10,
@@ -103,9 +98,24 @@ let RoundButton = createReactClass({
     animation.start();
 
     this.setDelayTimer(
-      "hide",
+      "hideAnimation",
       () => {
         animation.stop();
+      },
+      200
+    );
+  },
+
+  onPress: function() {
+    if (this.state.leaving || !this.props.visible) return;
+
+    this.setState({
+      leaving: true
+    });
+
+    this.setDelayTimer(
+      "hide",
+      () => {
         this.props.onPress();
         this.setState({ leaving: false });
       },

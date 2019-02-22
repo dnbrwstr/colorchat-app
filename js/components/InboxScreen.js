@@ -1,18 +1,20 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import { connect } from "react-redux";
+import memoize from "memoize-one";
 import { inboxScreenSelector } from "../lib/Selectors";
 import { navigateToConversation } from "../actions/NavigationActions";
 import { deleteConversation } from "../actions/ConversationActions";
-import { setMainTab } from "../actions/AppActions";
 import { navigateTo } from "../actions/NavigationActions";
 import { triggerPermissionsDialog } from "../actions/NotificationActions";
 import Style from "../style";
 import ConversationList from "./ConversationList";
 import BaseText from "./BaseText";
-import PressableView from "./PressableView";
 import PlusButton from "./PlusButton";
 import SettingsButton from "./SettingsButton";
+import Header from "./Header";
+import withStyles from "../lib/withStyles";
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 const BR = "\n";
 
@@ -21,25 +23,27 @@ class InboxScreen extends React.Component {
     this.props.dispatch(triggerPermissionsDialog());
   }
 
-  handleAddButtonPress = () => {
-    this.props.dispatch(navigateTo("contacts"));
-  };
-
-  handelSettingsButtonPress = () => {
-    this.props.dispatch(navigateTo("settings"));
-  };
-
   render() {
+    const { theme, styles } = this.props;
+
     return (
-      <View style={style.container}>
+      <View style={styles.container}>
+        <Header
+          title={"Color Chat"}
+          highlightColor={theme.highlightColor}
+          borderColor={theme.borderColor}
+        />
         {this.props.conversations.length
           ? this.renderConversations()
           : this.renderEmptyMessage()}
         <SettingsButton
-          style={style.settingsButton}
-          onPress={this.handelSettingsButtonPress}
+          style={styles.settingsButton}
+          onPress={this.handleSettingsButtonPressed}
         />
-        <PlusButton onPress={this.handleAddButtonPress} />
+        <PlusButton
+          style={styles.contactsButton}
+          onPress={this.handleAddButtonPressed}
+        />
       </View>
     );
   }
@@ -53,8 +57,8 @@ class InboxScreen extends React.Component {
     return (
       <ConversationList
         conversations={conversations}
-        onSelect={this.onSelectConversation}
-        onDelete={this.onDeleteConversation}
+        onSelect={this.handleConversationSelected}
+        onDelete={this.handleConversationDeleted}
       />
     );
   };
@@ -69,37 +73,40 @@ class InboxScreen extends React.Component {
     );
   };
 
-  onSelectConversation = conversation => {
+  handleAddButtonPressed = () => {
+    this.props.dispatch(navigateTo("contacts"));
+  };
+
+  handleSettingsButtonPressed = () => {
+    this.props.dispatch(navigateTo("settings"));
+  };
+
+  handleConversationSelected = conversation => {
     this.props.dispatch(navigateToConversation(conversation.recipientId));
   };
 
-  onDeleteConversation = conversation => {
+  handleConversationDeleted = conversation => {
     this.props.dispatch(deleteConversation(conversation));
-  };
-
-  onPressContactsButton = () => {
-    this.props.dispatch(setMainTab("Contacts"));
   };
 }
 
 let { contentWrapperBase } = Style.mixins;
 
-let style = Style.create({
+const addStyle = withStyles(theme => ({
   container: {
     flex: 1,
-    backgroundColor: Style.values.backgroundGray
+    backgroundColor: theme.backgroundColor
   },
   emptyMessageWrapper: {
     ...contentWrapperBase,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#EFEFEF"
+    alignItems: "center"
   },
   emptyMessage: {
     textAlign: "center"
   },
   contactsButton: {
-    backgroundColor: Style.values.midGray,
+    backgroundColor: theme.inbox.contactsButtonBackgroundColor,
     padding: 12,
     marginTop: 18,
     flex: 0
@@ -110,8 +117,9 @@ let style = Style.create({
     flex: 0
   },
   settingsButton: {
+    backgroundColor: theme.inbox.settingsButtonBackgroundColor,
     bottom: 78
   }
-});
+}));
 
-export default connect(inboxScreenSelector)(InboxScreen);
+export default addStyle(connect(inboxScreenSelector)(InboxScreen));

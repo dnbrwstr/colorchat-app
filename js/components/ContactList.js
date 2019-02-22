@@ -15,7 +15,7 @@ const ContactList = class extends Component {
         data={this.props.contacts}
         renderItem={this.renderContact}
         renderSeperator={this.renderSeperator}
-        keyExtractor={c => c.recordID}
+        keyExtractor={c => c.phoneNumber}
         getItemLayout={(data, index) => ({
           length: Style.values.rowHeight,
           offset: Style.values.rowHeight * index,

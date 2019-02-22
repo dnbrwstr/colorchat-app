@@ -5,6 +5,7 @@ let initialState = {
   id: null,
   name: null,
   phoneNumber: null,
+  avatar: null,
   token: null,
   deviceToken: null,
   deviceTokenSaved: false

@@ -13,7 +13,8 @@ let handlers = {
         (contacts[m.index] = {
           ...contacts[m.index],
           matched: true,
-          id: m.userId
+          id: m.userId,
+          avatar: m.avatar
         })
     );
 

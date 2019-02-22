@@ -30,9 +30,9 @@ let InteractiveView = createReactClass({
     return {
       swipeEnabled: false,
       xAxisEnabled: true,
-      xAxisThreshold: 20,
+      xAxisThreshold: 5,
       yAxisEnabled: false,
-      yAxisThreshold: 20,
+      yAxisThreshold: 5,
       springBack: true,
       deleteEnabled: false,
       deleteAxis: "x",

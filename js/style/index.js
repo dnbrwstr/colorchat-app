@@ -40,7 +40,8 @@ let Style = {
         .darken(amount)
         .hexString()
   },
-  values: require("./values")
+  values: require("./values"),
+  themes: require("./themes").default
 };
 
 module.exports = Style;

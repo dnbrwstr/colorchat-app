@@ -11,7 +11,7 @@ let values = {
   smallFontSize: 12,
   borderWidth: 1 / PixelRatio.get(),
   basePadding: 10,
-  horizontalPadding: 18,
+  horizontalPadding: 12,
   midGray: "#878787",
   almostBlack: "#222",
   darkGray,
@@ -20,11 +20,12 @@ let values = {
   lightGray: "#EFEFEF",
   fairlyLightGray: "#F8F8F8",
   veryLightGray: "#FAFAFA",
-  outerPadding: 20,
-  rowHeight: 60,
-  buttonHeight: 60
+  outerPadding: 10,
+  rowHeight: 64,
+  buttonHeight: 60,
+  avatarSize: 40
 };
 
-values.backgroundGray = values.lightGray;
+values.backgroundGray = "black";
 
 module.exports = values;

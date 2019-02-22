@@ -2,12 +2,7 @@ import { Platform } from "react-native";
 import values from "./values";
 
 let textBase = {
-  ...Platform.select({
-    // ios: { fontFamily: 'Work Sans' },
-    // android: { fontFamily: 'WorkSans-Regular' },
-  }),
-  fontSize: 16,
-  color: values.midGray
+  fontSize: 16
 };
 
 let grayBottomBorder = {
@@ -15,22 +10,17 @@ let grayBottomBorder = {
   borderBottomColor: values.midGray
 };
 
-let makeGray = (v, a=1) => {
-  const n = v * 255;
+let makeGray = (v, a = 1) => {
+  const n = Math.round(v * 255);
   return `rgba(${n}, ${n}, ${n}, ${a})`;
 };
 
 let inputBase = {
   ...textBase,
-  height: 36,
   lineHeight: 21,
+  paddingLeft: 0,
   ...Platform.select({
-    ios: {},
-    android: {
-      textAlignVertical: "center",
-      includeFontPadding: false,
-      paddingBottom: 7
-    }
+    ios: {}
   })
 };
 

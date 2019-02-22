@@ -1,7 +1,16 @@
 import React from "react";
-import { Animated, View, Text, InteractionManager } from "react-native";
+import {
+  Animated,
+  View,
+  Text,
+  InteractionManager,
+  StyleSheet
+} from "react-native";
 import Style from "../style";
 import PressableView from "./PressableView";
+import withStyles from "../lib/withStyles";
+
+const HEIGHT = Style.values.rowHeight + (1 - StyleSheet.hairlineWidth);
 
 class ComposeBar extends React.Component {
   state = {
@@ -20,13 +29,18 @@ class ComposeBar extends React.Component {
   }
 
   render() {
+    const { styles } = this.props;
     let composeBarStyle = [
-      style.composeBar,
+      styles.composeBar,
       {
         opacity: this.state.animationValue,
         height: this.state.animationValue.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, Style.values.rowHeight]
+          outputRange: [0, HEIGHT]
+        }),
+        borderTopWidth: this.state.animationValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, StyleSheet.hairlineWidth]
         })
       }
     ];
@@ -34,30 +48,31 @@ class ComposeBar extends React.Component {
     return (
       <Animated.View style={composeBarStyle}>
         <PressableView
-          style={[style.button, style.buttonFirst]}
-          activeStyle={style.buttonActive}
+          style={[styles.button, styles.buttonFirst]}
+          activeStyle={styles.buttonActive}
           onPress={this.props.onCancel}
         >
-          <Text style={style.buttonText}>Cancel</Text>
+          <Text style={styles.buttonText}>Cancel</Text>
         </PressableView>
         <PressableView
-          style={style.button}
-          activeStyle={style.buttonActive}
+          style={styles.button}
+          activeStyle={styles.buttonActive}
           onPress={this.props.onSend}
         >
-          <Text style={style.buttonText}>Send</Text>
+          <Text style={styles.buttonText}>Send</Text>
         </PressableView>
       </Animated.View>
     );
   }
 }
 
-let style = Style.create({
+const getStyles = theme => ({
   composeBar: {
-    height: Style.values.rowHeight,
+    height: HEIGHT,
     flexDirection: "row",
     overflow: "hidden",
-    backgroundColor: Style.values.almostBlack
+    borderTopColor: theme.borderColor,
+    backgroundColor: theme.backgroundColor
   },
   button: {
     flex: 1,
@@ -65,16 +80,16 @@ let style = Style.create({
   },
   buttonText: {
     ...Style.mixins.textBase,
-    color: "white",
+    color: theme.primaryTextColor,
     textAlign: "center"
   },
   buttonFirst: {
-    borderRightColor: "rgba(255,255,255,.03)",
-    borderRightWidth: 1
+    borderRightColor: theme.borderColor,
+    borderRightWidth: StyleSheet.hairlineWidth
   },
   buttonActive: {
-    backgroundColor: Style.values.almostBlack
+    backgroundColor: theme.highlightColor
   }
 });
 
-export default ComposeBar;
+export default withStyles(getStyles)(ComposeBar);

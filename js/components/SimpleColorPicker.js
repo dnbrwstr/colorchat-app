@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, Animated } from "react-native";
 import Color from "color";
 import Style from "../style";
 import BaseText from "./BaseText";
@@ -36,7 +36,9 @@ class SimpleColorPicker extends React.Component {
 
   static defaultProps = {
     initialValue: "#ccc",
-    onChange: () => {}
+    onChange: () => {},
+    onInteractionStart: () => {},
+    onInteractionEnd: () => {}
   };
 
   state = {
@@ -53,18 +55,23 @@ class SimpleColorPicker extends React.Component {
     ];
 
     return (
-      <View
+      <Animated.View
         ref="main"
         onLayout={this.onLayout}
         onStartShouldSetResponder={() => true}
+        onStartShouldSetResponderCapture={() => true}
+        onResponderGrant={this.onTouchStart}
         onResponderMove={this.onTouchMove}
         onResponderRelease={this.onTouchEnd}
+        onResponderTerminationRequest={() => true}
+        onMoveShouldSetResponder={() => true}
+        onMoveShouldSetResponderCapture={() => true}
         style={viewStyles}
       >
         {this.props.showInstructions &&
           this.state.pristine &&
           this.renderInstructions()}
-      </View>
+      </Animated.View>
     );
   }
 
@@ -83,6 +90,10 @@ class SimpleColorPicker extends React.Component {
       size: e.nativeEvent.layout
     });
   };
+  
+  onTouchStart = e => {
+    this.props.onInteractionStart();
+  }
 
   onTouchMove = e => {
     if (!this.state.size) return;
@@ -120,6 +131,7 @@ class SimpleColorPicker extends React.Component {
       touchOffset: null
     });
 
+    this.props.onInteractionEnd();
     this.props.onChange(this.state.value);
   };
 

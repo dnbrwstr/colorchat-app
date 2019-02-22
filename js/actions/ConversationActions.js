@@ -1,6 +1,6 @@
 import NavigationService from "../lib/NavigationService";
 
-const COMPOSE_EVENT_TIMEOUT = 3000;
+const COMPOSE_EVENT_TIMEOUT = 5000;
 
 export let deleteConversation = conversation => {
   return {
@@ -26,16 +26,17 @@ export let receiveComposeEvent = data => (dispatch, getState) => {
     ...data
   });
 
+  console.log("receive compose event");
+
   clearTimeout(composeTimeout);
 
-  composeTimeout = setTimeout(
-    () =>
-      dispatch({
-        type: "composeEventExpire",
-        ...data
-      }),
-    COMPOSE_EVENT_TIMEOUT
-  );
+  composeTimeout = setTimeout(() => {
+    console.log("timeout compose event");
+    dispatch({
+      type: "composeEventExpire",
+      ...data
+    });
+  }, COMPOSE_EVENT_TIMEOUT);
 };
 
 export let resetComposeEvents = () => ({

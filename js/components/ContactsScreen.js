@@ -1,9 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text } from "react-native";
-import Color from "color";
-import Style from "../style";
-import PressableView from "./PressableView";
+import { View } from "react-native";
 import ContactList from "./ContactList";
 import AnimatedEllipsis from "./AnimatedEllipsis";
 import { importContacts, sendInvite } from "../actions/ContactActions";
@@ -12,14 +9,9 @@ import {
   navigateBack,
   navigateTo
 } from "../actions/NavigationActions";
-import config from "../config";
-import BaseText from "./BaseText";
 import Header from "./Header";
-import SquareButton from "./SquareButton";
-
-let { appName } = config;
-
-const BR = "\n";
+import withStyles from "../lib/withStyles";
+import ContactsImportPrompt from "./ContactsImportPrompt";
 
 class ContactsScreen extends React.Component {
   componentDidMount() {
@@ -36,23 +28,28 @@ class ContactsScreen extends React.Component {
     }
   }
 
-  handleShowContactsInfo = () => {
-    this.props.dispatch(navigateTo("contactsInfo"));
+  importContacts = askPermission => {
+    this.props.dispatch(
+      importContacts({
+        askPermission
+      })
+    );
   };
 
   render() {
+    const { styles, theme } = this.props;
+
     return (
-      <View style={style.container}>
+      <View style={styles.container}>
         {this.renderContent()}
 
-        <View style={style.headerWrapper}>
+        <View style={styles.headerWrapper}>
           <Header
             title={"Contacts"}
-            backgroundColor={"rgba(255,255,255,1)"}
-            highlightColor={Style.values.veryLightGray}
+            backgroundColor={theme.backgroundColor}
+            borderColor={theme.borderColor}
             showBack={true}
             onBack={() => this.props.dispatch(navigateBack())}
-            borderColor={Style.values.midLightGray}
           />
         </View>
       </View>
@@ -70,29 +67,11 @@ class ContactsScreen extends React.Component {
   };
 
   renderImportPrompt = () => {
-    let { dispatch } = this.props;
-
     return (
-      <View style={importStyle.container}>
-        <BaseText style={importStyle.messageText}>
-          {appName} uses your{BR}contacts to determine{BR}who you can chat with
-        </BaseText>
-
-        <SquareButton
-          label="Import Contacts"
-          onPress={() => this.importContacts(true)}
-          style={importStyle.button}
-        />
-
-        <PressableView
-          style={importStyle.infoLink}
-          onPress={this.handleShowContactsInfo}
-        >
-          <BaseText style={importStyle.infoLinkText}>
-            More about how Color Chat{"\n"}uses your contacts
-          </BaseText>
-        </PressableView>
-      </View>
+      <ContactsImportPrompt
+        onRequestInfo={this.handleShowContactsInfo}
+        onPressImport={this.handleImportButtonPressed}
+      />
     );
   };
 
@@ -100,7 +79,7 @@ class ContactsScreen extends React.Component {
     return (
       <ContactList
         contacts={this.props.contacts}
-        onSelect={this.onSelectContact}
+        onSelect={this.handleContactSelected}
       />
     );
   };
@@ -113,15 +92,15 @@ class ContactsScreen extends React.Component {
     );
   };
 
-  importContacts = askPermission => {
-    this.props.dispatch(
-      importContacts({
-        askPermission
-      })
-    );
+  handleShowContactsInfo = () => {
+    this.props.dispatch(navigateTo("contactsInfo"));
   };
 
-  onSelectContact = contact => {
+  handleImportButtonPressed = () => {
+    this.importContacts(true);
+  };
+
+  handleContactSelected = contact => {
     if (contact.matched) {
       this.props.dispatch(navigateToConversation(contact.id));
     } else {
@@ -130,14 +109,10 @@ class ContactsScreen extends React.Component {
   };
 }
 
-let { midGray } = Style.values;
-
-let { contentWrapperBase } = Style.mixins;
-
-let style = Style.create({
+const getStyle = theme => ({
   container: {
     flex: 1,
-    backgroundColor: Style.values.backgroundGray
+    backgroundColor: theme.backgroundColor
   },
   headerWrapper: {
     position: "absolute",
@@ -148,36 +123,6 @@ let style = Style.create({
   }
 });
 
-let importStyle = Style.create({
-  container: {
-    ...contentWrapperBase,
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: Style.values.backgroundGray,
-    paddingTop: 100
-  },
-  messageText: {
-    marginBottom: 24,
-    textAlign: "center"
-  },
-  button: {
-    backgroundColor: "white",
-    borderWidth: 0
-  },
-  buttonActive: {
-    backgroundColor: Style.values.veryLightGray
-  },
-  buttonText: {},
-  infoLink: {
-    marginTop: 20
-  },
-  infoLinkText: {
-    textDecorationLine: "underline",
-    textAlign: "center",
-    fontSize: Style.values.smallFontSize
-  }
-});
-
 let selectContacts = (state, props) => {
   return {
     contacts: state.contacts,
@@ -185,4 +130,4 @@ let selectContacts = (state, props) => {
   };
 };
 
-export default connect(selectContacts)(ContactsScreen);
+export default withStyles(getStyle)(connect(selectContacts)(ContactsScreen));

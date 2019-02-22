@@ -79,6 +79,13 @@ export let triggerMemoryWarning = () => {
   };
 };
 
+export const changeTheme = newTheme => {
+  return {
+    type: "changeTheme",
+    theme: newTheme
+  };
+};
+
 export let loadUserInfo = () => async (dispatch, getState) => {
   let url = serverRoot + "/account";
   let authToken = getState().user.token;

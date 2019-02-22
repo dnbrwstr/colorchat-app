@@ -1,4 +1,8 @@
-import { createStackNavigator, createSwitchNavigator, createAppContainer } from "react-navigation";
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createAppContainer
+} from "react-navigation";
 import SignupStartScreen from "../components/SignupStartScreen";
 import CountryPickerScreen from "../components/CountryPickerScreen";
 import ConfirmCodeScreen from "../components/ConfirmCodeScreen";

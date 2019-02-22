@@ -1,18 +1,12 @@
 import React from "react";
-import { View, Animated, Text } from "react-native";
+import { View, Animated, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { GatewayDest } from "react-gateway";
 import Router from "./Router";
 import Alert from "./Alert";
 import Style from "../style";
 import FunctionView from "./FunctionView";
-
-let appSelector = state => {
-  return {
-    alerts: state.ui.alerts,
-    offline: state.ui.network === "none"
-  };
-};
+import withStyles from "../lib/withStyles";
 
 class App extends React.Component {
   static defaultProps = {
@@ -48,24 +42,28 @@ class App extends React.Component {
   }
 
   render() {
+    const { styles } = this.props;
+
     let offlineMessageStyle = [
-      style.offlineMessage,
+      styles.offlineMessage,
       {
         height: this.state.animatedOfflineMessageHeight
       }
     ];
 
     return (
-      <Animated.View style={{ flex: 1, opacity: this.state.animatedOpacity }}>
+      <Animated.View
+        style={[styles.container, { opacity: this.state.animatedOpacity }]}
+      >
         <Animated.View style={offlineMessageStyle}>
-          <View style={style.offlineMessageContent}>
-            <Text style={style.offlineMessageText}>
+          <View style={styles.offlineMessageContent}>
+            <Text style={styles.offlineMessageText}>
               Unable to connect to network
             </Text>
           </View>
         </Animated.View>
         <Router />
-        <View style={style.alerts}>
+        <View style={styles.alerts}>
           {this.props.alerts.map(a => {
             return <Alert key={a.id} {...a} />;
           })}
@@ -81,7 +79,12 @@ class App extends React.Component {
   }
 }
 
-let style = Style.create({
+const getStyles = theme => ({
+  container: {
+    borderTopColor: theme.borderColor,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flex: 1
+  },
   alerts: {
     position: "absolute",
     top: 0,
@@ -105,4 +108,11 @@ let style = Style.create({
   }
 });
 
-export default connect(appSelector)(App);
+let appSelector = state => {
+  return {
+    alerts: state.ui.alerts,
+    offline: state.ui.network === "none"
+  };
+};
+
+export default withStyles(getStyles)(connect(appSelector)(App));

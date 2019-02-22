@@ -1,19 +1,22 @@
-import React from "react";
-import { View, Text, TouchableOpacity, PixelRatio } from "react-native";
+import React, { Component } from "react";
+import { View, Text, PixelRatio, StyleSheet } from "react-native";
 import Style from "../style";
 import PressableView from "./PressableView";
+import withStyles from "../lib/withStyles";
 
-class Header extends React.Component {
+class Header extends Component {
   static defaultProps = {
     onBack: () => {},
     onClose: () => {}
   };
 
   render() {
+    const { styles, theme } = this.props;
+
     let barStyles = [
-      style.bar,
+      styles.bar,
       this.props.borderColor && {
-        borderBottomWidth: 1 / PixelRatio.get(),
+        borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: this.props.borderColor
       }
     ];
@@ -26,7 +29,7 @@ class Header extends React.Component {
       opacity: this.props.backgroundOpacity
     };
 
-    let bgStyles = [style.background, bgColor, bgOpacity];
+    let bgStyles = [styles.background, bgColor, bgOpacity];
 
     let textColor = this.props.color && {
       color: this.props.color
@@ -44,35 +47,35 @@ class Header extends React.Component {
       <View style={barStyles}>
         <View style={bgStyles} />
 
-        <View style={style.buttonContainer}>
+        <View style={styles.buttonContainer}>
           {this.props.showBack && (
             <PressableView
               onPress={this.onBack}
-              style={style.button}
-              activeStyle={[style.buttonActive, highlightColor]}
+              style={styles.button}
+              activeStyle={[styles.buttonActive, highlightColor]}
             >
-              <Text style={[style.buttonText, textColor]}>Back</Text>
+              <Text style={[styles.buttonText, textColor]}>Back</Text>
             </PressableView>
           )}
         </View>
 
-        <View style={style.title}>
+        <View style={styles.title}>
           {this.props.title && (
-            <Text style={[style.titleText, textColor, titleTextColor]}>
+            <Text style={[styles.titleText, textColor, titleTextColor]}>
               {this.props.title}
             </Text>
           )}
         </View>
 
-        <View style={style.buttonContainer}>
+        <View style={styles.buttonContainer}>
           {this.props.showClose && (
             <PressableView
               onPress={this.onClose}
-              style={style.button}
-              activeStyle={[style.buttonActive, highlightColor]}
+              style={styles.button}
+              activeStyle={[styles.buttonActive, highlightColor]}
             >
               <Text
-                style={[style.buttonText, style.buttonSecondText, textColor]}
+                style={[styles.buttonText, styles.buttonSecondText, textColor]}
               >
                 X
               </Text>
@@ -92,9 +95,9 @@ class Header extends React.Component {
   };
 }
 
-let style = Style.create({
+const getStyles = theme => ({
   bar: {
-    height: 60,
+    height: Style.values.rowHeight,
     alignItems: "stretch",
     justifyContent: "center",
     flexDirection: "row",
@@ -109,31 +112,34 @@ let style = Style.create({
     right: 0,
     bottom: 0
   },
-  buttonContainer: {
-    width: 80
-  },
-  button: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: Style.values.horizontalPadding
-  },
-  buttonActive: {
-    backgroundColor: Style.values.fairlyLightGray
-  },
-  buttonText: {
-    ...Style.mixins.textBase
-  },
-  buttonSecondText: {
-    textAlign: "right"
-  },
   title: {
     flex: 1,
     justifyContent: "center"
   },
   titleText: {
     ...Style.mixins.textBase,
+    color: theme.primaryTextColor,
     textAlign: "center"
+  },
+  buttonContainer: {
+    width: 80,
+    alignItems: "flex-start"
+  },
+  button: {
+    justifyContent: "center",
+    paddingHorizontal: 15,
+    height: "100%"
+  },
+  buttonActive: {
+    backgroundColor: theme.highlightColor
+  },
+  buttonText: {
+    ...Style.mixins.textBase,
+    color: theme.primaryTextColor
+  },
+  buttonSecondText: {
+    textAlign: "right"
   }
 });
 
-module.exports = Header;
+export default withStyles(getStyles)(Header);

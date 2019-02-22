@@ -18,6 +18,7 @@ import { conversationScreenSelector } from "../lib/Selectors";
 import { updateConversationUi } from "../actions/AppActions";
 import TimerMixin from "./mixins/TimerMixin";
 import { withScreenFocusStateProvider } from "./ScreenFocusState";
+import withStyles from "../lib/withStyles";
 
 let {
   resendMessage,
@@ -74,16 +75,16 @@ let ConversationScreen = createReactClass({
   },
 
   render: function() {
-    let { contact, dispatch } = this.props;
+    const { contact, dispatch, styles, theme } = this.props;
 
     return (
-      <View style={style.container}>
+      <View style={styles.container}>
         <Header
           title={contact.name}
           showBack={true}
-          color="white"
-          backgroundColor={Style.values.almostBlack}
-          highlightColor={"rgba(0,0,0,.8)"}
+          backgroundColor={theme.backgroundColor}
+          highlightColor={theme.highlightColor}
+          borderColor={theme.borderColor}
           onBack={() => dispatch(navigateBack())}
         />
         <MessageList
@@ -197,13 +198,15 @@ let ConversationScreen = createReactClass({
   }
 });
 
-let style = Style.create({
+const getStyles = theme => ({
   container: {
     flex: 1,
-    backgroundColor: "black"
+    backgroundColor: theme.backgroundColor
   }
 });
 
-export default withScreenFocusStateProvider(
-  connect(conversationScreenSelector)(ConversationScreen)
+export default withStyles(getStyles)(
+  withScreenFocusStateProvider(
+    connect(conversationScreenSelector)(ConversationScreen)
+  )
 );

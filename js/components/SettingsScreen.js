@@ -1,39 +1,41 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, PixelRatio, ScrollView, Alert, Dimensions } from "react-native";
+import { View, ScrollView, Alert, Dimensions } from "react-native";
 import Style from "../style";
-import config from "../config";
 import BaseTextInput from "./BaseTextInput";
 import BaseText from "./BaseText";
 import Header from "./Header";
 import PressableView from "./PressableView";
-import SquareButton from "./SquareButton";
+import AvatarEditor from "./AvatarEditor";
+import SegmentedControlTab from "react-native-segmented-control-tab";
 import { navigateTo, navigateBack } from "../actions/NavigationActions";
 import {
   loadUserInfo,
   updateUserInfo,
   logout,
-  deleteAccount
+  deleteAccount,
+  changeTheme
 } from "../actions/AppActions";
-
-let { appName } = config;
+import withStyles from "../lib/withStyles";
 
 class SettingsScreen extends React.Component {
   state = {
-    name: this.props.user.name || ""
+    name: this.props.user.name || "",
+    avatar: this.props.user.avatar || "#CCC",
+    scrollLocked: false
   };
 
   componentDidMount(prevProps) {
     this.props.dispatch(loadUserInfo());
   }
 
-  shouldComponentUpdate(nextProps) {
-    return !!nextProps.isActive;
-  }
-
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.user.name !== this.props.user.name) {
       this.setState({ name: nextProps.user.name });
+    }
+
+    if (nextProps.user.avatar !== this.props.user.avatar) {
+      this.setState({ avatar: nextProps.user.avatar });
     }
   }
 
@@ -95,45 +97,58 @@ class SettingsScreen extends React.Component {
   };
 
   maybeUpdateUser = () => {
-    if (this.props.user.name !== this.state.name) {
-      this.props.dispatch(updateUserInfo({ name: this.state.name }));
+    if (
+      this.props.user.name !== this.state.name ||
+      this.props.user.avatar !== this.state.avatar
+    ) {
+      this.props.dispatch(
+        updateUserInfo({ name: this.state.name, avatar: this.state.avatar })
+      );
     }
   };
 
   render() {
-    let contentStyles = [
-      style.content,
-      {
-        height: Dimensions.get("window").height - Style.values.rowHeight
-      }
-    ];
+    const { theme, styles } = this.props;
 
     return (
-      <View style={style.container}>
+      <View style={styles.container}>
         <Header
           title="Settings"
           showBack={true}
           onBack={this.handleBack}
-          highlightColor={"#E6E6E6"}
+          borderColor={theme.borderColor}
         />
-        <ScrollView>
-          <View style={contentStyles}>
-            <View style={[style.section, style.nameSection]}>
-              <View style={style.sectionContent}>
+        <ScrollView scrollEnabled={!this.state.scrollLocked}>
+          <View style={styles.content}>
+            <View style={[styles.section, styles.profileInputSection]}>
+              <AvatarEditor
+                initialValue={this.state.avatar}
+                onInteractionStart={this.handleColorPickerInteractionStart}
+                onInteractionEnd={this.handleColorPickerInteractionEnd}
+                onChange={this.handleAvatarChange}
+                style={styles.profileInput}
+              />
+              <BaseText style={styles.profileInputLabel}>
+                Touch and drag to change your avatar
+              </BaseText>
+            </View>
+            <View style={[styles.section, styles.nameSection]}>
+              <View style={styles.sectionContent}>
                 <PressableView
-                  style={style.inputRow}
+                  style={styles.inputRow}
                   onPress={this.handleInputRowPress.bind(this, "nameInput")}
                 >
-                  <View style={style.inputRowLabel}>
-                    <BaseText>Name</BaseText>
-                  </View>
-                  <View style={style.inputWrapper}>
+                  <BaseText style={[styles.inputLabel, styles.nameInputLabel]}>
+                    Username
+                  </BaseText>
+
+                  <View style={styles.inputWrapper}>
                     <BaseTextInput
                       ref="nameInput"
-                      value={this.state.name}
-                      style={style.input}
+                      placeholder="Your name"
+                      style={styles.input}
                       onBlur={this.handleInputBlur.bind(this, "name")}
-                      onChangeText={name => this.setState({ name })}
+                      onChangeText={this.handleNameInputChange}
                       value={this.state.name}
                     />
                   </View>
@@ -141,28 +156,29 @@ class SettingsScreen extends React.Component {
               </View>
             </View>
 
-            <View style={[style.section]}>
-              <SquareButton
-                label="Logout"
-                onPress={this.handleLogout}
-                style={style.button}
-              />
-              <SquareButton
-                label="Delete account"
-                onPress={this.handleDeleteAccount}
-                style={style.button}
-              />
-            </View>
+            {this.renderThemeInput()}
 
-            <View style={[style.section, style.aboutSection]}>
+            <View style={[styles.section, styles.accountButtonContainer]}>
               <PressableView
-                label="About Color Chat"
+                style={styles.accountButton}
+                activeStyle={styles.accountButtonActive}
                 onPress={this.handleAboutPress}
-                style={style.aboutButton}
               >
-                <BaseText style={style.aboutButtonText}>
-                  About Color Chat
-                </BaseText>
+                <BaseText>About Color Chat</BaseText>
+              </PressableView>
+              <PressableView
+                style={styles.accountButton}
+                activeStyle={styles.accountButtonActive}
+                onPress={this.handleLogout}
+              >
+                <BaseText>Logout</BaseText>
+              </PressableView>
+              <PressableView
+                onPress={this.handleDeleteAccount}
+                style={styles.accountButton}
+                activeStyle={styles.accountButtonActive}
+              >
+                <BaseText>Delete account</BaseText>
               </PressableView>
             </View>
           </View>
@@ -170,40 +186,76 @@ class SettingsScreen extends React.Component {
       </View>
     );
   }
+
+  renderThemeInput() {
+    const { styles } = this.props;
+    const themeKeys = Object.keys(Style.themes);
+    const themes = themeKeys.map(k => Style.themes[k]);
+    const currentIndex = themes.indexOf(this.props.theme);
+
+    return (
+      <View style={styles.section}>
+        <View style={styles.sectionContent}>
+          <BaseText style={[styles.inputLabel, styles.themeInputLabel]}>
+            Theme
+          </BaseText>
+          <SegmentedControlTab
+            values={themeKeys}
+            selectedIndex={currentIndex}
+            onTabPress={i => this.handleThemeChanged(themes[i])}
+          />
+        </View>
+      </View>
+    );
+  }
+
+  handleThemeChanged = newTheme => {
+    this.props.dispatch(changeTheme(newTheme));
+  };
+
+  handleAvatarChange = newColor => {
+    this.setState({ avatar: newColor });
+  };
+
+  handleNameInputChange = newName => {
+    this.setState({ name: newName });
+  };
+
+  handleColorPickerInteractionStart = () => {
+    this.setState({ scrollLocked: true });
+  };
+
+  handleColorPickerInteractionEnd = () => {
+    this.setState({ scrollLocked: false });
+  };
 }
 
-let style = Style.create({
+const getStyles = theme => ({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: theme.backgroundColor
   },
   content: {
     ...Style.mixins.contentWrapperBase,
     padding: 0,
-    flex: 1
+    flex: 1,
+    padding: 0
   },
-  inputRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 50
-  },
+  inputRow: {},
   inputRowLabel: {
     flex: 0,
     justifyContent: "center",
     width: 60
   },
-  input: {
-    color: "black"
-  },
   inputWrapper: {
     flex: 1,
     borderBottomWidth: Style.values.borderWidth,
-    borderBottomColor: Style.values.midGray
+    borderBottomColor: theme.borderColor,
+    margin: 0
   },
   button: {
     marginTop: 0,
-    marginBottom: 10
+    marginBottom: 0
   },
   section: {
     flex: 1
@@ -211,15 +263,64 @@ let style = Style.create({
   sectionContent: {
     padding: Style.values.horizontalPadding
   },
+  accountButton: {
+    borderTopWidth: Style.values.borderWidth,
+    borderTopColor: theme.borderColor,
+    height: Style.values.rowHeight,
+    padding: Style.values.horizontalPadding,
+    justifyContent: "center"
+  },
+  accountButtonActive: {
+    backgroundColor: theme.highlightColor
+  },
+  accountButtonContainer: {
+    marginTop: 50,
+    borderBottomWidth: Style.values.borderWidth,
+    borderBottomColor: theme.borderColor
+  },
+  profileInputSection: {
+    alignItems: "center",
+    marginVertical: 20
+  },
+  profileInput: {
+    width: 250,
+    height: 250,
+    borderRadius: 1000,
+    marginBottom: 20
+  },
+  profileEditButton: {
+    position: "absolute",
+    bottom: 5,
+    right: 5,
+    backgroundColor: "white",
+    elevation: 2
+  },
+  profileInputLabel: {
+    textAlign: "center",
+    width: 200
+  },
   nameSection: {
     flex: 0
+  },
+  input: {
+    paddingTop: 8
+  },
+  inputLabel: {
+    fontSize: 12,
+    lineHeight: 12,
+    color: theme.secondaryTextColor
+  },
+  themeInputLabel: {
+    marginBottom: 10
   },
   aboutSection: {
     flex: 0,
     justifyContent: "flex-end"
   },
   aboutButton: {
-    padding: Style.values.outerPadding
+    padding: Style.values.outerPadding,
+    paddingBottom: 20,
+    paddingTop: 40
   },
   aboutButtonText: {
     textAlign: "center"
@@ -232,4 +333,6 @@ let settingsScreenSelector = state => {
   };
 };
 
-export default connect(settingsScreenSelector)(SettingsScreen);
+export default withStyles(getStyles)(
+  connect(settingsScreenSelector)(SettingsScreen)
+);

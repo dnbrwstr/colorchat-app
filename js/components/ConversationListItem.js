@@ -1,11 +1,12 @@
 import React from "react";
-import { Animated } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Color from "color";
 import Style from "../style";
 import InteractiveView from "./InteractiveView";
 import BaseText from "./BaseText";
 import { shortHumanDate, formatName } from "../lib/Utils";
 import { getTimestamp } from "../lib/MessageUtils";
+import withStyles from "../lib/withStyles";
 
 const DEFAULT_BG_COLOR = "#EFEFEF";
 
@@ -16,6 +17,12 @@ class ConversationListItem extends React.Component {
     onInteractionEnd: () => {},
     onDelete: () => {}
   };
+
+  componentDidMount() {
+    if (this.props.contact && !this.props.contact.avatar) {
+      // Should retrieve avatar if it's missing
+    }
+  }
 
   getActiveBackgroundColor = () => {
     let color = this.getColor();
@@ -46,13 +53,7 @@ class ConversationListItem extends React.Component {
   };
 
   render() {
-    let { contact, lastMessage } = this.props;
-
-    let conversationStyles = [{ backgroundColor: this.getColor() }, style.item];
-
-    let conversationActiveStyle = {
-      backgroundColor: this.getActiveBackgroundColor()
-    };
+    const { styles } = this.props;
 
     let textStyles = [
       this.props.unread && {
@@ -60,39 +61,110 @@ class ConversationListItem extends React.Component {
       }
     ];
 
+    const avatarStyles = [
+      styles.avatar,
+      this.props.contact && {
+        backgroundColor: this.props.contact.avatar || "#CCC"
+      }
+    ];
+
+    const activeStyles = [styles.itemActive];
+
     return (
-      <InteractiveView
-        style={conversationStyles}
-        swipeEnabled={true}
-        deleteEnabled={true}
-        activeStyle={conversationActiveStyle}
-        onPress={this.props.onPress}
-        onInteractionStart={this.props.onInteractionStart}
-        onInteractionEnd={this.props.onInteractionEnd}
-        onDelete={this.props.onDelete}
-      >
-        <BaseText visibleOn={this.getColor()} style={textStyles}>
-          {this.getName()}
-        </BaseText>
-        {this.props.lastMessage && (
-          <BaseText visibleOn={this.getColor()} style={textStyles}>
+      <View style={styles.container}>
+        <InteractiveView
+          style={[styles.item]}
+          swipeEnabled={true}
+          deleteEnabled={true}
+          activeStyle={activeStyles}
+          onPress={this.props.onPress}
+          onInteractionStart={this.props.onInteractionStart}
+          onInteractionEnd={this.props.onInteractionEnd}
+          onDelete={this.props.onDelete}
+        >
+          <View style={styles.user}>
+            <View style={avatarStyles} />
+            <BaseText style={textStyles}>{this.getName()}</BaseText>
+          </View>
+          {this.props.lastMessage && this.renderLastMessage()}
+        </InteractiveView>
+      </View>
+    );
+  }
+
+  renderLastMessage() {
+    const { lastMessage, styles } = this.props;
+
+    const lastMessageBlockStyle = [
+      styles.lastMessage,
+      {
+        backgroundColor: lastMessage.color
+      }
+    ];
+
+    return (
+      <View style={styles.lastMessageContainer}>
+        <View style={lastMessageBlockStyle}>
+          <BaseText style={[styles.time]} visibleOn={lastMessage.color}>
             {shortHumanDate(getTimestamp(this.props.lastMessage))}
           </BaseText>
-        )}
-      </InteractiveView>
+        </View>
+      </View>
     );
   }
 }
 
-export default ConversationListItem;
+const { rowHeight, avatarSize } = Style.values;
 
-let style = Style.create({
+const getStyles = theme => ({
+  container: {
+    backgroundColor: "red"
+  },
   item: {
+    backgroundColor: theme.backgroundColor,
     paddingHorizontal: Style.values.horizontalPadding,
-    height: Style.values.rowHeight,
+    height: rowHeight,
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    borderBottomColor: theme.borderColor,
+    borderBottomWidth: StyleSheet.hairlineWidth
+  },
+  itemActive: {
+    backgroundColor: theme.highlightColor
+  },
+  user: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  avatar: {
+    backgroundColor: "#CCC",
+    borderRadius: 200,
+    width: avatarSize,
+    height: avatarSize,
+    marginRight: 15
+  },
+  lastMessageContainer: {
+    height: rowHeight,
+
+    padding: 0,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  lastMessage: {
+    width: 70,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 2,
+    marginBottom: 2
+  },
+  time: {
+    fontSize: 10,
+    textAlign: "center"
   }
 });
+
+export default withStyles(getStyles)(ConversationListItem);

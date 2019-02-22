@@ -2,6 +2,7 @@ import React from "react";
 import { Animated, View, Image } from "react-native";
 import { Gateway } from "react-gateway";
 import Style from "../style";
+import withStyles from "../lib/withStyles";
 
 class DragHandle extends React.Component {
   static defaultProps = {
@@ -15,6 +16,8 @@ class DragHandle extends React.Component {
   };
 
   render() {
+    const { styles } = this.props;
+
     let transformStyle = {
       transform: [{ scale: this.state.animatedScale }]
     };
@@ -22,7 +25,7 @@ class DragHandle extends React.Component {
     return (
       <Gateway into="top">
         <Animated.View
-          style={[style.target, this.props.style, transformStyle]}
+          style={[styles.target, this.props.style, transformStyle]}
           onStartShouldSetResponder={() => true}
           onResponderGrant={this.onDragStart}
           onResponderMove={this.onDragMove}
@@ -31,7 +34,7 @@ class DragHandle extends React.Component {
           onResponderRelease={this.onDragStop}
           onResponderTerminationRequest={() => false}
         >
-          <View style={style.handle} />
+          <View style={styles.handle} />
         </Animated.View>
       </Gateway>
     );
@@ -62,7 +65,7 @@ class DragHandle extends React.Component {
 
 const HANDLE_SIZE = 25;
 
-let style = Style.create({
+const getStyles = theme => ({
   target: {
     width: 60,
     height: 60,
@@ -76,7 +79,7 @@ let style = Style.create({
     width: HANDLE_SIZE,
     height: HANDLE_SIZE,
     borderRadius: HANDLE_SIZE / 2,
-    backgroundColor: "white"
+    backgroundColor: theme.conversation.dragDotColor
   },
   image: {
     position: "absolute",
@@ -86,4 +89,4 @@ let style = Style.create({
   }
 });
 
-export default DragHandle;
+export default withStyles(getStyles)(DragHandle);

@@ -3,6 +3,7 @@ import React from "react";
 import { Text } from "react-native";
 import Color from "color";
 import Style from "../style";
+import withStyles from "../lib/withStyles";
 
 /**
  * General purpose wrapper for Text element
@@ -24,7 +25,7 @@ class BaseText extends React.Component {
 
   getStyles = () => {
     return [
-      style.text,
+      this.props.styles.text,
       this.props.visibleOn && { color: this.getColor() },
       this.props.style
     ];
@@ -35,10 +36,11 @@ class BaseText extends React.Component {
   };
 }
 
-let style = Style.create({
+const addStyle = theme => ({
   text: {
-    mixins: [Style.mixins.textBase]
+    ...Style.mixins.textBase,
+    color: theme.primaryTextColor
   }
 });
 
-export default BaseText;
+export default withStyles(addStyle)(BaseText);

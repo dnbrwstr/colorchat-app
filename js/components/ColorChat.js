@@ -8,7 +8,6 @@ import { seedMessages } from "../lib/DatabaseUtils";
 import { receiveMessage } from "../actions/MessageActions";
 import { seedAddressBook } from "../lib/ContactUtils";
 import createStore from "../lib/createStore";
-import Style from '../style';
 import createSocketService from "../services/createSocketService";
 import createNotificationService from "../services/createNotificationService";
 import createAppStateService from "../services/createAppStateService";
@@ -45,7 +44,7 @@ class ColorChat extends React.Component {
     } else {
       return (
         <GatewayProvider>
-          <StatusBar backgroundColor={Style.values.almostBlack} />
+          <StatusBar animated={true} />
           <Provider store={this.state.store}>
             <App />
           </Provider>

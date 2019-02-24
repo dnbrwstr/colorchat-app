@@ -1,6 +1,6 @@
 import React from "react";
 import createReactClass from "create-react-class";
-import { FlatList, Dimensions, ScrollView } from "react-native";
+import { FlatList, Dimensions, ScrollView, View } from "react-native";
 import Style from "../style";
 import Message from "./Message";
 import TimerMixin from "./mixins/TimerMixin";
@@ -83,19 +83,22 @@ let MessageList = createReactClass({
 
   render: function() {
     return (
-      <FlatList
-        ref="list"
-        style={style.list}
-        data={this.props.messages}
-        keyExtractor={getMessageKey}
-        inverted={true}
-        initialNumToRender={16}
-        maxToRenderPerBatch={16}
-        pageSize={1}
-        renderItem={this.renderMessage}
-        renderScrollComponent={this.renderScrollComponent}
-        onEndReached={this.props.onEndReached}
-      />
+      <View style={[style.outerContainer, this.props.style]}>
+        <FlatList
+          ref="list"
+          style={style.list}
+          data={this.props.messages}
+          keyExtractor={getMessageKey}
+          inverted={true}
+          initialNumToRender={16}
+          maxToRenderPerBatch={16}
+          pageSize={1}
+          renderItem={this.renderMessage}
+          renderScrollComponent={this.renderScrollComponent}
+          onEndReached={this.props.onEndReached}
+        />
+        {this.props.children}
+      </View>
     );
   },
 
@@ -182,9 +185,11 @@ let MessageList = createReactClass({
 });
 
 let style = Style.create({
+  outerContainer: {
+    flex: 1
+  },
   container: {
-    flex: 1,
-    backgroundColor: "fuchsia"
+    flex: 1
   },
   list: {
     overflow: "hidden"

@@ -15,6 +15,8 @@ import TimerMixin from "./mixins/TimerMixin";
 import { withScreenFocusStateProvider } from "./ScreenFocusState";
 import withStyles from "../lib/withStyles";
 import { updateUnreadCount } from "../actions/NotificationActions";
+import PlaceholderMessage from "./PlaceholderMessage";
+import Style from "../style";
 
 let {
   resendMessage,
@@ -86,7 +88,12 @@ let ConversationScreen = createReactClass({
           user={this.props.user}
           onBeginningReached={this.handleScrollToBottom}
           onEndReached={this.loadNextPage}
-        />
+        >
+          {this.props.partnerIsComposing && (
+            <PlaceholderMessage style={styles.placeholderMessage} />
+          )}
+        </MessageList>
+
         <PlusButton
           style={styles.newMessageButton}
           onPress={this.onStartComposing}
@@ -195,6 +202,11 @@ const getStyles = theme => ({
   },
   newMessageButton: {
     backgroundColor: theme.primaryButtonColor
+  },
+  placeholderMessage: {
+    position: "absolute",
+    bottom: Style.values.outerPadding,
+    left: Style.values.outerPadding
   }
 });
 

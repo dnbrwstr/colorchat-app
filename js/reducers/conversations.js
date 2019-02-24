@@ -35,7 +35,19 @@ let createOrUpdateConversation = (conversation, state) => {
   }, newState);
 };
 
+const updateConversationIfExists = (conversation, state) => {
+  let finder = propEq("recipientId", conversation.recipientId);
+  let index = findIndex(finder, state);
+  if (index === -1) return state;
+  return adjust(i => merge(i, conversation), index, state);
+};
+
 let handlers = {
+  init: (state, action) => {
+    const startState = action.appState.conversations || initialState;
+    return startState.map(c => ({ ...c, partnerIsComposing: false }));
+  },
+
   navigateToConversation: function(state, action) {
     return createOrUpdateConversation(
       {
@@ -66,6 +78,26 @@ let handlers = {
         recipientName: action.message.senderName,
         lastMessage: action.message,
         unread: !action.inCurrentConversation
+      },
+      state
+    );
+  },
+
+  receiveComposeEvent: function(state, action) {
+    return updateConversationIfExists(
+      {
+        recipientId: action.senderId,
+        partnerIsComposing: true
+      },
+      state
+    );
+  },
+
+  composeEventExpire: function(state, action) {
+    return updateConversationIfExists(
+      {
+        recipientId: action.senderId,
+        partnerIsComposing: false
       },
       state
     );

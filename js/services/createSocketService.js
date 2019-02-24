@@ -1,21 +1,13 @@
 import io from "socket.io-client";
 import { InteractionManager } from "react-native";
-import { difference } from "ramda";
 import config from "../config";
 import createService from "./createService";
 import { socketServiceSelector } from "../lib/Selectors";
-import {
-  receiveMessage,
-  sendMessages,
-  sendEnqueuedMessages
-} from "../actions/MessageActions";
+import { receiveMessage, sendMessages } from "../actions/MessageActions";
 import {
   receiveComposeEvent,
   resetComposeEvents
 } from "../actions/ConversationActions";
-
-let client, store, token;
-let active = false;
 
 const MESSAGE_EVENT = "messagedata";
 const COMPOSE_EVENT = "composeevent";

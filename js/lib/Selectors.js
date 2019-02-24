@@ -47,6 +47,7 @@ export let conversationScreenSelector = createSelector(
         id: contactId,
         name: contactName
       },
+      partnerIsComposing: conversation.partnerIsComposing,
       messages: messages
     };
   }

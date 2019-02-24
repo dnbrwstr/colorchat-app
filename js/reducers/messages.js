@@ -232,29 +232,6 @@ let handlers = {
     return updateMessage("static", action.message, { expanded }, state);
   },
 
-  receiveComposeEvent: function(state, action) {
-    if (any(propEq("senderId", action.senderId), state.placeholder)) {
-      return state;
-    } else {
-      return evolve(
-        {
-          placeholder: append({
-            id: generateId(),
-            state: "placeholder",
-            senderId: action.senderId
-          })
-        },
-        state
-      );
-    }
-  },
-
-  composeEventExpire: function(state, action) {
-    return evolve({
-      placeholder: reject(propEq("senderId", action.senderId))
-    })(state);
-  },
-
   resetComposeEvents: function(state, action) {
     return evolve({
       placeholder: always([])

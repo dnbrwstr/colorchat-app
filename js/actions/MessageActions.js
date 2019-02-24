@@ -1,15 +1,4 @@
-import {
-  merge,
-  mergeAll,
-  find,
-  propEq,
-  anyPass,
-  filter,
-  map,
-  zipWith
-} from "ramda";
-import { InteractionManager } from "react-native";
-import { postJSON } from "../lib/RequestHelpers";
+import { merge, mergeAll, map, zipWith } from "ramda";
 import NavigationService from "../lib/NavigationService";
 import config from "../config";
 import * as DatabaseUtils from "../lib/DatabaseUtils";

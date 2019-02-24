@@ -2,8 +2,8 @@ import React from "react";
 import { Animated, Image, View, requireNativeComponent } from "react-native";
 import Style from "../style";
 
-const MIN_SIZE = 50;
-const MAX_SIZE = 65;
+const MIN_SIZE = 40;
+const MAX_SIZE = 55;
 
 class PlaceholderMessage extends React.Component {
   color = new Animated.Value(0);
@@ -23,7 +23,6 @@ class PlaceholderMessage extends React.Component {
       Animated.timing(this.width, {
         toValue: 1,
         duration: 1500,
-        delay: 1000,
         isInteraction: false
       })
     ).start();
@@ -36,7 +35,7 @@ class PlaceholderMessage extends React.Component {
 
   render() {
     return (
-      <View style={style.container}>
+      <View style={[style.container, this.props.style]}>
         <Animated.View
           style={[
             style.placeholder,
@@ -63,16 +62,13 @@ class PlaceholderMessage extends React.Component {
 
 let style = Style.create({
   container: {
-    height: 80,
-    marginHorizontal: 10,
     width: MAX_SIZE,
     justifyContent: "center",
     alignItems: "center"
   },
   placeholder: {
     width: 20,
-    height: 40,
-    borderRadius: 500,
+    height: 20,
     margin: 0,
     backgroundColor: "black"
   }

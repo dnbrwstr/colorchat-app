@@ -7,7 +7,6 @@ import measure from "../lib/measure";
 import EditableMessage from "./EditableMessage";
 import BaseText from "./BaseText";
 import PressableView from "./PressableView";
-import PlaceholderMessage from "./PlaceholderMessage";
 import { humanDate } from "../lib/Utils";
 import TimerMixin from "./mixins/TimerMixin";
 
@@ -169,8 +168,6 @@ let Message = createReactClass({
   render: function() {
     if (this.props.state === "composing") {
       return this.renderEditor();
-    } else if (this.props.state === "placeholder") {
-      return this.renderPlaceholder();
     } else {
       return this.renderMessage();
     }
@@ -178,10 +175,6 @@ let Message = createReactClass({
 
   renderEditor: function() {
     return <EditableMessage {...this.props} />;
-  },
-
-  renderPlaceholder: function() {
-    return <PlaceholderMessage {...this.props} />;
   },
 
   renderMessage: function() {

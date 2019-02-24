@@ -7,12 +7,8 @@ import { updateUserInfo } from "../actions/AppActions";
 import { navigateToConversation } from "../actions/NavigationActions";
 
 export default (notificationMiddleware = store => {
-  const init = () => {
+  const init = async () => {
     firebase.messaging().onTokenRefresh(handleDeviceRegistered);
-    firebase
-      .messaging()
-      .getToken()
-      .then(handleDeviceRegistered);
     firebase.messaging().onMessage(handleNotificationReceived);
     firebase
       .notifications()
@@ -21,6 +17,8 @@ export default (notificationMiddleware = store => {
     firebase.notifications().onNotificationOpened(handleNotificationOpened);
     updateUnreadCount();
     checkForInitialNotification();
+    const hasPermission = await firebase.messaging().hasPermission();
+    if (hasPermission) saveToken();
   };
 
   const checkForInitialNotification = async () => {
@@ -41,6 +39,10 @@ export default (notificationMiddleware = store => {
 
   const requestPermissions = () => {
     firebase.messaging().requestPermission();
+    saveToken();
+  };
+
+  const saveToken = () => {
     firebase
       .messaging()
       .getToken()

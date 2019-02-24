@@ -84,6 +84,7 @@ const Navigator = createSwitchNavigator(
         auth: AuthStack
       },
       {
+        initialRouteName: "auth",
         ...defaultStackOptions
       }
     )

@@ -9,15 +9,10 @@ class BaseTextInput extends Component {
     return (
       <TextInput
         {...props}
-        ref="input"
         style={[styles.input, style]}
         underlineColorAndroid="transparent"
       />
     );
-  }
-
-  blur() {
-    this.refs.input.blur();
   }
 }
 

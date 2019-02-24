@@ -47,7 +47,7 @@ let { rowHeight } = Style.values;
 
 let getStyles = theme => ({
   contact: {
-    borderBottomColor: theme.borderColor,
+    borderBottomColor: theme.secondaryBorderColor,
     borderBottomWidth: 1 / PixelRatio.get(),
     height: Style.values.rowHeight,
     paddingHorizontal: Style.values.horizontalPadding,
@@ -83,7 +83,7 @@ let getStyles = theme => ({
   },
   phoneNumber: {
     fontSize: 12,
-    color: "#AAA"
+    color: theme.secondaryTextColor
   }
 });
 

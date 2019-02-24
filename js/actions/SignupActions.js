@@ -10,10 +10,12 @@ let sanitizeNumber = number => number.replace(/[^0-9]/g, "");
 let formatPhoneNumber = (countryCode, baseNumber) =>
   `+${[countryCode, baseNumber].map(sanitizeNumber).join("")}`;
 
-export let updateData = newData => ({
-  type: "updateData",
-  data: newData
-});
+export let updateData = newData => {
+  return {
+    type: "updateData",
+    data: newData
+  };
+};
 
 export let registerPhoneNumber = () => async (dispatch, getState) => {
   let state = getState();
@@ -49,17 +51,6 @@ export let submitConfirmationCode = () => async (dispatch, getState) => {
   } catch (error) {
     console.log("Failed to submit confirmation code");
   }
-};
-
-export let saveName = name => async (dispatch, getState) => {
-  let authToken = getState().user.token;
-  let url = serverRoot + "/account";
-
-  send({
-    dispatch,
-    actionType: "submitNotificationName",
-    getRequest: () => putAuthenticatedJSON(url, { name }, authToken)
-  });
 };
 
 export let clearSignupError = () => ({

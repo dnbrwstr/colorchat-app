@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, Animated, Easing } from "react-native";
+import { Animated, Easing } from "react-native";
 import Style from "../style";
-import measure from "../lib/measure";
 import PressableView from "./PressableView";
 import BaseText from "./BaseText";
+import withStyles from "../lib/withStyles";
 
 class ErrorMessage extends React.Component {
   static defaultProps = {
@@ -15,12 +15,17 @@ class ErrorMessage extends React.Component {
     opacity: new Animated.Value(0)
   };
 
-  animateIn = async ({ x, y, width, height }) => {
+  animateIn = async ({
+    nativeEvent: {
+      layout: { x, y, width, height }
+    }
+  }) => {
+    console.log(height);
     Animated.parallel([
       Animated.timing(this.state.height, {
         duration: 150,
-        toValue: height,
-        easing: Easing.bounce
+        toValue: height + 10,
+        easing: Easing.out(Easing.ease)
       }),
       Animated.timing(this.state.opacity, {
         duration: 250,
@@ -53,8 +58,10 @@ class ErrorMessage extends React.Component {
   }
 
   render() {
-    let styles = [
-      style.message,
+    const { styles } = this.props;
+
+    let containerStyles = [
+      styles.message,
       {
         height: this.state.height,
         opacity: this.state.opacity
@@ -64,11 +71,10 @@ class ErrorMessage extends React.Component {
     return (
       <PressableView
         onPress={this.onPress}
-        style={styles}
-        activeStyle={style.messageActive}
-        ref="contentView"
+        style={containerStyles}
+        activeStyle={styles.messageActive}
       >
-        <BaseText style={style.text} onLayout={this.animateIn} ref="text">
+        <BaseText style={styles.text} onLayout={this.animateIn}>
           {this.props.message}
         </BaseText>
       </PressableView>
@@ -84,21 +90,22 @@ class ErrorMessage extends React.Component {
 
 let textPadding = 10;
 
-let style = Style.create({
+const getStyles = theme => ({
   message: {
     flex: 0,
     opacity: 0,
-    backgroundColor: "black",
-    overflow: "hidden"
+    overflow: "hidden",
+    paddingBottom: 10
   },
   messageActive: {
-    backgroundColor: "#333"
+    opacity: 0.7
   },
   text: {
-    padding: textPadding * 0.6,
-    paddingHorizontal: textPadding,
-    color: "white"
+    padding: textPadding,
+    paddingHorizontal: Style.values.outerPadding,
+    color: theme.error.textColor,
+    backgroundColor: theme.error.backgroundColor
   }
 });
 
-module.exports = ErrorMessage;
+module.exports = withStyles(getStyles)(ErrorMessage);

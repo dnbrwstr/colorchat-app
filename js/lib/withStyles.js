@@ -17,4 +17,7 @@ const withStyles = styleFn => {
   return Component => connect(themeSelector)(ComponentWithStyles(Component));
 };
 
+export const connectWithStyles = (styleFn, ...args) => Component =>
+  withStyles(styleFn)(connect(...args)(Component));
+
 export default withStyles;

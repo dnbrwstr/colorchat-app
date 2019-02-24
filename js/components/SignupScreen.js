@@ -1,106 +1,53 @@
 import React from "react";
-import createReactClass from "create-react-class";
-import { View, Animated, ScrollView, Dimensions, Easing } from "react-native";
-import KeyboardMixin from "./mixins/KeyboardMixin";
+import { View, ScrollView, KeyboardAvoidingView } from "react-native";
 import Style from "../style";
 import Header from "./Header";
-import measure from "../lib/measure";
-import TimerMixin from "./mixins/TimerMixin";
+import withStyles from "../lib/withStyles";
 
-let SignupScreen = createReactClass({
-  displayName: "SignupScreen",
-  mixins: [KeyboardMixin, TimerMixin],
+const SignupScreen = props => {
+  const { theme, styles } = props;
+  return (
+    <KeyboardAvoidingView style={styles.wrapper}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.content}>
+          <Header
+            title={props.title}
+            showBack={!!props.onNavigateBack}
+            onBack={props.onNavigateBack}
+          />
 
-  getInitialState: function() {
-    return {
-      contentHeight: Dimensions.get("window").height,
-      scrollHeight: Dimensions.get("window").height
-    };
-  },
+          <View style={styles.screenContent}>
+            <View style={styles.screenContentInner}>{props.children}</View>
+          </View>
 
-  componentWillUnmount: function() {
-    this.clearAllTimers();
-  },
-
-  keyboardMixinHandleKeyboardWillShow: function(frames) {
-    this.setState({
-      scrollHeight:
-        Dimensions.get("window").height - frames.endCoordinates.height
-    });
-  },
-
-  keyboardMixinHandleKeyboardWillHide: function() {
-    this.setState({
-      scrollHeight: Dimensions.get("window").height
-    });
-  },
-
-  render: function() {
-    let scrollWrapperStyle = [
-      style.scrollWrapper,
-      {
-        height: this.state.scrollHeight
-      }
-    ];
-
-    let contentStyle = [
-      {
-        height: this.state.contentHeight
-      }
-    ];
-
-    return (
-      <View style={style.container}>
-        <View style={scrollWrapperStyle}>
-          <ScrollView>
-            <View style={contentStyle}>
-              <Header
-                ref="header"
-                title={this.props.title}
-                showBack={!!this.props.onNavigateBack}
-                onBack={this.props.onNavigateBack}
-              />
-
-              <View style={style.screenContent}>
-                <View ref="contentInner" style={style.screenContentInner}>
-                  {this.props.children}
-                </View>
-              </View>
-
-              <View ref="button">{this.props.renderNextButton()}</View>
-            </View>
-          </ScrollView>
+          <View>{props.renderNextButton()}</View>
         </View>
-      </View>
-    );
-  }
-});
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+};
 
-let style = Style.create({
-  container: {
+let getStyles = theme => ({
+  wrapper: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: theme.backgroundColor
   },
-  scrollWrapper: {
-    overflow: "hidden"
+  scroll: { flex: 1 },
+  scrollContent: { flexGrow: 1 },
+  content: {
+    flex: 1
   },
   screenContent: {
     ...Style.mixins.contentWrapperBase,
-    paddingVertical: 0
+    paddingTop: 0,
+    flex: 1
   },
   screenContentInner: {
     paddingBottom: 22
-  },
-  bottomShadow: {
-    ...Style.mixins.shadowBase,
-    shadowOpacity: 0.5,
-    position: "absolute",
-    height: 1,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "white"
   }
 });
 
-export default SignupScreen;
+export default withStyles(getStyles)(SignupScreen);

@@ -1,47 +1,31 @@
 import React from "react";
-import { View, Text, Animated } from "react-native";
-import { connect } from "react-redux";
-import Style from "../style";
-import BaseTextInput from "./BaseTextInput";
 import LoaderButton from "./LoaderButton";
 import { navigateTo } from "../actions/NavigationActions";
 import { triggerPermissionsDialog } from "../actions/NotificationActions";
-import { saveName } from "../actions/SignupActions";
 import SignupScreen from "./SignupScreen";
+import { connectWithStyles } from "../lib/withStyles";
+import ProfileEditor from "./ProfileEditor";
+import { updateUserInfo } from "../actions/AppActions";
 
 class SignupNotificationScreen extends React.Component {
   state = {
-    name: ""
+    name: "",
+    avatar: "#CCC"
   };
 
   render() {
-    let { dispatch, error, loading } = this.props;
-
     return (
-      <SignupScreen
-        title={"Set display name"}
-        renderNextButton={this.renderNextButton}
-      >
-        <View style={style.inputWrapper}>
-          <BaseTextInput
-            placeholder="Name"
-            ref="nameInput"
-            value={this.props.name}
-            onChangeText={name => this.setState({ name })}
-          />
-        </View>
-
-        <Text style={style.text}>
-          Your friends will see this in push notifications when you message them
-        </Text>
+      <SignupScreen title={"Profile"} renderNextButton={this.renderNextButton}>
+        <ProfileEditor value={this.state} onChange={this.handleProfileChange} />
       </SignupScreen>
     );
   }
 
   renderNextButton = () => {
+    const { styles } = this.props;
     return (
       <LoaderButton
-        style={style.submit}
+        style={styles.submit}
         loading={this.props.loading}
         onPress={this.onPressNext}
         message="Save"
@@ -49,23 +33,30 @@ class SignupNotificationScreen extends React.Component {
     );
   };
 
+  handleProfileChange = newValue => {
+    this.setState(newValue);
+  };
+
   onPressNext = () => {
-    this.props.dispatch(saveName(this.state.name));
-    this.props.dispatch(triggerPermissionsDialog());
-    this.props.dispatch(navigateTo("inbox"));
+    if (this.state.name === "") {
+      this.setState({
+        showNameError: true
+      });
+    } else {
+      this.props.dispatch(
+        updateUserInfo({
+          name: this.state.name,
+          avatar: this.state.avatar
+        })
+      );
+      this.props.dispatch(triggerPermissionsDialog());
+      this.props.dispatch(navigateTo("inbox"));
+    }
   };
 }
 
-let { textBase, inputBase, grayBottomBorder } = Style.mixins;
+var getStyles = theme => ({});
 
-var style = Style.create({
-  inputWrapper: {
-    ...grayBottomBorder
-  },
-  text: {
-    ...textBase,
-    marginTop: 12
-  }
-});
-
-export default connect(() => ({}))(SignupNotificationScreen);
+export default connectWithStyles(getStyles, () => ({}))(
+  SignupNotificationScreen
+);

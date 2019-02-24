@@ -47,7 +47,7 @@ class ContactsScreen extends React.Component {
           <Header
             title={"Contacts"}
             backgroundColor={theme.backgroundColor}
-            borderColor={theme.borderColor}
+            borderColor={theme.secondaryBorderColor}
             showBack={true}
             onBack={() => this.props.dispatch(navigateBack())}
           />

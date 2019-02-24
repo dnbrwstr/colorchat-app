@@ -1,7 +1,7 @@
 import createRoutingReducer from "../lib/createRoutingReducer";
 import Style from "../style";
 
-let initialState = Style.themes.dark;
+let initialState = Style.themes.cream;
 
 let handlers = {
   changeTheme: function(state, action) {

@@ -3,6 +3,7 @@ import { Animated, View, ViewPropTypes } from "react-native";
 import createReactClass from "create-react-class";
 import PropTypes from "prop-types";
 import Style from "../style";
+import withStyles from "../lib/withStyles";
 import PressableView from "./PressableView";
 import BaseText from "./BaseText";
 
@@ -71,23 +72,24 @@ let SquareButton = createReactClass({
   },
 
   render: function() {
+    const { styles } = this.props;
     let buttonStyles = [
-      style.button,
+      styles.button,
       this.props.style,
       { transform: [{ scale: this.state.animatedScale }] }
     ];
 
     let textStyles = [
-      style.text,
+      styles.text,
       this.props.textStyle,
-      this.state.active && style.textActive,
+      this.state.active && styles.textActive,
       this.state.active && this.props.activeTextStyle
     ];
 
     return (
       <PressableView
         style={buttonStyles}
-        activeStyle={[style.buttonActive, this.props.activeStyle]}
+        activeStyle={[styles.buttonActive, this.props.activeStyle]}
         onPressIn={this.handlePressIn}
         onPress={this.handlePress}
       >
@@ -97,14 +99,14 @@ let SquareButton = createReactClass({
   }
 });
 
-let style = Style.create({
+let getStyles = theme => ({
   button: {
     flex: 0,
     justifyContent: "center",
     height: Style.values.buttonHeight,
     margin: Style.values.outerPadding,
     padding: Style.values.basePadding * 1.5,
-    borderColor: Style.values.midGray,
+    borderColor: theme.primaryBorderColor,
     borderWidth: Style.values.borderWidth
   },
   buttonActive: {},
@@ -114,4 +116,4 @@ let style = Style.create({
   textActive: {}
 });
 
-export default SquareButton;
+export default withStyles(getStyles)(SquareButton);

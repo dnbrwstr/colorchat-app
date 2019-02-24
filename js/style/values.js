@@ -8,7 +8,8 @@ let darkGrayHighlight = Color(darkGray)
   .hexString();
 
 let values = {
-  smallFontSize: 12,
+  smallFontSize: 14,
+  largeFontSize: 22,
   borderWidth: 1 / PixelRatio.get(),
   basePadding: 10,
   horizontalPadding: 12,
@@ -20,7 +21,7 @@ let values = {
   lightGray: "#EFEFEF",
   fairlyLightGray: "#F8F8F8",
   veryLightGray: "#FAFAFA",
-  outerPadding: 10,
+  outerPadding: 15,
   rowHeight: 64,
   buttonHeight: 60,
   avatarSize: 40

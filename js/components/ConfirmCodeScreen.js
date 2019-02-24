@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Animated } from "react-native";
+import { View, Keyboard, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import Style from "../style";
 import LoaderButton from "./LoaderButton";
@@ -13,10 +13,11 @@ import {
   clearConfirmCodeError
 } from "../actions/SignupActions";
 import { confirmationCodeScreenSelector } from "../lib/Selectors";
+import withStyles from "../lib/withStyles";
 
 class ConfirmCodeScreen extends React.Component {
   render() {
-    let { dispatch, error, loading } = this.props;
+    let { dispatch, error, theme, styles } = this.props;
 
     return (
       <SignupScreen
@@ -31,7 +32,7 @@ class ConfirmCodeScreen extends React.Component {
           />
         ) : null}
 
-        <View style={style.inputWrapper}>
+        <View style={styles.inputWrapper}>
           <BaseTextInput
             ref="confirmationCodeInput"
             placeholder="SMS Code"
@@ -40,6 +41,7 @@ class ConfirmCodeScreen extends React.Component {
               dispatch(updateData({ confirmationCode }));
             }}
             keyboardType="phone-pad"
+            placeholderTextColor={theme.secondaryTextColor}
           />
         </View>
       </SignupScreen>
@@ -57,15 +59,19 @@ class ConfirmCodeScreen extends React.Component {
   };
 
   onSubmit = () => {
-    this.refs.confirmationCodeInput.blur();
+    Keyboard.dismiss();
     this.props.dispatch(submitConfirmationCode());
   };
 }
 
-var style = Style.create({
+const getStyles = theme => ({
   inputWrapper: {
-    ...Style.mixins.grayBottomBorder
+    borderColor: theme.primaryBorderColor,
+    borderWidth: StyleSheet.hairlineWidth,
+    paddingLeft: 12
   }
 });
 
-module.exports = connect(confirmationCodeScreenSelector)(ConfirmCodeScreen);
+module.exports = withStyles(getStyles)(
+  connect(confirmationCodeScreenSelector)(ConfirmCodeScreen)
+);

@@ -8,6 +8,7 @@ import BaseText from "./BaseText";
 import { updateData } from "../actions/SignupActions";
 import { navigateTo } from "../actions/NavigationActions";
 import Style from "../style";
+import { connectWithStyles } from "../lib/withStyles";
 
 let groupedCountries = Countries.reduce((memo, country) => {
   let letter = country.label[0].toUpperCase();
@@ -26,21 +27,22 @@ let countrySections = Object.keys(groupedCountries).reduce((memo, key) => {
 
 class CountryPickerScreen extends React.Component {
   render() {
-    let { dispatch } = this.props;
+    const { dispatch, styles, theme } = this.props;
 
     return (
-      <View style={style.container}>
+      <View style={styles.container}>
         <Header
           title="Select a country"
           showBack={true}
           onBack={() => dispatch(navigateTo("signup"))}
+          borderColor={theme.secondaryBorderColor}
         />
 
         <SectionList
           initialNumToRender={16}
           maxToRenderPerBatch={16}
           renderItem={this.renderCountry}
-          renderSectionHeader={this.renderCountryHeader}
+          // renderSectionHeader={this.renderCountryHeader}
           sections={countrySections}
         />
       </View>
@@ -48,32 +50,36 @@ class CountryPickerScreen extends React.Component {
   }
 
   renderCountry = data => {
+    const { dispatch, styles } = this.props;
+
     let isFirst = data.index == 0;
     let isLast = (countrySections.length - 1).toString() === data.index;
 
-    let styles = [
-      style.country,
-      isFirst && style.firstCountry,
-      isLast && style.lastCountry
+    let countryStyles = [
+      styles.country,
+      isFirst && styles.firstCountry,
+      isLast && styles.lastCountry
     ];
 
     return (
       <PressableView
         key={`item-${data.item.label}`}
-        style={styles}
-        activeStyle={style.countryActive}
+        style={countryStyles}
+        activeStyle={styles.countryActive}
         onPress={this.onSelect.bind(this, data.item)}
       >
-        <BaseText style={style.countryText}>{data.item.label}</BaseText>
+        <BaseText style={styles.countryText}>{data.item.label}</BaseText>
       </PressableView>
     );
   };
 
   renderCountryHeader = data => {
+    const { dispatch, styles } = this.props;
+
     return (
-      <View style={style.countryHeader} key={`section-${data.section.key}`}>
-        <View style={style.countryHeaderInner}>
-          <BaseText style={style.countryText}>{data.section.key}</BaseText>
+      <View style={styles.countryHeader} key={`section-${data.section.key}`}>
+        <View style={styles.countryHeaderInner}>
+          <BaseText style={styles.countryText}>{data.section.key}</BaseText>
         </View>
       </View>
     );
@@ -93,27 +99,26 @@ class CountryPickerScreen extends React.Component {
   };
 }
 
-var style = Style.create({
+const getStyles = theme => ({
   container: {
     flex: 1,
-    backgroundColor: "white"
-  },
-  separator: {
-    height: 1,
-    backgroundColor: Style.values.midGray
+    backgroundColor: theme.backgroundColor
   },
   countryHeader: {
-    paddingHorizontal: Style.values.horizontalPadding,
-    backgroundColor: "white"
+    paddingHorizontal: Style.values.outerPadding
   },
   countryHeaderInner: {
     paddingVertical: 3,
     borderBottomWidth: 1 / PixelRatio.get(),
-    borderBottomColor: Style.values.midGray
+    borderBottomColor: theme.secondaryBorderColor
   },
   country: {
-    paddingHorizontal: Style.values.horizontalPadding,
-    paddingVertical: 9
+    paddingHorizontal: Style.values.outerPadding,
+    paddingVertical: 9,
+    height: Style.values.rowHeight,
+    borderBottomWidth: 1 / PixelRatio.get(),
+    borderBottomColor: theme.secondaryBorderColor,
+    justifyContent: "center"
   },
   firstCountry: {
     paddingTop: 18
@@ -122,11 +127,13 @@ var style = Style.create({
     paddingBottom: 27
   },
   countryText: {
-    color: Style.values.midGray
+    color: theme.primaryTextColor
   },
   countryActive: {
-    backgroundColor: "#EEE"
+    backgroundColor: theme.highlightColor
   }
 });
 
-module.exports = connect(state => state.signup)(CountryPickerScreen);
+const selector = () => ({});
+
+export default connectWithStyles(getStyles, selector)(CountryPickerScreen);

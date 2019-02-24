@@ -2,23 +2,31 @@ import React from "react";
 import RoundButton from "./RoundButton";
 import Style from "../style";
 import BaseText from "./BaseText";
+import withStyles from "../lib/withStyles";
+import PlusIcon from "./PlusIcon";
 
-class PlusButton extends React.Component {
-  render() {
-    return (
-      <RoundButton {...this.props}>
-        <BaseText style={style.text}>+</BaseText>
-      </RoundButton>
-    );
-  }
-}
+const PlusButton = props => {
+  const { style, styles, textStyle, theme, ...rest } = props;
+  return (
+    <RoundButton style={[styles.button, style]} {...rest}>
+      <PlusIcon
+        style={styles.plusIcon}
+        strokeColor={theme.primaryButtonTextColor}
+        strokeWidth={7}
+      />
+    </RoundButton>
+  );
+};
 
-let style = Style.create({
-  text: {
-    color: "white",
-    fontSize: 26,
-    marginTop: -5
+const getStyles = theme => ({
+  button: {
+    backgroundColor: theme.primaryButtonColor,
+    padding: 12
+  },
+  plusIcon: {
+    width: 18,
+    height: 18
   }
 });
 
-export default PlusButton;
+export default withStyles(getStyles)(PlusButton);

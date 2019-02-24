@@ -17,8 +17,9 @@ let makeGray = (v, a = 1) => {
 
 let inputBase = {
   ...textBase,
-  lineHeight: 21,
   paddingLeft: 0,
+  paddingTop: 10,
+  paddingBottom: 10,
   ...Platform.select({
     ios: {}
   })

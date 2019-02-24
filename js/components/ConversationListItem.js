@@ -128,7 +128,7 @@ const getStyles = theme => ({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    borderBottomColor: theme.borderColor,
+    borderBottomColor: theme.secondaryBorderColor,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   itemActive: {
@@ -140,7 +140,7 @@ const getStyles = theme => ({
     alignItems: "center"
   },
   avatar: {
-    backgroundColor: "#CCC",
+    backgroundColor: theme.defaultAvatarColor,
     borderRadius: 200,
     width: avatarSize,
     height: avatarSize,

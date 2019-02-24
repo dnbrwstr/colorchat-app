@@ -1,8 +1,4 @@
-// I've removed the PureRenderMixin from this component
-// for now to make it compatible with the latest version
-// of react, so there may be some performance issues.
-//
-import React from "react";
+import React, { PureComponent } from "react";
 import createReactClass from "create-react-class";
 import { View, InteractionManager, Dimensions, StatusBar } from "react-native";
 import ScrollBridge from "../lib/ScrollBridge";
@@ -84,7 +80,7 @@ let ConversationScreen = createReactClass({
           showBack={true}
           backgroundColor={theme.backgroundColor}
           highlightColor={theme.highlightColor}
-          borderColor={theme.borderColor}
+          borderColor={theme.secondaryBorderColor}
           onBack={() => dispatch(navigateBack())}
         />
         <MessageList
@@ -99,6 +95,7 @@ let ConversationScreen = createReactClass({
           onEndReached={this.loadNextPage}
         />
         <PlusButton
+          style={styles.newMessageButton}
           onPress={this.onStartComposing}
           visible={
             !this.props.composing &&
@@ -202,6 +199,9 @@ const getStyles = theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.backgroundColor
+  },
+  newMessageButton: {
+    backgroundColor: theme.primaryButtonColor
   }
 });
 

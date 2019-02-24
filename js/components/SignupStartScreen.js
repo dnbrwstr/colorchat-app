@@ -1,9 +1,7 @@
 import React from "react";
-import { Text, View, ScrollView, Animated } from "react-native";
+import { View, Keyboard, StyleSheet } from "react-native";
 import BaseTextInput from "./BaseTextInput";
 import { connect } from "react-redux";
-import Color from "color";
-import merge from "merge";
 import Style from "../style";
 import LoaderButton from "./LoaderButton";
 import ErrorMessage from "./ErrorMessage";
@@ -13,74 +11,57 @@ import { signupScreenSelector } from "../lib/Selectors";
 import * as SignupActions from "../actions/SignupActions";
 import { navigateTo } from "../actions/NavigationActions";
 import SignupScreen from "./SignupScreen";
+import withStyles from "../lib/withStyles";
 
 let { updateData, registerPhoneNumber, clearSignupError } = SignupActions;
 
 class SignupStartScreen extends React.Component {
-  handleNumberInfoLinkPress = () => {
-    this.props.dispatch(navigateTo("numberInfo"));
-  };
-
   render() {
-    let { dispatch, error } = this.props;
+    let { dispatch, error, styles, theme } = this.props;
 
     return (
       <SignupScreen title="Setup" renderNextButton={this.renderNextButton}>
-        <BaseText style={style.welcomeMessage}>
-          Color Chat will send you an SMS message to verify your phone number
+        <BaseText style={styles.welcomeMessage}>
+          Color Chat will send you an SMS message to verify your phone number.
         </BaseText>
 
-        {error ? (
+        {error && (
           <ErrorMessage
             message={error.toString()}
             onRemove={() => dispatch(clearSignupError())}
           />
-        ) : null}
+        )}
 
-        <PressableView
-          style={style.countryInput}
-          activeStyle={style.countryInputActive}
-          onPress={this.showCountryPicker}
-        >
-          <BaseText style={style.countryInputText}>
-            {this.props.country}
-          </BaseText>
-          <BaseText style={style.countryInputArrow}>&darr;</BaseText>
-        </PressableView>
+        <View style={styles.numberInputContainer}>
+          <PressableView
+            style={styles.countryCodeWrapper}
+            activeStyle={styles.countryCodeWrapperActive}
+            onPress={this.showCountryPicker}
+          >
+            <BaseText style={styles.countryCode}>
+              +{this.props.countryCode}
+            </BaseText>
+          </PressableView>
 
-        <View style={style.inputContainer}>
-          <View style={style.countryCodeWrapper}>
+          <View style={styles.baseNumberInputWrapper}>
             <BaseTextInput
-              ref="countryCodeInput"
-              style={style.countryCodeInput}
-              value={this.props.countryCode}
-              onChangeText={countryCode => {
-                this.updateData({ countryCode });
-              }}
-              keyboardType="phone-pad"
-            />
-            <BaseText style={style.countryCodePlus}>+</BaseText>
-          </View>
-
-          <View style={style.numberInputWrapper}>
-            <BaseTextInput
-              ref="baseNumberInput"
-              style={style.numberInput}
+              style={styles.baseNumberInput}
               value={this.props.baseNumber}
               onChangeText={baseNumber => {
                 this.updateData({ baseNumber });
               }}
               placeholder="Phone Number"
+              placeholderTextColor={theme.secondaryTextColor}
               keyboardType="phone-pad"
             />
           </View>
         </View>
 
         <PressableView
-          style={style.numberInfoLink}
-          onPress={this.handleNumberInfoLinkPress}
+          style={styles.usageInfoLink}
+          onPress={this.handleusageInfoLinkPress}
         >
-          <BaseText style={style.numberInfoText}>
+          <BaseText style={styles.usageInfoText}>
             How Color Chat uses your number
           </BaseText>
         </PressableView>
@@ -91,12 +72,16 @@ class SignupStartScreen extends React.Component {
   renderNextButton = () => {
     return (
       <LoaderButton
-        style={style.submit}
+        style={this.props.styles.submit}
         loading={this.props.loading}
         onPress={this.onSubmitNumber}
         message="Send message"
       />
     );
+  };
+
+  handleusageInfoLinkPress = () => {
+    this.props.dispatch(navigateTo("numberInfo"));
   };
 
   showCountryPicker = () => {
@@ -110,8 +95,7 @@ class SignupStartScreen extends React.Component {
   };
 
   hideKeyboard = () => {
-    this.refs.countryCodeInput.blur();
-    this.refs.baseNumberInput.blur();
+    Keyboard.dismiss();
   };
 
   updateData = newData => {
@@ -119,74 +103,56 @@ class SignupStartScreen extends React.Component {
   };
 }
 
-let {
-  inputBase,
-  grayBottomBorder,
-  outerWrapperBase,
-  textBase,
-  contentWrapperBase
-} = Style.mixins;
+let { inputBase } = Style.mixins;
 
-let style = Style.create({
+let getStyles = theme => ({
   welcomeMessage: {
-    marginBottom: 16,
-    marginTop: 0
+    marginTop: 0,
+    marginBottom: 24
   },
-  inputContainer: {
+  numberInputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "stretch",
-    marginBottom: 16
-  },
-  countryInput: {
-    ...grayBottomBorder,
-    height: inputBase.height + 1,
-    paddingTop: 0,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 5
-  },
-  countryInputActive: {
-    backgroundColor: Style.values.fairlyLightGray
-  },
-  countryInputText: {
-    flex: 1
-  },
-  countryInputArrow: {
-    flex: 0
-  },
-  numberInputWrapper: {
-    ...grayBottomBorder,
-    alignSelf: "stretch",
-    flex: 1
+    marginBottom: 10
   },
   countryCodeWrapper: {
-    ...grayBottomBorder,
-    width: 60,
-    flex: 0,
-    margin: 0,
-    padding: 0,
-    marginRight: 12
+    borderColor: theme.primaryBorderColor,
+    borderWidth: StyleSheet.hairlineWidth,
+    paddingTop: inputBase.paddingTop + 6,
+    paddingBottom: inputBase.paddingBottom + 8,
+    paddingHorizontal: 20
   },
-  countryCodePlus: {
-    position: "absolute",
-    top: 9,
-    bottom: 0,
-    left: 0,
-    backgroundColor: "transparent"
+  countryCodeWrapperActive: {
+    backgroundColor: theme.highlightColor
   },
-  countryCodeInput: {
-    paddingLeft: 12
+  countryCode: {
+    textAlign: "center",
+    fontSize: Style.values.largeFontSize
   },
-  numberInfoLink: {
-    marginTop: 10
+  baseNumberInputWrapper: {
+    borderColor: theme.primaryBorderColor,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderLeftWidth: 0,
+    alignSelf: "stretch",
+    flex: 1,
+    paddingLeft: 16
   },
-  numberInfoText: {
+  baseNumberInput: {
+    paddingTop: inputBase.paddingTop + 6,
+    fontSize: Style.values.largeFontSize
+  },
+  usageInfoLink: {
+    marginTop: 0
+  },
+  usageInfoText: {
     fontSize: Style.values.smallFontSize,
     textAlign: "center",
+    color: theme.secondaryTextColor,
     textDecorationLine: "underline"
   }
 });
 
-export default connect(signupScreenSelector)(SignupStartScreen);
+export default withStyles(getStyles)(
+  connect(signupScreenSelector)(SignupStartScreen)
+);

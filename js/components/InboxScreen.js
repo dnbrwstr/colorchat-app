@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, StatusBar } from "react-native";
 import { connect } from "react-redux";
-import memoize from "memoize-one";
 import { inboxScreenSelector } from "../lib/Selectors";
 import { navigateToConversation } from "../actions/NavigationActions";
 import { deleteConversation } from "../actions/ConversationActions";
@@ -11,7 +10,6 @@ import Style from "../style";
 import ConversationList from "./ConversationList";
 import BaseText from "./BaseText";
 import PlusButton from "./PlusButton";
-import SettingsButton from "./SettingsButton";
 import Header from "./Header";
 import withStyles from "../lib/withStyles";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
@@ -31,15 +29,12 @@ class InboxScreen extends React.Component {
         <Header
           title={"Color Chat"}
           highlightColor={theme.highlightColor}
-          borderColor={theme.borderColor}
+          borderColor={theme.secondaryBorderColor}
+          showSettingsButton={true}
         />
         {this.props.conversations.length
           ? this.renderConversations()
           : this.renderEmptyMessage()}
-        <SettingsButton
-          style={styles.settingsButton}
-          onPress={this.handleSettingsButtonPressed}
-        />
         <PlusButton
           style={styles.contactsButton}
           onPress={this.handleAddButtonPressed}
@@ -77,10 +72,6 @@ class InboxScreen extends React.Component {
     this.props.dispatch(navigateTo("contacts"));
   };
 
-  handleSettingsButtonPressed = () => {
-    this.props.dispatch(navigateTo("settings"));
-  };
-
   handleConversationSelected = conversation => {
     this.props.dispatch(navigateToConversation(conversation.recipientId));
   };
@@ -104,21 +95,6 @@ const addStyle = withStyles(theme => ({
   },
   emptyMessage: {
     textAlign: "center"
-  },
-  contactsButton: {
-    backgroundColor: theme.inbox.contactsButtonBackgroundColor,
-    padding: 12,
-    marginTop: 18,
-    flex: 0
-  },
-  contactsButtonText: {
-    color: "white",
-    textAlign: "center",
-    flex: 0
-  },
-  settingsButton: {
-    backgroundColor: theme.inbox.settingsButtonBackgroundColor,
-    bottom: 78
   }
 }));
 

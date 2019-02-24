@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { View, Text, PixelRatio, StyleSheet } from "react-native";
 import Style from "../style";
 import PressableView from "./PressableView";
-import withStyles from "../lib/withStyles";
+import { connectWithStyles } from "../lib/withStyles";
+import SliderIcon from "./SliderIcon";
+import { navigateTo } from "../actions/NavigationActions";
 
 class Header extends Component {
   static defaultProps = {
@@ -67,18 +69,23 @@ class Header extends Component {
           )}
         </View>
 
-        <View style={styles.buttonContainer}>
-          {this.props.showClose && (
+        <View style={[styles.buttonContainer, styles.rightButtonContainer]}>
+          {this.props.showSettingsButton && (
             <PressableView
-              onPress={this.onClose}
+              onPress={this.handlePressSettings}
               style={styles.button}
               activeStyle={[styles.buttonActive, highlightColor]}
             >
-              <Text
-                style={[styles.buttonText, styles.buttonSecondText, textColor]}
-              >
-                X
-              </Text>
+              <SliderIcon
+                style={{
+                  width: 20,
+                  height: 20,
+                  marginRight: 15,
+                  marginLeft: 15
+                }}
+                strokeWidth={3}
+                strokeColor={theme.primaryTextColor}
+              />
             </PressableView>
           )}
         </View>
@@ -90,8 +97,8 @@ class Header extends Component {
     this.props.onBack();
   };
 
-  onClose = () => {
-    this.props.onClose();
+  handlePressSettings = () => {
+    this.props.dispatch(navigateTo("settings"));
   };
 }
 
@@ -125,9 +132,12 @@ const getStyles = theme => ({
     width: 80,
     alignItems: "flex-start"
   },
+  rightButtonContainer: {
+    alignItems: "flex-end"
+  },
   button: {
     justifyContent: "center",
-    paddingHorizontal: 15,
+    paddingHorizontal: Style.values.outerPadding,
     height: "100%"
   },
   buttonActive: {
@@ -142,4 +152,4 @@ const getStyles = theme => ({
   }
 });
 
-export default withStyles(getStyles)(Header);
+export default connectWithStyles(getStyles, () => ({}))(Header);

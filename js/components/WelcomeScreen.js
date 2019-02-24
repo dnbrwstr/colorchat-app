@@ -1,15 +1,15 @@
 import React from "react";
 import createReactClass from "create-react-class";
-import { View, Text } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import { connect } from "react-redux";
 import Style from "../style";
 import PressableView from "./PressableView";
-import LoaderButton from "./LoaderButton";
 import config from "../config";
 import { rand } from "../lib/Utils";
 import TimerMixin from "./mixins/TimerMixin";
 import BaseText from "./BaseText";
 import { navigateTo } from "../actions/NavigationActions";
+import withStyles from "../lib/withStyles";
 
 let { appName } = config;
 
@@ -31,15 +31,16 @@ let WelcomeScreen = createReactClass({
   },
 
   render: function() {
+    const { styles } = this.props;
     return (
-      <View style={style.wrapper}>
-        <View style={style.titleContainer}>
-          <BaseText style={style.title}>{appName}</BaseText>
+      <View style={styles.wrapper}>
+        <View style={styles.titleContainer}>
+          <BaseText style={styles.title}>{appName}</BaseText>
         </View>
 
-        <View style={style.floatMessageContainer}>
-          <View style={style.floatMessage}>
-            <BaseText style={style.floatMessageText}>
+        <View style={styles.floatMessageContainer}>
+          <View style={styles.floatMessage}>
+            <BaseText style={styles.floatMessageText}>
               {this.renderColorizedText("Chat with")}
               {"\n"}
               {this.renderColorizedText("colors instead")}
@@ -49,12 +50,12 @@ let WelcomeScreen = createReactClass({
           </View>
         </View>
 
-        <View style={style.bottomBar}>
+        <View style={styles.bottomBar}>
           <PressableView
-            style={style.bottomBarButton}
+            style={styles.bottomBarButton}
             onPress={this.handlePressNext}
           >
-            <BaseText style={style.bottomBarButtonText}>Setup</BaseText>
+            <BaseText style={styles.bottomBarButtonText}>Setup</BaseText>
           </PressableView>
         </View>
       </View>
@@ -72,10 +73,10 @@ let WelcomeScreen = createReactClass({
   }
 });
 
-let style = Style.create({
+let getStyles = theme => ({
   wrapper: {
     ...Style.mixins.outerWrapperBase,
-    backgroundColor: "black",
+    backgroundColor: theme.backgroundColor,
     flex: 1
   },
   welcome: {
@@ -92,7 +93,7 @@ let style = Style.create({
     justifyContent: "center"
   },
   title: {
-    color: "white",
+    color: theme.primaryTextColor,
     padding: 20,
     textAlign: "center"
   },
@@ -111,7 +112,7 @@ let style = Style.create({
     justifyContent: "center"
   },
   bottomBarButtonText: {
-    color: "white",
+    color: theme.primaryTextColor,
     textAlign: "center"
   },
   floatMessageContainer: {
@@ -133,10 +134,10 @@ let style = Style.create({
     backgroundColor: "black"
   },
   floatMessageText: {
-    color: "white",
+    color: theme.primaryTextColor,
     textAlign: "center",
     lineHeight: 24
   }
 });
 
-export default connect(() => ({}))(WelcomeScreen);
+export default withStyles(getStyles)(connect(() => ({}))(WelcomeScreen));

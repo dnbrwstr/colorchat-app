@@ -81,7 +81,7 @@ class App extends React.Component {
 
 const getStyles = theme => ({
   container: {
-    borderTopColor: theme.borderColor,
+    borderTopColor: theme.secondaryBorderColor,
     borderTopWidth: StyleSheet.hairlineWidth,
     flex: 1
   },

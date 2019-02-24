@@ -1,13 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, ScrollView, Alert, Dimensions } from "react-native";
+import { View, ScrollView, Alert, Dimensions, StyleSheet } from "react-native";
 import Style from "../style";
-import BaseTextInput from "./BaseTextInput";
 import BaseText from "./BaseText";
 import Header from "./Header";
 import PressableView from "./PressableView";
-import AvatarEditor from "./AvatarEditor";
-import SegmentedControlTab from "react-native-segmented-control-tab";
 import { navigateTo, navigateBack } from "../actions/NavigationActions";
 import {
   loadUserInfo,
@@ -17,6 +14,7 @@ import {
   changeTheme
 } from "../actions/AppActions";
 import withStyles from "../lib/withStyles";
+import ProfileEditor from "./ProfileEditor";
 
 class SettingsScreen extends React.Component {
   state = {
@@ -39,13 +37,141 @@ class SettingsScreen extends React.Component {
     }
   }
 
+  maybeUpdateUser = () => {
+    console.log("update user?");
+    if (
+      this.props.user.name !== this.state.name ||
+      this.props.user.avatar !== this.state.avatar
+    ) {
+      console.log("update user!", this.state);
+      this.props.dispatch(
+        updateUserInfo({ name: this.state.name, avatar: this.state.avatar })
+      );
+    }
+  };
+
+  render() {
+    const { theme, styles } = this.props;
+
+    return (
+      <View style={styles.container}>
+        <Header
+          title="Settings"
+          showBack={true}
+          onBack={this.handleBack}
+          borderColor={theme.secondaryBorderColor}
+        />
+        <ScrollView scrollEnabled={!this.state.scrollLocked}>
+          <View style={styles.content}>
+            <View style={styles.formContainer}>
+              <ProfileEditor
+                style={styles.profileEditor}
+                value={this.state}
+                onChange={this.handleProfileChange}
+                onColorPickerInteractionStart={
+                  this.handleColorPickerInteractionStart
+                }
+                onColorPickerInteractionEnd={
+                  this.handleColorPickerInteractionEnd
+                }
+              />
+              {this.renderThemeInput()}
+            </View>
+
+            {this.renderBottomButtons()}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+
+  renderThemeInput() {
+    const { styles } = this.props;
+    const themeKeys = Object.keys(Style.themes);
+    const themes = themeKeys.map(k => Style.themes[k]);
+    const currentIndex = themes.findIndex(
+      theme => theme.label === this.props.theme.label
+    );
+
+    return (
+      <View style={styles.section}>
+        <View style={styles.sectionContent}>
+          <BaseText style={[styles.inputLabel, styles.themeInputLabel]}>
+            Theme
+          </BaseText>
+
+          <View>
+            {themeKeys.map((k, i) =>
+              this.renderThemeOption(
+                i === currentIndex,
+                i === themes.length - 1,
+                themes[i]
+              )
+            )}
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderThemeOption = (isActive, isLast, theme) => {
+    const { styles } = this.props;
+    const optionStyles = [styles.themeOption, isLast && styles.lastThemeOption];
+    const buttonInnerStyles = [
+      styles.themeButtonInner,
+      isActive && styles.themeButtonInnerActive
+    ];
+    return (
+      <PressableView
+        key={theme.label}
+        style={optionStyles}
+        activeStyle={styles.themeOptionActive}
+        onPress={() => this.handleThemeChanged(theme)}
+      >
+        <View style={styles.themeButton}>
+          <View style={buttonInnerStyles} />
+        </View>
+        <View style={styles.themeOptionTextContainer}>
+          <BaseText style={styles.themeOptionText}>{theme.label}</BaseText>
+        </View>
+      </PressableView>
+    );
+  };
+
+  renderBottomButtons() {
+    const { styles } = this.props;
+
+    const buttons = [
+      { label: "About Color Chat", action: this.handleAboutPress },
+      { label: "Logout", action: this.handleLogout },
+      { label: "Delete account", action: this.handleDeleteAccount }
+    ];
+
+    return (
+      <View style={[styles.section, styles.accountButtonContainer]}>
+        {buttons.map(b => {
+          return (
+            <PressableView
+              key={b.label}
+              style={styles.accountButton}
+              activeStyle={styles.accountButtonActive}
+              onPress={b.action}
+            >
+              <BaseText>{b.label}</BaseText>
+            </PressableView>
+          );
+        })}
+      </View>
+    );
+  }
+
   handleBack = () => {
     this.maybeUpdateUser();
     this.props.dispatch(navigateBack());
   };
 
-  handleInputRowPress = inputRef => {
-    this.refs[inputRef].focus();
+  handleAboutPress = () => {
+    this.props.dispatch(navigateTo("about"));
   };
 
   handleLogout = () => {
@@ -64,14 +190,6 @@ class SettingsScreen extends React.Component {
 
   handleLogoutConfirmation = () => {
     this.props.dispatch(logout());
-  };
-
-  handleAboutPress = () => {
-    this.props.dispatch(navigateTo("about"));
-  };
-
-  handleInputBlur = () => {
-    this.maybeUpdateUser();
   };
 
   handleDeleteAccount = (e, retry) => {
@@ -96,129 +214,12 @@ class SettingsScreen extends React.Component {
     }
   };
 
-  maybeUpdateUser = () => {
-    if (
-      this.props.user.name !== this.state.name ||
-      this.props.user.avatar !== this.state.avatar
-    ) {
-      this.props.dispatch(
-        updateUserInfo({ name: this.state.name, avatar: this.state.avatar })
-      );
-    }
-  };
-
-  render() {
-    const { theme, styles } = this.props;
-
-    return (
-      <View style={styles.container}>
-        <Header
-          title="Settings"
-          showBack={true}
-          onBack={this.handleBack}
-          borderColor={theme.borderColor}
-        />
-        <ScrollView scrollEnabled={!this.state.scrollLocked}>
-          <View style={styles.content}>
-            <View style={[styles.section, styles.profileInputSection]}>
-              <AvatarEditor
-                initialValue={this.state.avatar}
-                onInteractionStart={this.handleColorPickerInteractionStart}
-                onInteractionEnd={this.handleColorPickerInteractionEnd}
-                onChange={this.handleAvatarChange}
-                style={styles.profileInput}
-              />
-              <BaseText style={styles.profileInputLabel}>
-                Touch and drag to change your avatar
-              </BaseText>
-            </View>
-            <View style={[styles.section, styles.nameSection]}>
-              <View style={styles.sectionContent}>
-                <PressableView
-                  style={styles.inputRow}
-                  onPress={this.handleInputRowPress.bind(this, "nameInput")}
-                >
-                  <BaseText style={[styles.inputLabel, styles.nameInputLabel]}>
-                    Username
-                  </BaseText>
-
-                  <View style={styles.inputWrapper}>
-                    <BaseTextInput
-                      ref="nameInput"
-                      placeholder="Your name"
-                      style={styles.input}
-                      onBlur={this.handleInputBlur.bind(this, "name")}
-                      onChangeText={this.handleNameInputChange}
-                      value={this.state.name}
-                    />
-                  </View>
-                </PressableView>
-              </View>
-            </View>
-
-            {this.renderThemeInput()}
-
-            <View style={[styles.section, styles.accountButtonContainer]}>
-              <PressableView
-                style={styles.accountButton}
-                activeStyle={styles.accountButtonActive}
-                onPress={this.handleAboutPress}
-              >
-                <BaseText>About Color Chat</BaseText>
-              </PressableView>
-              <PressableView
-                style={styles.accountButton}
-                activeStyle={styles.accountButtonActive}
-                onPress={this.handleLogout}
-              >
-                <BaseText>Logout</BaseText>
-              </PressableView>
-              <PressableView
-                onPress={this.handleDeleteAccount}
-                style={styles.accountButton}
-                activeStyle={styles.accountButtonActive}
-              >
-                <BaseText>Delete account</BaseText>
-              </PressableView>
-            </View>
-          </View>
-        </ScrollView>
-      </View>
-    );
-  }
-
-  renderThemeInput() {
-    const { styles } = this.props;
-    const themeKeys = Object.keys(Style.themes);
-    const themes = themeKeys.map(k => Style.themes[k]);
-    const currentIndex = themes.indexOf(this.props.theme);
-
-    return (
-      <View style={styles.section}>
-        <View style={styles.sectionContent}>
-          <BaseText style={[styles.inputLabel, styles.themeInputLabel]}>
-            Theme
-          </BaseText>
-          <SegmentedControlTab
-            values={themeKeys}
-            selectedIndex={currentIndex}
-            onTabPress={i => this.handleThemeChanged(themes[i])}
-          />
-        </View>
-      </View>
-    );
-  }
-
   handleThemeChanged = newTheme => {
     this.props.dispatch(changeTheme(newTheme));
   };
 
-  handleAvatarChange = newColor => {
-    this.setState({ avatar: newColor });
-  };
-
-  handleNameInputChange = newName => {
-    this.setState({ name: newName });
+  handleProfileChange = newProfile => {
+    this.setState(newProfile);
   };
 
   handleColorPickerInteractionStart = () => {
@@ -235,95 +236,63 @@ const getStyles = theme => ({
     flex: 1,
     backgroundColor: theme.backgroundColor
   },
-  content: {
-    ...Style.mixins.contentWrapperBase,
-    padding: 0,
-    flex: 1,
-    padding: 0
+  formContainer: {
+    padding: Style.values.outerPadding
   },
-  inputRow: {},
-  inputRowLabel: {
-    flex: 0,
-    justifyContent: "center",
-    width: 60
+  profileEditor: {
+    marginBottom: 36
   },
-  inputWrapper: {
-    flex: 1,
-    borderBottomWidth: Style.values.borderWidth,
-    borderBottomColor: theme.borderColor,
-    margin: 0
+  themeInputLabel: {
+    marginBottom: 6
   },
-  button: {
-    marginTop: 0,
-    marginBottom: 0
+  themeOption: {
+    flexDirection: "row",
+    paddingVertical: 4
   },
-  section: {
-    flex: 1
+  themeOptionActive: {
+    backgroundColor: theme.highlightColor
   },
-  sectionContent: {
-    padding: Style.values.horizontalPadding
+  lastThemeOption: {},
+  themeButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 100,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.primaryBorderColor,
+    marginRight: 12
+  },
+  themeButtonInner: {
+    position: "absolute",
+    top: 3,
+    left: 3,
+    right: 3,
+    bottom: 3,
+    borderRadius: 12,
+    overflow: "hidden"
+  },
+  themeButtonInnerActive: {
+    backgroundColor: theme.primaryBorderColor
+  },
+  themeOptionTextContainer: {
+    justifyContent: "center"
+  },
+  themeOptionText: {
+    lineHeight: 18
   },
   accountButton: {
     borderTopWidth: Style.values.borderWidth,
-    borderTopColor: theme.borderColor,
+    borderTopColor: theme.secondaryBorderColor,
     height: Style.values.rowHeight,
-    padding: Style.values.horizontalPadding,
+    padding: Style.values.outerPadding,
     justifyContent: "center"
   },
   accountButtonActive: {
     backgroundColor: theme.highlightColor
   },
   accountButtonContainer: {
-    marginTop: 50,
+    marginTop: 30,
     borderBottomWidth: Style.values.borderWidth,
-    borderBottomColor: theme.borderColor
-  },
-  profileInputSection: {
-    alignItems: "center",
-    marginVertical: 20
-  },
-  profileInput: {
-    width: 250,
-    height: 250,
-    borderRadius: 1000,
-    marginBottom: 20
-  },
-  profileEditButton: {
-    position: "absolute",
-    bottom: 5,
-    right: 5,
-    backgroundColor: "white",
-    elevation: 2
-  },
-  profileInputLabel: {
-    textAlign: "center",
-    width: 200
-  },
-  nameSection: {
-    flex: 0
-  },
-  input: {
-    paddingTop: 8
-  },
-  inputLabel: {
-    fontSize: 12,
-    lineHeight: 12,
-    color: theme.secondaryTextColor
-  },
-  themeInputLabel: {
-    marginBottom: 10
-  },
-  aboutSection: {
-    flex: 0,
-    justifyContent: "flex-end"
-  },
-  aboutButton: {
-    padding: Style.values.outerPadding,
-    paddingBottom: 20,
-    paddingTop: 40
-  },
-  aboutButtonText: {
-    textAlign: "center"
+    borderBottomColor: theme.secondaryBorderColor
   }
 });
 

@@ -3362,6 +3362,10 @@ react-native-sms@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/react-native-sms/-/react-native-sms-1.6.0.tgz#2156ab4c76549ac6a9d72686fa00b65b708e7ed1"
 
+react-native-svg@^9.2.4:
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.2.4.tgz#a30ee42535b39097e7b68dfa6dcf5c1c8cce97f1"
+
 react-native-tab-view@^1.0.0, react-native-tab-view@^1.2.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.3.2.tgz#c4e43a538dcacce151938745cea09176beeccbc3"

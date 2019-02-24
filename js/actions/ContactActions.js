@@ -1,9 +1,8 @@
-import { Linking, Platform } from "react-native";
+import { Linking, Platform, PermissionsAndroid } from "react-native";
 import { SettingsApp } from "NativeModules";
 import Contacts from "react-native-contacts";
 import SendSMS from "react-native-sms";
 import { postAuthenticatedJSON } from "../lib/RequestHelpers";
-import { PermissionsAndroid } from "react-native";
 import config from "../config";
 import send from "../lib/send";
 
@@ -17,25 +16,25 @@ let { serverRoot, inviteLink } = config;
 export let importContacts = opts => async (dispatch, getState) => {
   let userToken = getState().user.token;
 
-  dispatch({
-    type: "importContacts",
-    state: "started"
-  });
-
   let permission = await Contacts.checkPermissionAsync();
 
   if (
     (permission === "undefined" || permission == "denied") &&
     opts.askPermission
   ) {
-    permission = await Contacts.requestPermissionAsync();
+    if (Platform.OS === "ios") {
+      permission = await Contacts.requestPermissionAsync();
+      if (permission === "denied" && opts.askPermission) {
+        SettingsApp.openSettings();
+      }
+    } else {
+      permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS
+      );
+    }
   }
 
-  if (permission === "denied" && opts.askPermission) {
-    SettingsApp.openSettings();
-  }
-
-  if (permission === "authorized") {
+  if (permission === "authorized" || permission === "granted") {
     onPermissionGranted(userToken, dispatch);
   } else {
     onPermissionDenied(dispatch);
@@ -43,6 +42,11 @@ export let importContacts = opts => async (dispatch, getState) => {
 };
 
 let onPermissionGranted = async (userToken, dispatch) => {
+  dispatch({
+    type: "importContacts",
+    state: "started"
+  });
+
   let rawContacts = await Contacts.getAllAsync();
 
   const contactsByNumber = {};

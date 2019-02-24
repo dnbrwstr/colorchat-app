@@ -4,9 +4,9 @@ import Style from "../style";
 import ContactListItem from "./ContactListItem";
 
 const ContactList = class extends Component {
-  static defaultProps = (function() {
-    onSelect: () => {};
-  })();
+  static defaultProps = {
+    onSelect: () => {}
+  };
 
   render() {
     return (
@@ -47,10 +47,6 @@ const ContactList = class extends Component {
   };
 };
 
-const styles = StyleSheet.create({
-  contentContainer: {
-    paddingTop: Style.values.rowHeight
-  }
-});
+const styles = StyleSheet.create({});
 
 export default ContactList;

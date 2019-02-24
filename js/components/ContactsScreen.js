@@ -41,17 +41,14 @@ class ContactsScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <Header
+          title={"Contacts"}
+          backgroundColor={theme.backgroundColor}
+          borderColor={theme.secondaryBorderColor}
+          showBack={true}
+          onBack={() => this.props.dispatch(navigateBack())}
+        />
         {this.renderContent()}
-
-        <View style={styles.headerWrapper}>
-          <Header
-            title={"Contacts"}
-            backgroundColor={theme.backgroundColor}
-            borderColor={theme.secondaryBorderColor}
-            showBack={true}
-            onBack={() => this.props.dispatch(navigateBack())}
-          />
-        </View>
       </View>
     );
   }
@@ -59,10 +56,10 @@ class ContactsScreen extends React.Component {
   renderContent = () => {
     if (this.props.contacts.length) {
       return this.renderContactsList();
-    } else if (this.props.importError) {
-      return this.renderImportPrompt();
-    } else {
+    } else if (this.props.importInProgress) {
       return this.renderLoader();
+    } else {
+      return this.renderImportPrompt();
     }
   };
 

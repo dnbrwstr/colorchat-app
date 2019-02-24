@@ -38,12 +38,10 @@ class SettingsScreen extends React.Component {
   }
 
   maybeUpdateUser = () => {
-    console.log("update user?");
     if (
       this.props.user.name !== this.state.name ||
       this.props.user.avatar !== this.state.avatar
     ) {
-      console.log("update user!", this.state);
       this.props.dispatch(
         updateUserInfo({ name: this.state.name, avatar: this.state.avatar })
       );

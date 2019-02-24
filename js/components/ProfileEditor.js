@@ -10,10 +10,6 @@ const avatarDescription = `Touch and drag to change\nyour avatar color`;
 const nameDescription = `Your friends will see this in push notifications when you message them`;
 
 class ProfileEditor extends Component {
-  state = {
-    showNameError: false
-  };
-
   render() {
     return (
       <View style={this.props.style}>
@@ -57,7 +53,7 @@ class ProfileEditor extends Component {
           <BaseText style={styles.fieldLabel}>Name</BaseText>
         </View>
 
-        {this.state.showNameError && (
+        {this.props.showNameError && (
           <ErrorMessage
             message="Please enter a name"
             onRemove={this.handleDismissNameError}
@@ -92,16 +88,11 @@ class ProfileEditor extends Component {
   };
 
   handleNameChange = newName => {
-    console.log("name change", newName);
     this.props.onChange &&
       this.props.onChange({
         avatar: this.props.value.avatar,
         name: newName
       });
-  };
-
-  handleDismissNameError = () => {
-    this.setState({ showNameError: false });
   };
 }
 

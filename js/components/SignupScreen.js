@@ -6,11 +6,13 @@ import withStyles from "../lib/withStyles";
 
 const SignupScreen = props => {
   const { theme, styles } = props;
+
   return (
     <KeyboardAvoidingView style={styles.wrapper}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
+        scrollEnabled={props.scrollEnabled}
       >
         <View style={styles.content}>
           <Header
@@ -29,6 +31,8 @@ const SignupScreen = props => {
     </KeyboardAvoidingView>
   );
 };
+
+SignupScreen.defaultProps = { scrollEnabled: true };
 
 let getStyles = theme => ({
   wrapper: {

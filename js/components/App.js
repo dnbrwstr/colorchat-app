@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Animated, Text, StyleSheet } from "react-native";
+import { View, Animated, StyleSheet, Platform } from "react-native";
 import { connect } from "react-redux";
 import { GatewayDest } from "react-gateway";
 import Router from "./Router";
@@ -32,19 +32,21 @@ class App extends React.Component {
       <Animated.View
         style={[styles.container, { opacity: this.state.animatedOpacity }]}
       >
-        <OfflineMessage />
-        <Router />
-        <View style={styles.alerts}>
-          {this.props.alerts.map(a => {
-            return <Alert key={a.id} {...a} />;
-          })}
-        </View>
+        <View style={styles.containerInner}>
+          <OfflineMessage />
+          <Router />
+          <View style={styles.alerts}>
+            {this.props.alerts.map(a => {
+              return <Alert key={a.id} {...a} />;
+            })}
+          </View>
 
-        <GatewayDest
-          name="top"
-          component={FunctionView}
-          style={{ position: "absolute", top: 0, left: 0 }}
-        />
+          <GatewayDest
+            name="top"
+            component={FunctionView}
+            style={{ position: "absolute", top: 0, left: 0 }}
+          />
+        </View>
       </Animated.View>
     );
   }
@@ -52,9 +54,17 @@ class App extends React.Component {
 
 const getStyles = theme => ({
   container: {
+    flex: 1,
+    backgroundColor: theme.backgroundColor,
+    ...Platform.select({
+      ios: { paddingTop: 20 },
+      android: {}
+    })
+  },
+  containerInner: {
+    flex: 1,
     borderTopColor: theme.secondaryBorderColor,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    flex: 1
+    borderTopWidth: StyleSheet.hairlineWidth
   },
   alerts: {
     position: "absolute",

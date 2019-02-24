@@ -1,27 +1,33 @@
 import React, { Component } from "react";
+import { View } from "react-native";
+import BaseText from "./BaseText";
+import SquareButton from "./SquareButton";
+import PressableView from "./PressableView";
 import Style from "../style";
 import withStyles from "../lib/withStyles";
-
+import config from "../config";
 class ContactsImportPrompt extends Component {
   render() {
-    const { style } = this.props;
+    const { styles } = this.props;
     return (
-      <View style={style.container}>
-        <BaseText style={style.messageText}>
-          {appName} uses your{BR}contacts to determine{BR}who you can chat with
+      <View style={styles.container}>
+        <BaseText style={styles.messageText}>
+          {config.appName} uses your{"\n"}contacts to determine{"\n"}who you can
+          chat with
         </BaseText>
 
         <SquareButton
           label="Import Contacts"
-          onPress={() => this.importContacts(true)}
-          style={style.button}
+          onPress={this.props.onPressImport}
+          style={styles.button}
+          textStyle={styles.buttonText}
         />
 
         <PressableView
-          style={style.infoLink}
-          onPress={this.props.onPressImportInfo}
+          style={styles.infoLink}
+          onPress={this.props.onRequestInfo}
         >
-          <BaseText style={style.infoLinkText}>
+          <BaseText style={styles.infoLinkText}>
             More about how Color Chat{"\n"}uses your contacts
           </BaseText>
         </PressableView>
@@ -32,10 +38,8 @@ class ContactsImportPrompt extends Component {
 
 const getStyles = theme => ({
   container: {
-    ...Style.mixins.contentWrapperBase,
     flex: 1,
     justifyContent: "center",
-    paddingTop: 100,
     backgroundColor: theme.backgroundColor
   },
   messageText: {
@@ -43,13 +47,15 @@ const getStyles = theme => ({
     textAlign: "center"
   },
   button: {
-    backgroundColor: "white",
+    backgroundColor: theme.primaryButtonColor,
     borderWidth: 0
   },
   buttonActive: {
     backgroundColor: theme.highlightColor
   },
-  buttonText: {},
+  buttonText: {
+    color: theme.primaryButtonTextColor
+  },
   infoLink: {
     marginTop: 20
   },

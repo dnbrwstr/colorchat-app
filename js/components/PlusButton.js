@@ -24,8 +24,8 @@ const getStyles = theme => ({
     padding: 12
   },
   plusIcon: {
-    width: 18,
-    height: 18
+    width: 16,
+    height: 16
   }
 });
 

@@ -20,7 +20,6 @@ class ErrorMessage extends React.Component {
       layout: { x, y, width, height }
     }
   }) => {
-    console.log(height);
     Animated.parallel([
       Animated.timing(this.state.height, {
         duration: 150,
@@ -88,8 +87,6 @@ class ErrorMessage extends React.Component {
   };
 }
 
-let textPadding = 10;
-
 const getStyles = theme => ({
   message: {
     flex: 0,
@@ -101,7 +98,9 @@ const getStyles = theme => ({
     opacity: 0.7
   },
   text: {
-    padding: textPadding,
+    flex: 0,
+    height: 40,
+    padding: 10,
     paddingHorizontal: Style.values.outerPadding,
     color: theme.error.textColor,
     backgroundColor: theme.error.backgroundColor

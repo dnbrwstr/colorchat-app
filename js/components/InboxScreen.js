@@ -9,7 +9,6 @@ import {
   triggerPermissionsDialog,
   updateUnreadCount
 } from "../actions/NotificationActions";
-import Style from "../style";
 import ConversationList from "./ConversationList";
 import BaseText from "./BaseText";
 import PlusButton from "./PlusButton";
@@ -85,20 +84,19 @@ class InboxScreen extends React.Component {
   };
 }
 
-let { contentWrapperBase } = Style.mixins;
-
 const addStyle = withStyles(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.backgroundColor
   },
   emptyMessageWrapper: {
-    ...contentWrapperBase,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center"
   },
   emptyMessage: {
-    textAlign: "center"
+    textAlign: "center",
+    color: theme.secondaryTextColor
   }
 }));
 

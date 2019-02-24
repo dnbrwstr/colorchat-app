@@ -1,5 +1,10 @@
 import Color from "color";
-import { PixelRatio } from "react-native";
+import { PixelRatio, Dimensions } from "react-native";
+
+const { width: wWidth, height: wHeight } = Dimensions.get("window");
+const aspect = wWidth / wHeight;
+
+console.log(wWidth);
 
 let darkGray = "#333";
 
@@ -23,7 +28,7 @@ let values = {
   veryLightGray: "#FAFAFA",
   outerPadding: 15,
   rowHeight: 64,
-  buttonHeight: 60,
+  buttonHeight: wWidth < 400 ? 54 : 64,
   avatarSize: 40
 };
 

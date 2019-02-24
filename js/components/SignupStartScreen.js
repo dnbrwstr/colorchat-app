@@ -108,40 +108,37 @@ let { inputBase } = Style.mixins;
 let getStyles = theme => ({
   welcomeMessage: {
     marginTop: 0,
-    marginBottom: 24
+    marginBottom: 20
   },
   numberInputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "stretch",
-    marginBottom: 10
+    marginBottom: 8,
+    height: Style.values.rowHeight
   },
   countryCodeWrapper: {
     borderColor: theme.primaryBorderColor,
     borderWidth: StyleSheet.hairlineWidth,
-    paddingTop: inputBase.paddingTop + 6,
-    paddingBottom: inputBase.paddingBottom + 8,
-    paddingHorizontal: 20
+    width: Style.values.rowHeight,
+    alignItems: "center",
+    justifyContent: "center"
   },
   countryCodeWrapperActive: {
     backgroundColor: theme.highlightColor
   },
   countryCode: {
     textAlign: "center",
-    fontSize: Style.values.largeFontSize
+    paddingVertical: 10
   },
   baseNumberInputWrapper: {
     borderColor: theme.primaryBorderColor,
     borderWidth: StyleSheet.hairlineWidth,
     borderLeftWidth: 0,
     alignSelf: "stretch",
-    flex: 1,
-    paddingLeft: 16
+    flex: 1
   },
-  baseNumberInput: {
-    paddingTop: inputBase.paddingTop + 6,
-    fontSize: Style.values.largeFontSize
-  },
+  baseNumberInput: {},
   usageInfoLink: {
     marginTop: 0
   },

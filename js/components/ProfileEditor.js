@@ -122,8 +122,7 @@ var getStyles = theme => ({
   nameInputWrapper: {},
   nameInput: {
     borderColor: theme.primaryBorderColor,
-    borderWidth: StyleSheet.hairlineWidth,
-    paddingLeft: 12
+    borderWidth: StyleSheet.hairlineWidth
   }
 });
 

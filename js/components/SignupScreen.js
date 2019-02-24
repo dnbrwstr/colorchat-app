@@ -1,5 +1,6 @@
 import React from "react";
 import { View, ScrollView, KeyboardAvoidingView } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import Style from "../style";
 import Header from "./Header";
 import withStyles from "../lib/withStyles";
@@ -8,8 +9,8 @@ const SignupScreen = props => {
   const { theme, styles } = props;
 
   return (
-    <KeyboardAvoidingView style={styles.wrapper}>
-      <ScrollView
+    <View style={styles.wrapper}>
+      <KeyboardAwareScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
         scrollEnabled={props.scrollEnabled}
@@ -27,8 +28,8 @@ const SignupScreen = props => {
 
           <View>{props.renderNextButton()}</View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
+    </View>
   );
 };
 

@@ -67,8 +67,7 @@ class ConfirmCodeScreen extends React.Component {
 const getStyles = theme => ({
   inputWrapper: {
     borderColor: theme.primaryBorderColor,
-    borderWidth: StyleSheet.hairlineWidth,
-    paddingLeft: 12
+    borderWidth: StyleSheet.hairlineWidth
   }
 });
 

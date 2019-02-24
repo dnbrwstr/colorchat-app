@@ -19,7 +19,8 @@ class BaseTextInput extends Component {
 const getStyles = theme => ({
   input: {
     ...Style.mixins.inputBase,
-    color: theme.primaryTextColor
+    color: theme.primaryTextColor,
+    height: Style.values.buttonHeight
   }
 });
 

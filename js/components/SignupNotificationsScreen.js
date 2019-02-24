@@ -20,7 +20,7 @@ class SignupNotificationScreen extends React.Component {
   render() {
     return (
       <SignupScreen
-        title={"Profile"}
+        title={"Profile Setup"}
         renderNextButton={this.renderNextButton}
         scrollEnabled={!this.state.scrollLocked}
       >

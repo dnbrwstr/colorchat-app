@@ -14,7 +14,10 @@ class NumberInfoScreen extends React.Component {
 
   render() {
     return (
-      <TextScreen title="Number usage" onNavigateBack={this.handleNavigateBack}>
+      <TextScreen
+        title="Your Phone Number"
+        onNavigateBack={this.handleNavigateBack}
+      >
         <BaseText>
           Color Chat uses your phone number to authenticate you and to connect
           you with friends already on Color Chat.{"\n\n"}
@@ -25,9 +28,9 @@ class NumberInfoScreen extends React.Component {
           {"\n\n"}
         </BaseText>
         <BaseText>
-          Color Chat does not, and will never, share your phone number with third
-          parties for any reason except to comply with the law or protect the
-          rights, property, or safety of you or others.{"\n\n"}
+          Color Chat does not, and will never, share your phone number with
+          third parties for any reason except to comply with the law or protect
+          the rights, property, or safety of you or others.{"\n\n"}
         </BaseText>
         <BaseText>
           If you have any questions, please contact{" "}

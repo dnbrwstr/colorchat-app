@@ -13,7 +13,6 @@ export default {
   },
 
   navigate(routeName, params) {
-    // console.log('navigating', routeName, params);
     navigator.dispatch(
       NavigationActions.navigate({
         routeName,

@@ -1,10 +1,8 @@
 import React from "react";
 import createReactClass from "create-react-class";
-import { View, Text, FlatList, Dimensions, ScrollView } from "react-native";
-import InvertibleScrollView from "react-native-invertible-scroll-view";
+import { FlatList, Dimensions, ScrollView } from "react-native";
 import Style from "../style";
 import Message from "./Message";
-import measure from "../lib/measure";
 import TimerMixin from "./mixins/TimerMixin";
 
 let BEGINNING_REACHED_OFFSET = 1000;

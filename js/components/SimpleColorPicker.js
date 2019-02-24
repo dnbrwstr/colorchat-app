@@ -4,7 +4,6 @@ import { Text, View, Animated } from "react-native";
 import Color from "color";
 import Style from "../style";
 import BaseText from "./BaseText";
-import measure from "../lib/measure";
 
 let SATURATION = 75;
 
@@ -90,10 +89,10 @@ class SimpleColorPicker extends React.Component {
       size: e.nativeEvent.layout
     });
   };
-  
+
   onTouchStart = e => {
     this.props.onInteractionStart();
-  }
+  };
 
   onTouchMove = e => {
     if (!this.state.size) return;

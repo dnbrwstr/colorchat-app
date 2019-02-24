@@ -2,7 +2,6 @@ import React from "react";
 import createReactClass from "create-react-class";
 import { View, LayoutAnimation, Text, Animated } from "react-native";
 import Color from "color";
-import moment from "moment";
 import Style from "../style";
 import measure from "../lib/measure";
 import EditableMessage from "./EditableMessage";

@@ -1,10 +1,16 @@
 import { Platform } from "react-native";
-import DeviceInfo from 'react-native-device-info';
+import DeviceInfo from "react-native-device-info";
 import { putAuthenticatedJSON } from "../lib/RequestHelpers";
 import config from "../config";
 import send from "../lib/send";
 
 let { serverRoot } = config;
+
+export const updateUnreadCount = () => {
+  return {
+    type: "updateUnreadCount"
+  };
+};
 
 export let triggerPermissionsDialog = () => {
   return {

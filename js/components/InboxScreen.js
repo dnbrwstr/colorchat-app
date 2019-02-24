@@ -5,20 +5,23 @@ import { inboxScreenSelector } from "../lib/Selectors";
 import { navigateToConversation } from "../actions/NavigationActions";
 import { deleteConversation } from "../actions/ConversationActions";
 import { navigateTo } from "../actions/NavigationActions";
-import { triggerPermissionsDialog } from "../actions/NotificationActions";
+import {
+  triggerPermissionsDialog,
+  updateUnreadCount
+} from "../actions/NotificationActions";
 import Style from "../style";
 import ConversationList from "./ConversationList";
 import BaseText from "./BaseText";
 import PlusButton from "./PlusButton";
 import Header from "./Header";
 import withStyles from "../lib/withStyles";
-import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 const BR = "\n";
 
 class InboxScreen extends React.Component {
   componentDidMount() {
     this.props.dispatch(triggerPermissionsDialog());
+    this.props.dispatch(updateUnreadCount());
   }
 
   render() {
@@ -59,9 +62,10 @@ class InboxScreen extends React.Component {
   };
 
   renderEmptyMessage = () => {
+    const { styles } = this.props;
     return (
-      <View style={style.emptyMessageWrapper}>
-        <BaseText style={style.emptyMessage}>
+      <View style={styles.emptyMessageWrapper}>
+        <BaseText style={styles.emptyMessage}>
           Use the plus button in the{BR}lower right to start a conversation
         </BaseText>
       </View>

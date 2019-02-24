@@ -3,6 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import saveStateMiddleware from "./saveStateMiddleware";
 import navigationMiddleware from "./navigationMiddleware";
+import notificationMiddleware from "./notificationMiddleware";
 import * as reducers from "../reducers";
 import config from "../config";
 
@@ -11,7 +12,8 @@ let { rehydrate, rehydrateBlacklist } = config;
 let createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
   saveStateMiddleware,
-  navigationMiddleware
+  navigationMiddleware,
+  notificationMiddleware
 )(createStore);
 
 export default (finalCreateStore = async () => {

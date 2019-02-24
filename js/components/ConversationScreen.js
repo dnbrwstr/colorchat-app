@@ -3,7 +3,6 @@ import createReactClass from "create-react-class";
 import { View, InteractionManager, Dimensions, StatusBar } from "react-native";
 import ScrollBridge from "../lib/ScrollBridge";
 import { connect } from "react-redux";
-import Style from "../style";
 import Header from "./Header";
 import MessageList from "./MessageList";
 import ComposeBar from "./ComposeBar";
@@ -15,6 +14,7 @@ import { updateConversationUi } from "../actions/AppActions";
 import TimerMixin from "./mixins/TimerMixin";
 import { withScreenFocusStateProvider } from "./ScreenFocusState";
 import withStyles from "../lib/withStyles";
+import { updateUnreadCount } from "../actions/NotificationActions";
 
 let {
   resendMessage,
@@ -41,6 +41,10 @@ let ConversationScreen = createReactClass({
     };
   },
 
+  componentDidMount: function() {
+    this.props.dispatch(updateUnreadCount());
+  },
+
   componentWillUnmount: function() {
     this.clearAllTimers();
   },
@@ -57,17 +61,6 @@ let ConversationScreen = createReactClass({
       },
       1000
     );
-  },
-
-  shouldHideHeader: function() {
-    let wH = Dimensions.get("window").height;
-    let messages = this.props.messages;
-
-    for (var h = 0, i = 0; h < wH + 100 && i < messages.length; ++i) {
-      h += messages[i].height;
-    }
-
-    return h >= wH + 100;
   },
 
   render: function() {

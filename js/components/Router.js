@@ -31,17 +31,7 @@ class Router extends Component {
       StatusBar.setBarStyle(barStyle);
     }
     return (
-      <AppNavigator
-        ref={ref => NavigationService.setTopLevelNavigator(ref)}
-        onNavigationStateChange={(prevState, currentState) => {
-          const currentScreen = getActiveRouteName(currentState);
-          const prevScreen = getActiveRouteName(prevState);
-          if (prevScreen !== currentScreen) {
-            const route = getActiveRoute(currentState);
-            NavigationService.setCurrentRoute(currentScreen);
-          }
-        }}
-      />
+      <AppNavigator ref={ref => NavigationService.setTopLevelNavigator(ref)} />
     );
   }
 }

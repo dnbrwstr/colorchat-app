@@ -14,7 +14,7 @@ export let receiveMessage = message => async (dispatch, getState) => {
   await DatabaseUtils.storeMessage(message);
 
   let inCurrentConversation =
-    NavigationService.getCurrentRoute() === "conversation" &&
+    NavigationService.getCurrentRoute().routeName === "conversation" &&
     ui.conversation.contactId === message.senderId;
 
   dispatch({

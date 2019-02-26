@@ -65,9 +65,21 @@ const DatabaseManager = {
     });
   },
 
-  async getUnreadCount() {
+  async markConversationRead(contactId) {
+    const realm = await this.getRealm();
     const allMessages = await this.getChatMessages();
-    return allMessages.filtered('state="fresh"').length;
+    const unreadMessages = allMessages.filtered(
+      `senderId=${contactId} AND state="fresh"`
+    );
+    return Promise.all(
+      unreadMessages.map(m => realm.write(() => (m.state = "complete")))
+    );
+  },
+
+  async getUnreadCount(userId) {
+    const allMessages = await this.getChatMessages();
+    return allMessages.filtered(`recipientId=${userId} AND state="fresh"`)
+      .length;
   },
 
   async purgeMessages() {

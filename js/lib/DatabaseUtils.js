@@ -43,8 +43,12 @@ export let storeMessage = _message => {
   return DatabaseManager.storeMessage(message);
 };
 
-export let getUnreadCount = () => {
-  return DatabaseManager.getUnreadCount();
+export let getUnreadCount = userId => {
+  return DatabaseManager.getUnreadCount(userId);
+};
+
+export const markConversationRead = contactId => {
+  return DatabaseManager.markConversationRead(contactId);
 };
 
 export let purgeMessages = () => {

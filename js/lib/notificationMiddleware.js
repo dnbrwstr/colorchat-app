@@ -5,14 +5,22 @@ import { getUnreadCount } from "../lib/DatabaseUtils";
 import { receiveMessage } from "../actions/MessageActions";
 import { updateUserInfo } from "../actions/AppActions";
 import { navigateToConversation } from "../actions/NavigationActions";
+import NavigationService from "./NavigationService";
+import DatabaseManager from "./DatabaseManager";
+
+const CHANNEL_ID = "colorchat-channel";
 
 export default (notificationMiddleware = store => {
+  const channel = new firebase.notifications.Android.Channel(
+    CHANNEL_ID,
+    "Color Chat Channel",
+    firebase.notifications.Android.Importance.Max
+  ).setDescription("Notification channel for Color Chat");
+  firebase.notifications().android.createChannel(channel);
+
   const init = async () => {
     firebase.messaging().onTokenRefresh(handleDeviceRegistered);
     firebase.messaging().onMessage(handleNotificationReceived);
-    firebase
-      .notifications()
-      .onNotificationDisplayed(handleNotificationReceived);
     firebase.notifications().onNotification(handleNotificationReceived);
     firebase.notifications().onNotificationOpened(handleNotificationOpened);
     updateUnreadCount();
@@ -31,8 +39,14 @@ export default (notificationMiddleware = store => {
     }
   };
 
+  const markConversationRead = async contactId => {
+    await DatabaseManager.markConversationRead(contactId);
+    return updateUnreadCount();
+  };
+
   const updateUnreadCount = async () => {
-    let count = await getUnreadCount();
+    const userId = store.getState().user.id;
+    const count = await getUnreadCount(userId);
     store.dispatch(updateUserInfo({ unreadCount: count }));
     firebase.notifications().setBadge(count);
   };
@@ -53,20 +67,31 @@ export default (notificationMiddleware = store => {
     store.dispatch(saveDeviceToken(token));
   };
 
-  const handleNotificationReceived = notification => {
+  const handleNotificationReceived = async notification => {
     if (notification.data.type !== "message") return;
 
     const messageData = JSON.parse(notification.data.message);
 
     store.dispatch(receiveMessage(messageData));
 
-    store.dispatch(
-      presentInternalAlert({
-        type: "message",
-        message: notification.body,
-        senderId: messageData.senderId
-      })
-    );
+    const state = store.getState();
+    const currentRoute = NavigationService.getCurrentRoute();
+
+    // Present notification only if we're not already in the conversation with that contact
+    if (
+      currentRoute.routeName !== "conversation" ||
+      state.ui.conversation.contactId != messageData.senderId
+    ) {
+      const localNotification = new firebase.notifications.Notification()
+        .setTitle(notification._title)
+        .setBody(notification._body)
+        .setData(notification._data)
+        .setSound("default");
+
+      localNotification.android.setSmallIcon("ic_notification");
+      localNotification.android.setChannelId(CHANNEL_ID);
+      firebase.notifications().displayNotification(localNotification);
+    }
   };
 
   const handleNotificationOpened = function(notificationOpen) {
@@ -82,14 +107,12 @@ export default (notificationMiddleware = store => {
 
     if (action.type === "init") {
       init();
-    }
-
-    if (action.type === "triggerPermissionsDialog") {
+    } else if (action.type === "triggerPermissionsDialog") {
       requestPermissions();
-    }
-
-    if (action.type === "updateUnreadCount") {
+    } else if (action.type === "updateUnreadCount") {
       updateUnreadCount();
+    } else if (action.type === "markConversationRead") {
+      markConversationRead(action.contactId);
     }
   };
 });

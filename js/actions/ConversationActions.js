@@ -9,13 +9,20 @@ export let deleteConversation = conversation => {
   };
 };
 
+export const markConversationRead = contactId => {
+  return {
+    type: "markConversationRead",
+    contactId
+  };
+};
+
 let composeTimeout;
 
 export let receiveComposeEvent = data => (dispatch, getState) => {
   let { contactId } = getState().ui.conversation;
 
   if (
-    NavigationService.getCurrentRoute() !== "conversation" ||
+    NavigationService.getCurrentRoute().routeName !== "conversation" ||
     contactId !== data.senderId
   ) {
     return;
@@ -26,12 +33,9 @@ export let receiveComposeEvent = data => (dispatch, getState) => {
     ...data
   });
 
-  console.log("receive compose event");
-
   clearTimeout(composeTimeout);
 
   composeTimeout = setTimeout(() => {
-    console.log("timeout compose event");
     dispatch({
       type: "composeEventExpire",
       ...data

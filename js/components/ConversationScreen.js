@@ -15,6 +15,7 @@ import TimerMixin from "./mixins/TimerMixin";
 import { withScreenFocusStateProvider } from "./ScreenFocusState";
 import withStyles from "../lib/withStyles";
 import { updateUnreadCount } from "../actions/NotificationActions";
+import { markConversationRead } from "../actions/ConversationActions";
 import PlaceholderMessage from "./PlaceholderMessage";
 import Style from "../style";
 
@@ -44,6 +45,7 @@ let ConversationScreen = createReactClass({
   },
 
   componentDidMount: function() {
+    this.props.dispatch(markConversationRead(this.props.contact.id));
     this.props.dispatch(updateUnreadCount());
   },
 

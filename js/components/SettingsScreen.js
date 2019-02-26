@@ -15,6 +15,7 @@ import {
 } from "../actions/AppActions";
 import withStyles from "../lib/withStyles";
 import ProfileEditor from "./ProfileEditor";
+import { ifIphoneX } from "react-native-iphone-x-helper";
 
 class SettingsScreen extends React.Component {
   state = {
@@ -233,6 +234,9 @@ const getStyles = theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.backgroundColor
+  },
+  content: {
+    ...ifIphoneX({ paddingBottom: 30 })
   },
   formContainer: {
     padding: Style.values.outerPadding

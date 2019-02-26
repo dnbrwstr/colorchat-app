@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview"
 import Style from "../style";
 import Header from "./Header";
 import withStyles from "../lib/withStyles";
+import { ifIphoneX } from "react-native-iphone-x-helper";
 
 const SignupScreen = props => {
   const { theme, styles } = props;
@@ -41,7 +42,10 @@ let getStyles = theme => ({
     backgroundColor: theme.backgroundColor
   },
   scroll: { flex: 1 },
-  scrollContent: { flexGrow: 1 },
+  scrollContent: {
+    flexGrow: 1,
+    ...ifIphoneX({ paddingBottom: 30 })
+  },
   content: {
     flex: 1
   },

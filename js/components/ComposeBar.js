@@ -9,8 +9,12 @@ import {
 import Style from "../style";
 import PressableView from "./PressableView";
 import withStyles from "../lib/withStyles";
+import { isIphoneX, ifIphoneX } from "react-native-iphone-x-helper";
 
-const HEIGHT = Style.values.rowHeight + (1 - StyleSheet.hairlineWidth);
+const HEIGHT =
+  Style.values.rowHeight +
+  (1 - StyleSheet.hairlineWidth) +
+  (isIphoneX() ? 45 : 0);
 
 class ComposeBar extends React.Component {
   state = {
@@ -71,12 +75,13 @@ const getStyles = theme => ({
     height: HEIGHT,
     flexDirection: "row",
     overflow: "hidden",
-    borderTopColor: theme.borderColor,
+    borderTopColor: theme.secondaryBorderColor,
     backgroundColor: theme.backgroundColor
   },
   button: {
     flex: 1,
     justifyContent: "center"
+    // ...ifIphoneX({ paddingBottom: 30 })
   },
   buttonText: {
     ...Style.mixins.textBase,
@@ -84,7 +89,7 @@ const getStyles = theme => ({
     textAlign: "center"
   },
   buttonFirst: {
-    borderRightColor: theme.borderColor,
+    borderRightColor: theme.secondaryBorderColor,
     borderRightWidth: StyleSheet.hairlineWidth
   },
   buttonActive: {

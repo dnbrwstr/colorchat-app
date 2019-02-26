@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import { GatewayDest } from "react-gateway";
 import Router from "./Router";
 import Alert from "./Alert";
-import Style from "../style";
 import OfflineMessage from "./OfflineMessage";
 import FunctionView from "./FunctionView";
 import withStyles from "../lib/withStyles";
+import { getStatusBarHeight, ifIphoneX } from "react-native-iphone-x-helper";
 
 class App extends React.Component {
   static defaultProps = {
@@ -57,14 +57,19 @@ const getStyles = theme => ({
     flex: 1,
     backgroundColor: theme.backgroundColor,
     ...Platform.select({
-      ios: { paddingTop: 20 },
+      ios: { paddingTop: getStatusBarHeight() },
       android: {}
     })
   },
   containerInner: {
     flex: 1,
-    borderTopColor: theme.secondaryBorderColor,
-    borderTopWidth: StyleSheet.hairlineWidth
+    ...ifIphoneX(
+      {},
+      {
+        borderTopWidth: StyleSheet.hairlineWidth,
+        borderTopColor: theme.secondaryBorderColor
+      }
+    )
   },
   alerts: {
     position: "absolute",

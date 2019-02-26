@@ -83,22 +83,19 @@ let MessageList = createReactClass({
 
   render: function() {
     return (
-      <View style={[style.outerContainer, this.props.style]}>
-        <FlatList
-          ref="list"
-          style={style.list}
-          data={this.props.messages}
-          keyExtractor={getMessageKey}
-          inverted={true}
-          initialNumToRender={16}
-          maxToRenderPerBatch={16}
-          pageSize={1}
-          renderItem={this.renderMessage}
-          renderScrollComponent={this.renderScrollComponent}
-          onEndReached={this.props.onEndReached}
-        />
-        {this.props.children}
-      </View>
+      <FlatList
+        ref="list"
+        style={style.list}
+        data={this.props.messages}
+        keyExtractor={getMessageKey}
+        inverted={true}
+        initialNumToRender={16}
+        maxToRenderPerBatch={16}
+        pageSize={1}
+        renderItem={this.renderMessage}
+        renderScrollComponent={this.renderScrollComponent}
+        onEndReached={this.props.onEndReached}
+      />
     );
   },
 

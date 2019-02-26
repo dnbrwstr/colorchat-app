@@ -69,7 +69,6 @@ let ConversationScreen = createReactClass({
 
   render: function() {
     const { contact, dispatch, styles, theme } = this.props;
-
     return (
       <View style={styles.container}>
         <Header
@@ -80,21 +79,22 @@ let ConversationScreen = createReactClass({
           borderColor={theme.secondaryBorderColor}
           onBack={() => dispatch(navigateBack())}
         />
-        <MessageList
-          scrollBridge={this.state.scrollBridge}
-          onPresentMessage={this.onPresentMessage}
-          onRetryMessageSend={this.onRetryMessageSend}
-          onToggleMessageExpansion={this.onToggleMessageExpansion}
-          scrollLocked={this.props.composing}
-          messages={this.props.messages}
-          user={this.props.user}
-          onBeginningReached={this.handleScrollToBottom}
-          onEndReached={this.loadNextPage}
-        >
+        <View style={[styles.messageListContainer, this.props.style]}>
+          <MessageList
+            scrollBridge={this.state.scrollBridge}
+            onPresentMessage={this.onPresentMessage}
+            onRetryMessageSend={this.onRetryMessageSend}
+            onToggleMessageExpansion={this.onToggleMessageExpansion}
+            scrollLocked={this.props.composing}
+            messages={this.props.messages}
+            user={this.props.user}
+            onBeginningReached={this.handleScrollToBottom}
+            onEndReached={this.loadNextPage}
+          />
           {this.props.partnerIsComposing && (
             <PlaceholderMessage style={styles.placeholderMessage} />
           )}
-        </MessageList>
+        </View>
 
         <PlusButton
           style={styles.newMessageButton}
@@ -201,6 +201,9 @@ const getStyles = theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.backgroundColor
+  },
+  messageListContainer: {
+    flex: 1
   },
   newMessageButton: {
     backgroundColor: theme.primaryButtonColor

@@ -1,5 +1,5 @@
 import React from "react";
-import { Animated, View, ViewPropTypes } from "react-native";
+import { Animated, View, ViewPropTypes, Text } from "react-native";
 import createReactClass from "create-react-class";
 import PropTypes from "prop-types";
 import Style from "../style";
@@ -17,7 +17,7 @@ let SquareButton = createReactClass({
     onPress: PropTypes.func,
     style: Animated.View.propTypes.style,
     activeStyle: ViewPropTypes.style,
-    textStyle: ViewPropTypes.style,
+    textStyle: Text.propTypes.style,
     activeTextStyle: ViewPropTypes.style
   },
 

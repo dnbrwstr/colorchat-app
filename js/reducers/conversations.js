@@ -77,7 +77,8 @@ let handlers = {
         recipientId: action.message.senderId,
         recipientName: action.message.senderName,
         lastMessage: action.message,
-        unread: !action.inCurrentConversation
+        unread: !action.inCurrentConversation,
+        partnerIsComposing: false
       },
       state
     );

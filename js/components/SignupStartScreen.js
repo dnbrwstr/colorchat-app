@@ -115,12 +115,12 @@ let getStyles = theme => ({
     justifyContent: "space-between",
     alignItems: "stretch",
     marginBottom: 8,
-    height: Style.values.rowHeight
+    height: Style.values.buttonHeight
   },
   countryCodeWrapper: {
     borderColor: theme.primaryBorderColor,
     borderWidth: StyleSheet.hairlineWidth,
-    width: Style.values.rowHeight,
+    width: Style.values.buttonHeight,
     alignItems: "center",
     justifyContent: "center"
   },

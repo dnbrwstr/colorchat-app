@@ -23,13 +23,11 @@ function getActiveRouteName(navigationState) {
 class Router extends Component {
   render() {
     const { theme } = this.props;
-    if (Platform.OS === "android") {
-      const backgroundColor = theme.backgroundColor;
-      const brightness = Color(backgroundColor).luminosity();
-      const barStyle = brightness > 0.5 ? "dark-content" : "light-content";
-      StatusBar.setBackgroundColor(backgroundColor);
-      StatusBar.setBarStyle(barStyle);
-    }
+    const backgroundColor = theme.backgroundColor;
+    const brightness = Color(backgroundColor).luminosity();
+    const barStyle = brightness > 0.5 ? "dark-content" : "light-content";
+    StatusBar.setBackgroundColor(backgroundColor, true);
+    StatusBar.setBarStyle(barStyle, true);
     return (
       <AppNavigator ref={ref => NavigationService.setTopLevelNavigator(ref)} />
     );

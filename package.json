@@ -14,9 +14,9 @@
     "moment": "https://github.com/tqc/moment#no-dynamic-import",
     "prop-types": "^15.6.2",
     "ramda": "^0.18.0",
-    "react": "16.6.1",
+    "react": "16.6.3",
     "react-gateway": "^3.0.0",
-    "react-native": "0.57.8",
+    "react-native": "^0.58.6",
     "react-native-contacts": "^3.1.2",
     "react-native-deprecated-custom-components": "^0.1.1",
     "react-native-device-info": "^0.26.2",
@@ -31,7 +31,7 @@
     "react-native-svg": "^9.2.4",
     "react-navigation": "^3.2.1",
     "react-redux": "^5.0.4",
-    "realm": "^2.13.0",
+    "realm": "^2.22.0",
     "redux": "^3.0.5",
     "redux-thunk": "^1.0.3",
     "regenerator-runtime": "^0.10.5",
@@ -45,8 +45,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-external-helpers": "^7.2.0",
-    "metro-react-native-babel-preset": "^0.51.1",
-    "schedule": "0.4.0"
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "24.1.0",
+    "jest": "24.1.0",
+    "metro-react-native-babel-preset": "0.51.1",
+    "react-test-renderer": "16.6.3"
   }
 }

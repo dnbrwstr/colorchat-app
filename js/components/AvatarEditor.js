@@ -38,7 +38,7 @@ class AvatarEditor extends Component {
     this.animation && this.animation.stop();
 
     this.animation = Animated.spring(this.scale, {
-      toValue: 0.97,
+      toValue: 1.03,
       friction: 7,
       tension: 150
     });

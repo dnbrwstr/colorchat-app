@@ -34,7 +34,7 @@ class ProfileEditor extends Component {
             onInteractionStart={this.props.onColorPickerInteractionStart}
             onInteractionEnd={this.props.onColorPickerInteractionEnd}
             onChange={this.handleAvatarChange}
-            scaleAxis="x"
+            scaleAxis="both"
             initialValue={this.props.value.avatar}
           />
         </View>

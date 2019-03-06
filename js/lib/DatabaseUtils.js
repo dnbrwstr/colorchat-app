@@ -5,7 +5,7 @@ import { createSeedMessage } from "../lib/MessageUtils";
 import DatabaseManager from "./DatabaseManager";
 
 let DEFAULT_PAGE_NUMBER = 0;
-let DEFAULT_MESSAGES_PER_PAGE = 50;
+let DEFAULT_MESSAGES_PER_PAGE = 20;
 let ALLOWED_MESSAGE_PROPS = [
   "id",
   "senderId",

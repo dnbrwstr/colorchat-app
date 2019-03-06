@@ -78,3 +78,14 @@ export let shortHumanDate = date => {
 export let formatName = (firstName, lastName) => {
   return [firstName, lastName].filter(n => !!n).join(" ");
 };
+
+const timers = {};
+
+export const stopwatch = {
+  start(label) {
+    timers[label] = new Date();
+  },
+  stop(label) {
+    console.log(label, new Date() - timers[label]);
+  }
+};

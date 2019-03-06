@@ -28,7 +28,8 @@ target 'ColorChat' do
 
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
-
+  pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
+  
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
   target 'ColorChatTests' do

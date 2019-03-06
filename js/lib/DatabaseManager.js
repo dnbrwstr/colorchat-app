@@ -1,107 +1,131 @@
-import Realm from "realm";
+import SQLite from "react-native-sqlite-storage";
+
+SQLite.enablePromise(true);
 
 const ChatMessageSchema = {
-  name: "ChatMessage",
+  name: "ChatMessages",
   primaryKey: "id",
   properties: {
-    id: { type: "string", optional: true },
-    senderId: { type: "int", optional: true },
-    recipientId: { type: "int", optional: true },
-    createdAt: { type: "date", optional: true },
+    id: { type: "string", optional: true, primaryKey: true },
+    senderId: { type: "integer", optional: true },
+    recipientId: { type: "integer", optional: true },
+    createdAt: { type: "string", optional: true },
     color: { type: "string", optional: true },
-    width: { type: "int", optional: true },
-    height: { type: "int", optional: true },
+    width: { type: "integer", optional: true },
+    height: { type: "integer", optional: true },
     state: { type: "string", optional: true }
   }
 };
 
-let _realm;
+let _db;
 
-const toPlainObjects = messageArray => messageArray.map(toPlainObject);
+const getDb = async () => {
+  if (!_db) {
+    _db = await SQLite.openDatabase({
+      name: "colorchat.db"
+    });
 
-const toPlainObject = message => {
-  return Object.keys(ChatMessageSchema.properties).reduce((memo, k) => {
-    if (ChatMessageSchema.properties[k].type === "date") {
-      memo[k] = message[k].toString();
-    } else {
-      memo[k] = message[k];
-    }
-    return memo;
-  }, {});
+    await createMessageTable(_db);
+  }
+  return _db;
+};
+
+const getSqlForProperty = prop => {
+  let sql = `${prop.name} ${prop.type}`;
+  if (prop.primaryKey) sql += " primary key";
+  if (!prop.optional) sql += " not null";
+  return sql;
+};
+
+const createMessageTable = async db => {
+  const { name, properties } = ChatMessageSchema;
+  const props = Object.keys(properties).map(k => ({
+    name: k,
+    ...properties[k]
+  }));
+
+  const query = `create table if not exists ${name}(${props
+    .map(getSqlForProperty)
+    .join(",\n")})`;
+
+  await db.executeSql(query);
+};
+
+const runQuery = async query => {
+  const db = await getDb();
+  const startTime = new Date();
+  const results = await db.executeSql(query);
+  const duration = new Date() - startTime;
+  console.log(`Took ${duration}ms to execute${query}`);
+  return results[0].rows.raw();
+};
+
+const runCountQuery = async query => {
+  const db = await getDb();
+  const result = await db.executeSql(query);
+  return result[0].rows.item(0)["count(*)"];
 };
 
 const DatabaseManager = {
   async loadMessagesForContact(contactId, page, per) {
-    const realm = await this.getRealm();
-    const allMessages = await this.getChatMessages();
-    const messages = allMessages
-      .filtered(`senderId=${contactId} OR recipientId=${contactId}`)
-      .sorted("createdAt", true)
-      .slice(page * per, per);
+    const results = await runQuery(`
+      SELECT * from ChatMessages 
+      WHERE senderId='${contactId}' OR recipientId='${contactId}'
+      ORDER BY datetime(createdAt) DESC
+      LIMIT ${per}
+      OFFSET ${page * per}
+    `);
 
-    realm.write(() => {
-      messages.forEach(m => {
-        if (m.state === "fresh") m.state === "complete";
-      });
-    });
+    const totalCount = await runCountQuery(`
+      SELECT count(*) from ChatMessages 
+      WHERE senderId='${contactId}' OR recipientId='${contactId}'
+    `);
 
     return {
-      messages: toPlainObjects(messages),
-      total: allMessages.length
+      messages: results,
+      total: totalCount
     };
   },
 
   async storeMessage(message) {
-    const realm = await this.getRealm();
-    return realm.write(() => {
-      realm.create(
-        "ChatMessage",
-        {
-          ...message,
-          createdAt: new Date(message.createdAt)
-        },
-        true
-      );
+    const props = ChatMessageSchema.properties;
+
+    const columns = Object.keys(ChatMessageSchema.properties).filter(
+      k => typeof message[k] !== "undefined"
+    );
+
+    const values = columns.map(c => {
+      if (c === "createdAt") return `'${new Date(message[c]).toISOString()}'`;
+      else return `'${message[c]}'`;
     });
+
+    const db = await getDb();
+
+    await db.executeSql(`
+      INSERT OR REPLACE INTO ChatMessages(${columns.join(",")})
+      VALUES(${values.join(",")})
+    `);
+
+    return message;
   },
 
   async markConversationRead(contactId) {
-    const realm = await this.getRealm();
-    const allMessages = await this.getChatMessages();
-    const unreadMessages = allMessages.filtered(
-      `senderId=${contactId} AND state="fresh"`
-    );
-    return Promise.all(
-      unreadMessages.map(m => realm.write(() => (m.state = "complete")))
-    );
+    return runQuery(`
+      UPDATE ChatMessages 
+      SET state='complete' 
+      WHERE (senderId='${contactId}' OR recipientId='${contactId}') AND (state='fresh')
+    `);
   },
 
   async getUnreadCount(userId) {
-    const allMessages = await this.getChatMessages();
-    return allMessages.filtered(`recipientId=${userId} AND state="fresh"`)
-      .length;
+    return await runCountQuery(`
+      SELECT count(*) from ChatMessages 
+      WHERE recipientId=${userId} AND state="fresh"
+    `);
   },
 
   async purgeMessages() {
-    const realm = await this.getRealm();
-    const allMessages = await this.getChatMessages();
-    return realm.write(() => {
-      realm.delete(allMessages);
-    });
-  },
-
-  async getChatMessages() {
-    const realm = await this.getRealm();
-    return realm.objects("ChatMessage");
-  },
-
-  async getRealm() {
-    if (_realm) return Promise.resolve(_realm);
-    else
-      return Realm.open({ schema: [ChatMessageSchema] }).then(openedRealm => {
-        _realm = openedRealm;
-        return _realm;
-      });
+    return db.executeSql(`TRUNCATE TABLE ChatMessages`);
   }
 };
 

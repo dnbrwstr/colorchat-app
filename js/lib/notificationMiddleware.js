@@ -1,6 +1,5 @@
 import firebase from "react-native-firebase";
 import { saveDeviceToken } from "../actions/NotificationActions";
-import { presentInternalAlert } from "../actions/AppActions";
 import { getUnreadCount } from "../lib/DatabaseUtils";
 import { receiveMessage } from "../actions/MessageActions";
 import { updateUserInfo } from "../actions/AppActions";
@@ -24,7 +23,6 @@ export default (notificationMiddleware = store => {
     firebase.notifications().onNotification(handleNotificationReceived);
     firebase.notifications().onNotificationOpened(handleNotificationOpened);
     updateUnreadCount();
-    checkForInitialNotification();
     const hasPermission = await firebase.messaging().hasPermission();
     if (hasPermission) saveToken();
   };
@@ -113,6 +111,8 @@ export default (notificationMiddleware = store => {
       updateUnreadCount();
     } else if (action.type === "markConversationRead") {
       markConversationRead(action.contactId);
+    } else if (action.type === "checkForInitialNotification") {
+      checkForInitialNotification();
     }
   };
 });

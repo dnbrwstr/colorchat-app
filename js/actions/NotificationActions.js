@@ -18,6 +18,12 @@ export let triggerPermissionsDialog = () => {
   };
 };
 
+export const checkForInitialNotification = () => {
+  return {
+    type: "checkForInitialNotification"
+  };
+};
+
 export let saveDeviceToken = deviceToken => async (dispatch, getState) => {
   let url = serverRoot + "/account";
   let authToken = getState().user.token;

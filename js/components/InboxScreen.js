@@ -7,20 +7,48 @@ import { deleteConversation } from "../actions/ConversationActions";
 import { navigateTo } from "../actions/NavigationActions";
 import {
   triggerPermissionsDialog,
-  updateUnreadCount
+  updateUnreadCount,
+  checkForInitialNotification
 } from "../actions/NotificationActions";
 import ConversationList from "./ConversationList";
 import BaseText from "./BaseText";
 import PlusButton from "./PlusButton";
 import Header from "./Header";
 import withStyles from "../lib/withStyles";
+import {
+  withScreenFocusState,
+  withScreenFocusStateProvider
+} from "./ScreenFocusState";
 
 const BR = "\n";
 
 class InboxScreen extends React.Component {
+  state = {
+    initialNotificationChecked: false
+  };
+
   componentDidMount() {
+    this.maybeCheckInitialNotification();
     this.props.dispatch(triggerPermissionsDialog());
     this.props.dispatch(updateUnreadCount());
+  }
+
+  componentDidUpdate() {
+    this.maybeCheckInitialNotification();
+  }
+
+  maybeCheckInitialNotification() {
+    if (
+      this.props.screenFocusState !== "focused" ||
+      this.state.initialNotificationChecked
+    ) {
+      return;
+    }
+
+    this.props.dispatch(checkForInitialNotification());
+    this.setState({
+      initialNotificationChecked: true
+    });
   }
 
   render() {
@@ -100,4 +128,6 @@ const addStyle = withStyles(theme => ({
   }
 }));
 
-export default addStyle(connect(inboxScreenSelector)(InboxScreen));
+export default withScreenFocusStateProvider(
+  withScreenFocusState(addStyle(connect(inboxScreenSelector)(InboxScreen)))
+);

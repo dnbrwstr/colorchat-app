@@ -1,11 +1,7 @@
 import React from "react";
-import {
-  View,
-  Dimensions,
-  Animated
-} from "react-native";
+import { View, Dimensions, Animated } from "react-native";
 import { connect } from "react-redux";
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import Style from "../style";
 import DragHandle from "./DragHandle";
 import { updateWorkingMessage } from "../actions/MessageActions";
@@ -195,7 +191,10 @@ class EditableMessage extends React.Component {
 
     if (axis === "vertical" || axis === "diagonal") {
       nextState.workingHeight = constrain(
-        screenHeight - e.nativeEvent.pageY - Style.values.rowHeight - statusBarHeight,
+        screenHeight -
+          e.nativeEvent.pageY -
+          Style.values.rowHeight -
+          statusBarHeight,
         MIN_MESSAGE_HEIGHT,
         MAX_MESSAGE_HEIGHT
       );

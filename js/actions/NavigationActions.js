@@ -29,8 +29,10 @@ export const navigateToConversation = contactId => async (
   dispatch,
   getState
 ) => {
+  const userId = getState().user.id;
   const { messages, total } = await DatabaseUtils.loadMessages({
     contactId,
+    userId,
     page: 0
   });
 

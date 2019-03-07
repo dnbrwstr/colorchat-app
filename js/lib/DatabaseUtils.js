@@ -32,6 +32,7 @@ export let loadMessages = async _options => {
   );
 
   return DatabaseManager.loadMessagesForContact(
+    options.userId,
     options.contactId,
     options.page,
     options.per

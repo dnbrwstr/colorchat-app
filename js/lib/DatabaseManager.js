@@ -66,11 +66,16 @@ const runCountQuery = async query => {
   return result[0].rows.item(0)["count(*)"];
 };
 
+const getConversationQuery = (userId, contactId) => `
+  WHERE senderId='${contactId}'
+  OR (senderId='${userId}' AND recipientId='${contactId}')
+`;
+
 const DatabaseManager = {
-  async loadMessagesForContact(contactId, page, per) {
+  async loadMessagesForContact(userId, contactId, page, per) {
     const results = await runQuery(`
       SELECT * from ChatMessages 
-      WHERE senderId='${contactId}' OR recipientId='${contactId}'
+      ${getConversationQuery(userId, contactId)}
       ORDER BY datetime(createdAt) DESC
       LIMIT ${per}
       OFFSET ${page * per}
@@ -78,7 +83,7 @@ const DatabaseManager = {
 
     const totalCount = await runCountQuery(`
       SELECT count(*) from ChatMessages 
-      WHERE senderId='${contactId}' OR recipientId='${contactId}'
+      ${getConversationQuery(userId, contactId)}
     `);
 
     return {
@@ -109,11 +114,11 @@ const DatabaseManager = {
     return message;
   },
 
-  async markConversationRead(contactId) {
+  async markConversationRead(userId, contactId) {
     return runQuery(`
       UPDATE ChatMessages 
       SET state='complete' 
-      WHERE (senderId='${contactId}' OR recipientId='${contactId}') AND (state='fresh')
+      ${getConversationQuery(userId, contactId)} AND (state='fresh')
     `);
   },
 

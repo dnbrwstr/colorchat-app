@@ -1,4 +1,5 @@
 import NavigationService from "../lib/NavigationService";
+import DatabaseManager from "../lib/DatabaseManager";
 
 const COMPOSE_EVENT_TIMEOUT = 5000;
 
@@ -9,11 +10,14 @@ export let deleteConversation = conversation => {
   };
 };
 
-export const markConversationRead = contactId => {
-  return {
+export const markConversationRead = contactId => async (dispatch, getState) => {
+  const userId = getState().user.id;
+  await DatabaseManager.markConversationRead(userId, contactId);
+
+  dispatch({
     type: "markConversationRead",
     contactId
-  };
+  });
 };
 
 let composeTimeout;

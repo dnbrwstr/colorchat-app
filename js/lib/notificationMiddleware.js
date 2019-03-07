@@ -37,8 +37,7 @@ export default (notificationMiddleware = store => {
     }
   };
 
-  const markConversationRead = async contactId => {
-    await DatabaseManager.markConversationRead(contactId);
+  const markConversationRead = () => {
     return updateUnreadCount();
   };
 
@@ -110,7 +109,7 @@ export default (notificationMiddleware = store => {
     } else if (action.type === "updateUnreadCount") {
       updateUnreadCount();
     } else if (action.type === "markConversationRead") {
-      markConversationRead(action.contactId);
+      markConversationRead();
     } else if (action.type === "checkForInitialNotification") {
       checkForInitialNotification();
     }

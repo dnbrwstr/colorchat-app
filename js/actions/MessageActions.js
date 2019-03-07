@@ -128,8 +128,12 @@ export let loadMessages = (contactId, page = 1) => async (
     contactId
   });
 
+  const state = getState();
+  const userId = state.user.id;
+
   let { messages, total } = await DatabaseUtils.loadMessages({
     contactId,
+    userId,
     page,
     per
   });

@@ -98,18 +98,16 @@ let onPermissionDenied = dispatch => {
 };
 
 export let sendInvite = contact => (dispatch, getState) => {
-  // Get invite link from server
-  // fetch...
   const message =
-    "Please join me in chatting with colors instead of words on Color Chat " +
-    inviteLink;
+    "Please join me in chatting with colors instead of words " + inviteLink;
   const number = contact.phoneNumber;
 
   SendSMS.send(
     {
       body: message,
       recipients: [number],
-      successTypes: ["all"]
+      successTypes: ["all"],
+      allowAndroidSendWithoutReadPermission: true
     },
     () => {}
   );

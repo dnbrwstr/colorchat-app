@@ -4511,9 +4511,9 @@ react-native-segmented-control-tab@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/react-native-segmented-control-tab/-/react-native-segmented-control-tab-3.4.0.tgz#8e9f32cda2909deb0f45e12eed5a4827da221804"
 
-react-native-sms@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-sms/-/react-native-sms-1.6.0.tgz#2156ab4c76549ac6a9d72686fa00b65b708e7ed1"
+"react-native-sms@github:dnbrwstr/react-native-sms":
+  version "1.8.0"
+  resolved "https://codeload.github.com/dnbrwstr/react-native-sms/tar.gz/26f86a3dc733f82a46df4fe10dfe2c21a7b5ed02"
 
 react-native-sqlite-storage@^3.3.10:
   version "3.3.10"

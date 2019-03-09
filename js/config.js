@@ -13,6 +13,7 @@ const config = {
     logActions: false,
     saveState: true,
     rehydrate: true,
+    logQueries: false,
     rehydrateBlacklist: [
       "ui",
       "notifications",
@@ -32,6 +33,7 @@ const config = {
     serverRoot: "https://colorchat-core.soft.works",
     logState: false,
     logActions: false,
+    logQueries: false,
     saveState: true,
     rehydrate: true,
     rehydrateBlacklist: [

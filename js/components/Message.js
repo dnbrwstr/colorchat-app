@@ -193,22 +193,24 @@ let Message = createReactClass({
     if (this.props.state === "failed" && !this.state.retrying) {
       return (
         <View style={style.textContainer}>
-          <BaseText visibleOn={this.props.color}>
-            Message failed to send
-          </BaseText>
-          <BaseText visibleOn={this.props.color}>Tap to retry</BaseText>
+          <View>
+            <BaseText visibleOn={this.props.color}>
+              Message failed to send
+            </BaseText>
+            <BaseText visibleOn={this.props.color}>Tap to retry</BaseText>
+          </View>
         </View>
       );
     } else if (this.props.expanded === true) {
       return (
         <View style={style.textContainer}>
-          <BaseText visibleOn={this.props.color}>
-            {this.props.color + "\n"}
+          <BaseText style={[style.text]} visibleOn={this.props.color}>
+            {this.props.colorName}
           </BaseText>
-          <BaseText visibleOn={this.props.color}>
-            {this.getRGBFormattedColor()}
-          </BaseText>
-          <BaseText style={style.timestamp} visibleOn={this.props.color}>
+          <BaseText
+            style={[style.timestamp, style.text]}
+            visibleOn={this.props.color}
+          >
             {humanDate(this.props.createdAt)}
           </BaseText>
         </View>
@@ -265,19 +267,18 @@ let style = Style.create({
   received: {
     alignSelf: "flex-start"
   },
-  timestamp: {
-    position: "absolute",
-    top: 12,
-    right: 12
-  },
   textContainer: {
     flex: 1,
-    padding: 12
+    padding: 12,
+    paddingHorizontal: 17,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  timestamp: {
+    textAlign: "right"
   },
   text: {
-    ...Style.mixins.textBase,
-    top: 15,
-    left: 15
+    width: "50%"
   }
 });
 

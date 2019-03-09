@@ -1,4 +1,5 @@
 import SQLite from "react-native-sqlite-storage";
+import config from "../config";
 
 SQLite.enablePromise(true);
 
@@ -13,7 +14,8 @@ const ChatMessageSchema = {
     color: { type: "string", optional: true },
     width: { type: "integer", optional: true },
     height: { type: "integer", optional: true },
-    state: { type: "string", optional: true }
+    state: { type: "string", optional: true },
+    colorName: { type: "string", optional: true }
   }
 };
 
@@ -51,19 +53,25 @@ const createMessageTable = async db => {
   await db.executeSql(query);
 };
 
-const runQuery = async query => {
-  const db = await getDb();
+const executeSql = async query => {
   const startTime = new Date();
+  const db = await getDb();
   const results = await db.executeSql(query);
-  const duration = new Date() - startTime;
-  console.log(`Took ${duration}ms to execute${query}`);
+  if (config.logQueries) {
+    const duration = new Date() - startTime;
+    console.log(`Took ${duration}ms to execute${query}`);
+  }
+  return results;
+};
+
+const runQuery = async query => {
+  const results = await executeSql(query);
   return results[0].rows.raw();
 };
 
 const runCountQuery = async query => {
-  const db = await getDb();
-  const result = await db.executeSql(query);
-  return result[0].rows.item(0)["count(*)"];
+  const results = await executeSql(query);
+  return results[0].rows.item(0)["count(*)"];
 };
 
 const getConversationQuery = (userId, contactId) => `

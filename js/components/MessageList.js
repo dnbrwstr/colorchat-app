@@ -6,7 +6,7 @@ import Message from "./Message";
 let BEGINNING_REACHED_OFFSET = 1000;
 
 let getMessageKey = message => {
-  const key = message.id || message.state;
+  const key = message.id || message.clientId || message.state;
   return key.toString();
 };
 

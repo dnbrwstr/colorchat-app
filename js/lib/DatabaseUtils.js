@@ -1,6 +1,5 @@
-import { NativeModules } from "react-native";
 import invariant from "invariant";
-import { merge, partialRight, evolve, pick, __, times, compose } from "ramda";
+import { merge, pick, __, times, compose } from "ramda";
 import { createSeedMessage } from "../lib/MessageUtils";
 import DatabaseManager from "./DatabaseManager";
 

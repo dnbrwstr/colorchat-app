@@ -1,65 +1,37 @@
-import React from "react";
-import createReactClass from "create-react-class";
+import React, { Component } from "react";
 import { FlatList, Dimensions, ScrollView, View } from "react-native";
 import Style from "../style";
 import Message from "./Message";
-import TimerMixin from "./mixins/TimerMixin";
 
 let BEGINNING_REACHED_OFFSET = 1000;
 
-let compare = (comparisons, a, b) => {
-  return comparisons.some(c => {
-    if (typeof c === "function") {
-      return c(a) !== c(b);
-    } else if (typeof c === "string") {
-      return a[c] !== b[c];
-    }
+let getMessageKey = message => {
+  const key = message.id || message.state;
+  return key.toString();
+};
+
+class MessageList extends Component {
+  static defaultProps = () => ({
+    onToggleMessageExpansion: () => {},
+    onRetrySend: () => {},
+    onPresentMessage: () => {},
+    onBeginningReached: () => {},
+    onEndReached: () => {}
   });
-};
 
-let messageHasChanged = (a, b) => {
-  return compare(
-    [o => o.clientId || o.id, "state", "width", "height", "expanded", "color"],
-    a,
-    b
-  );
-};
+  state = {
+    scrollOffset: 0
+  };
 
-let getMessageData = (dataBlob, sectionId, rowId) => {
-  return dataBlob[sectionId][rowId];
-};
-
-let getMessageKey = message => message.id || message.state;
-
-let MessageList = createReactClass({
-  displayName: "MessageList",
-  mixins: [TimerMixin],
-
-  getDefaultProps: function() {
-    return {
-      onToggleMessageExpansion: () => {},
-      onRetrySend: () => {},
-      onPresentMessage: () => {},
-      onBeginningReached: () => {},
-      onEndReached: () => {}
-    };
-  },
-
-  getInitialState: function() {
-    return {
-      scrollOffset: 0
-    };
-  },
-
-  shouldComponentUpdate: function(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.messages !== nextProps.messages ||
       this.props.scrollLocked !== nextProps.scrollLocked ||
       this.props.user.id !== nextProps.user.id
     );
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.messages === nextProps.messages) return;
 
     if (!this.props.messages.length || !nextProps.messages.length) return;
@@ -72,16 +44,9 @@ let MessageList = createReactClass({
     if (composeStarted) {
       this.refs.list.getScrollResponder().scrollTo({ y: 0 });
     }
-  },
+  }
 
-  formatMessages: function(messages) {
-    return messages.reduce((memo, m) => {
-      memo[m.clientId || m.id] = m;
-      return memo;
-    }, {});
-  },
-
-  render: function() {
+  render() {
     return (
       <FlatList
         ref="list"
@@ -97,9 +62,9 @@ let MessageList = createReactClass({
         onEndReached={this.props.onEndReached}
       />
     );
-  },
+  }
 
-  renderScrollComponent: function(props) {
+  renderScrollComponent = props => {
     let onScroll = e => {
       props.onScroll(e), this.handleScroll(e);
     };
@@ -111,46 +76,39 @@ let MessageList = createReactClass({
         scrollEnabled={!this.props.scrollLocked}
       />
     );
-  },
+  };
 
-  renderMessage: function({ index, item }) {
+  renderMessage = ({ index, item }) => {
     let fromCurrentUser =
       this.props.user.id === item.senderId || !item.senderId;
 
-    let bind = fn => fn.bind(this, item);
-
     return (
       <Message
-        onToggleExpansion={bind(this.onToggleMessageExpansion)}
-        onPresent={bind(this.onPresentMessage)}
-        onRetrySend={bind(this.onRetryMessageSend)}
+        onToggleExpansion={this.handleToggleMessageExpansion}
+        onPresent={this.handlePresentMessage}
+        onRetrySend={this.handleRetryMessageSend}
         fromCurrentUser={fromCurrentUser}
         message={item}
         {...item}
       />
     );
-  },
+  };
 
-  handleScroll: function(e) {
+  handleScroll = e => {
     let scrollOffset = e.nativeEvent.contentOffset.y;
 
     if (
       scrollOffset < BEGINNING_REACHED_OFFSET &&
       this.state.scrollOffset >= BEGINNING_REACHED_OFFSET
     ) {
-      this.setThrottleTimer(
-        "beginningReached",
-        this.props.onBeginningReached,
-        1000
-      );
+      this.props.onBeginningReached();
     }
 
     this.setState({ scrollOffset });
-
     if (this.props.scrollBridge) this.props.scrollBridge.handleScroll(e);
-  },
+  };
 
-  onToggleMessageExpansion: async function(message, position, nextSize) {
+  handleToggleMessageExpansion = async (message, position, nextSize) => {
     // Don't expand message if scroll is locked
     if (this.props.scrollLocked) return;
 
@@ -170,16 +128,16 @@ let MessageList = createReactClass({
         .getScrollResponder()
         .scrollTo({ y: this.state.scrollOffset - nextOffset });
     }
-  },
+  };
 
-  onRetryMessageSend: function(message) {
+  handleRetryMessageSend = message => {
     this.props.onRetryMessageSend(message);
-  },
+  };
 
-  onPresentMessage: function(message) {
+  handlePresentMessage = message => {
     this.props.onPresentMessage(message);
-  }
-});
+  };
+}
 
 let style = Style.create({
   outerContainer: {

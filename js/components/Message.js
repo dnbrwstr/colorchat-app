@@ -1,5 +1,4 @@
-import React from "react";
-import createReactClass from "create-react-class";
+import React, { PureComponent } from "react";
 import { View, LayoutAnimation, Text, Animated } from "react-native";
 import Color from "color";
 import Style from "../style";
@@ -19,22 +18,19 @@ const EXPANDED_MIN_HEIGHT = 320;
 const FAILED_MIN_WIDTH = 250;
 const FAILED_MIN_HEIGHT = 100;
 
-let Message = createReactClass({
-  displayName: "Message",
-  mixins: [TimerMixin],
+class Message extends PureComponent {
+  static defaultProps = {
+    onToggleExpansion: () => {},
+    onRetrySend: () => {}
+  };
 
-  getDefaultProps: function() {
-    return {
-      onToggleExpansion: () => {},
-      onRetrySend: () => {}
-    };
-  },
+  constructor(props) {
+    super(props);
 
-  getInitialState: function() {
-    let defaultWidth = this.props.width;
-    let defaultHeight = this.props.state === "fresh" ? 0 : this.props.height;
+    let defaultWidth = props.width;
+    let defaultHeight = props.state === "fresh" ? 0 : props.height;
 
-    return {
+    this.state = {
       width: defaultWidth,
       height: defaultHeight,
       animatedWidth: new Animated.Value(defaultWidth),
@@ -42,17 +38,21 @@ let Message = createReactClass({
       currentAnimation: null,
       retrying: false
     };
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.setSize();
-  },
+  }
 
-  componentDidUpdate: function(prevProps) {
+  componentWillUnmount() {
+    clearTimeout(this.resendTimer);
+  }
+
+  componentDidUpdate(prevProps) {
     this.setSize(prevProps);
-  },
+  }
 
-  setSize: function(prevProps) {
+  setSize(prevProps) {
     let baseSize = {
       width: this.props.width,
       height: this.props.height
@@ -102,9 +102,9 @@ let Message = createReactClass({
     } else {
       this.resize(baseSize);
     }
-  },
+  }
 
-  resize: function(toSize, fromSize = {}, cb) {
+  resize(toSize, fromSize = {}, cb) {
     let shouldSizeWidth =
       typeof toSize.width !== "undefined" && toSize.width !== this.state.width;
     let shouldSizeHeight =
@@ -163,33 +163,33 @@ let Message = createReactClass({
       ...toSize,
       currentAnimation: animation
     });
-  },
+  }
 
-  render: function() {
+  render() {
     if (this.props.state === "composing") {
       return this.renderEditor();
     } else {
       return this.renderMessage();
     }
-  },
+  }
 
-  renderEditor: function() {
+  renderEditor() {
     return <EditableMessage {...this.props} />;
-  },
+  }
 
-  renderMessage: function() {
+  renderMessage() {
     return (
       <PressableView
         ref="message"
         style={this.getMessageStyles()}
-        onPress={this.onPress}
+        onPress={this.handlePress}
       >
         {this.renderContent()}
       </PressableView>
     );
-  },
+  }
 
-  renderContent: function() {
+  renderContent() {
     if (this.props.state === "failed" && !this.state.retrying) {
       return (
         <View style={style.textContainer}>
@@ -215,30 +215,32 @@ let Message = createReactClass({
           </BaseText>
         </View>
       );
+    } else {
+      return (
+        <View style={style.textContainer}>
+          <BaseText>{this.props.messageIndex}</BaseText>
+        </View>
+      );
     }
-  },
+  }
 
-  onPress: async function() {
+  handlePress = async () => {
     if (this.props.state === "failed") {
       this.setState({ retrying: true });
-      this.setDelayTimer(
-        "resend",
-        () => {
-          this.setState({ retrying: false });
-          this.props.onRetrySend();
-        },
-        500
-      );
+      this.resendTimer = setTimeout(() => {
+        this.setState({ retrying: false });
+        this.props.onRetrySend();
+      }, 500);
     } else if (this.props.state === "complete") {
       let position = await measure(this.refs.message);
-      this.props.onToggleExpansion(position, {
+      this.props.onToggleExpansion(this.props.message, position, {
         width: Math.max(this.props.width, EXPANDED_MIN_WIDTH),
         height: Math.max(this.props.height, EXPANDED_MIN_HEIGHT)
       });
     }
-  },
+  };
 
-  getMessageStyles: function() {
+  getMessageStyles() {
     return [
       style.message,
       this.props.fromCurrentUser ? style.sent : style.received,
@@ -248,13 +250,13 @@ let Message = createReactClass({
         backgroundColor: this.props.color
       }
     ];
-  },
+  }
 
-  getRGBFormattedColor: function() {
+  getRGBFormattedColor() {
     let rgb = Color(this.props.color).rgb();
     return `R ${rgb.r}\nG ${rgb.g}\nB ${rgb.b}`;
   }
-});
+}
 
 let style = Style.create({
   message: {

@@ -53,20 +53,6 @@ let ConversationScreen = createReactClass({
     this.clearAllTimers();
   },
 
-  loadNextPage: function() {
-    this.setThrottleTimer(
-      "loadNext",
-      () => {
-        let nextPage = ++this.state.page;
-        this.props.dispatch(
-          loadMessages(this.props.contact.id, this.state.page)
-        );
-        this.setState({ page: nextPage });
-      },
-      1000
-    );
-  },
-
   render: function() {
     const { contact, dispatch, styles, theme } = this.props;
     return (
@@ -88,8 +74,9 @@ let ConversationScreen = createReactClass({
             scrollLocked={this.props.composing}
             messages={this.props.messages}
             user={this.props.user}
-            onBeginningReached={this.handleScrollToBottom}
-            onEndReached={this.loadNextPage}
+            onBeginningReached={this.handleBeginningReached}
+            onEndReached={this.handleEndReached}
+            removeClippedSubviews={true}
           />
           {this.props.partnerIsComposing && (
             <PlaceholderMessage style={styles.placeholderMessage} />
@@ -115,7 +102,13 @@ let ConversationScreen = createReactClass({
     );
   },
 
-  handleScrollToBottom: function() {
+  handleEndReached: function() {
+    let nextPage = ++this.state.page;
+    this.props.dispatch(loadMessages(this.props.contact.id, this.state.page));
+    this.setState({ page: nextPage });
+  },
+
+  handleBeginningReached: function() {
     this.props.dispatch(unloadOldMessages());
   },
 

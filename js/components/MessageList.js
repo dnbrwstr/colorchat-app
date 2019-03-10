@@ -14,7 +14,6 @@ class MessageList extends Component {
   static defaultProps = () => ({
     onToggleMessageExpansion: () => {},
     onRetrySend: () => {},
-    onPresentMessage: () => {},
     onBeginningReached: () => {},
     onEndReached: () => {}
   });
@@ -85,7 +84,6 @@ class MessageList extends Component {
     return (
       <Message
         onToggleExpansion={this.handleToggleMessageExpansion}
-        onPresent={this.handlePresentMessage}
         onRetrySend={this.handleRetryMessageSend}
         fromCurrentUser={fromCurrentUser}
         message={item}
@@ -132,10 +130,6 @@ class MessageList extends Component {
 
   handleRetryMessageSend = message => {
     this.props.onRetryMessageSend(message);
-  };
-
-  handlePresentMessage = message => {
-    this.props.onPresentMessage(message);
   };
 }
 

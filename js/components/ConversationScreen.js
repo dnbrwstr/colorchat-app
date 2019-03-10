@@ -22,7 +22,6 @@ import Style from "../style";
 let {
   resendMessage,
   sendWorkingMessage,
-  markMessageStale,
   startComposingMessage,
   cancelComposingMessage,
   destroyWorkingMessage,
@@ -68,7 +67,6 @@ let ConversationScreen = createReactClass({
         <View style={[styles.messageListContainer, this.props.style]}>
           <MessageList
             scrollBridge={this.state.scrollBridge}
-            onPresentMessage={this.onPresentMessage}
             onRetryMessageSend={this.onRetryMessageSend}
             onToggleMessageExpansion={this.onToggleMessageExpansion}
             scrollLocked={this.props.composing}
@@ -183,10 +181,6 @@ let ConversationScreen = createReactClass({
 
   onRetryMessageSend: function(message) {
     this.props.dispatch(resendMessage(message));
-  },
-
-  onPresentMessage: function(message) {
-    this.props.dispatch(markMessageStale(message));
   }
 });
 

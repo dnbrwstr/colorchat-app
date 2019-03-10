@@ -218,15 +218,6 @@ let handlers = {
     )(state);
   },
 
-  markMessageStale: function(state, action) {
-    return updateMessage(
-      "static",
-      action.message,
-      { state: "complete" },
-      state
-    );
-  },
-
   toggleMessageExpansion: function(state, action) {
     let expanded = !action.message.expanded;
     return updateMessage("static", action.message, { expanded }, state);

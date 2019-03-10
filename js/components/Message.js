@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, LayoutAnimation, Text, Animated } from "react-native";
+import { View, Animated } from "react-native";
 import Color from "color";
 import Style from "../style";
 import measure from "../lib/measure";
@@ -7,7 +7,6 @@ import EditableMessage from "./EditableMessage";
 import BaseText from "./BaseText";
 import PressableView from "./PressableView";
 import { humanDate } from "../lib/Utils";
-import TimerMixin from "./mixins/TimerMixin";
 
 const SPRING_TENSION = 150;
 const SPRING_FRICTION = 10;
@@ -60,14 +59,10 @@ class Message extends PureComponent {
 
     if (this.props.state === "fresh") {
       // * => fresh
-      this.resize(
-        baseSize,
-        {
-          width: 0,
-          height: 0
-        },
-        this.props.onPresent
-      );
+      this.resize(baseSize, {
+        width: 0,
+        height: 0
+      });
     } else if (this.props.state === "complete" || this.state.retrying) {
       if (this.props.expanded) {
         // unexpanded => expanded

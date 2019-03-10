@@ -1,12 +1,10 @@
+import { Dimensions } from "react-native";
 import { merge, mergeAll, map, zipWith } from "ramda";
 import NavigationService from "../lib/NavigationService";
-import config from "../config";
 import * as DatabaseUtils from "../lib/DatabaseUtils";
 
-let { serverRoot } = config;
-
 export let receiveMessage = message => async (dispatch, getState) => {
-  let { navigation, ui } = getState();
+  let { ui } = getState();
 
   // Treat incoming messages as fresh by default
   message.state = "fresh";
@@ -93,18 +91,6 @@ export let sendMessages = (messages, state, data) => async (
 export let resendMessage = message => {
   return {
     type: "resendMessage",
-    message
-  };
-};
-
-export let markMessageStale = message => {
-  DatabaseUtils.storeMessage({
-    ...message,
-    state: "complete"
-  });
-
-  return {
-    type: "markMessageStale",
     message
   };
 };

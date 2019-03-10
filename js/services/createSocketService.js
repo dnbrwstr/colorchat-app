@@ -5,6 +5,10 @@ import createService from "./createService";
 import { socketServiceSelector } from "../lib/Selectors";
 import { receiveMessage, sendMessages } from "../actions/MessageActions";
 import {
+  convertFromRelativeSize,
+  convertToRelativeSize
+} from "../lib/MessageUtils";
+import {
   receiveComposeEvent,
   resetComposeEvents
 } from "../actions/ConversationActions";
@@ -69,7 +73,7 @@ let socketServiceBase = {
     });
 
     client.on(MESSAGE_EVENT, (data, cb) => {
-      this.props.dispatch(receiveMessage(data));
+      this.props.dispatch(receiveMessage(convertFromRelativeSize(data)));
       cb && cb();
     });
 
@@ -135,17 +139,21 @@ let socketServiceBase = {
       );
     }, 6000);
 
-    this.client.emit(MESSAGE_EVENT, messageData, sentMessages => {
-      clearTimeout(messageTimeout);
+    this.client.emit(
+      MESSAGE_EVENT,
+      messageData.map(convertToRelativeSize),
+      sentMessages => {
+        clearTimeout(messageTimeout);
 
-      InteractionManager.runAfterInteractions(() => {
-        dispatch(
-          sendMessages(messageData, "complete", {
-            responseMessages: sentMessages
-          })
-        );
-      });
-    });
+        InteractionManager.runAfterInteractions(() => {
+          dispatch(
+            sendMessages(messageData, "complete", {
+              responseMessages: sentMessages.map(convertFromRelativeSize)
+            })
+          );
+        });
+      }
+    );
   }
 };
 

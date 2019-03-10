@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import { merge } from "ramda";
 import { rand } from "./Utils";
 
@@ -37,3 +38,25 @@ export let createSeedMessage = () => {
 
 export let getTimestamp = message =>
   message.createdAt || message.clientTimestamp;
+
+export const convertToRelativeSize = message => {
+  const relativeWidth = message.width / Dimensions.get("window").width;
+  const relativeHeight = (relativeWidth / message.width) * message.height;
+  return {
+    ...message,
+    relativeWidth: relativeWidth.toFixed(4),
+    relativeHeight: relativeHeight.toFixed(4)
+  };
+};
+
+export const convertFromRelativeSize = message => {
+  const { relativeWidth, relativeHeight } = message;
+  if (!relativeWidth || !relativeHeight) return message;
+  const width = Dimensions.get("window").width * relativeWidth;
+  const height = Dimensions.get("window").width * relativeHeight;
+  return {
+    ...message,
+    width,
+    height
+  };
+};

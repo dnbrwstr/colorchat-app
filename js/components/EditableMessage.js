@@ -204,7 +204,7 @@ class EditableMessage extends React.Component {
       nextState.workingWidth = constrain(
         screenWidth - e.nativeEvent.pageX,
         MIN_MESSAGE_WIDTH,
-        MAX_MESSAGE_WIDTH
+        screenWidth
       );
     }
 

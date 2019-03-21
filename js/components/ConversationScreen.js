@@ -7,7 +7,8 @@ import Header from "./Header";
 import MessageList from "./MessageList";
 import ComposeBar from "./ComposeBar";
 import PlusButton from "./PlusButton";
-import { navigateBack } from "../actions/NavigationActions";
+import RoundButton from "./RoundButton";
+import { navigateBack, navigateTo } from "../actions/NavigationActions";
 import * as MessageActions from "../actions/MessageActions";
 import { conversationScreenSelector } from "../lib/Selectors";
 import { updateConversationUi } from "../actions/AppActions";
@@ -18,6 +19,7 @@ import { updateUnreadCount } from "../actions/NotificationActions";
 import { markConversationRead } from "../actions/ConversationActions";
 import PlaceholderMessage from "./PlaceholderMessage";
 import Style from "../style";
+import BaseText from "./BaseText";
 
 let {
   resendMessage,
@@ -90,6 +92,12 @@ let ConversationScreen = createReactClass({
             !this.props.cancelling
           }
         />
+        <RoundButton
+          style={styles.cameraButton}
+          onPress={this.handlePressCameraButton}
+        >
+          <BaseText>C</BaseText>
+        </RoundButton>
         <ComposeBar
           ref="composeBar"
           active={this.props.composing}
@@ -108,6 +116,10 @@ let ConversationScreen = createReactClass({
 
   handleBeginningReached: function() {
     this.props.dispatch(unloadOldMessages());
+  },
+
+  handlePressCameraButton: function() {
+    this.props.dispatch(navigateTo("camera"));
   },
 
   onSendMessage: function(message) {
@@ -194,6 +206,11 @@ const getStyles = theme => ({
   },
   newMessageButton: {
     backgroundColor: theme.primaryButtonColor
+  },
+  cameraButton: {
+    position: "absolute",
+    bottom: 0,
+    left: 0
   },
   placeholderMessage: {
     position: "absolute",

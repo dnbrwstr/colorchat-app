@@ -16,6 +16,7 @@ import AboutScreen from "../components/AboutScreen";
 import NumberInfoScreen from "../components/NumberInfoScreen";
 import ContactsInfoScreen from "../components/ContactsInfoScreen";
 import AuthCheckScreen from "./AuthCheckScreen";
+import CameraScreen from "./CameraScreen";
 
 const defaultStackOptions = {
   headerMode: "none"
@@ -40,6 +41,9 @@ const AppStack = createStackNavigator(
     },
     about: {
       screen: AboutScreen
+    },
+    camera: {
+      screen: CameraScreen
     }
   },
   {

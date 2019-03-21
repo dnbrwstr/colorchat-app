@@ -89,3 +89,35 @@ export const stopwatch = {
     console.log(label, new Date() - timers[label]);
   }
 };
+
+export const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
+
+export const makeArray = n => {
+  return new Array(n).fill(0).map((z, i) => i);
+};
+
+export const sat = color => rgb2hsv(color).s;
+
+export const addZeros = (n, c = 3) => {
+  let str = n.toString();
+  while (str.length < c) {
+    str = "0" + str;
+  }
+  return str;
+};
+
+export const lerp = (a, b, t) => a + (b - a) * t;
+
+export const makeColorString = ({ r, g, b }) => {
+  const values = [r, g, b].map(c => Math.round(c)).join(",");
+  return `rgb(${values})`;
+};
+
+export const valSort = (sortFn, reverse = false) => (a, b) => {
+  const reverser = reverse ? -1 : 1;
+  const valA = sortFn(a);
+  const valB = sortFn(b);
+  if (valA < valB) return -1 * reverser;
+  else if (valA > valB) return 1 * reverser;
+  else return 0;
+};

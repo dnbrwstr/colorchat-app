@@ -15,7 +15,26 @@ const ChatMessageSchema = {
     width: { type: "integer", optional: true },
     height: { type: "integer", optional: true },
     state: { type: "string", optional: true },
-    colorName: { type: "string", optional: true }
+    colorName: { type: "string", optional: true },
+    type: { type: "string", optional: true }
+  }
+};
+
+const MigrationSchema = {
+  name: "Migrations",
+  primaryKey: "id",
+  properties: {
+    id: { type: "string", optional: true, primaryKey: true },
+    name: { type: "string", optional: true },
+    done: { type: "integer", optional: true }
+  }
+};
+
+const typeMigration = {
+  name: "type",
+  run: _db => {
+    const query = `ALTER TABLE ${ChatMessageSchema.name} ADD 'type' string`;
+    return _db.executeSql(query);
   }
 };
 
@@ -27,9 +46,31 @@ const getDb = async () => {
       name: "colorchat.db"
     });
 
-    await createMessageTable(_db);
+    await _db.executeSql(getCreateTableQuery(ChatMessageSchema));
+    await _db.executeSql(getCreateTableQuery(MigrationSchema));
+    await runMigration(typeMigration, _db);
   }
   return _db;
+};
+
+const runMigration = async (migration, _db) => {
+  const query = `
+    SELECT * FROM ${MigrationSchema.name} 
+    WHERE name='${migration.name}'
+  `;
+  const result = await _db.executeSql(query);
+  if (result[0].rows.length === 0) {
+    try {
+      await migration.run(_db);
+      const saveMigrationQuery = `
+        INSERT OR REPLACE INTO ${MigrationSchema.name}('name', 'done')
+        VALUES('${migration.name}', 1)
+      `;
+      return _db.executeSql(saveMigrationQuery);
+    } catch (e) {
+      console.log("Unable to run migration :(");
+    }
+  }
 };
 
 const getSqlForProperty = prop => {
@@ -39,18 +80,16 @@ const getSqlForProperty = prop => {
   return sql;
 };
 
-const createMessageTable = async db => {
-  const { name, properties } = ChatMessageSchema;
+const getCreateTableQuery = schema => {
+  const { name, properties } = schema;
   const props = Object.keys(properties).map(k => ({
     name: k,
     ...properties[k]
   }));
 
-  const query = `create table if not exists ${name}(${props
+  return `create table if not exists ${name}(${props
     .map(getSqlForProperty)
     .join(",\n")})`;
-
-  await db.executeSql(query);
 };
 
 const executeSql = async query => {
@@ -74,10 +113,18 @@ const runCountQuery = async query => {
   return results[0].rows.item(0)["count(*)"];
 };
 
-const getConversationQuery = (userId, contactId) => `
-  WHERE senderId='${contactId}'
-  OR (senderId='${userId}' AND recipientId='${contactId}')
-`;
+const getConversationQuery = (userId, contactId) => {
+  if (userId === contactId)
+    return `
+      WHERE senderId=${contactId} 
+      AND recipientId=${contactId}
+      `;
+  else
+    return `
+      WHERE senderId='${contactId}'
+      OR recipientId='${contactId}'
+    `;
+};
 
 const DatabaseManager = {
   async loadMessagesForContact(userId, contactId, page, per) {

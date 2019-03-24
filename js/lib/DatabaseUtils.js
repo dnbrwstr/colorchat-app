@@ -14,7 +14,8 @@ let ALLOWED_MESSAGE_PROPS = [
   "width",
   "height",
   "state",
-  "colorName"
+  "colorName",
+  "type"
 ];
 
 export let loadMessages = async _options => {

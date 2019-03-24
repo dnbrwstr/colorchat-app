@@ -100,6 +100,8 @@ PODS:
     - React
   - RNSVG (9.2.4):
     - React
+  - STColorCamera (1.0.0):
+    - React
   - yoga (0.58.6.React)
 
 DEPENDENCIES:
@@ -121,6 +123,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - STColorCamera (from `../node_modules/react-native-color-camera`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -149,6 +152,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  STColorCamera:
+    :path: "../node_modules/react-native-color-camera"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -163,14 +168,15 @@ SPEC CHECKSUMS:
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  React: 16c4fb7ce3fc30c041bce809ceae33bf57e7c142
-  react-native-sqlite-storage: 848fb96c0b6d17b3f70e169ac41f84434cdad94c
-  RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
-  RNGestureHandler: afde2addc517e85cc97a25bfe119acbee779a7ce
-  RNScreens: 354046589421edc3d83d5c6212475bf1fb9a731d
-  RNSVG: 4834be1d644eb77f0e3f6de851881b83758a3124
-  yoga: 0885622311729a02c2bc02dca97167787a51488b
+  React: 130b87b2d5e2baac646954282cab87be986d98fc
+  react-native-sqlite-storage: dba8e864e9a76f1aae6ddb5e7d0dc330d59f4bb3
+  RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
+  RNGestureHandler: 14c09a7361c272efea8f7f3799142c893a6a4485
+  RNScreens: 720a9e6968beb73e8196239801e887d8401f86ed
+  RNSVG: 6fec2b50e65b4a01ba54155e8e546e0a1eeb16f4
+  STColorCamera: 4eac7c64f1cba7a94f9ef5f41a9f4df681ee953f
+  yoga: 32d7ef1081951e9a35a4c72a7be797598b138a48
 
-PODFILE CHECKSUM: 776c19904885c3b248bd0a9930af7e8499b140ff
+PODFILE CHECKSUM: 5d1393326b287e056a7f550fd2a693e8e963e70b
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

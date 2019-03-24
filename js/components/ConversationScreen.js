@@ -92,17 +92,12 @@ let ConversationScreen = createReactClass({
             !this.props.cancelling
           }
         />
-        <RoundButton
-          style={styles.cameraButton}
-          onPress={this.handlePressCameraButton}
-        >
-          <BaseText>C</BaseText>
-        </RoundButton>
         <ComposeBar
           ref="composeBar"
           active={this.props.composing}
           onSend={this.onSendMessage}
           onCancel={this.onStopComposing}
+          onPressCamera={this.handlePressCameraButton}
         />
       </View>
     );

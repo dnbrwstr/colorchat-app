@@ -1,22 +1,20 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Animated, Easing } from "react-native";
-import ColorCamera from "react-native-color-camera";
+import Color from "color";
 import { connectWithStyles } from "../lib/withStyles";
-import {
-  withScreenFocusState,
-  withScreenFocusStateProvider
-} from "./ScreenFocusState";
+import { withScreenFocusStateProvider } from "./ScreenFocusState";
 import CameraDisplay from "./CameraDisplay";
-import CameraControls from "./CameraControls";
+import CameraBlob from "./CameraBlob";
+import { navigateBack } from "../actions/NavigationActions";
+import { updateWorkingMessage } from "../actions/MessageActions";
 
-const interval = 500;
+const interval = 1000;
 
 class CameraScreen extends Component {
   state = {
-    displayMode: "grid"
+    displayMode: "grid",
+    cameraLocation: "back"
   };
-
-  cameraOpacity = new Animated.Value(0.001);
 
   componentDidUpdate(prevProps, prevState) {
     if (!this.state.cameraVisible && this.state.cameraReady) {
@@ -32,40 +30,35 @@ class CameraScreen extends Component {
   render() {
     const { styles, screenFocusState } = this.props;
     return (
-      <View style={styles.container}>
-        <Animated.View style={{ flex: 1, opacity: this.cameraOpacity }}>
-          <CameraDisplay
-            colors={this.state.colors}
-            displayMode={this.state.displayMode}
-            animationLength={interval}
-          />
-        </Animated.View>
-        <CameraControls
-          focusState={screenFocusState}
-          renderCamera={this.renderCamera}
+      <View style={[styles.container]}>
+        <CameraDisplay
+          colors={this.state.colors}
           displayMode={this.state.displayMode}
-          onDisplayModeChange={this.handleDisplayModeChange}
+          animationLength={interval}
+          renderCamera={this.renderCamera}
+          focusState={screenFocusState}
+          onSelectColor={this.handleSelectColor}
         />
       </View>
     );
   }
 
   renderCamera = () => {
-    console.log(this.props.screenFocusState);
-    if (this.props.screenFocusState !== "focused") return null;
     return (
-      <ColorCamera
-        style={{ flex: 1 }}
-        requestPermission={true}
+      <CameraBlob
+        onPress={this.handleCameraPress}
         onReady={this.handleCameraReady}
         onColorChange={this.handleColorChange}
         eventInterval={interval / 1000}
+        location={this.state.cameraLocation}
       />
     );
   };
 
-  handleCameraReady = () => {
-    this.setState({ cameraReady: true });
+  handleCameraPress = () => {
+    const cameraLocation =
+      this.state.cameraLocation === "back" ? "front" : "back";
+    this.setState({ cameraLocation });
   };
 
   handleColorChange = ({ nativeEvent: { colors } }) => {
@@ -74,6 +67,17 @@ class CameraScreen extends Component {
 
   handleDisplayModeChange = displayMode => {
     this.setState({ displayMode });
+  };
+
+  handleSelectColor = color => {
+    this.props.dispatch(
+      updateWorkingMessage(this.props.message, {
+        type: "picture",
+        color: Color(color).hexString(),
+        recipientId: this.props.contactId
+      })
+    );
+    this.props.dispatch(navigateBack());
   };
 }
 
@@ -94,5 +98,10 @@ const getStyles = theme => ({
 });
 
 export default withScreenFocusStateProvider(
-  withScreenFocusState(connectWithStyles(getStyles, () => ({}))(CameraScreen))
+  connectWithStyles(getStyles, state => ({
+    contactId: state.ui.conversation.contactId,
+    message: state.messages.working.find(m => {
+      return m.recipientId === state.ui.conversation.contactId;
+    })
+  }))(CameraScreen)
 );

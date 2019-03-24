@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Animated, Easing } from "react-native";
 import Color from "color";
+import memoize from "memoize-one";
 import { makeArray, lerp, makeColorString, valSort, clamp } from "../lib/Utils";
+import PressableBlob from "./PressableBlob";
+import withStyles from "../lib/withStyles";
 
 const positionLerp = 0.1;
 const colorLerp = 0.5;
@@ -24,56 +27,67 @@ class CameraDisplay extends Component {
     animationLength: 500
   };
 
-  state = {
-    colors: null,
-    lastColors: null,
-    displayMode: "grid",
-    frameCount: 0
-  };
-
   colorAnimation = null;
-  colorAnimationValue = new Animated.Value();
-  viewOpacity = new Animated.Value(1);
+  colorAnimationValue = new Animated.Value(0);
+  animationStartTime = null;
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.colors !== prevProps.colors) {
-      this.updateColors();
-    }
+  constructor(props) {
+    super(props);
+    const { theme } = props;
 
-    if (this.props.displayMode !== prevProps.displayMode) {
-      this.updateDisplayMode();
-    }
+    const defaultColor = Color(theme.defaultAvatarColor).rgb();
+    const defaultSwatch = {
+      ...defaultColor,
+      size: 50
+    };
 
-    if (this.state.colors !== prevState.colors) {
-      this.updateColorAnimation();
-    }
+    this.state = {
+      colors: new Array(16).fill(defaultSwatch),
+      lastColors: new Array(16).fill(defaultSwatch),
+      displayMode: "grid",
+      frameCount: 0
+    };
   }
 
-  updateColors() {
-    const colors = this.props.colors;
-    const sortedColors = colors.sort(sortFunctions[this.state.displayMode]);
+  static getDerivedStateFromProps = (props, prevState) => {
+    if (props.colors == prevState.sourceColors) return null;
+
+    const colors = props.colors;
+    const sortedColors = colors.sort(sortFunctions.grid);
 
     const workingPositionLerp = positionLerp;
+    const workingColorLerp = lerp(
+      0.9,
+      colorLerp,
+      (prevState.frameCount - 3) / 10
+    );
 
     const newColors = sortedColors.map((color, i) => {
       const lastColor =
-        this.state.colors && this.state.colors[i]
-          ? this.state.colors[i]
+        prevState.colors && prevState.colors[i]
+          ? prevState.colors[i]
           : { r: 0, g: 0, b: 0, size: 0 };
 
       return {
-        r: lerp(lastColor.r, color.r, colorLerp),
-        g: lerp(lastColor.g, color.g, colorLerp),
-        b: lerp(lastColor.b, color.b, colorLerp),
+        r: lerp(lastColor.r, color.r, workingColorLerp),
+        g: lerp(lastColor.g, color.g, workingColorLerp),
+        b: lerp(lastColor.b, color.b, workingColorLerp),
         size: lerp(lastColor.size, color.size, workingPositionLerp)
       };
     });
 
-    this.setState({
-      lastColors: this.state.colors ? this.state.colors : newColors,
+    return {
+      sourceColors: props.colors,
+      lastColors: prevState.colors,
       colors: newColors,
-      frameCount: this.state.frameCount + 1
-    });
+      frameCount: prevState.frameCount + 1
+    };
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.colors !== prevState.colors) {
+      this.updateColorAnimation();
+    }
   }
 
   updateColorAnimation() {
@@ -83,48 +97,26 @@ class CameraDisplay extends Component {
       toValue: 1,
       duration: this.props.animationLength,
       easing: Easing.linear
-    }).start();
-  }
-
-  updateDisplayMode() {
-    if (this.opacityAnimation) this.opacityAnimation.stop();
-
-    this.opacityAnimation = Animated.timing(this.viewOpacity, {
-      toValue: 0,
-      duration: 300
-    }).start(({ finished }) => {
-      if (!finished) return;
-      const { displayMode } = this.props;
-      this.setState({
-        displayMode: displayMode,
-        colors: this.state.colors.sort(sortFunctions[displayMode]),
-        lastColors: this.state.lastColors.sort(sortFunctions[displayMode]),
-        frameCount: this.state.displayMode === "average" ? 0 : 6
-      });
-      this.opacityAnimation = Animated.timing(this.viewOpacity, {
-        toValue: 1,
-        duration: 300
-      }).start();
     });
+    this.colorAnimation.start();
+    this.animationStartTime = new Date();
   }
 
   render() {
+    const { styles } = this.props;
     const hasColors = this.state.lastColors && this.state.lastColors.length;
 
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.display, { opacity: this.viewOpacity }]}>
-          {hasColors
-            ? this.state.displayMode === "grid"
-              ? this.renderGridColors()
-              : this.renderBlock()
-            : null}
-        </Animated.View>
+        <View style={[styles.display]}>
+          {hasColors && this.renderGridColors()}
+        </View>
       </View>
     );
   }
 
   renderGridColors = () => {
+    const { styles } = this.props;
     const rows = 4;
     const columns = 4;
 
@@ -133,40 +125,74 @@ class CameraDisplay extends Component {
         <View style={[styles.gridColorColumn]} key={y}>
           {makeArray(rows).map(x => {
             const i = x * rows + y;
-            return (
-              <Animated.View
-                style={[styles.gridColor, this.getColorStyle(i)]}
-                key={i}
-              />
-            );
+            if (i == 15 && this.props.renderCamera) {
+              return this.props.renderCamera();
+            } else {
+              return this.renderColor(i);
+            }
           })}
         </View>
       );
     });
   };
 
-  renderBlock() {
-    return <Animated.View style={[styles.color, this.getColorStyle(0)]} />;
+  renderColor(i) {
+    const { styles } = this.props;
+    return (
+      <Animated.View style={[styles.gridColor, this.getSizeStyle(i)]} key={i}>
+        <PressableBlob
+          style={styles.gridColorButton}
+          onPress={() => this.handleSelectColor(i)}
+        >
+          <Animated.View
+            style={[
+              styles.gridColorBackground,
+              this.getBackgroundColorStyle(i)
+            ]}
+          />
+        </PressableBlob>
+      </Animated.View>
+    );
   }
 
-  getColorStyle = i => {
+  getSizeStyle = i => {
     const colors = [this.state.lastColors[i], this.state.colors[i]];
+    return {
+      flexBasis: this.colorAnimationValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: colors.map(c => clamp(c.size, 20, 100) * 100)
+      })
+    };
+  };
 
-    const backgroundColor = this.colorAnimationValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: colors.map(makeColorString)
-    });
+  getBackgroundColorStyle = i => {
+    const colors = [this.state.lastColors[i], this.state.colors[i]];
+    return {
+      backgroundColor: this.colorAnimationValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: colors.map(makeColorString)
+      })
+    };
+  };
 
-    const flexBasis = this.colorAnimationValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: colors.map(c => clamp(c.size, 20, 100) * 100)
-    });
-
-    return { backgroundColor, flexBasis };
+  handleSelectColor = i => {
+    // Rewind a little so we're using the color
+    // from when the user decided to tap
+    const currentTime = new Date() - 100;
+    const progress =
+      (currentTime - this.animationStartTime) / this.props.animationLength;
+    const colors = [this.state.lastColors[i], this.state.colors[i]];
+    const estimatedColor = {
+      r: lerp(colors[0].r, colors[1].r, progress),
+      g: lerp(colors[0].g, colors[1].g, progress),
+      b: lerp(colors[0].b, colors[1].b, progress),
+      size: lerp(colors[0].size, colors[1].size, progress)
+    };
+    this.props.onSelectColor && this.props.onSelectColor(estimatedColor);
   };
 }
 
-const styles = StyleSheet.create({
+const getStyles = theme => ({
   container: {
     flex: 1
   },
@@ -186,10 +212,19 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   gridColor: {
-    borderRadius: 10000,
     marginTop: -1,
     flexShrink: 1
+  },
+  gridColorButton: {
+    flex: 1
+  },
+  gridColorBackground: {
+    flex: 1,
+    borderRadius: 1000
+  },
+  colorFill: {
+    flex: 1
   }
 });
 
-export default CameraDisplay;
+export default withStyles(getStyles)(CameraDisplay);

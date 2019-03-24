@@ -2,7 +2,6 @@ package com.soft.colorchat2;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
-import com.soft.ColorCamera.ColorCameraPackage;
 import com.horcrux.svg.SvgPackage;
 import com.tkporter.sendsms.SendSMSPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
@@ -10,6 +9,7 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
+import com.soft.ColorCamera.ColorCameraPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -33,7 +33,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
-            new ColorCameraPackage(),
             new SvgPackage(),
             SendSMSPackage.getInstance(),
             new RNScreensPackage(),
@@ -41,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebasePackage(),
             new RNDeviceInfo(),
             new ReactNativeContacts(),
+            new ColorCameraPackage(),
               new SQLitePluginPackage(),
               new RNFirebaseMessagingPackage(),
               new RNFirebaseNotificationsPackage()

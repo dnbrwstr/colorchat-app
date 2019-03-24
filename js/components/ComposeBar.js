@@ -1,15 +1,10 @@
 import React from "react";
-import {
-  Animated,
-  View,
-  Text,
-  InteractionManager,
-  StyleSheet
-} from "react-native";
+import { Animated, Text, StyleSheet } from "react-native";
 import Style from "../style";
 import PressableView from "./PressableView";
 import withStyles from "../lib/withStyles";
 import { isIphoneX, ifIphoneX } from "react-native-iphone-x-helper";
+import CameraIcon from "./CameraIcon";
 
 const HEIGHT =
   Style.values.rowHeight +
@@ -33,7 +28,7 @@ class ComposeBar extends React.Component {
   }
 
   render() {
-    const { styles } = this.props;
+    const { styles, theme } = this.props;
     let composeBarStyle = [
       styles.composeBar,
       {
@@ -51,6 +46,18 @@ class ComposeBar extends React.Component {
 
     return (
       <Animated.View style={composeBarStyle}>
+        <PressableView
+          style={[styles.button, styles.buttonFirst, styles.cameraButton]}
+          activeStyle={styles.buttonActive}
+          onPress={this.props.onPressCamera}
+        >
+          <CameraIcon
+            style={styles.cameraIcon}
+            strokeWidth={4}
+            strokeColor={theme.primaryTextColor}
+            style={{ width: 33, height: 33 }}
+          />
+        </PressableView>
         <PressableView
           style={[styles.button, styles.buttonFirst]}
           activeStyle={styles.buttonActive}
@@ -78,9 +85,14 @@ const getStyles = theme => ({
     borderTopColor: theme.secondaryBorderColor,
     backgroundColor: theme.backgroundColor
   },
+  cameraButton: {
+    flex: 0,
+    flexBasis: 80
+  },
   button: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    alignItems: "center"
     // ...ifIphoneX({ paddingBottom: 30 })
   },
   buttonText: {

@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { View, Animated } from "react-native";
+import { View, Animated, Easing } from "react-native";
 import Color from "color";
 import Style from "../style";
 import measure from "../lib/measure";
@@ -7,6 +7,7 @@ import EditableMessage from "./EditableMessage";
 import BaseText from "./BaseText";
 import PressableView from "./PressableView";
 import { humanDate } from "../lib/Utils";
+import { MessageType } from "../lib/MessageUtils";
 
 const SPRING_TENSION = 150;
 const SPRING_FRICTION = 10;
@@ -17,146 +18,131 @@ const EXPANDED_MIN_HEIGHT = 320;
 const FAILED_MIN_WIDTH = 250;
 const FAILED_MIN_HEIGHT = 100;
 
+const getBorderRadius = (w, h) => Math.min(w, h / 2);
+
 class Message extends PureComponent {
   static defaultProps = {
     onToggleExpansion: () => {},
     onRetrySend: () => {}
   };
 
+  currentAnimation = null;
+
   constructor(props) {
     super(props);
 
-    let defaultWidth = props.width;
-    let defaultHeight = props.state === "fresh" ? 0 : props.height;
+    const width = props.width;
+    const height = props.state === "fresh" ? 0 : props.height;
+    const borderRadius =
+      this.props.type === MessageType.Picture
+        ? getBorderRadius(width, height)
+        : 0;
 
     this.state = {
-      width: defaultWidth,
-      height: defaultHeight,
-      animatedWidth: new Animated.Value(defaultWidth),
-      animatedHeight: new Animated.Value(defaultHeight),
-      currentAnimation: null,
+      width,
+      height,
+      borderRadius,
+      animatedWidth: new Animated.Value(width),
+      animatedHeight: new Animated.Value(height),
+      animatedBorderRadius: new Animated.Value(borderRadius),
       retrying: false
     };
-  }
-
-  componentDidMount() {
-    this.setSize();
   }
 
   componentWillUnmount() {
     clearTimeout(this.resendTimer);
   }
 
-  componentDidUpdate(prevProps) {
-    this.setSize(prevProps);
+  componentDidUpdate(prevProps, prevState) {
+    this.resize(prevState);
   }
 
-  setSize(prevProps) {
-    let baseSize = {
-      width: this.props.width,
-      height: this.props.height
+  static getDerivedStateFromProps = (props, prevState = {}) => {
+    const size = {
+      width: props.width,
+      height: props.height,
+      borderRadius:
+        props.type === MessageType.Picture
+          ? getBorderRadius(props.width, props.height)
+          : 0
     };
 
-    if (this.props.state === "fresh") {
-      // * => fresh
-      this.resize(baseSize, {
-        width: 0,
-        height: 0
-      });
-    } else if (this.props.state === "complete" || this.state.retrying) {
-      if (this.props.expanded) {
-        // unexpanded => expanded
-        this.resize({
-          width: Math.max(this.props.width, EXPANDED_MIN_WIDTH),
-          height: Math.max(this.props.height, EXPANDED_MIN_HEIGHT)
-        });
-      } else {
-        // expanded => unexpanded
-        this.resize(baseSize);
+    if (props.state === "fresh") {
+      size.width = 0;
+      size.height = 0;
+    } else if (props.state === "complete" || prevState.retrying) {
+      if (props.expanded) {
+        size.width = Math.max(props.width, EXPANDED_MIN_WIDTH);
+        size.height = Math.max(props.height, EXPANDED_MIN_HEIGHT);
+        size.borderRadius = 0;
       }
-    } else if (this.props.state === "failed") {
-      // * => failed
-      this.resize({
-        width: Math.max(this.props.width, FAILED_MIN_WIDTH),
-        height: Math.max(this.props.height, FAILED_MIN_HEIGHT)
-      });
-    } else if (this.props.state === "composing") {
-      // Just keep up with edits if we're composing
-      if (
-        this.props.width !== this.state.width ||
-        this.props.height !== this.state.height
-      ) {
-        this.setState(baseSize);
-        this.state.animatedWidth.setValue(this.props.width);
-        this.state.animatedHeight.setValue(this.props.height);
-      }
-    } else if (this.props.state === "cancelling") {
-      this.resize({
-        height: 0
-      });
+    } else if (props.state === "failed") {
+      size.width = Math.max(props.width, FAILED_MIN_WIDTH);
+      size.height = Math.max(props.height, FAILED_MIN_HEIGHT);
+      size.borderRadius = 0;
+    } else if (props.state === "cancelling") {
+      size.height = 0;
+    }
+
+    return size;
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.state === "composing") {
+      this.state.animatedWidth.setValue(this.state.width);
+      this.state.animatedHeight.setValue(this.state.height);
+      this.state.animatedBorderRadius.setValue(this.state.borderRadius);
     } else {
-      this.resize(baseSize);
+      this.resize(prevState);
     }
   }
 
-  resize(toSize, fromSize = {}, cb) {
-    let shouldSizeWidth =
-      typeof toSize.width !== "undefined" && toSize.width !== this.state.width;
-    let shouldSizeHeight =
-      typeof toSize.height !== "undefined" &&
-      toSize.height !== this.state.height;
+  resize(prevState) {
+    const { width, height, borderRadius } = this.state;
 
-    if (!shouldSizeWidth && !shouldSizeHeight) {
-      cb && cb();
+    const shouldSizeWidth = width !== prevState.width;
+    const shouldSizeHeight = height !== prevState.height;
+    const shouldSizeBorderRadius = borderRadius !== prevState.borderRadius;
+
+    if (!shouldSizeWidth && !shouldSizeHeight && !shouldSizeBorderRadius) {
       return;
     }
 
-    if (this.state.currentAnimation) {
-      this.state.currentAnimation.stop();
+    if (this.currentAnimation) {
+      this.currentAnimation.stop();
     }
 
-    let width = this.state.animatedWidth;
-    let height = this.state.animatedHeight;
-
-    if (fromSize.width) width.setValue(fromSize.width);
-    if (fromSize.height) height.setValue(fromSize.height);
-
-    let animations = [];
-    let baseOpts = {
+    const baseOpts = {
       tension: SPRING_TENSION,
       friction: SPRING_FRICTION,
       duration: 200
     };
 
-    if (shouldSizeWidth) {
-      let fn = toSize.width > 20 ? "spring" : "timing";
-      animations.push(
-        Animated[fn](width, {
+    const heightFn = height > 20 ? "spring" : "timing";
+    const widthFn = width > 20 ? "spring" : "timing";
+
+    const animations = [
+      shouldSizeWidth &&
+        Animated[widthFn](this.state.animatedWidth, {
           ...baseOpts,
-          toValue: toSize.width
-        })
-      );
-    }
-
-    if (shouldSizeHeight) {
-      let fn = toSize.height > 20 ? "spring" : "timing";
-      animations.push(
-        Animated[fn](height, {
+          toValue: width
+        }),
+      shouldSizeHeight &&
+        Animated[heightFn](this.state.animatedHeight, {
           ...baseOpts,
-          toValue: toSize.height
+          toValue: height
+        }),
+      shouldSizeBorderRadius &&
+        Animated.timing(this.state.animatedBorderRadius, {
+          toValue: borderRadius,
+          duration: 200,
+          easing: Easing.linear
         })
-      );
-    }
+    ].filter(a => !!a);
 
-    let animation = Animated.parallel(animations);
-    animation.start(() => {
-      cb && cb();
-      this.setState({ currentAnimation: null });
-    });
-
-    this.setState({
-      ...toSize,
-      currentAnimation: animation
+    this.currentAnimation = Animated.parallel(animations);
+    this.currentAnimation.start(() => {
+      this.currentAnimation = null;
     });
   }
 
@@ -211,11 +197,7 @@ class Message extends PureComponent {
         </View>
       );
     } else {
-      return (
-        <View style={style.textContainer}>
-          <BaseText>{this.props.messageIndex}</BaseText>
-        </View>
-      );
+      return null;
     }
   }
 
@@ -224,7 +206,7 @@ class Message extends PureComponent {
       this.setState({ retrying: true });
       this.resendTimer = setTimeout(() => {
         this.setState({ retrying: false });
-        this.props.onRetrySend();
+        this.props.onRetrySend(this.props.message);
       }, 500);
     } else if (this.props.state === "complete") {
       let position = await measure(this.refs.message);
@@ -243,13 +225,18 @@ class Message extends PureComponent {
         width: this.state.animatedWidth,
         height: this.state.animatedHeight,
         backgroundColor: this.props.color
-      }
+      },
+      this.props.type === MessageType.Picture &&
+        (this.props.fromCurrentUser
+          ? {
+              borderBottomLeftRadius: this.state.animatedBorderRadius,
+              borderTopLeftRadius: this.state.animatedBorderRadius
+            }
+          : {
+              borderTopRightRadius: this.state.animatedBorderRadius,
+              borderBottomRightRadius: this.state.animatedBorderRadius
+            })
     ];
-  }
-
-  getRGBFormattedColor() {
-    let rgb = Color(this.props.color).rgb();
-    return `R ${rgb.r}\nG ${rgb.g}\nB ${rgb.b}`;
   }
 }
 
@@ -263,6 +250,14 @@ let style = Style.create({
   },
   received: {
     alignSelf: "flex-start"
+  },
+  sentPicture: {
+    borderTopLeftRadius: 1000,
+    borderBottomLeftRadius: 1000
+  },
+  receivedPicture: {
+    borderTopRightRadius: 1000,
+    borderBottomRightRadius: 1000
   },
   textContainer: {
     flex: 1,

@@ -2,6 +2,10 @@ import { Dimensions } from "react-native";
 import { merge } from "ramda";
 import { rand } from "./Utils";
 
+export const MessageType = {
+  Picture: "picture"
+};
+
 export let generateId = () =>
   Math.floor(Math.random() * Math.pow(10, 10)).toString(16);
 

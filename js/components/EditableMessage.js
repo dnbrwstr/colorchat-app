@@ -23,38 +23,6 @@ class EditableMessage extends React.Component {
     animatedOpacity: new Animated.Value(0)
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      nextState !== this.state ||
-      nextProps.composing !== this.props.composing ||
-      nextProps.screenFocusState !== this.props.screenFocusState
-    );
-  }
-
-  componentDidUpdate(prevProps) {
-    let stoppedComposing = prevProps.composing && !this.props.composing;
-
-    const wasBlurred =
-      prevProps.screenFocusState === "blurring" ||
-      prevProps.screenFocusState === "blurred";
-
-    const isBlurred =
-      this.props.screenFocusState === "blurring" ||
-      this.props.screenFocusState === "blurred";
-
-    let navigatedAway = !wasBlurred && isBlurred;
-
-    let navigatedBack = wasBlurred && !isBlurred;
-    if (stoppedComposing || navigatedAway) {
-      this.state.animatedOpacity.setValue(0);
-    } else if (navigatedBack) {
-      Animated.timing(this.state.animatedOpacity, {
-        toValue: 1,
-        duration: 200
-      }).start();
-    }
-  }
-
   componentDidMount() {
     let animations = [
       Animated.timing(this.state.animatedHeight, {
@@ -75,30 +43,83 @@ class EditableMessage extends React.Component {
     Animated.sequence(animations).start();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      nextState !== this.state ||
+      nextProps.composing !== this.props.composing ||
+      nextProps.screenFocusState !== this.props.screenFocusState ||
+      nextProps.type !== this.props.type
+    );
+  }
+
+  componentDidUpdate(prevProps) {
+    let stoppedComposing = prevProps.composing && !this.props.composing;
+
+    const wasBlurred =
+      prevProps.screenFocusState === "blurring" ||
+      prevProps.screenFocusState === "blurred" ||
+      prevProps.screenFocusState === "focusing";
+
+    const isBlurred =
+      this.props.screenFocusState === "blurring" ||
+      this.props.screenFocusState === "blurred";
+
+    let navigatedAway = !wasBlurred && isBlurred;
+
+    let navigatedBack = wasBlurred && !isBlurred;
+    if (stoppedComposing || navigatedAway) {
+      this.state.animatedOpacity.setValue(0);
+    } else if (navigatedBack) {
+      Animated.timing(this.state.animatedOpacity, {
+        toValue: 1,
+        duration: 200,
+        delay: 100
+      }).start();
+    }
+  }
+
   render() {
-    let messageStyle = this.shouldShowHandles()
-      ? {
-          width: this.state.workingWidth,
-          height: this.state.animatedHeight.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, this.state.workingHeight]
-          }),
-          backgroundColor: this.state.workingColor
-        }
-      : {
-          width: this.props.width,
-          height: this.props.height,
-          backgroundColor: this.props.color
-        };
+    let messageStyle = {
+      width: this.state.workingWidth,
+      height: this.state.animatedHeight.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, this.state.workingHeight]
+      }),
+      backgroundColor:
+        this.props.type === "picture"
+          ? this.props.color
+          : this.state.workingColor
+    };
 
     let messageStyles = [
+      style.message,
       {
         ...messageStyle,
-        overflow: "visible",
         alignSelf: "flex-end"
-      }
+      },
+      this.props.type === "picture" && style.photoMessage
     ];
 
+    // Render instructions if this is the first
+    // message created & it hasn't yet been modified
+    let shouldShowInstructions = this.props.messageCount === 1;
+
+    return (
+      <Animated.View style={messageStyles}>
+        {this.props.type !== "picture" && (
+          <SimpleColorPicker
+            showInstructions={shouldShowInstructions}
+            style={{ flex: 1 }}
+            onChange={this.onColorChange}
+            initialValue={this.state.workingColor}
+          />
+        )}
+        {this.shouldShowHandles() && this.renderHandles()}
+      </Animated.View>
+    );
+  }
+
+  renderHandles() {
     const statusBarHeight = getStatusBarHeight();
     let screenWidth = Dimensions.get("window").width;
     let screenHeight = Dimensions.get("window").height - statusBarHeight;
@@ -146,41 +167,19 @@ class EditableMessage extends React.Component {
 
     let handles = ["horizontal", "vertical", "diagonal"];
 
-    // Render instructions if this is the first
-    // message created & it hasn't yet been modified
-    let shouldShowInstructions = this.props.messageCount === 1;
-
-    return (
-      <Animated.View style={messageStyles}>
-        {this.shouldShowHandles() && (
-          <View style={{ flex: 1 }}>
-            <SimpleColorPicker
-              showInstructions={shouldShowInstructions}
-              style={{ flex: 1 }}
-              onChange={this.onColorChange}
-              initialValue={this.state.workingColor}
-            />
-            {handles.map(handle => (
-              <DragHandle
-                key={`${handle}-handle`}
-                style={handleStyles[handle]}
-                ref={`${handle}Handle`}
-                onDragMove={this.onDragHandle.bind(this, handle)}
-                onDragStop={this.onDragStop}
-              />
-            ))}
-          </View>
-        )}
-      </Animated.View>
-    );
+    return handles.map(handle => (
+      <DragHandle
+        key={`${handle}-handle`}
+        style={handleStyles[handle]}
+        ref={`${handle}Handle`}
+        onDragMove={this.onDragHandle.bind(this, handle)}
+        onDragStop={this.onDragStop}
+      />
+    ));
   }
 
   shouldShowHandles = () => {
-    return (
-      this.props.composing &&
-      this.props.state === "composing" &&
-      this.props.screenFocusState === "focused"
-    );
+    return this.props.screenFocusState === "focused";
   };
 
   onDragHandle = (axis, e) => {
@@ -214,7 +213,10 @@ class EditableMessage extends React.Component {
   onDragStop = () => {
     this.props.dispatch(
       updateWorkingMessage(this.props.message, {
-        color: this.state.workingColor,
+        color:
+          this.props.type === "picture"
+            ? this.props.color
+            : this.state.workingColor,
         height: this.state.workingHeight,
         width: this.state.workingWidth
       })
@@ -235,7 +237,14 @@ class EditableMessage extends React.Component {
 }
 
 let style = Style.create({
-  message: {}
+  message: {
+    flex: 0,
+    overflow: "hidden"
+  },
+  photoMessage: {
+    borderTopLeftRadius: 1000,
+    borderBottomLeftRadius: 1000
+  }
 });
 
 let selectData = (state, props) => {

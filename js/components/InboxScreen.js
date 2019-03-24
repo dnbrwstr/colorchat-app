@@ -65,10 +65,7 @@ class InboxScreen extends React.Component {
         {this.props.conversations.length
           ? this.renderConversations()
           : this.renderEmptyMessage()}
-        <PlusButton
-          style={styles.contactsButton}
-          onPress={this.handleAddButtonPressed}
-        />
+        <PlusButton onPress={this.handleAddButtonPressed} />
       </View>
     );
   }

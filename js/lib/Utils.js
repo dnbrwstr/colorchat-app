@@ -106,7 +106,7 @@ export const addZeros = (n, c = 3) => {
   return str;
 };
 
-export const lerp = (a, b, t) => a + (b - a) * t;
+export const lerp = (a, b, t) => a + (b - a) * clamp(t, 0, 1);
 
 export const makeColorString = ({ r, g, b }) => {
   const values = [r, g, b].map(c => Math.round(c)).join(",");
@@ -120,4 +120,15 @@ export const valSort = (sortFn, reverse = false) => (a, b) => {
   if (valA < valB) return -1 * reverser;
   else if (valA > valB) return 1 * reverser;
   else return 0;
+};
+
+export const getTransforms = styleProp => {
+  if (!styleProp) return [];
+  else if (!(styleProp instanceof Array)) styleProp = [styleProp];
+  return styleProp
+    .map(o => o.transform)
+    .filter(o => !!o)
+    .reduce((memo, a) => {
+      return [...memo, ...a];
+    }, []);
 };

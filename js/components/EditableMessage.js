@@ -48,12 +48,24 @@ class EditableMessage extends React.Component {
       nextState !== this.state ||
       nextProps.composing !== this.props.composing ||
       nextProps.screenFocusState !== this.props.screenFocusState ||
-      nextProps.type !== this.props.type
+      nextProps.type !== this.props.type ||
+      nextProps.width !== this.props.width ||
+      nextProps.height !== this.props.height
     );
   }
 
   componentDidUpdate(prevProps) {
     let stoppedComposing = prevProps.composing && !this.props.composing;
+
+    if (
+      prevProps.width !== this.props.width ||
+      prevProps.height !== this.props.height
+    ) {
+      this.setState({
+        workingWidth: this.props.width,
+        workingHeight: this.props.height
+      });
+    }
 
     const wasBlurred =
       prevProps.screenFocusState === "blurring" ||
@@ -62,18 +74,20 @@ class EditableMessage extends React.Component {
 
     const isBlurred =
       this.props.screenFocusState === "blurring" ||
-      this.props.screenFocusState === "blurred";
+      this.props.screenFocusState === "blurred" ||
+      this.props.screenFocusState === "focusing";
 
     let navigatedAway = !wasBlurred && isBlurred;
-
     let navigatedBack = wasBlurred && !isBlurred;
+
     if (stoppedComposing || navigatedAway) {
       this.state.animatedOpacity.setValue(0);
     } else if (navigatedBack) {
+      this.state.animatedOpacity.setValue(0);
       Animated.timing(this.state.animatedOpacity, {
         toValue: 1,
         duration: 200,
-        delay: 100
+        delay: 300
       }).start();
     }
   }
@@ -125,7 +139,7 @@ class EditableMessage extends React.Component {
     let screenHeight = Dimensions.get("window").height - statusBarHeight;
     let width = this.state.workingWidth;
     let height = this.state.workingHeight;
-    let verticalOffset = Style.values.rowHeight;
+    let verticalOffset = Style.values.composeBarHeight;
 
     let top = screenHeight - height - verticalOffset;
     let left = screenWidth - width;

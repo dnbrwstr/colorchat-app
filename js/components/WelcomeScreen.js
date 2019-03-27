@@ -10,6 +10,7 @@ import TimerMixin from "./mixins/TimerMixin";
 import BaseText from "./BaseText";
 import { navigateTo } from "../actions/NavigationActions";
 import withStyles from "../lib/withStyles";
+import { ifIphoneX } from "react-native-iphone-x-helper";
 
 let { appName } = config;
 
@@ -18,7 +19,13 @@ let WelcomeScreen = createReactClass({
   mixins: [TimerMixin],
 
   componentDidMount: function() {
-    this.setIntervalTimer("refresh", () => this.setState({}), 1000);
+    this.timer = setInterval(() => {
+      this.setState({});
+    }, 1000);
+  },
+
+  componentWillUnmount: function() {
+    clearInterval(this.timer);
   },
 
   randomColor: function() {
@@ -100,6 +107,7 @@ let getStyles = theme => ({
   bottomBar: {
     position: "absolute",
     bottom: 0,
+    ...ifIphoneX({ bottom: 30 }),
     left: 0,
     right: 0,
     height: Style.values.rowHeight,

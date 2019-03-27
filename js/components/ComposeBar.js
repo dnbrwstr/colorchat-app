@@ -1,15 +1,10 @@
 import React from "react";
-import { Animated, Text, StyleSheet } from "react-native";
+import { Animated, Text, StyleSheet, View } from "react-native";
 import Style from "../style";
 import PressableView from "./PressableView";
 import withStyles from "../lib/withStyles";
 import { isIphoneX, ifIphoneX } from "react-native-iphone-x-helper";
 import CameraIcon from "./CameraIcon";
-
-const HEIGHT =
-  Style.values.rowHeight +
-  (1 - StyleSheet.hairlineWidth) +
-  (isIphoneX() ? 45 : 0);
 
 class ComposeBar extends React.Component {
   state = {
@@ -35,7 +30,7 @@ class ComposeBar extends React.Component {
         opacity: this.state.animationValue,
         height: this.state.animationValue.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, HEIGHT]
+          outputRange: [0, Style.values.composeBarHeight]
         }),
         borderTopWidth: this.state.animationValue.interpolate({
           inputRange: [0, 1],
@@ -51,26 +46,32 @@ class ComposeBar extends React.Component {
           activeStyle={styles.buttonActive}
           onPress={this.props.onPressCamera}
         >
-          <CameraIcon
-            style={styles.cameraIcon}
-            strokeWidth={4}
-            strokeColor={theme.primaryTextColor}
-            style={{ width: 33, height: 33 }}
-          />
+          <View style={styles.buttonContent}>
+            <CameraIcon
+              style={styles.cameraIcon}
+              strokeWidth={4}
+              strokeColor={theme.primaryTextColor}
+              style={{ width: 33, height: 33 }}
+            />
+          </View>
         </PressableView>
         <PressableView
           style={[styles.button, styles.buttonFirst]}
           activeStyle={styles.buttonActive}
           onPress={this.props.onCancel}
         >
-          <Text style={styles.buttonText}>Cancel</Text>
+          <View style={styles.buttonContent}>
+            <Text style={styles.buttonText}>Cancel</Text>
+          </View>
         </PressableView>
         <PressableView
           style={styles.button}
           activeStyle={styles.buttonActive}
           onPress={this.props.onSend}
         >
-          <Text style={styles.buttonText}>Send</Text>
+          <View style={styles.buttonContent}>
+            <Text style={styles.buttonText}>Send</Text>
+          </View>
         </PressableView>
       </Animated.View>
     );
@@ -79,7 +80,7 @@ class ComposeBar extends React.Component {
 
 const getStyles = theme => ({
   composeBar: {
-    height: HEIGHT,
+    height: Style.values.composeBarHeight,
     flexDirection: "row",
     overflow: "hidden",
     borderTopColor: theme.secondaryBorderColor,
@@ -90,10 +91,12 @@ const getStyles = theme => ({
     flexBasis: 80
   },
   button: {
-    flex: 1,
+    flex: 1
+  },
+  buttonContent: {
+    height: Style.values.rowHeight,
     justifyContent: "center",
     alignItems: "center"
-    // ...ifIphoneX({ paddingBottom: 30 })
   },
   buttonText: {
     ...Style.mixins.textBase,

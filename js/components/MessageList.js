@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FlatList, Dimensions, ScrollView, View } from "react-native";
 import Style from "../style";
 import Message from "./Message";
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 let BEGINNING_REACHED_OFFSET = 1000;
 
@@ -119,7 +120,7 @@ class MessageList extends Component {
     // as we're using an InvertibleScrollView
     let { height, width } = Dimensions.get("window");
     let nextTop = position.top + position.height - nextSize.height;
-    let nextOffset = nextTop - Style.values.rowHeight;
+    let nextOffset = nextTop - Style.values.rowHeight - getStatusBarHeight();
 
     if (nextOffset < 0) {
       this.refs.list

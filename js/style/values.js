@@ -1,5 +1,6 @@
 import Color from "color";
 import { PixelRatio, Dimensions } from "react-native";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const { width: wWidth, height: wHeight } = Dimensions.get("window");
 const aspect = wWidth / wHeight;
@@ -11,6 +12,8 @@ let darkGray = "#333";
 let darkGrayHighlight = Color(darkGray)
   .lighten(0.1)
   .hexString();
+
+const rowHeight = 64;
 
 let values = {
   smallFontSize: 14,
@@ -27,9 +30,10 @@ let values = {
   fairlyLightGray: "#F8F8F8",
   veryLightGray: "#FAFAFA",
   outerPadding: 15,
-  rowHeight: 64,
+  rowHeight,
   buttonHeight: wWidth < 400 ? 54 : 64,
-  avatarSize: 40
+  avatarSize: 40,
+  composeBarHeight: rowHeight + (isIphoneX() ? 20 : 0)
 };
 
 values.backgroundGray = "black";

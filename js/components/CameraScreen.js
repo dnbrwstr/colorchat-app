@@ -8,7 +8,7 @@ import CameraBlob from "./CameraBlob";
 import { navigateBack } from "../actions/NavigationActions";
 import { updateWorkingMessage } from "../actions/MessageActions";
 
-const interval = 1000;
+const interval = 250;
 
 class CameraScreen extends Component {
   state = {

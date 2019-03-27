@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Animated, Easing } from "react-native";
+import { View, Animated, Easing } from "react-native";
 import Color from "color";
-import memoize from "memoize-one";
 import { makeArray, lerp, makeColorString, valSort, clamp } from "../lib/Utils";
 import PressableBlob from "./PressableBlob";
 import withStyles from "../lib/withStyles";
 
-const positionLerp = 0.1;
-const colorLerp = 0.5;
+const positionLerp = 1;
+const colorLerp = 1;
 
 const getSize = v => v.size;
 const getLum = color => Color(color).luminosity();
@@ -20,6 +19,24 @@ const sortFunctions = {
   light: valSort(getLum, true),
   saturated: valSort(getSat, true),
   desaturated: valSort(getSat)
+};
+
+const getChange = (newColors, oldColors) => {
+  if (!newColors || !oldColors) return 1;
+
+  return newColors.reduce((memo, color, i) => {
+    const lastColor = oldColors[i];
+    const d = Math.sqrt(
+      Math.pow(lastColor.r - color.r, 2) +
+        Math.pow(lastColor.g - color.g, 2) +
+        Math.pow(lastColor.b - color.b, 2)
+    );
+
+    const p = d / Math.sqrt(Math.pow(255, 2) * 3);
+    return memo + p;
+  }, 0);
+
+  return memo / newColors.length;
 };
 
 class CameraDisplay extends Component {
@@ -55,14 +72,16 @@ class CameraDisplay extends Component {
     const colors = props.colors;
     const sortedColors = colors.sort(sortFunctions.grid);
 
-    const workingPositionLerp = positionLerp;
-    const workingColorLerp = lerp(
-      0.9,
-      colorLerp,
-      (prevState.frameCount - 3) / 10
+    let changeAmount = Math.min(
+      0.5,
+      Math.pow(getChange(prevState.sourceColors, props.colors), 2) * 0.75
     );
 
-    const newColors = sortedColors.map((color, i) => {
+    const workingPositionLerp =
+      prevState.changeAmount >= 0.5 ? 0.01 : Math.pow(changeAmount, 2);
+    const workingColorLerp = workingPositionLerp;
+
+    let newColors = sortedColors.map((color, i) => {
       const lastColor =
         prevState.colors && prevState.colors[i]
           ? prevState.colors[i]
@@ -120,9 +139,34 @@ class CameraDisplay extends Component {
     const rows = 4;
     const columns = 4;
 
+    const lastTotalSize = this.state.lastColors.reduce(
+      (memo, v) => memo + v.size,
+      0
+    );
+    const totalSize = this.state.colors.reduce((memo, v) => memo + v.size, 0);
+
     return makeArray(columns).map(y => {
+      const columnSize =
+        makeArray(rows).reduce((memo, x) => {
+          const i = x * rows + y;
+          return memo + this.state.colors[i].size;
+        }) / totalSize;
+
+      const lastColumnSize =
+        makeArray(rows).reduce((memo, x) => {
+          const i = x * rows + y;
+          return memo + this.state.lastColors[i].size;
+        }) / lastTotalSize;
+
+      const style = {
+        flexBasis: this.colorAnimationValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [lastColumnSize, columnSize].map(n => n * 1000)
+        })
+        // flexBasis: 100
+      };
       return (
-        <View style={[styles.gridColorColumn]} key={y}>
+        <Animated.View style={[styles.gridColorColumn, style]} key={y}>
           {makeArray(rows).map(x => {
             const i = x * rows + y;
             if (i == 15 && this.props.renderCamera) {
@@ -131,7 +175,7 @@ class CameraDisplay extends Component {
               return this.renderColor(i);
             }
           })}
-        </View>
+        </Animated.View>
       );
     });
   };
@@ -207,9 +251,10 @@ const getStyles = theme => ({
     flexShrink: 1
   },
   gridColorColumn: {
-    flex: 1,
+    // flex: 1,
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
+    flexShrink: 1
   },
   gridColor: {
     marginTop: -1,

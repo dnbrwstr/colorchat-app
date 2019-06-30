@@ -1,43 +1,48 @@
-import React from "react";
-import createReactClass from "create-react-class";
+import React, { Component } from "react";
 import { View, Text, TextInput } from "react-native";
 import { connect } from "react-redux";
 import Style from "../style";
 import PressableView from "./PressableView";
 import config from "../config";
 import { rand } from "../lib/Utils";
-import TimerMixin from "./mixins/TimerMixin";
 import BaseText from "./BaseText";
 import { navigateTo } from "../actions/NavigationActions";
 import withStyles from "../lib/withStyles";
 import { ifIphoneX } from "react-native-iphone-x-helper";
+import { getFocusStateChange } from "../lib/NavigationUtils";
+import {
+  withScreenFocusState,
+  withScreenFocusStateProvider
+} from "./ScreenFocusState";
 
 let { appName } = config;
 
-let WelcomeScreen = createReactClass({
-  displayName: "WelcomeScreen",
-  mixins: [TimerMixin],
+class WelcomeScreen extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    const change = getFocusStateChange(
+      prevProps.screenFocusState,
+      this.props.screenFocusState
+    );
 
-  componentDidMount: function() {
-    this.timer = setInterval(() => {
-      this.setState({});
-    }, 1000);
-  },
+    if (change.entered) {
+      this.timer = setInterval(() => {
+        this.setState({});
+      }, 1000);
+    } else if (change.exited) {
+      clearInterval(this.timer);
+    }
+  }
 
-  componentWillUnmount: function() {
-    clearInterval(this.timer);
-  },
-
-  randomColor: function() {
+  randomColor() {
     return `hsl(${rand(360)},100%,65%)`;
-  },
+  }
 
-  handlePressNext: function() {
+  handlePressNext() {
     this.clearIntervalTimer("refresh");
     this.props.dispatch(navigateTo("signup"));
-  },
+  }
 
-  render: function() {
+  render() {
     const { styles } = this.props;
     return (
       <View style={styles.wrapper}>
@@ -47,13 +52,13 @@ let WelcomeScreen = createReactClass({
 
         <View style={styles.floatMessageContainer}>
           <View style={styles.floatMessage}>
-            <BaseText style={styles.floatMessageText}>
+            <Text style={styles.floatMessageText}>
               {this.renderColorizedText("Chat with")}
               {"\n"}
               {this.renderColorizedText("colors instead")}
               {"\n"}
               {this.renderColorizedText("of words")}
-            </BaseText>
+            </Text>
           </View>
         </View>
 
@@ -67,20 +72,20 @@ let WelcomeScreen = createReactClass({
         </View>
       </View>
     );
-  },
+  }
 
-  renderColorizedText: function(text) {
+  renderColorizedText(text) {
     return text.split("").map((letter, i) => {
       return (
-        <BaseText key={`letter-${i}`} style={{ color: this.randomColor() }}>
+        <Text key={`letter-${i}`} style={{ color: this.randomColor() }}>
           {letter}
-        </BaseText>
+        </Text>
       );
     });
   }
-});
+}
 
-let getStyles = theme => ({
+const addStyle = withStyles(theme => ({
   wrapper: {
     ...Style.mixins.outerWrapperBase,
     backgroundColor: theme.backgroundColor,
@@ -142,10 +147,16 @@ let getStyles = theme => ({
     backgroundColor: "black"
   },
   floatMessageText: {
+    ...Style.mixins.textBase,
     color: theme.primaryTextColor,
     textAlign: "center",
     lineHeight: 24
   }
-});
+}));
 
-export default withStyles(getStyles)(connect(() => ({}))(WelcomeScreen));
+const addFocusState = c =>
+  withScreenFocusStateProvider(withScreenFocusState(c));
+
+const selector = () => ({});
+
+export default addFocusState(addStyle(connect(selector)(WelcomeScreen)));

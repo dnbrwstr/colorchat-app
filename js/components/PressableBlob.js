@@ -17,6 +17,11 @@ class PressableBlob extends PureComponent {
 
   layout = null;
 
+  constructor(props) {
+    super(props);
+    this.isTriggering = false;
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.pressActive && !this.state.pressActive) {
       this.animateUp();
@@ -30,8 +35,7 @@ class PressableBlob extends PureComponent {
     this.scaleAnimation = Animated.timing(this.scale, {
       toValue: this.props.activeScale,
       duration: 50,
-      easing: Easing.in(Easing.linear),
-      useNativeDriver: true
+      easing: Easing.in(Easing.linear)
     });
     this.scaleAnimation.start(this.handleDownCompleted);
   };
@@ -41,10 +45,9 @@ class PressableBlob extends PureComponent {
     this.scaleAnimation = Animated.timing(this.scale, {
       toValue: 1,
       duration: 200,
-      easing: Easing.elastic(2),
-      useNativeDriver: true
+      easing: Easing.elastic(2)
     });
-    this.scaleAnimation.start();
+    this.scaleAnimation.start(this.handleUpCompleted);
   };
 
   handleDownCompleted = ({ finished }) => {
@@ -53,6 +56,11 @@ class PressableBlob extends PureComponent {
     if (!this.state.pressActive) {
       this.animateUp();
     }
+  };
+
+  handleUpCompleted = ({ finished }) => {
+    if (!finished) return;
+    this.scaleAnimation = null;
   };
 
   render() {
@@ -112,10 +120,12 @@ class PressableBlob extends PureComponent {
   };
 
   handleResponderRelease = () => {
-    if (this.state.pressActive) {
+    if (this.state.pressActive && !this.isTriggering) {
+      this.isTriggering = true;
       setTimeout(() => {
         this.props.onPress && this.props.onPress();
-      }, 50);
+        this.isTriggering = false;
+      }, 150);
     }
     this.setState({ pressActive: false });
   };

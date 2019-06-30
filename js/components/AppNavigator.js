@@ -89,13 +89,17 @@ const Navigator = createSwitchNavigator(
       },
       {
         initialRouteName: "auth",
-        ...defaultStackOptions
+        ...defaultStackOptions,
+        defaultNavigationOptions: {
+          gesturesEnabled: false
+        }
       }
     )
   },
   {
     initialRouteName: "authCheck",
-    ...defaultStackOptions
+    ...defaultStackOptions,
+    gesturesEnabled: false
   }
 );
 

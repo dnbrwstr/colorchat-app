@@ -30,10 +30,11 @@ export let conversationScreenSelector = createSelector(
     (state, ownProps) =>
       createContactSelector(state.ui.conversation.contactId)(state),
     selectMessages,
+    state => state.messages.total,
     (state, ownProps) =>
       createConversationSelector(state.ui.conversation.contactId)(state)
   ],
-  (ui, user, contact, messages, conversation) => {
+  (ui, user, contact, messages, totalMessages, conversation) => {
     let contactId = contact ? contact.id : conversation.recipientId;
 
     let contactName = contact
@@ -42,13 +43,14 @@ export let conversationScreenSelector = createSelector(
 
     return {
       ...ui,
-      user: user,
+      user,
       contact: {
         id: contactId,
         name: contactName
       },
       partnerIsComposing: conversation.partnerIsComposing,
-      messages: messages
+      messages,
+      totalMessages
     };
   }
 );

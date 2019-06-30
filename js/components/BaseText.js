@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Text } from "react-native";
+import { Text, Animated } from "react-native";
 import Color from "color";
 import Style from "../style";
 import withStyles from "../lib/withStyles";
@@ -20,7 +20,7 @@ class BaseText extends React.Component {
   };
 
   render() {
-    return <Text {...this.props} style={this.getStyles()} />;
+    return <Animated.Text {...this.props} style={this.getStyles()} />;
   }
 
   getStyles = () => {

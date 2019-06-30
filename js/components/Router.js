@@ -16,10 +16,6 @@ function getActiveRoute(navigationState) {
   return route;
 }
 
-function getActiveRouteName(navigationState) {
-  return getActiveRoute(navigationState).routeName;
-}
-
 class Router extends Component {
   render() {
     const { theme } = this.props;

@@ -1,5 +1,4 @@
-import React, { PureComponent } from "react";
-import createReactClass from "create-react-class";
+import React, { Component, PureComponent } from "react";
 import { View, InteractionManager, Dimensions, StatusBar } from "react-native";
 import ScrollBridge from "../lib/ScrollBridge";
 import { connect } from "react-redux";
@@ -7,19 +6,16 @@ import Header from "./Header";
 import MessageList from "./MessageList";
 import ComposeBar from "./ComposeBar";
 import PlusButton from "./PlusButton";
-import RoundButton from "./RoundButton";
 import { navigateBack, navigateTo } from "../actions/NavigationActions";
 import * as MessageActions from "../actions/MessageActions";
 import { conversationScreenSelector } from "../lib/Selectors";
 import { updateConversationUi } from "../actions/AppActions";
-import TimerMixin from "./mixins/TimerMixin";
 import { withScreenFocusStateProvider } from "./ScreenFocusState";
 import withStyles from "../lib/withStyles";
 import { updateUnreadCount } from "../actions/NotificationActions";
 import { markConversationRead } from "../actions/ConversationActions";
 import PlaceholderMessage from "./PlaceholderMessage";
 import Style from "../style";
-import BaseText from "./BaseText";
 
 let {
   resendMessage,
@@ -32,29 +28,26 @@ let {
   unloadOldMessages
 } = MessageActions;
 
-let ConversationScreen = createReactClass({
-  displayName: "ConversationScreen",
-  mixins: [TimerMixin],
+class ConversationScreen extends Component {
+  state = {
+    page: 0,
+    loadedAll: false,
+    scrollBridge: new ScrollBridge(),
+    lastOffset: 0
+  };
 
-  getInitialState: function() {
-    return {
-      page: 0,
-      loadedAll: false,
-      scrollBridge: new ScrollBridge(),
-      lastOffset: 0
-    };
-  },
-
-  componentDidMount: function() {
+  componentDidMount() {
     this.props.dispatch(markConversationRead(this.props.contact.id));
     this.props.dispatch(updateUnreadCount());
-  },
+  }
 
-  componentWillUnmount: function() {
-    this.clearAllTimers();
-  },
+  static getDerivedStateFromProps = props => {
+    return {
+      loadedAll: props.messages && props.messages.length >= props.totalMessages
+    };
+  };
 
-  render: function() {
+  render() {
     const { contact, dispatch, styles, theme } = this.props;
     return (
       <View style={styles.container}>
@@ -69,8 +62,8 @@ let ConversationScreen = createReactClass({
         <View style={[styles.messageListContainer, this.props.style]}>
           <MessageList
             scrollBridge={this.state.scrollBridge}
-            onRetryMessageSend={this.onRetryMessageSend}
-            onToggleMessageExpansion={this.onToggleMessageExpansion}
+            onRetryMessageSend={this.handleRetryMessageSend}
+            onToggleMessageExpansion={this.handleToggleMessageExpansion}
             scrollLocked={this.props.composing}
             messages={this.props.messages}
             user={this.props.user}
@@ -85,7 +78,7 @@ let ConversationScreen = createReactClass({
 
         <PlusButton
           style={styles.newMessageButton}
-          onPress={this.onStartComposing}
+          onPress={this.handleStartComposing}
           visible={
             !this.props.composing &&
             !this.props.sending &&
@@ -95,30 +88,32 @@ let ConversationScreen = createReactClass({
         <ComposeBar
           ref="composeBar"
           active={this.props.composing}
-          onSend={this.onSendMessage}
-          onCancel={this.onStopComposing}
+          onSend={this.handleSendMessage}
+          onCancel={this.handleStopComposing}
           onPressCamera={this.handlePressCameraButton}
         />
       </View>
     );
-  },
+  }
 
-  handleEndReached: function() {
+  handleEndReached = () => {
+    if (this.state.loadedAll) return;
     let nextPage = ++this.state.page;
     this.props.dispatch(loadMessages(this.props.contact.id, this.state.page));
     this.setState({ page: nextPage });
-  },
+  };
 
-  handleBeginningReached: function() {
+  handleBeginningReached = () => {
     this.props.dispatch(unloadOldMessages());
-  },
+  };
 
-  handlePressCameraButton: function() {
+  handlePressCameraButton = () => {
     this.props.dispatch(navigateTo("camera"));
-  },
+  };
 
-  onSendMessage: function(message) {
+  handleSendMessage = message => {
     if (this.props.sending) return;
+    if (!this.getWorkingMessage()) return;
 
     this.props.dispatch(
       updateConversationUi({
@@ -142,23 +137,24 @@ let ConversationScreen = createReactClass({
         }, 0);
       });
     }, 0);
-  },
+  };
 
-  onStartComposing: function() {
+  handleStartComposing = () => {
+    if (this.props.composing) return;
+
     this.props.dispatch(
       startComposingMessage({
         recipientId: this.props.contact.id
       })
     );
-  },
+  };
 
-  onStopComposing: function() {
+  handleStopComposing = () => {
+    // InteractionManager.setDeadline(1000);
     this.props.dispatch(cancelComposingMessage(this.getWorkingMessage()));
-
     setTimeout(() => {
       InteractionManager.runAfterInteractions(() => {
         this.props.dispatch(destroyWorkingMessage(this.getWorkingMessage()));
-
         setTimeout(() => {
           InteractionManager.runAfterInteractions(() => {
             this.props.dispatch(
@@ -169,29 +165,25 @@ let ConversationScreen = createReactClass({
           });
         }, 0);
       });
-    }, 0);
-  },
+    }, 1000);
+  };
 
-  getWorkingMessage: function() {
+  handleToggleMessageExpansion = message => {
+    this.props.dispatch(toggleMessageExpansion(message));
+  };
+
+  handleRetryMessageSend = message => {
+    this.props.dispatch(resendMessage(message));
+  };
+
+  getWorkingMessage = () => {
     return this.props.messages.filter(
       m => m.state === "composing" || m.state === "cancelling"
     )[0];
-  },
+  };
+}
 
-  onSelectPicker: function(value) {
-    this.props.dispatch(selectColorPicker(value));
-  },
-
-  onToggleMessageExpansion: function(message) {
-    this.props.dispatch(toggleMessageExpansion(message));
-  },
-
-  onRetryMessageSend: function(message) {
-    this.props.dispatch(resendMessage(message));
-  }
-});
-
-const getStyles = theme => ({
+const addStyle = withStyles(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.backgroundColor
@@ -212,10 +204,8 @@ const getStyles = theme => ({
     bottom: Style.values.outerPadding,
     left: Style.values.outerPadding
   }
-});
+}));
 
-export default withStyles(getStyles)(
-  withScreenFocusStateProvider(
-    connect(conversationScreenSelector)(ConversationScreen)
-  )
+export default withScreenFocusStateProvider(
+  addStyle(connect(conversationScreenSelector)(ConversationScreen))
 );

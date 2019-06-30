@@ -95,13 +95,11 @@ let handlers = {
   },
 
   startComposingMessage: function(state, action) {
-    console.log("add working message");
     const nextState = addMessage(
       "working",
       createMessage(action.message),
       state
     );
-    console.log(nextState);
     return nextState;
   },
 
@@ -115,7 +113,6 @@ let handlers = {
   },
 
   destroyWorkingMessage: function(state, action) {
-    console.log("remove working message");
     return removeMessage("working", action.message, state);
   },
 

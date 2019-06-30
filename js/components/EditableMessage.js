@@ -8,6 +8,7 @@ import { updateWorkingMessage } from "../actions/MessageActions";
 import SimpleColorPicker from "./SimpleColorPicker";
 import { constrain } from "../lib/Utils";
 import { withScreenFocusState } from "./ScreenFocusState";
+import { getFocusStateChange } from "../lib/NavigationUtils";
 
 const MIN_MESSAGE_HEIGHT = 50;
 const MAX_MESSAGE_HEIGHT = 400;
@@ -67,22 +68,14 @@ class EditableMessage extends React.Component {
       });
     }
 
-    const wasBlurred =
-      prevProps.screenFocusState === "blurring" ||
-      prevProps.screenFocusState === "blurred" ||
-      prevProps.screenFocusState === "focusing";
+    const change = getFocusStateChange(
+      prevProps.screenFocusState,
+      this.props.screenFocusState
+    );
 
-    const isBlurred =
-      this.props.screenFocusState === "blurring" ||
-      this.props.screenFocusState === "blurred" ||
-      this.props.screenFocusState === "focusing";
-
-    let navigatedAway = !wasBlurred && isBlurred;
-    let navigatedBack = wasBlurred && !isBlurred;
-
-    if (stoppedComposing || navigatedAway) {
+    if (stoppedComposing || change.exited) {
       this.state.animatedOpacity.setValue(0);
-    } else if (navigatedBack) {
+    } else if (change.entered) {
       this.state.animatedOpacity.setValue(0);
       Animated.timing(this.state.animatedOpacity, {
         toValue: 1,

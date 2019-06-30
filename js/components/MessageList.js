@@ -7,7 +7,7 @@ import { getStatusBarHeight } from "react-native-iphone-x-helper";
 let BEGINNING_REACHED_OFFSET = 1000;
 
 let getMessageKey = message => {
-  const key = message.id || message.clientId || message.state;
+  const key = message.clientId || message.id || message.state;
   return key.toString();
 };
 

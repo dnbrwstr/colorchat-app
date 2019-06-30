@@ -1,7 +1,6 @@
 import React from "react";
-import { View, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import Style from "../style";
-import BaseText from "./BaseText";
 import ConversationListItem from "./ConversationListItem";
 
 class ConversationList extends React.Component {

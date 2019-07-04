@@ -5,6 +5,7 @@ import PressableView from "./PressableView";
 import { connectWithStyles } from "../lib/withStyles";
 import SliderIcon from "./SliderIcon";
 import { navigateTo } from "../actions/NavigationActions";
+import UserSettingsButton from "./UserSettingsButton";
 
 class Header extends Component {
   static defaultProps = {
@@ -71,22 +72,11 @@ class Header extends Component {
 
         <View style={[styles.buttonContainer, styles.rightButtonContainer]}>
           {this.props.showSettingsButton && (
-            <PressableView
+            <UserSettingsButton
               onPress={this.handlePressSettings}
               style={styles.button}
               activeStyle={[styles.buttonActive, highlightColor]}
-            >
-              <SliderIcon
-                style={{
-                  width: 20,
-                  height: 20,
-                  marginRight: 15,
-                  marginLeft: 15
-                }}
-                strokeWidth={3}
-                strokeColor={theme.primaryTextColor}
-              />
-            </PressableView>
+            />
           )}
         </View>
       </View>

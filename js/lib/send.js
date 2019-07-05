@@ -1,4 +1,4 @@
-import { NetInfo } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { merge, mergeAll, reduce } from "ramda";
 
 let errorMessages = {
@@ -91,7 +91,7 @@ let onError = async (options, attempt, err) => {
     setTimeout(() => send(options, ++attempt), retryIntervals[attempt]);
   } else {
     console.log("Request failed:", err);
-    let isConnected = await NetInfo.isConnected.fetch();
+    let { isConnected } = await NetInfo.fetch();
     let errorType = isConnected ? "serverUnreachable" : "noNetwork";
 
     dispatchWith(options, {

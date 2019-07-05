@@ -1,4 +1,4 @@
-import { NetInfo } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { changeNetwork } from "../actions/AppActions";
 import createService from "./createService";
 
@@ -8,14 +8,15 @@ let networkServiceSelector = state => {
 
 let networkServiceBase = {
   onDidInitialize: async function() {
-    NetInfo.addEventListener("connectionChange", this.onNetworkChange);
-    let initialState = await NetInfo.getConnectionInfo();
-    this.onNetworkChange(initialState);
+    NetInfo.addEventListener(this.onNetworkChange);
+    const { state } = await NetInfo.fetch();
+    this.onNetworkChange(state);
   },
 
   onNetworkChange: function(state) {
-    console.log(state);
-    this.props.dispatch(changeNetwork(state));
+    if (state) {
+      this.props.dispatch(changeNetwork(state.type));
+    }
   }
 };
 

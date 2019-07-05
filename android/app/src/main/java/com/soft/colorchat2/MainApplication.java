@@ -2,6 +2,8 @@ package com.soft.colorchat2;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.horcrux.svg.SvgPackage;
 import com.tkporter.sendsms.SendSMSPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
@@ -33,6 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+            new NetInfoPackage(),
+            new AsyncStoragePackage(),
             new SvgPackage(),
             SendSMSPackage.getInstance(),
             new RNScreensPackage(),

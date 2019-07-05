@@ -158,5 +158,13 @@ module.exports = {
   watchFolders: alternateRoots,
   serializer: {
     getPolyfills: getPolyfillHelper()
+  },
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: false
+      }
+    })
   }
 };

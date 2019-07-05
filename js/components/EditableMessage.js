@@ -178,8 +178,7 @@ class EditableMessage extends React.Component {
       <DragHandle
         key={`${handle}-handle`}
         style={handleStyles[handle]}
-        ref={`${handle}Handle`}
-        onDragMove={this.onDragHandle.bind(this, handle)}
+        onDragMove={e => this.onDragHandle(handle, e)}
         onDragStop={this.onDragStop}
       />
     ));

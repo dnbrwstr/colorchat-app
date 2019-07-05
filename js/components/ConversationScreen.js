@@ -85,7 +85,6 @@ class ConversationScreen extends Component {
           }
         />
         <ComposeBar
-          ref="composeBar"
           active={this.props.composing}
           onSend={this.handleSendMessage}
           onCancel={this.handleStopComposing}

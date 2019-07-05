@@ -60,41 +60,45 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
-  - React (0.58.6):
-    - React/Core (= 0.58.6)
+  - React (0.59.10):
+    - React/Core (= 0.59.10)
+  - react-native-netinfo (3.2.1):
+    - React
   - react-native-sqlite-storage (3.3.10):
     - React
-  - React/Core (0.58.6):
-    - yoga (= 0.58.6.React)
-  - React/fishhook (0.58.6)
-  - React/RCTActionSheet (0.58.6):
+  - React/Core (0.59.10):
+    - yoga (= 0.59.10.React)
+  - React/fishhook (0.59.10)
+  - React/RCTActionSheet (0.59.10):
     - React/Core
-  - React/RCTAnimation (0.58.6):
+  - React/RCTAnimation (0.59.10):
     - React/Core
-  - React/RCTBlob (0.58.6):
+  - React/RCTBlob (0.59.10):
     - React/Core
-  - React/RCTGeolocation (0.58.6):
+  - React/RCTGeolocation (0.59.10):
     - React/Core
-  - React/RCTImage (0.58.6):
+  - React/RCTImage (0.59.10):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.58.6):
+  - React/RCTLinkingIOS (0.59.10):
     - React/Core
-  - React/RCTNetwork (0.58.6):
+  - React/RCTNetwork (0.59.10):
     - React/Core
-  - React/RCTSettings (0.58.6):
+  - React/RCTSettings (0.59.10):
     - React/Core
-  - React/RCTText (0.58.6):
+  - React/RCTText (0.59.10):
     - React/Core
-  - React/RCTVibration (0.58.6):
+  - React/RCTVibration (0.59.10):
     - React/Core
-  - React/RCTWebSocket (0.58.6):
+  - React/RCTWebSocket (0.59.10):
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNCAsyncStorage (1.5.0):
+    - React
   - RNDeviceInfo (0.21.5):
     - React
-  - RNGestureHandler (1.0.15):
+  - RNGestureHandler (1.3.0):
     - React
   - RNScreens (1.0.0-alpha.22):
     - React
@@ -102,11 +106,12 @@ PODS:
     - React
   - STColorCamera (1.0.0):
     - React
-  - yoga (0.58.6.React)
+  - yoga (0.59.10.React)
 
 DEPENDENCIES:
   - Firebase/Core (~> 5.15.0)
   - Firebase/Messaging (~> 5.15.0)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
@@ -119,6 +124,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -142,8 +148,12 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-sqlite-storage:
     :path: "../node_modules/react-native-sqlite-storage"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
@@ -168,15 +178,17 @@ SPEC CHECKSUMS:
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  React: 130b87b2d5e2baac646954282cab87be986d98fc
+  React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-sqlite-storage: dba8e864e9a76f1aae6ddb5e7d0dc330d59f4bb3
+  RNCAsyncStorage: 9436928b444c5f5361960a7eea051a697c244b68
   RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
-  RNGestureHandler: 14c09a7361c272efea8f7f3799142c893a6a4485
+  RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNScreens: 720a9e6968beb73e8196239801e887d8401f86ed
   RNSVG: 6fec2b50e65b4a01ba54155e8e546e0a1eeb16f4
   STColorCamera: 4eac7c64f1cba7a94f9ef5f41a9f4df681ee953f
-  yoga: 32d7ef1081951e9a35a4c72a7be797598b138a48
+  yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 5d1393326b287e056a7f550fd2a693e8e963e70b
+PODFILE CHECKSUM: 5e2fdb9e26da874d9002972870f359f40164dffb
 
 COCOAPODS: 1.6.1

@@ -35,19 +35,22 @@ export let conversationScreenSelector = createSelector(
       createConversationSelector(state.ui.conversation.contactId)(state)
   ],
   (ui, user, contact, messages, totalMessages, conversation) => {
-    let contactId = contact ? contact.id : conversation.recipientId;
+    conversation = conversation || {};
 
-    let contactName = contact
-      ? formatName(contact.givenName, contact.familyName)
-      : conversation.recipientName;
+    contact = contact || {
+      id: conversation.recipientId,
+      name: conversation.recipientName,
+      avatar: "#CCC"
+    };
+
+    if (contact.givenName) {
+      contact.name = formatName(contact.givenName, contact.familyName);
+    }
 
     return {
       ...ui,
       user,
-      contact: {
-        id: contactId,
-        name: contactName
-      },
+      contact,
       partnerIsComposing: conversation.partnerIsComposing,
       messages,
       totalMessages
@@ -91,11 +94,12 @@ let contactsByIdSelector = createSelector(
 );
 
 export let inboxScreenSelector = createSelector(
-  [sortedConversationsSelector, contactsByIdSelector],
-  (conversations, contacts) => {
+  [sortedConversationsSelector, contactsByIdSelector, state => state.user],
+  (conversations, contacts, user) => {
     return {
       conversations,
-      contacts
+      contacts,
+      user
     };
   }
 );

@@ -20,7 +20,6 @@ export let updateData = newData => {
 export let registerPhoneNumber = () => async (dispatch, getState) => {
   let state = getState();
   let { countryCode, baseNumber } = state.signup;
-  let phoneNumber = formatPhoneNumber(countryCode, baseNumber);
 
   send({
     dispatch,

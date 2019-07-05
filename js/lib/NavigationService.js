@@ -1,7 +1,6 @@
 import { NavigationActions, StackActions } from "react-navigation";
 
 let navigator;
-let currentRoute = "";
 
 function getActiveRoute(navigationState) {
   if (!navigationState) {
@@ -14,17 +13,9 @@ function getActiveRoute(navigationState) {
   return route;
 }
 
-function getActiveRouteName(navigationState) {
-  return getActiveRoute(navigationState).routeName;
-}
-
 export default {
   setTopLevelNavigator(navigatorRef) {
     navigator = navigatorRef;
-  },
-
-  setCurrentRoute(route) {
-    currentRoute = route;
   },
 
   navigate(routeName, params) {

@@ -16,6 +16,7 @@ import {
 import withStyles from "../lib/withStyles";
 import ProfileEditor from "./ProfileEditor";
 import { ifIphoneX } from "react-native-iphone-x-helper";
+import RowButtonGroup from "./RowButtonGroup";
 
 class SettingsScreen extends React.Component {
   state = {
@@ -23,6 +24,16 @@ class SettingsScreen extends React.Component {
     avatar: this.props.user.avatar || "#CCC",
     scrollLocked: false
   };
+
+  constructor(props) {
+    super(props);
+    this.buttons = [
+      { label: "About Color Chat", action: this.handleAboutPress },
+      { label: "Blocked users", action: this.handleBlockedUsersPress },
+      { label: "Logout", action: this.handleLogout },
+      { label: "Delete account", action: this.handleDeleteAccount }
+    ];
+  }
 
   componentDidMount(prevProps) {
     this.props.dispatch(loadUserInfo());
@@ -54,12 +65,7 @@ class SettingsScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Header
-          title="Settings"
-          showBack={true}
-          onBack={this.handleBack}
-          borderColor={theme.secondaryBorderColor}
-        />
+        <Header title="Settings" onPressBack={this.handleBack} />
         <ScrollView scrollEnabled={!this.state.scrollLocked}>
           <View style={styles.content}>
             <View style={styles.formContainer}>
@@ -76,8 +82,10 @@ class SettingsScreen extends React.Component {
               />
               {this.renderThemeInput()}
             </View>
-
-            {this.renderBottomButtons()}
+            <RowButtonGroup
+              style={[styles.section, styles.accountButtonContainer]}
+              buttons={this.buttons}
+            />
           </View>
         </ScrollView>
       </View>
@@ -137,33 +145,6 @@ class SettingsScreen extends React.Component {
     );
   };
 
-  renderBottomButtons() {
-    const { styles } = this.props;
-
-    const buttons = [
-      { label: "About Color Chat", action: this.handleAboutPress },
-      { label: "Logout", action: this.handleLogout },
-      { label: "Delete account", action: this.handleDeleteAccount }
-    ];
-
-    return (
-      <View style={[styles.section, styles.accountButtonContainer]}>
-        {buttons.map(b => {
-          return (
-            <PressableView
-              key={b.label}
-              style={styles.accountButton}
-              activeStyle={styles.accountButtonActive}
-              onPress={b.action}
-            >
-              <BaseText>{b.label}</BaseText>
-            </PressableView>
-          );
-        })}
-      </View>
-    );
-  }
-
   handleBack = () => {
     this.maybeUpdateUser();
     this.props.dispatch(navigateBack());
@@ -171,6 +152,10 @@ class SettingsScreen extends React.Component {
 
   handleAboutPress = () => {
     this.props.dispatch(navigateTo("about"));
+  };
+
+  handleBlockedUsersPress = () => {
+    this.props.dispatch(navigateTo("blockedUsers"));
   };
 
   handleLogout = () => {
@@ -281,20 +266,8 @@ const getStyles = theme => ({
   themeOptionText: {
     lineHeight: 18
   },
-  accountButton: {
-    borderTopWidth: Style.values.borderWidth,
-    borderTopColor: theme.secondaryBorderColor,
-    height: Style.values.rowHeight,
-    padding: Style.values.outerPadding,
-    justifyContent: "center"
-  },
-  accountButtonActive: {
-    backgroundColor: theme.highlightColor
-  },
   accountButtonContainer: {
-    marginTop: 30,
-    borderBottomWidth: Style.values.borderWidth,
-    borderBottomColor: theme.secondaryBorderColor
+    marginTop: 30
   }
 });
 

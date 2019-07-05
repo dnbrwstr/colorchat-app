@@ -1,9 +1,10 @@
-import { AsyncStorage, AlertIOS } from "react-native";
+import { AlertIOS } from "react-native";
 import config from "../config";
 import {
   putAuthenticatedJSON,
   getAuthenticated,
-  deleteAuthenticated
+  deleteAuthenticated,
+  postAuthenticated
 } from "../lib/RequestHelpers";
 import * as DatabaseUtils from "../lib/DatabaseUtils";
 import send from "../lib/send";
@@ -97,7 +98,42 @@ export let loadUserInfo = () => async (dispatch, getState) => {
   });
 };
 
-export let updateUserInfo = data => async (dispatch, getState) => {
+export const blockUser = user => (dispatch, getState) => {
+  const url = serverRoot + "/account/blocked/" + user.id;
+  const authToken = getState().user.token;
+
+  return send({
+    dispatch,
+    actionType: "blockUser",
+    baseAction: { user },
+    getRequest: () => postAuthenticated(url, authToken)
+  });
+};
+
+export const unblockUser = user => (dispatch, getState) => {
+  const url = serverRoot + "/account/blocked/" + user.id;
+  const authToken = getState().user.token;
+
+  return send({
+    dispatch,
+    actionType: "unblockUser",
+    baseAction: { user },
+    getRequest: () => deleteAuthenticated(url, authToken)
+  });
+};
+
+export const loadBlockedUsers = () => (dispatch, getState) => {
+  let url = serverRoot + "/account/blocked";
+  let authToken = getState().user.token;
+
+  send({
+    dispatch,
+    actionType: "loadBlockedUsers",
+    getRequest: () => getAuthenticated(url, authToken)
+  });
+};
+
+export let updateUserInfo = data => (dispatch, getState) => {
   let url = serverRoot + "/account";
   let authToken = getState().user.token;
 

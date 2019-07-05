@@ -19,6 +19,7 @@ import {
   withScreenFocusState,
   withScreenFocusStateProvider
 } from "./ScreenFocusState";
+import Style from "../style";
 
 const BR = "\n";
 
@@ -52,15 +53,14 @@ class InboxScreen extends React.Component {
   }
 
   render() {
-    const { theme, styles } = this.props;
+    const { styles } = this.props;
 
     return (
       <View style={styles.container}>
         <Header
           title={"Color Chat"}
-          highlightColor={theme.highlightColor}
-          borderColor={theme.secondaryBorderColor}
-          showSettingsButton={true}
+          onPressSettings={this.handleSettingsPressed}
+          renderSettingsButton={this.renderSettingsButton}
         />
         {this.props.conversations.length
           ? this.renderConversations()
@@ -69,6 +69,19 @@ class InboxScreen extends React.Component {
       </View>
     );
   }
+
+  renderSettingsButton = () => {
+    return (
+      <View
+        style={{
+          width: Style.values.avatarSize,
+          height: Style.values.avatarSize,
+          backgroundColor: this.props.user.avatar,
+          borderRadius: 100
+        }}
+      />
+    );
+  };
 
   renderConversations = () => {
     let conversations = this.props.conversations.map(c => ({
@@ -94,6 +107,10 @@ class InboxScreen extends React.Component {
         </BaseText>
       </View>
     );
+  };
+
+  handleSettingsPressed = () => {
+    this.props.dispatch(navigateTo("settings"));
   };
 
   handleAddButtonPressed = () => {

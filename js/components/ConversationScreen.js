@@ -16,6 +16,7 @@ import { updateUnreadCount } from "../actions/NotificationActions";
 import { markConversationRead } from "../actions/ConversationActions";
 import PlaceholderMessage from "./PlaceholderMessage";
 import Style from "../style";
+import Text from "./BaseText";
 
 let {
   resendMessage,
@@ -48,16 +49,14 @@ class ConversationScreen extends Component {
   };
 
   render() {
-    const { contact, dispatch, styles, theme } = this.props;
+    const { dispatch, styles, theme } = this.props;
     return (
       <View style={styles.container}>
         <Header
-          title={contact.name}
-          showBack={true}
-          backgroundColor={theme.backgroundColor}
-          highlightColor={theme.highlightColor}
-          borderColor={theme.secondaryBorderColor}
-          onBack={() => dispatch(navigateBack())}
+          renderTitle={this.renderHeaderTitle}
+          onPressBack={() => dispatch(navigateBack())}
+          onPressSettings={() => dispatch(navigateTo("conversationSettings"))}
+          renderSettingsButton={this.renderSettingsButton}
         />
         <View style={[styles.messageListContainer, this.props.style]}>
           <MessageList
@@ -95,6 +94,49 @@ class ConversationScreen extends Component {
       </View>
     );
   }
+
+  renderHeaderTitle = () => {
+    const { contact, user } = this.props;
+
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: contact.avatar,
+            borderRadius: 100,
+            width: Style.values.avatarSize,
+            height: Style.values.avatarSize,
+            marginRight: 12
+          }}
+        />
+        <Text>{contact.name}</Text>
+      </View>
+    );
+  };
+
+  renderSettingsButton = () => {
+    const { styles, theme } = this.props;
+    return (
+      <View
+        style={{
+          width: 25,
+          height: 25,
+          borderRadius: 100,
+          backgroundColor: theme.primaryTextColor,
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Text style={{ color: theme.backgroundColor }}>i</Text>
+      </View>
+    );
+  };
 
   handleEndReached = () => {
     if (this.state.loadedAll) return;

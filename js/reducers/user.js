@@ -49,6 +49,30 @@ let handlers = {
     return merge(state, action.data);
   },
 
+  blockUser: (state, action) => {
+    if (action.state === "complete") {
+      return merge(state, action.data);
+    } else {
+      return state;
+    }
+  },
+
+  unblockUser: (state, action) => {
+    if (action.state === "complete") {
+      return merge(state, action.data);
+    } else {
+      return state;
+    }
+  },
+
+  loadBlockedUsers: (state, action) => {
+    if (action.state === "complete") {
+      return merge(state, action.data);
+    } else {
+      return state;
+    }
+  },
+
   logout: (state, action) => {
     return initialState;
   }

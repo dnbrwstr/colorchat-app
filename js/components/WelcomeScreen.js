@@ -37,11 +37,6 @@ class WelcomeScreen extends Component {
     return `hsl(${rand(360)},100%,65%)`;
   }
 
-  handlePressNext() {
-    this.clearIntervalTimer("refresh");
-    this.props.dispatch(navigateTo("signup"));
-  }
-
   render() {
     const { styles } = this.props;
     return (
@@ -83,6 +78,10 @@ class WelcomeScreen extends Component {
       );
     });
   }
+
+  handlePressNext = () => {
+    this.props.dispatch(navigateTo("signup"));
+  };
 }
 
 const addStyle = withStyles(theme => ({

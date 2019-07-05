@@ -19,17 +19,22 @@ export default (navigationMiddleware = store => next => {
     },
 
     registerPhoneNumber: function(state, action) {
-      if (action.state !== "complete") return state;
+      if (action.state !== "complete") return;
       NavigationService.navigate("confirmCode");
     },
 
     submitConfirmationCode: function(state, action) {
-      if (action.state !== "complete") return state;
+      if (action.state !== "complete") return;
       NavigationService.navigate("notifications");
     },
 
     submitNotificationName: function(state, action) {
       NavigationService.navigate("app");
+    },
+
+    blockUser: function(state, action) {
+      if (action.state !== "complete") return;
+      NavigationService.navigate("inbox");
     },
 
     logout: function(state, action) {

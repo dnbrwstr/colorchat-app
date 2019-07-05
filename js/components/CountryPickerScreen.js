@@ -33,9 +33,7 @@ class CountryPickerScreen extends React.Component {
       <View style={styles.container}>
         <Header
           title="Select a country"
-          showBack={true}
-          onBack={() => dispatch(navigateTo("signup"))}
-          borderColor={theme.secondaryBorderColor}
+          onPressBack={() => dispatch(navigateTo("signup"))}
         />
 
         <SectionList

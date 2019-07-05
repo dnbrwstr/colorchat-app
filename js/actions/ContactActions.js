@@ -14,8 +14,6 @@ let { serverRoot, inviteLink } = config;
  * which contacts are also users.
  */
 export let importContacts = opts => async (dispatch, getState) => {
-  let userToken = getState().user.token;
-
   let permission = await Contacts.checkPermissionAsync();
 
   if (
@@ -35,13 +33,13 @@ export let importContacts = opts => async (dispatch, getState) => {
   }
 
   if (permission === "authorized" || permission === "granted") {
-    onPermissionGranted(userToken, dispatch);
+    onPermissionGranted(getState().user, dispatch);
   } else {
     onPermissionDenied(dispatch);
   }
 };
 
-let onPermissionGranted = async (userToken, dispatch) => {
+let onPermissionGranted = async (user, dispatch) => {
   dispatch({
     type: "importContacts",
     state: "started"
@@ -61,7 +59,6 @@ let onPermissionGranted = async (userToken, dispatch) => {
   });
 
   let contacts = Object.keys(contactsByNumber).map(k => contactsByNumber[k]);
-  console.log(contacts);
   // TODO: Move sorting to native modules
   contacts.sort((a, b) => {
     const first = `${a.givenName} ${a.familyName}`;
@@ -79,8 +76,22 @@ let onPermissionGranted = async (userToken, dispatch) => {
   send({
     dispatch,
     actionType: "importContacts",
-    getRequest: () => postAuthenticatedJSON(url, { phoneNumbers }, userToken),
-    parse: matches => ({ matches, contacts })
+    getRequest: () => postAuthenticatedJSON(url, { phoneNumbers }, user.token),
+    parse: matches => {
+      const finalMatches = [];
+      matches.forEach(match => {
+        if (match.blocked) {
+          contacts[match.index] = null;
+        } else {
+          finalMatches.push(match);
+        }
+      });
+
+      return {
+        matches: finalMatches,
+        contacts: contacts.filter(c => c !== null)
+      };
+    }
   });
 };
 

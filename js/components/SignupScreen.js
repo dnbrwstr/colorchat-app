@@ -45,11 +45,7 @@ class SignupScreen extends Component {
           scrollEnabled={this.props.scrollEnabled}
         >
           <View style={styles.content}>
-            <Header
-              title={props.title}
-              showBack={!!props.onNavigateBack}
-              onBack={props.onNavigateBack}
-            />
+            <Header title={props.title} onPressBack={props.onNavigateBack} />
 
             <View style={styles.screenContent}>
               <View style={styles.screenContentInner}>{props.children}</View>

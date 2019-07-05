@@ -42,6 +42,9 @@ const updateConversationIfExists = (conversation, state) => {
   return adjust(i => merge(i, conversation), index, state);
 };
 
+const removeConversation = (contactId, state) =>
+  filter(c => c.recipientId !== contactId, state);
+
 let handlers = {
   init: (state, action) => {
     const startState = action.appState.conversations || initialState;
@@ -104,11 +107,12 @@ let handlers = {
     );
   },
 
+  blockUser: function(state, action) {
+    return removeConversation(action.user.id, state);
+  },
+
   deleteConversation: function(state, action) {
-    return filter(
-      c => c.recipientId !== action.conversation.recipientId,
-      state
-    );
+    return removeConversation(action.conversation.recipientId, state);
   }
 };
 

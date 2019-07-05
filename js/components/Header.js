@@ -1,95 +1,62 @@
 import React, { Component } from "react";
-import { View, Text, PixelRatio, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Style from "../style";
 import PressableView from "./PressableView";
 import { connectWithStyles } from "../lib/withStyles";
-import SliderIcon from "./SliderIcon";
-import { navigateTo } from "../actions/NavigationActions";
-import UserSettingsButton from "./UserSettingsButton";
+import Text from "./BaseText";
 
 class Header extends Component {
   static defaultProps = {
-    onBack: () => {},
-    onClose: () => {}
+    showBorder: true
   };
 
   render() {
-    const { styles, theme } = this.props;
+    const { styles, showBorder } = this.props;
 
-    let barStyles = [
-      styles.bar,
-      this.props.borderColor && {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: this.props.borderColor
-      }
-    ];
-
-    let bgColor = this.props.backgroundColor && {
-      backgroundColor: this.props.backgroundColor
-    };
-
-    let bgOpacity = typeof this.props.backgroundOpacity === "number" && {
-      opacity: this.props.backgroundOpacity
-    };
-
-    let bgStyles = [styles.background, bgColor, bgOpacity];
-
-    let textColor = this.props.color && {
-      color: this.props.color
-    };
-
-    let titleTextColor = this.props.titleColor && {
-      color: this.props.titleColor
-    };
-
-    let highlightColor = this.props.highlightColor && {
-      backgroundColor: this.props.highlightColor
-    };
+    const barStyles = [styles.bar, showBorder && styles.borderBar];
 
     return (
       <View style={barStyles}>
-        <View style={bgStyles} />
+        <View style={styles.background} />
 
         <View style={styles.buttonContainer}>
-          {this.props.showBack && (
+          {this.props.onPressBack && (
             <PressableView
-              onPress={this.onBack}
+              onPress={this.props.onPressBack}
               style={styles.button}
-              activeStyle={[styles.buttonActive, highlightColor]}
+              activeStyle={[styles.buttonActive]}
             >
-              <Text style={[styles.buttonText, textColor]}>Back</Text>
+              <Text style={[styles.buttonText]}>Back</Text>
             </PressableView>
           )}
         </View>
 
         <View style={styles.title}>
-          {this.props.title && (
-            <Text style={[styles.titleText, textColor, titleTextColor]}>
-              {this.props.title}
-            </Text>
+          {this.props.renderTitle ? (
+            this.props.renderTitle()
+          ) : (
+            <Text style={styles.titleText}>{this.props.title}</Text>
           )}
         </View>
 
         <View style={[styles.buttonContainer, styles.rightButtonContainer]}>
-          {this.props.showSettingsButton && (
-            <UserSettingsButton
-              onPress={this.handlePressSettings}
+          {this.props.onPressSettings && (
+            <PressableView
+              onPress={this.props.onPressSettings}
               style={styles.button}
-              activeStyle={[styles.buttonActive, highlightColor]}
-            />
+              activeStyle={styles.buttonActive}
+            >
+              {this.props.renderSettingsButton ? (
+                this.props.renderSettingsButton()
+              ) : (
+                <Text style={[styles.buttonText]}>Settings</Text>
+              )}
+            </PressableView>
           )}
         </View>
       </View>
     );
   }
-
-  onBack = () => {
-    this.props.onBack();
-  };
-
-  handlePressSettings = () => {
-    this.props.dispatch(navigateTo("settings"));
-  };
 }
 
 const getStyles = theme => ({
@@ -100,6 +67,10 @@ const getStyles = theme => ({
     flexDirection: "row",
     paddingTop: 0,
     backgroundColor: "transparent"
+  },
+  borderBar: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: theme.secondaryBorderColor
   },
   background: {
     backgroundColor: "transparent",
@@ -114,8 +85,6 @@ const getStyles = theme => ({
     justifyContent: "center"
   },
   titleText: {
-    ...Style.mixins.textBase,
-    color: theme.primaryTextColor,
     textAlign: "center"
   },
   buttonContainer: {
@@ -133,10 +102,7 @@ const getStyles = theme => ({
   buttonActive: {
     backgroundColor: theme.highlightColor
   },
-  buttonText: {
-    ...Style.mixins.textBase,
-    color: theme.primaryTextColor
-  },
+  buttonText: {},
   buttonSecondText: {
     textAlign: "right"
   }

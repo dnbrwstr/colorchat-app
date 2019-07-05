@@ -14,6 +14,10 @@ export let deleteAuthenticated = (url, token) => {
   return fetch(url, deleteRequest(authenticated(token)));
 };
 
+export const postAuthenticated = (url, token) => {
+  return fetch(url, postRequest(authenticated(token)));
+};
+
 export let postJSON = (url, data) => {
   console.log(url);
   return fetch(url, postRequest(json(data)));

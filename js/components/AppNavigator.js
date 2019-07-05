@@ -17,6 +17,8 @@ import NumberInfoScreen from "../components/NumberInfoScreen";
 import ContactsInfoScreen from "../components/ContactsInfoScreen";
 import AuthCheckScreen from "./AuthCheckScreen";
 import CameraScreen from "./CameraScreen";
+import ConversationSettingsScreen from "./ConversationSettingsScreen";
+import BlockedUsersScreen from "./BlockedUsersScreen";
 
 const defaultStackOptions = {
   headerMode: "none"
@@ -36,8 +38,14 @@ const AppStack = createStackNavigator(
     conversation: {
       screen: ConversationScreen
     },
+    conversationSettings: {
+      screen: ConversationSettingsScreen
+    },
     settings: {
       screen: SettingsScreen
+    },
+    blockedUsers: {
+      screen: BlockedUsersScreen
     },
     about: {
       screen: AboutScreen

@@ -13,6 +13,7 @@ class TextScreen extends React.Component {
         <Header
           title={this.props.title}
           onPressBack={this.props.onNavigateBack}
+          showBorder={false}
         />
         <View style={styles.content}>
           <BaseText style={styles.text}>{this.props.children}</BaseText>

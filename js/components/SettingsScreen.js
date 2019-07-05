@@ -177,25 +177,16 @@ class SettingsScreen extends React.Component {
   };
 
   handleDeleteAccount = (e, retry) => {
-    let message = `Enter your phone number (including area code and country code) to delete your account. This is not reversible.`;
+    const message = `Are you sure you want to delete your account?`;
 
-    if (retry) message = "Invalid number. " + message;
-
-    AlertIOS.prompt(message, [
+    Alert.alert(message, null, [
       { text: "Cancel", onPress: () => {} },
       { text: "Delete", onPress: this.handleDeleteAccountConfirmation }
     ]);
   };
 
   handleDeleteAccountConfirmation = value => {
-    let isValidConfirmation =
-      "+" + value.replace(/[^0-9]/g, "") === this.props.user.phoneNumber;
-
-    if (isValidConfirmation) {
-      this.props.dispatch(deleteAccount());
-    } else {
-      this.handleDeleteAccount(null, true);
-    }
+    this.props.dispatch(deleteAccount());
   };
 
   handleThemeChanged = newTheme => {

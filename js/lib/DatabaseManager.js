@@ -185,7 +185,7 @@ const DatabaseManager = {
   },
 
   async purgeMessages() {
-    return db.executeSql(`TRUNCATE TABLE ChatMessages`);
+    return executeSql(`DELETE FROM ChatMessages`);
   }
 };
 

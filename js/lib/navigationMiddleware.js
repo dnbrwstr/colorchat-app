@@ -38,11 +38,11 @@ export default (navigationMiddleware = store => next => {
     },
 
     logout: function(state, action) {
-      NavigationService.navigate("auth");
+      NavigationService.navigate("welcome");
     },
 
     deleteAccount: function(state, action) {
-      NavigationService.navigate("auth");
+      NavigationService.navigate("welcome");
     }
   };
 

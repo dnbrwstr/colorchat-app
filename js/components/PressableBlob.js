@@ -35,7 +35,8 @@ class PressableBlob extends PureComponent {
     this.scaleAnimation = Animated.timing(this.scale, {
       toValue: this.props.activeScale,
       duration: 50,
-      easing: Easing.in(Easing.linear)
+      easing: Easing.in(Easing.linear),
+      useNativeDriver: true
     });
     this.scaleAnimation.start(this.handleDownCompleted);
   };
@@ -45,7 +46,8 @@ class PressableBlob extends PureComponent {
     this.scaleAnimation = Animated.timing(this.scale, {
       toValue: 1,
       duration: 200,
-      easing: Easing.elastic(2)
+      easing: Easing.elastic(2),
+      useNativeDriver: true
     });
     this.scaleAnimation.start(this.handleUpCompleted);
   };

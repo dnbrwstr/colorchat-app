@@ -92,8 +92,10 @@ export const stopwatch = {
 
 export const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 
-export const makeArray = n => {
-  return new Array(n).fill(0).map((z, i) => i);
+export const makeArray = (n, f) => {
+  return new Array(n).fill(0).map((z, i) => {
+    return typeof f === "undefined" ? i : f;
+  });
 };
 
 export const sat = color => rgb2hsv(color).s;

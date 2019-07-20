@@ -69,7 +69,7 @@ class CameraBlob extends Component {
   }
 
   render() {
-    const { theme, styles } = this.props;
+    const { theme, styles, style } = this.props;
 
     const rotation = this.cameraRotation.interpolate({
       inputRange: [0, 1],
@@ -90,7 +90,7 @@ class CameraBlob extends Component {
     return (
       <PressableBlob
         onPress={this.props.onPress}
-        style={[styles.cameraContainer, rotationStyle]}
+        style={[styles.cameraContainer, rotationStyle, style]}
         key="camera"
       >
         <AnimatedColorCamera
@@ -144,8 +144,6 @@ class CameraBlob extends Component {
 const getStyles = theme => ({
   cameraContainer: {
     borderRadius: 1000,
-    flexBasis: 5000,
-    flexShrink: 1,
     overflow: "hidden",
     backgroundColor: "black"
   },

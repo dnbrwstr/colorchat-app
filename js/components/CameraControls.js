@@ -18,15 +18,52 @@ class CameraControls extends Component {
     recording: true
   };
 
+  constructor(props) {
+    super(props);
+
+    // const recordBarSize = props.displayMode === "grid" ? 0 : 1;
+    const recordBarSize = 1;
+    this.recordBarSize = new Animated.Value(recordBarSize);
+
+    this.recordBarStyle = {
+      height: this.recordBarSize.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 68]
+      })
+    };
+
+    this.containerStyle = {
+      paddingBottom: this.recordBarSize.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 20]
+      })
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // const isGrid = this.props.displayMode === "grid";
+    // const wasGrid = prevProps.displayMode === "grid";
+    // const changedToGrid = isGrid && !wasGrid;
+    // const changedFromGrid = !isGrid && wasGrid;
+    // if (changedToGrid || changedFromGrid) {
+    //   if (this.animation) this.animation.stop();
+    //   const nextValue = isGrid ? 0 : 1;
+    //   this.animation = Animated.timing(this.recordBarSize, {
+    //     toValue: nextValue
+    //   });
+    //   this.animation.start();
+    // }
+  }
+
   render() {
     const { styles } = this.props;
     return (
-      <View style={styles.controls}>
+      <Animated.View style={[styles.controls, this.containerStyle]}>
         <CameraMenu
           initialValue={this.props.displayMode}
           onChange={this.props.onDisplayModeChange}
         />
-        <View style={styles.recordBar}>
+        <Animated.View style={[styles.recordBar, this.recordBarStyle]}>
           <TouchableWithoutFeedback onPress={this.handleToggleCamera}>
             <View style={styles.recordBarSideButton} />
           </TouchableWithoutFeedback>
@@ -43,8 +80,8 @@ class CameraControls extends Component {
               {this.props.renderCamera && this.props.renderCamera()}
             </View>
           </TouchableWithoutFeedback>
-        </View>
-      </View>
+        </Animated.View>
+      </Animated.View>
     );
   }
 
@@ -87,7 +124,6 @@ class CameraControls extends Component {
 
 const getStyles = theme => ({
   controls: {
-    paddingBottom: 20,
     justifyContent: "center"
   },
   recordBar: {
@@ -96,6 +132,7 @@ const getStyles = theme => ({
     flexGrow: 1,
     flexShrink: 0,
     paddingHorizontal: 20
+    // paddingBottom: 20
   },
   recordBarSideButton: {
     aspectRatio: 1,
@@ -106,10 +143,8 @@ const getStyles = theme => ({
   recordButton: {
     width: 68,
     height: 68,
-    borderColor: "black",
-    borderWidth: 1,
     borderRadius: 1000,
-    backgroundColor: "white"
+    backgroundColor: theme.primaryButtonColor
   },
   recordButtonInner: {
     position: "absolute",
@@ -118,6 +153,7 @@ const getStyles = theme => ({
     right: 8,
     bottom: 8,
     borderWidth: 2,
+    borderColor: theme.backgroundColor,
     borderRadius: 100
   }
 });

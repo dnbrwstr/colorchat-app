@@ -55,10 +55,14 @@ class CameraDisplay extends Component {
                 <GridColorDisplay
                   {...colorProps}
                   renderCamera={this.props.renderCamera}
+                  onSelectColor={this.props.onSelectColor}
                   onPressClose={this.props.onPressClose}
                 />
               ) : (
-                <SingleColorDisplay {...colorProps} />
+                <SingleColorDisplay
+                  {...colorProps}
+                  onSelectColor={this.props.onSelectColor}
+                />
               );
             }}
           </AnimatedColorDisplay>

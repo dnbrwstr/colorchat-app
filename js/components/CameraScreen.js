@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Animated, Easing } from "react-native";
 import Color from "color";
+import Style from "../style";
 import ColorCamera from "react-native-color-camera";
+import CameraMenu from "./CameraDisplayModeMenu";
+import PressableView from "./PressableView";
+import Text from "./BaseText";
 import { connectWithStyles } from "../lib/withStyles";
 import { withScreenFocusStateProvider } from "./ScreenFocusState";
 import CameraDisplay from "./CameraDisplay";
@@ -9,6 +13,7 @@ import CameraBlob from "./CameraBlob";
 import { navigateBack } from "../actions/NavigationActions";
 import { updateWorkingMessage } from "../actions/MessageActions";
 import CameraControls from "./CameraControls";
+import GradientMask from "./GradientMask";
 const interval = 250;
 
 class CameraScreen extends Component {
@@ -29,59 +34,58 @@ class CameraScreen extends Component {
   }
 
   render() {
-    const { styles, screenFocusState } = this.props;
+    const { theme, styles, screenFocusState } = this.props;
     return (
       <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.instructionText}>Tap to select a color</Text>
+          <PressableView
+            style={styles.doneButton}
+            onPress={this.handlePressDone}
+          >
+            <Text style={styles.doneText}>Done</Text>
+          </PressableView>
+        </View>
         <Animated.View style={{ flex: 1, opacity: this.cameraOpacity }}>
           <CameraDisplay
             colors={this.state.colors}
             displayMode={this.state.displayMode}
-            renderCamera={this.renderGridCamera}
             animationLength={interval}
             focusState={screenFocusState}
             onSelectColor={this.handleSelectColor}
-            onPressClose={this.handlePressClose}
           />
         </Animated.View>
-        {/* <CameraControls
-          focusState={screenFocusState}
-          renderCamera={this.renderControlsCamera}
-          displayMode={this.state.displayMode}
-          onDisplayModeChange={this.handleDisplayModeChange}
-        /> */}
+        <View style={styles.displayModeMenu}>
+          <CameraMenu
+            initialValue={this.state.displayMode}
+            onChange={this.handleDisplayModeChange}
+          />
+          <GradientMask
+            width={125}
+            height={Style.values.rowHeight}
+            fadeColor={theme.backgroundColor}
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              right: 0
+            }}
+          />
+        </View>
+        <View style={styles.cameraContainer}>
+          <CameraBlob
+            style={styles.camera}
+            requestPermission={true}
+            onReady={this.handleCameraReady}
+            onColorChange={this.handleColorChange}
+            eventInterval={interval / 1000}
+            location={this.state.cameraLocation}
+            onPress={this.handleCameraPress}
+          />
+        </View>
       </View>
     );
   }
-
-  renderGridCamera = () => {
-    return (
-      <CameraBlob
-        style={{
-          height: 100,
-          aspectRatio: 1
-        }}
-        onPress={this.handleCameraPress}
-        requestPermission={true}
-        onReady={this.handleCameraReady}
-        onColorChange={this.handleColorChange}
-        eventInterval={interval / 1000}
-        location={this.state.cameraLocation}
-      />
-    );
-  };
-
-  renderControlsCamera = () => {
-    return (
-      <ColorCamera
-        style={{ flex: 1, flexBasis: 100, backgroundColor: "red" }}
-        requestPermission={true}
-        onReady={this.handleCameraReady}
-        onColorChange={this.handleColorChange}
-        eventInterval={interval / 1000}
-        location={this.state.cameraLocation}
-      />
-    );
-  };
 
   handleCameraPress = () => {
     const cameraLocation =
@@ -97,11 +101,12 @@ class CameraScreen extends Component {
     this.setState({ displayMode });
   };
 
-  handlePressClose = () => {
+  handlePressDone = () => {
     this.props.dispatch(navigateBack());
   };
 
   handleSelectColor = color => {
+    this.props.dispatch(navigateBack());
     this.props.dispatch(
       updateWorkingMessage(this.props.message, {
         type: "picture",
@@ -117,6 +122,25 @@ const getStyles = theme => ({
     flex: 1,
     backgroundColor: theme.backgroundColor
   },
+  header: {
+    height: Style.values.rowHeight,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 15
+  },
+  instructionText: {
+    color: theme.secondaryTextColor
+  },
+  doneButton: {
+    alignSelf: "stretch",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 15
+  },
+  doneText: {
+    color: theme.primaryTextColor
+  },
   emptyMessageWrapper: {
     flex: 1,
     justifyContent: "center",
@@ -125,6 +149,21 @@ const getStyles = theme => ({
   emptyMessage: {
     textAlign: "center",
     color: theme.secondaryTextColor
+  },
+  cameraContainer: {
+    position: "absolute",
+    width: 80,
+    height: 80,
+    bottom: Style.values.rowHeight - 40 + 4,
+    right: 15,
+    overflow: "hidden",
+    borderRadius: 1000
+  },
+  camera: {
+    flex: 1
+  },
+  displayModeMenu: {
+    height: Style.values.rowHeight
   }
 });
 

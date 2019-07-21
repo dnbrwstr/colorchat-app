@@ -105,35 +105,23 @@ class ConversationScreen extends Component {
           justifyContent: "center"
         }}
       >
-        <View
-          style={{
-            backgroundColor: contact.avatar,
-            borderRadius: 100,
-            width: Style.values.avatarSize,
-            height: Style.values.avatarSize,
-            marginRight: 12
-          }}
-        />
         <Text>{contact.name}</Text>
       </View>
     );
   };
 
   renderSettingsButton = () => {
-    const { styles, theme } = this.props;
+    const { styles, theme, contact } = this.props;
+
     return (
       <View
         style={{
-          width: 25,
-          height: 25,
+          backgroundColor: contact.avatar,
           borderRadius: 100,
-          backgroundColor: theme.primaryTextColor,
-          alignItems: "center",
-          justifyContent: "center"
+          width: Style.values.avatarSize,
+          height: Style.values.avatarSize
         }}
-      >
-        <Text style={{ color: theme.backgroundColor }}>i</Text>
-      </View>
+      />
     );
   };
 

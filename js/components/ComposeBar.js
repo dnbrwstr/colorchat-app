@@ -42,26 +42,27 @@ class ComposeBar extends React.Component {
     return (
       <Animated.View style={composeBarStyle}>
         <PressableView
-          style={[styles.button, styles.buttonFirst, styles.cameraButton]}
-          activeStyle={styles.buttonActive}
-          onPress={this.props.onPressCamera}
-        >
-          <View style={styles.buttonContent}>
-            <CameraIcon
-              style={styles.cameraIcon}
-              strokeWidth={4}
-              strokeColor={theme.primaryTextColor}
-              style={{ width: 33, height: 33 }}
-            />
-          </View>
-        </PressableView>
-        <PressableView
           style={[styles.button, styles.buttonFirst]}
           activeStyle={styles.buttonActive}
           onPress={this.props.onCancel}
         >
           <View style={styles.buttonContent}>
             <Text style={styles.buttonText}>Cancel</Text>
+          </View>
+        </PressableView>
+        <PressableView
+          style={[styles.button]}
+          activeStyle={styles.buttonActive}
+          onPress={this.props.onPressCamera}
+        >
+          <View style={styles.buttonContent}>
+            {/* <CameraIcon
+              style={styles.cameraIcon}
+              strokeWidth={4}
+              strokeColor={theme.primaryTextColor}
+              style={{ width: 33, height: 33 }}
+            /> */}
+            <Text style={styles.buttonText}>Camera</Text>
           </View>
         </PressableView>
         <PressableView
@@ -85,10 +86,6 @@ const getStyles = theme => ({
     overflow: "hidden",
     borderTopColor: theme.secondaryBorderColor,
     backgroundColor: theme.backgroundColor
-  },
-  cameraButton: {
-    flex: 0,
-    flexBasis: 80
   },
   button: {
     flex: 1

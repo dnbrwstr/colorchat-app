@@ -27,36 +27,11 @@ class GridColorDisplay extends Component {
         <Animated.View style={styles.gridColorColumn} key={y}>
           {makeArray(rows).map(x => {
             const i = x * rows + y;
-            if (i === 15 && this.props.renderCamera) {
-              return this.props.renderCamera();
-            } else if (i === 3) {
-              return [this.renderCloseButton(), this.renderColor(i)];
-            } else {
-              return this.renderColor(i);
-            }
+            return this.renderColor(i);
           })}
         </Animated.View>
       );
     });
-  };
-
-  renderCloseButton = () => {
-    return (
-      <PressableBlob
-        style={{
-          height: 60,
-          marginVertical: 10,
-          borderRadius: 100,
-          alignItems: "center",
-          justifyContent: "center",
-          aspectRatio: 1,
-          backgroundColor: this.props.theme.primaryButtonColor
-        }}
-        onPress={this.props.onPressClose}
-      >
-        <Text>X</Text>
-      </PressableBlob>
-    );
   };
 
   renderColor(i) {
@@ -67,10 +42,10 @@ class GridColorDisplay extends Component {
     } = this.props;
 
     const sizeStyle = {
-      flexBasis: sizes[i].interpolate({
-        inputRange: [20, 100],
-        outputRange: [2000, 10000]
-      })
+      // flexBasis: sizes[i].interpolate({
+      //   inputRange: [20, 100],
+      //   outputRange: [2000, 10000]
+      // })
     };
 
     const colorStyle = {
@@ -101,29 +76,20 @@ const getStyles = theme => ({
     flexDirection: "row",
     marginTop: 1
   },
-  color: {
-    borderRadius: 100,
-    marginHorizontal: 0,
-    flexShrink: 1
-  },
   gridColorColumn: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "center",
-    flexShrink: 1,
-    alignItems: "center"
+    justifyContent: "center"
   },
   gridColor: {
-    marginTop: -1,
-    flexShrink: 1,
-    aspectRatio: 1
+    flex: 1,
+    marginTop: -1
   },
   gridColorButton: {
     flex: 1
   },
   gridColorBackground: {
-    flex: 1,
-    borderRadius: 1000
+    flex: 1
   },
   colorFill: {
     flex: 1

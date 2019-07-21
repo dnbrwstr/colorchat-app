@@ -148,13 +148,14 @@ class CameraDisplayModeMenu extends Component {
 const getStyles = theme => ({
   typeMenu: {
     flexDirection: "row",
-    paddingHorizontal: 200
+    paddingHorizontal: 200,
+    alignItems: "center"
   },
   typeOptionText: {
     color: theme.secondaryTextColor,
     marginHorizontal: 20,
-    marginVertical: 15,
-    marginBottom: 20
+    justifyContent: "center",
+    alignItems: "center"
   },
   activeOptionText: {
     color: theme.primaryTextColor

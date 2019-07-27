@@ -3,8 +3,6 @@ import { Animated, Text, StyleSheet, View } from "react-native";
 import Style from "../style";
 import PressableView from "./PressableView";
 import withStyles from "../lib/withStyles";
-import { isIphoneX, ifIphoneX } from "react-native-iphone-x-helper";
-import CameraIcon from "./CameraIcon";
 
 class ComposeBar extends React.Component {
   state = {
@@ -56,12 +54,6 @@ class ComposeBar extends React.Component {
           onPress={this.props.onPressCamera}
         >
           <View style={styles.buttonContent}>
-            {/* <CameraIcon
-              style={styles.cameraIcon}
-              strokeWidth={4}
-              strokeColor={theme.primaryTextColor}
-              style={{ width: 33, height: 33 }}
-            /> */}
             <Text style={styles.buttonText}>Camera</Text>
           </View>
         </PressableView>
@@ -88,7 +80,9 @@ const getStyles = theme => ({
     backgroundColor: theme.backgroundColor
   },
   button: {
-    flex: 1
+    flex: 1,
+    borderLeftColor: theme.secondaryBorderColor,
+    borderLeftWidth: StyleSheet.hairlineWidth
   },
   buttonContent: {
     height: Style.values.rowHeight,
@@ -101,8 +95,7 @@ const getStyles = theme => ({
     textAlign: "center"
   },
   buttonFirst: {
-    borderRightColor: theme.secondaryBorderColor,
-    borderRightWidth: StyleSheet.hairlineWidth
+    borderLeftWidth: 0
   },
   buttonActive: {
     backgroundColor: theme.highlightColor

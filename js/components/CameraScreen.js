@@ -14,6 +14,7 @@ import { navigateBack } from "../actions/NavigationActions";
 import { updateWorkingMessage } from "../actions/MessageActions";
 import CameraControls from "./CameraControls";
 import GradientMask from "./GradientMask";
+import { isIphoneX, ifIphoneX } from "react-native-iphone-x-helper";
 const interval = 250;
 
 class CameraScreen extends Component {
@@ -154,7 +155,7 @@ const getStyles = theme => ({
     position: "absolute",
     width: 80,
     height: 80,
-    bottom: Style.values.rowHeight - 40 + 4,
+    bottom: Style.values.rowHeight - 40 + 4 + ifIphoneX(20, 0),
     right: 15,
     overflow: "hidden",
     borderRadius: 1000
@@ -163,7 +164,8 @@ const getStyles = theme => ({
     flex: 1
   },
   displayModeMenu: {
-    height: Style.values.rowHeight
+    height: Style.values.rowHeight,
+    paddingBottom: ifIphoneX(20, 0)
   }
 });
 

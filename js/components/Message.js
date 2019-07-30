@@ -32,7 +32,7 @@ class Message extends PureComponent {
     super(props);
 
     const width = props.width;
-    const height = props.state === "fresh" ? 0 : props.height;
+    const height = props.animateEntry ? 0 : props.height;
     const borderRadius =
       this.props.type === MessageType.Picture
         ? getBorderRadius(width, height)
@@ -45,8 +45,17 @@ class Message extends PureComponent {
       animatedWidth: new Animated.Value(width),
       animatedHeight: new Animated.Value(height),
       animatedBorderRadius: new Animated.Value(borderRadius),
+      hasEntered: !this.props.animateEntry,
       retrying: false
     };
+  }
+
+  componentDidMount() {
+    if (!this.state.hasEntered) {
+      this.setState({
+        hasEntered: true
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -67,7 +76,7 @@ class Message extends PureComponent {
           : 0
     };
 
-    if (props.state === "fresh") {
+    if (!prevState.hasEntered) {
       size.width = 0;
       size.height = 0;
     } else if (props.state === "complete" || prevState.retrying) {

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StatusBar } from "react-native";
 import { connect } from "react-redux";
+import { compose } from "ramda";
 import { inboxScreenSelector } from "../lib/Selectors";
 import { navigateToConversation } from "../actions/NavigationActions";
 import { deleteConversation } from "../actions/ConversationActions";
@@ -15,10 +16,7 @@ import BaseText from "./BaseText";
 import PlusButton from "./PlusButton";
 import Header from "./Header";
 import withStyles from "../lib/withStyles";
-import {
-  withScreenFocusState,
-  withScreenFocusStateProvider
-} from "./ScreenFocusState";
+import { withOwnFocusState } from "./ScreenFocusState";
 import Style from "../style";
 
 const BR = "\n";
@@ -142,6 +140,8 @@ const addStyle = withStyles(theme => ({
   }
 }));
 
-export default withScreenFocusStateProvider(
-  withScreenFocusState(addStyle(connect(inboxScreenSelector)(InboxScreen)))
-);
+export default compose(
+  withOwnFocusState,
+  addStyle,
+  connect(inboxScreenSelector)
+)(InboxScreen);

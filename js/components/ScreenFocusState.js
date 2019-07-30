@@ -85,3 +85,6 @@ export const withScreenFocusState = WrappedComponent => props => {
     </ScreenFocusStateContext.Consumer>
   );
 };
+
+export const withOwnFocusState = WrappedComponent =>
+  withScreenFocusStateProvider(withScreenFocusState(WrappedComponent));

@@ -1,10 +1,8 @@
 import ramda from "ramda";
 import createRoutingReducer from "../lib/createRoutingReducer";
 import { createMessage, generateId } from "../lib/MessageUtils";
-import config from "../config";
 
 let {
-  append,
   merge,
   adjust,
   findIndex,
@@ -16,8 +14,6 @@ let {
   prepend,
   reduce,
   always,
-  any,
-  propEq,
   mapObjIndexed,
   concat,
   slice,
@@ -208,7 +204,7 @@ let handlers = {
 
   receiveMessage: function(state, action) {
     if (!action.inCurrentConversation) return state;
-    let message = merge(action.message, { state: "fresh" });
+    let message = merge(action.message, { state: "fresh", animateEntry: true });
     return pipe(
       partial(this.resetComposeEvents, []),
       partial(addMessage, ["static", message])

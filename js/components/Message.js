@@ -79,7 +79,11 @@ class Message extends PureComponent {
     if (!prevState.hasEntered) {
       size.width = 0;
       size.height = 0;
-    } else if (props.state === "complete" || prevState.retrying) {
+    } else if (
+      props.state === "complete" ||
+      props.state === "fresh" ||
+      prevState.retrying
+    ) {
       if (props.expanded) {
         size.width = Math.max(props.width, EXPANDED_MIN_WIDTH);
         size.height = Math.max(props.height, EXPANDED_MIN_HEIGHT);
@@ -217,7 +221,10 @@ class Message extends PureComponent {
         this.setState({ retrying: false });
         this.props.onRetrySend(this.props.message);
       }, 500);
-    } else if (this.props.state === "complete") {
+    } else if (
+      this.props.state === "complete" ||
+      this.props.state === "fresh"
+    ) {
       let position = await measure(this.refs.message);
       this.props.onToggleExpansion(this.props.message, position, {
         width: Math.max(this.props.width, EXPANDED_MIN_WIDTH),

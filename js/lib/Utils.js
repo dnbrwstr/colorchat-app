@@ -59,9 +59,9 @@ let createDateFormatter = formatObj => date => {
 
 export let humanDate = date => {
   return createDateFormatter({
-    lastYear: "MMM Do YYYY, h:mm A",
-    currentYear: "MMM Do, h:mm A",
-    currentWeek: "ddd, h:mm A",
+    lastYear: "MMMM Do YYYY[\n]h:mm A",
+    currentYear: "MMMM Do[\n]h:mm A",
+    currentWeek: "dddd[\n]h:mm A",
     currentDay: m => m.fromNow(false)
   })(date);
 };

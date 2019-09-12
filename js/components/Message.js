@@ -196,10 +196,15 @@ class Message extends PureComponent {
         </View>
       );
     } else if (this.props.expanded === true) {
+      const rgb = new Color(this.props.color).rgb();
       return (
         <View style={style.textContainer}>
           <BaseText style={[style.text]} visibleOn={this.props.color}>
             {this.props.colorName}
+            {"\n"}
+            {this.props.color}
+            {/* {"\n"}
+            {`r: ${rgb.r} \ng: ${rgb.g} \nb:${rgb.b}`} */}
           </BaseText>
           <BaseText
             style={[style.timestamp, style.text]}
@@ -277,10 +282,11 @@ let style = Style.create({
   },
   textContainer: {
     flex: 1,
-    padding: 12,
-    paddingHorizontal: 17,
+    padding: 16,
+    flexShrink: 0,
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    minWidth: EXPANDED_MIN_WIDTH
   },
   timestamp: {
     textAlign: "right"

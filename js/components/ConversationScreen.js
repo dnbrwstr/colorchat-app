@@ -1,5 +1,5 @@
-import React, { Component, PureComponent } from "react";
-import { View, InteractionManager, Dimensions, StatusBar } from "react-native";
+import React, { Component } from "react";
+import { View } from "react-native";
 import ScrollBridge from "../lib/ScrollBridge";
 import { connect } from "react-redux";
 import Header from "./Header";
@@ -29,7 +29,7 @@ let {
   unloadOldMessages
 } = MessageActions;
 
-class ConversationScreen extends Component {
+export class ConversationScreen extends Component {
   state = {
     page: 0,
     loadedAll: false,
@@ -49,13 +49,13 @@ class ConversationScreen extends Component {
   };
 
   render() {
-    const { dispatch, styles, theme } = this.props;
+    const { dispatch, styles } = this.props;
     return (
       <View style={styles.container}>
         <Header
-          renderTitle={this.renderHeaderTitle}
           onPressBack={() => dispatch(navigateBack())}
           onPressSettings={() => dispatch(navigateTo("conversationSettings"))}
+          renderTitle={this.renderHeaderTitle}
           renderSettingsButton={this.renderSettingsButton}
         />
         <View style={[styles.messageListContainer, this.props.style]}>
@@ -95,34 +95,19 @@ class ConversationScreen extends Component {
   }
 
   renderHeaderTitle = () => {
-    const { contact, user } = this.props;
-
+    const { contact, styles } = this.props;
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+      <View style={styles.headerTitle}>
         <Text>{contact.name}</Text>
       </View>
     );
   };
 
   renderSettingsButton = () => {
-    const { styles, theme, contact } = this.props;
-
-    return (
-      <View
-        style={{
-          backgroundColor: contact.avatar,
-          borderRadius: 100,
-          width: Style.values.avatarSize,
-          height: Style.values.avatarSize
-        }}
-      />
-    );
+    const { contact, styles } = this.props;
+    const backgroundStyle = { backgroundColor: contact.avatar || "#CCC" };
+    const settingsStyles = [styles.settingsButton, backgroundStyle];
+    return <View style={settingsStyles} />;
   };
 
   handleEndReached = () => {
@@ -232,6 +217,16 @@ const addStyle = withStyles(theme => ({
     position: "absolute",
     bottom: Style.values.outerPadding,
     left: Style.values.outerPadding
+  },
+  headerTitle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  setingsButton: {
+    borderRadius: 100,
+    width: Style.values.avatarSize,
+    height: Style.values.avatarSize
   }
 }));
 

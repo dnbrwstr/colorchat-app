@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>21</string>
+	<string>25</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -34,7 +34,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Color Chat uses your contacts to show you who you can chat with.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Color Chat does not use your location.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>WorkSans-Regular.otf</string>

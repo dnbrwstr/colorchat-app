@@ -6,8 +6,9 @@ import navigationMiddleware from "./navigationMiddleware";
 import notificationMiddleware from "./notificationMiddleware";
 import * as reducers from "../reducers";
 import config from "../config";
+import createScreenshotState from "./createScreenshotState";
 
-let { rehydrate, rehydrateBlacklist } = config;
+let { rehydrate, rehydrateBlacklist, screenshotMode } = config;
 
 let createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
@@ -16,7 +17,7 @@ let createStoreWithMiddleware = applyMiddleware(
   notificationMiddleware
 )(createStore);
 
-export default (finalCreateStore = async () => {
+export default finalCreateStore = async () => {
   let store = createStoreWithMiddleware(
     combineReducers(reducers),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -25,7 +26,9 @@ export default (finalCreateStore = async () => {
   let appState = {};
   let appStateString = await AsyncStorage.getItem("appState");
 
-  if (rehydrate && appStateString) {
+  if (screenshotMode) {
+    appState = createScreenshotState();
+  } else if (rehydrate && appStateString) {
     try {
       appState = JSON.parse(appStateString);
     } catch (e) {
@@ -45,4 +48,4 @@ export default (finalCreateStore = async () => {
   });
 
   return store;
-});
+};

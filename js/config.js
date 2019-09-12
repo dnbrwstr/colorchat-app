@@ -5,6 +5,7 @@
 const config = {
   development: {
     appName: "Color Chat",
+    screenshotMode: false,
     inviteLink: "http://soft.works/colorchat",
     // serverRoot: "http://192.168.86.247:3000",
     // serverRoot: "http://192.168.1.11:3000",
@@ -29,6 +30,7 @@ const config = {
   },
   production: {
     appName: "Color Chat",
+    screenshotMode: false,
     inviteLink: "https://soft.works/colorchat",
     serverRoot: "https://colorchat-core.soft.works",
     logState: false,

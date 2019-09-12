@@ -82,14 +82,10 @@ let sortedConversationsSelector = createSelector(
 let contactsByIdSelector = createSelector(
   [state => state.contacts],
   contacts => {
-    return contacts.reduce(
-      (memo, contact) => {
-        if (contact.id) memo[contact.id] = contact;
-        return memo;
-      },
-      {},
-      contacts
-    );
+    return contacts.reduce((memo, contact) => {
+      if (contact.id) memo[contact.id] = contact;
+      return memo;
+    }, {});
   }
 );
 

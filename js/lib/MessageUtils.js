@@ -32,10 +32,10 @@ export let createSeedMessage = () => {
     id: generateId(),
     createdAt: new Date().toJSON(),
     senderId: senderId,
-    width: 75 + Math.floor(Math.random() * 200),
-    height: 75 + Math.floor(Math.random() * 300),
+    relativeWidth: Math.random() * 0.8 + 0.3,
+    relativeHeight: Math.random() / 2 + 0.05,
     recipientId: recipientId,
-    color: `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`,
+    color: `hsl(${rand(360)}, 75%, ${rand(100)}%)`,
     state: "complete"
   });
 };

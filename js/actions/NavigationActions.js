@@ -1,5 +1,6 @@
 import { NavigationActions } from "react-navigation";
 import * as DatabaseUtils from "../lib/DatabaseUtils";
+import config from "../config";
 
 export let navigateTo = (a, b) => {
   let route;
@@ -36,11 +37,13 @@ export const navigateToConversation = contactId => async (
     page: 0
   });
 
-  dispatch({
-    type: "resetMessages",
-    messages,
-    total
-  });
+  if (!config.screenshotMode) {
+    dispatch({
+      type: "resetMessages",
+      messages,
+      total
+    });
+  }
 
   setTimeout(() => {
     dispatch({

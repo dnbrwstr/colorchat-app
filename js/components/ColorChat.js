@@ -1,19 +1,19 @@
-import React from "react";
-import { View, StatusBar, StyleSheet } from "react-native";
-import { Provider } from "react-redux";
-import { GatewayProvider } from "react-gateway";
-import App from "./App";
-import config from "../config";
-import { seedMessages } from "../lib/DatabaseUtils";
-import { seedAddressBook } from "../lib/ContactUtils";
-import createStore from "../lib/createStore";
-import createSocketService from "../services/createSocketService";
-import createAppStateService from "../services/createAppStateService";
-import createNetworkService from "../services/createNetworkService";
+import React from 'react';
+import {View, StatusBar, StyleSheet} from 'react-native';
+import {Provider} from 'react-redux';
+import {GatewayProvider} from 'react-gateway';
+import App from './App';
+import config from '../config';
+import {seedMessages} from '../lib/DatabaseUtils';
+import {seedAddressBook} from '../lib/ContactUtils';
+import createStore from '../store/createStore';
+import createSocketService from '../services/createSocketService';
+import createAppStateService from '../services/createAppStateService';
+import createNetworkService from '../services/createNetworkService';
 
 class ColorChat extends React.Component {
   state = {
-    store: null
+    store: null,
   };
 
   async componentDidMount() {
@@ -31,13 +31,13 @@ class ColorChat extends React.Component {
       store: store,
       networkService: createNetworkService(store),
       socketService: createSocketService(store),
-      appStateService: createAppStateService(store)
+      appStateService: createAppStateService(store),
     });
   }
 
   render() {
     if (!this.state.store) {
-      return <View style={{ backgroundColor: "#EFEFEF" }} />;
+      return <View style={{backgroundColor: '#EFEFEF'}} />;
     } else {
       return (
         <GatewayProvider>
@@ -54,7 +54,7 @@ class ColorChat extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 }
+  container: {flex: 1},
 });
 
 export default ColorChat;

@@ -1,29 +1,28 @@
-import React from "react";
-import { View, Text, StatusBar } from "react-native";
-import { connect } from "react-redux";
-import { compose } from "ramda";
-import { inboxScreenSelector } from "../lib/Selectors";
-import { navigateToConversation } from "../actions/NavigationActions";
-import { deleteConversation } from "../actions/ConversationActions";
-import { navigateTo } from "../actions/NavigationActions";
+import React from 'react';
+import {View} from 'react-native';
+import {connect} from 'react-redux';
+import {compose} from 'ramda';
+import {inboxScreenSelector} from '../store/Selectors';
+import {navigateToConversation, navigateTo} from '../store/navigation/actions';
+import {deleteConversation} from '../store/conversations/actions';
 import {
   triggerPermissionsDialog,
   updateUnreadCount,
-  checkForInitialNotification
-} from "../actions/NotificationActions";
-import ConversationList from "./ConversationList";
-import BaseText from "./BaseText";
-import PlusButton from "./PlusButton";
-import Header from "./Header";
-import withStyles from "../lib/withStyles";
-import { withOwnFocusState } from "./ScreenFocusState";
-import Style from "../style";
+  checkForInitialNotification,
+} from '../store/notifications/actions';
+import ConversationList from './ConversationList';
+import BaseText from './BaseText';
+import PlusButton from './PlusButton';
+import Header from './Header';
+import withStyles from '../lib/withStyles';
+import {withOwnFocusState} from './ScreenFocusState';
+import Style from '../style';
 
-const BR = "\n";
+const BR = '\n';
 
 class InboxScreen extends React.Component {
   state = {
-    initialNotificationChecked: false
+    initialNotificationChecked: false,
   };
 
   componentDidMount() {
@@ -38,7 +37,7 @@ class InboxScreen extends React.Component {
 
   maybeCheckInitialNotification() {
     if (
-      this.props.screenFocusState !== "focused" ||
+      this.props.screenFocusState !== 'focused' ||
       this.state.initialNotificationChecked
     ) {
       return;
@@ -46,17 +45,17 @@ class InboxScreen extends React.Component {
 
     this.props.dispatch(checkForInitialNotification());
     this.setState({
-      initialNotificationChecked: true
+      initialNotificationChecked: true,
     });
   }
 
   render() {
-    const { styles } = this.props;
+    const {styles} = this.props;
 
     return (
       <View style={styles.container}>
         <Header
-          title={"Color Chat"}
+          title={'Color Chat'}
           onPressSettings={this.handleSettingsPressed}
           renderSettingsButton={this.renderSettingsButton}
         />
@@ -75,7 +74,7 @@ class InboxScreen extends React.Component {
           width: Style.values.avatarSize,
           height: Style.values.avatarSize,
           backgroundColor: this.props.user.avatar,
-          borderRadius: 100
+          borderRadius: 100,
         }}
       />
     );
@@ -84,7 +83,7 @@ class InboxScreen extends React.Component {
   renderConversations = () => {
     let conversations = this.props.conversations.map(c => ({
       ...c,
-      contact: this.props.contacts[c.recipientId]
+      contact: this.props.contacts[c.recipientId],
     }));
 
     return (
@@ -97,7 +96,7 @@ class InboxScreen extends React.Component {
   };
 
   renderEmptyMessage = () => {
-    const { styles } = this.props;
+    const {styles} = this.props;
     return (
       <View style={styles.emptyMessageWrapper}>
         <BaseText style={styles.emptyMessage}>
@@ -108,11 +107,11 @@ class InboxScreen extends React.Component {
   };
 
   handleSettingsPressed = () => {
-    this.props.dispatch(navigateTo("settings"));
+    this.props.dispatch(navigateTo('settings'));
   };
 
   handleAddButtonPressed = () => {
-    this.props.dispatch(navigateTo("contacts"));
+    this.props.dispatch(navigateTo('contacts'));
   };
 
   handleConversationSelected = conversation => {
@@ -127,21 +126,21 @@ class InboxScreen extends React.Component {
 const addStyle = withStyles(theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.backgroundColor
+    backgroundColor: theme.backgroundColor,
   },
   emptyMessageWrapper: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   emptyMessage: {
-    textAlign: "center",
-    color: theme.secondaryTextColor
-  }
+    textAlign: 'center',
+    color: theme.secondaryTextColor,
+  },
 }));
 
 export default compose(
   withOwnFocusState,
   addStyle,
-  connect(inboxScreenSelector)
+  connect(inboxScreenSelector),
 )(InboxScreen);

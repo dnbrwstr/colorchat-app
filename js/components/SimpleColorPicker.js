@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { Text, View, Animated } from "react-native";
-import Color from "color";
-import Style from "../style";
-import BaseText from "./BaseText";
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Text, View, Animated} from 'react-native';
+import Color from 'color';
+import Style from '../style';
+import BaseText from './BaseText';
 
 let SATURATION = 75;
 
@@ -30,27 +30,27 @@ class SimpleColorPicker extends React.Component {
      * Called when picker value changes.
      * Passes current value as an argument.
      */
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
-    initialValue: "#ccc",
+    initialValue: '#ccc',
     onChange: () => {},
     onInteractionStart: () => {},
-    onInteractionEnd: () => {}
+    onInteractionEnd: () => {},
   };
 
   state = {
     value: this.props.initialValue,
     pristine: true,
-    touchOffset: null
+    touchOffset: null,
   };
 
   render() {
     let viewStyles = [
       style.container,
-      { backgroundColor: this.state.value },
-      this.props.style
+      {backgroundColor: this.state.value},
+      this.props.style,
     ];
 
     return (
@@ -77,8 +77,8 @@ class SimpleColorPicker extends React.Component {
   renderInstructions = () => {
     return (
       <View pointerEvents="none" style={style.instructions}>
-        <BaseText style={{ textAlign: "center" }} visibleOn={this.state.color}>
-          Swipe to{"\n"}change color
+        <BaseText style={{textAlign: 'center'}} visibleOn={this.state.color}>
+          Swipe to{'\n'}change color
         </BaseText>
       </View>
     );
@@ -86,7 +86,7 @@ class SimpleColorPicker extends React.Component {
 
   onLayout = async e => {
     this.setState({
-      size: e.nativeEvent.layout
+      size: e.nativeEvent.layout,
     });
   };
 
@@ -100,13 +100,13 @@ class SimpleColorPicker extends React.Component {
     // As of react-native 0.48:
     // locationX and locationY are correct ONLY w regard to the first touch
     // move event in a given gesture, so we use pageX and pageY instead
-    let { pageX, pageY, locationX, locationY } = e.nativeEvent;
-    let { width, height } = this.state.size;
+    let {pageX, pageY, locationX, locationY} = e.nativeEvent;
+    let {width, height} = this.state.size;
     let touchOffset;
 
     if (!this.state.touchOffset) {
-      touchOffset = { x: pageX - locationX, y: pageY - locationY };
-      this.setState({ touchOffset });
+      touchOffset = {x: pageX - locationX, y: pageY - locationY};
+      this.setState({touchOffset});
     } else {
       touchOffset = this.state.touchOffset;
     }
@@ -120,14 +120,14 @@ class SimpleColorPicker extends React.Component {
     let l = Math.floor(100 * progressY);
 
     this.setState({
-      value: Color({ h, s: SATURATION, l }).hexString(),
-      pristine: false
+      value: Color({h, s: SATURATION, l}).hex(),
+      pristine: false,
     });
   };
 
   onTouchEnd = () => {
     this.setState({
-      touchOffset: null
+      touchOffset: null,
     });
 
     this.props.onInteractionEnd();
@@ -142,18 +142,18 @@ class SimpleColorPicker extends React.Component {
 let style = Style.create({
   container: {
     height: 200,
-    flex: 0
+    flex: 0,
   },
   instructions: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     padding: 12,
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default SimpleColorPicker;

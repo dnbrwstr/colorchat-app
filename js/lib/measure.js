@@ -1,4 +1,4 @@
-let React = require("react-native");
+let React = require('react-native');
 
 module.exports = ref =>
   new Promise((resolve, reject) =>
@@ -11,7 +11,7 @@ module.exports = ref =>
           width,
           height,
           left,
-          top
-        })
-    )
+          top,
+        }),
+    ),
   );

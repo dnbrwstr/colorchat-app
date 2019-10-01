@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { View, Animated, Easing } from "react-native";
-import Color from "color";
-import PressableView from "./PressableView";
-import { valSort } from "../lib/Utils";
+import React, {Component} from 'react';
+import {View, Animated, Easing} from 'react-native';
+import Color from 'color';
+import PressableView from './PressableView';
+import {valSort} from '../lib/Utils';
 
 const getSize = v => v.size;
 const getLum = color => Color(color).luminosity();
@@ -13,7 +13,7 @@ const sortFunctions = {
   dark: valSort(getLum),
   light: valSort(getLum, true),
   saturated: valSort(getSat, true),
-  desaturated: valSort(getSat)
+  desaturated: valSort(getSat),
 };
 
 class SingleColorDisplay extends Component {
@@ -22,11 +22,11 @@ class SingleColorDisplay extends Component {
 
     const colorStyle = {
       flex: 1,
-      backgroundColor: this.props.animatedColors[0]
+      backgroundColor: this.props.animatedColors[0],
     };
 
     return (
-      <PressableView style={{ flex: 1 }} onPress={this.handlePress}>
+      <PressableView style={{flex: 1}} onPress={this.handlePress}>
         <Animated.View style={colorStyle} />
       </PressableView>
     );

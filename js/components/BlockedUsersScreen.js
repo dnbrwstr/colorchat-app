@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { View, Alert, FlatList } from "react-native";
-import Text from "./BaseText";
-import Header from "./Header";
-import Style from "../style";
-import { connectWithStyles } from "../lib/withStyles";
-import { loadBlockedUsers, unblockUser } from "../actions/AppActions";
-import PressableView from "./PressableView";
-import { navigateBack } from "../actions/NavigationActions";
+import React, {Component} from 'react';
+import {View, Alert, FlatList} from 'react-native';
+import Text from './BaseText';
+import Header from './Header';
+import Style from '../style';
+import {connectWithStyles} from '../lib/withStyles';
+import {loadBlockedUsers, unblockUser} from '../store/user/actions';
+import PressableView from './PressableView';
+import {navigateBack} from '../store/navigation/actions';
 
 class BlockedUsersScreen extends Component {
   componentDidMount() {
@@ -14,7 +14,7 @@ class BlockedUsersScreen extends Component {
   }
 
   render() {
-    const { styles, blockedUsers } = this.props;
+    const {styles, blockedUsers} = this.props;
 
     return (
       <View style={styles.container}>
@@ -30,8 +30,8 @@ class BlockedUsersScreen extends Component {
     );
   }
 
-  renderItem = ({ item }) => {
-    const { styles } = this.props;
+  renderItem = ({item}) => {
+    const {styles} = this.props;
 
     return (
       <PressableView
@@ -47,7 +47,7 @@ class BlockedUsersScreen extends Component {
   };
 
   renderEmptyState = () => {
-    const { styles } = this.props;
+    const {styles} = this.props;
     return (
       <View style={styles.emptyStateContainer}>
         <Text style={styles.emptyStateText}>No blocked users</Text>
@@ -69,13 +69,13 @@ class BlockedUsersScreen extends Component {
 
   handlePressUnblock = user => {
     Alert.alert(
-      "Unblock this user?",
+      'Unblock this user?',
       null,
       [
-        { text: "Cancel", onPress: () => {} },
-        { text: "Unblock", onPress: () => this.handleUnblockConfirmation(user) }
+        {text: 'Cancel', onPress: () => {}},
+        {text: 'Unblock', onPress: () => this.handleUnblockConfirmation(user)},
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
   };
 
@@ -87,41 +87,41 @@ class BlockedUsersScreen extends Component {
 const getStyles = theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.backgroundColor
+    backgroundColor: theme.backgroundColor,
   },
   emptyStateContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 100
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100,
   },
   emptyStateText: {
-    color: theme.secondaryTextColor
+    color: theme.secondaryTextColor,
   },
   user: {
     height: Style.values.rowHeight,
     padding: Style.values.outerPadding,
     borderBottomWidth: Style.values.borderWidth,
     borderBottomColor: theme.secondaryBorderColor,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   unblockButton: {
     backgroundColor: theme.primaryButtonColor,
     padding: 3,
     paddingHorizontal: 6,
     flex: 0,
-    borderRadius: 3
+    borderRadius: 3,
   },
   unblockButtonText: {
-    fontSize: 12
-  }
+    fontSize: 12,
+  },
 });
 
 const selector = state => {
   return {
-    blockedUsers: state.user.blockedUsers
+    blockedUsers: state.user.blockedUsers,
   };
 };
 

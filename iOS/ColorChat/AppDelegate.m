@@ -3,8 +3,8 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase.h>
-#import "RNFirebaseNotifications.h"
-#import "RNFirebaseMessaging.h"
+#import <RNFirebaseNotifications.h>
+#import <RNFirebaseMessaging.h>
 
 @implementation AppDelegate
 

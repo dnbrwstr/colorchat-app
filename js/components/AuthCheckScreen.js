@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
-import { connect } from "react-redux";
-import { navigateTo } from "../actions/NavigationActions";
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {navigateTo} from '../store/navigation/actions';
 
 class AuthCheckScreen extends Component {
   componentDidMount() {
     setTimeout(() => {
       if (this.props.isAuthenticated) {
-        this.props.dispatch(navigateTo("app"));
+        this.props.dispatch(navigateTo('app'));
       } else {
-        this.props.dispatch(navigateTo("auth"));
+        this.props.dispatch(navigateTo('auth'));
       }
     }, 10);
   }
@@ -20,12 +20,12 @@ class AuthCheckScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {},
 });
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.user && state.user.token
+    isAuthenticated: state.user && state.user.token,
   };
 };
 

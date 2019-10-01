@@ -1,4 +1,4 @@
-import { NavigationActions, StackActions } from "react-navigation";
+import {NavigationActions, StackActions} from 'react-navigation';
 
 let navigator;
 
@@ -22,8 +22,8 @@ export default {
     navigator.dispatch(
       NavigationActions.navigate({
         routeName,
-        params
-      })
+        params,
+      }),
     );
   },
 
@@ -33,5 +33,5 @@ export default {
 
   getCurrentRoute() {
     return getActiveRoute(navigator.state.nav);
-  }
+  },
 };

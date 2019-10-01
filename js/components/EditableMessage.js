@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import Style from "../style";
 import DragHandle from "./DragHandle";
-import { updateWorkingMessage } from "../actions/MessageActions";
+import { updateWorkingMessage } from "../store/messages/actions";
 import SimpleColorPicker from "./SimpleColorPicker";
 import { constrain } from "../lib/Utils";
 import { withScreenFocusState } from "./ScreenFocusState";

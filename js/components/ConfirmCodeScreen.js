@@ -1,28 +1,27 @@
-import React from "react";
-import { View, Keyboard, StyleSheet } from "react-native";
-import { connect } from "react-redux";
-import Style from "../style";
-import LoaderButton from "./LoaderButton";
-import ErrorMessage from "./ErrorMessage";
-import SignupScreen from "./SignupScreen";
-import BaseTextInput from "./BaseTextInput";
-import { navigateTo } from "../actions/NavigationActions";
+import React from 'react';
+import {View, Keyboard, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import LoaderButton from './LoaderButton';
+import ErrorMessage from './ErrorMessage';
+import SignupScreen from './SignupScreen';
+import BaseTextInput from './BaseTextInput';
+import {navigateTo} from '../store/navigation/actions';
 import {
   submitConfirmationCode,
   updateData,
-  clearConfirmCodeError
-} from "../actions/SignupActions";
-import { confirmationCodeScreenSelector } from "../lib/Selectors";
-import withStyles from "../lib/withStyles";
+  clearConfirmCodeError,
+} from '../store/signup/actions';
+import {confirmationCodeScreenSelector} from '../store/Selectors';
+import withStyles from '../lib/withStyles';
 
 class ConfirmCodeScreen extends React.Component {
   render() {
-    let { dispatch, error, theme, styles } = this.props;
+    let {dispatch, error, theme, styles} = this.props;
 
     return (
       <SignupScreen
         title="Confirm code"
-        onNavigateBack={() => dispatch(navigateTo("signup"))}
+        onNavigateBack={() => dispatch(navigateTo('signup'))}
         renderNextButton={this.renderNextButton}
       >
         {error ? (
@@ -38,7 +37,7 @@ class ConfirmCodeScreen extends React.Component {
             placeholder="SMS Code"
             value={this.props.confirmationCode}
             onChangeText={confirmationCode => {
-              dispatch(updateData({ confirmationCode }));
+              dispatch(updateData({confirmationCode}));
             }}
             keyboardType="phone-pad"
             placeholderTextColor={theme.secondaryTextColor}
@@ -67,10 +66,10 @@ class ConfirmCodeScreen extends React.Component {
 const getStyles = theme => ({
   inputWrapper: {
     borderColor: theme.primaryBorderColor,
-    borderWidth: StyleSheet.hairlineWidth
-  }
+    borderWidth: StyleSheet.hairlineWidth,
+  },
 });
 
 module.exports = withStyles(getStyles)(
-  connect(confirmationCodeScreenSelector)(ConfirmCodeScreen)
+  connect(confirmationCodeScreenSelector)(ConfirmCodeScreen),
 );

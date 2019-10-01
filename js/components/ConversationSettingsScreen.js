@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import { View, Alert } from "react-native";
-import { conversationScreenSelector } from "../lib/Selectors";
-import Header from "./Header";
-import { navigateBack } from "../actions/NavigationActions";
-import Text from "./BaseText";
-import { connectWithStyles } from "../lib/withStyles";
-import RowButtonGroup from "./RowButtonGroup";
-import { blockUser } from "../actions/AppActions";
+import React, {Component} from 'react';
+import {View, Alert} from 'react-native';
+import {conversationScreenSelector} from '../store/Selectors';
+import Header from './Header';
+import {navigateBack} from '../store/navigation/actions';
+import Text from './BaseText';
+import {connectWithStyles} from '../lib/withStyles';
+import RowButtonGroup from './RowButtonGroup';
+import {blockUser} from '../store/user/actions';
 
 class ConversationSettingsScreen extends Component {
   constructor(props) {
     super(props);
     this.buttons = [
       {
-        label: "Block User",
-        action: this.handlePressBlockUser
-      }
+        label: 'Block User',
+        action: this.handlePressBlockUser,
+      },
     ];
   }
 
   render() {
-    const { styles, theme, contact } = this.props;
+    const {styles, theme, contact} = this.props;
 
     const avatarStyles = [
       styles.avatar,
-      { backgroundColor: this.props.contact.avatar }
+      {backgroundColor: this.props.contact.avatar},
     ];
 
     return (
@@ -46,13 +46,13 @@ class ConversationSettingsScreen extends Component {
 
   handlePressBlockUser = () => {
     Alert.alert(
-      "Are you sure you want to block this user?",
+      'Are you sure you want to block this user?',
       null,
       [
-        { text: "Cancel", onPress: () => {} },
-        { text: "Block", onPress: this.handleBlockConfirmation }
+        {text: 'Cancel', onPress: () => {}},
+        {text: 'Block', onPress: this.handleBlockConfirmation},
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
   };
 
@@ -64,21 +64,21 @@ class ConversationSettingsScreen extends Component {
 const getStyles = theme => ({
   container: {
     backgroundColor: theme.backgroundColor,
-    flex: 1
+    flex: 1,
   },
   topContainer: {
-    alignItems: "center",
-    marginVertical: 30
+    alignItems: 'center',
+    marginVertical: 30,
   },
   avatar: {
     width: 150,
     height: 150,
     borderRadius: 150,
-    marginBottom: 12
+    marginBottom: 12,
   },
-  actionButtons: {}
+  actionButtons: {},
 });
 
 export default connectWithStyles(getStyles, conversationScreenSelector)(
-  ConversationSettingsScreen
+  ConversationSettingsScreen,
 );

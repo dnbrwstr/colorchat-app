@@ -1,17 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import { View } from "react-native";
-import ContactList from "./ContactList";
-import AnimatedEllipsis from "./AnimatedEllipsis";
-import { importContacts, sendInvite } from "../actions/ContactActions";
+import React from 'react';
+import {connect} from 'react-redux';
+import {View} from 'react-native';
+import ContactList from './ContactList';
+import AnimatedEllipsis from './AnimatedEllipsis';
+import {importContacts, sendInvite} from '../store/contacts/actions';
 import {
   navigateToConversation,
   navigateBack,
-  navigateTo
-} from "../actions/NavigationActions";
-import Header from "./Header";
-import withStyles from "../lib/withStyles";
-import ContactsImportPrompt from "./ContactsImportPrompt";
+  navigateTo,
+} from '../store/navigation/actions';
+import Header from './Header';
+import withStyles from '../lib/withStyles';
+import ContactsImportPrompt from './ContactsImportPrompt';
 
 class ContactsScreen extends React.Component {
   componentDidMount() {
@@ -31,18 +31,18 @@ class ContactsScreen extends React.Component {
   importContacts = askPermission => {
     this.props.dispatch(
       importContacts({
-        askPermission
-      })
+        askPermission,
+      }),
     );
   };
 
   render() {
-    const { styles, theme } = this.props;
+    const {styles, theme} = this.props;
 
     return (
       <View style={styles.container}>
         <Header
-          title={"Contacts"}
+          title={'Contacts'}
           onPressBack={() => this.props.dispatch(navigateBack())}
         />
         {this.renderContent()}
@@ -80,14 +80,14 @@ class ContactsScreen extends React.Component {
 
   renderLoader = () => {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <AnimatedEllipsis />
       </View>
     );
   };
 
   handleShowContactsInfo = () => {
-    this.props.dispatch(navigateTo("contactsInfo"));
+    this.props.dispatch(navigateTo('contactsInfo'));
   };
 
   handleImportButtonPressed = () => {
@@ -106,21 +106,21 @@ class ContactsScreen extends React.Component {
 const getStyle = theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.backgroundColor
+    backgroundColor: theme.backgroundColor,
   },
   headerWrapper: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: "transparent"
-  }
+    backgroundColor: 'transparent',
+  },
 });
 
 let selectContacts = (state, props) => {
   return {
     contacts: state.contacts,
-    ...state.ui.contacts
+    ...state.ui.contacts,
   };
 };
 

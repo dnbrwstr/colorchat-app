@@ -1,23 +1,23 @@
-import React from "react";
-import { View, Keyboard, StyleSheet } from "react-native";
-import BaseTextInput from "./BaseTextInput";
-import { connect } from "react-redux";
-import Style from "../style";
-import LoaderButton from "./LoaderButton";
-import ErrorMessage from "./ErrorMessage";
-import PressableView from "./PressableView";
-import BaseText from "./BaseText";
-import { signupScreenSelector } from "../lib/Selectors";
-import * as SignupActions from "../actions/SignupActions";
-import { navigateTo } from "../actions/NavigationActions";
-import SignupScreen from "./SignupScreen";
-import withStyles from "../lib/withStyles";
+import React from 'react';
+import {View, Keyboard, StyleSheet} from 'react-native';
+import BaseTextInput from './BaseTextInput';
+import {connect} from 'react-redux';
+import Style from '../style';
+import LoaderButton from './LoaderButton';
+import ErrorMessage from './ErrorMessage';
+import PressableView from './PressableView';
+import BaseText from './BaseText';
+import {signupScreenSelector} from '../store/Selectors';
+import * as SignupActions from '../store/signup/actions';
+import {navigateTo} from '../store/navigation/actions';
+import SignupScreen from './SignupScreen';
+import withStyles from '../lib/withStyles';
 
-let { updateData, registerPhoneNumber, clearSignupError } = SignupActions;
+let {updateData, registerPhoneNumber, clearSignupError} = SignupActions;
 
 class SignupStartScreen extends React.Component {
   render() {
-    let { dispatch, error, styles, theme } = this.props;
+    let {dispatch, error, styles, theme} = this.props;
 
     return (
       <SignupScreen title="Setup" renderNextButton={this.renderNextButton}>
@@ -48,7 +48,7 @@ class SignupStartScreen extends React.Component {
               style={styles.baseNumberInput}
               value={this.props.baseNumber}
               onChangeText={baseNumber => {
-                this.updateData({ baseNumber });
+                this.updateData({baseNumber});
               }}
               placeholder="Phone Number"
               placeholderTextColor={theme.secondaryTextColor}
@@ -59,7 +59,7 @@ class SignupStartScreen extends React.Component {
 
         <PressableView
           style={styles.usageInfoLink}
-          onPress={this.handleusageInfoLinkPress}
+          onPress={this.handleUsageInfoLinkPress}
         >
           <BaseText style={styles.usageInfoText}>
             How Color Chat uses your number
@@ -80,13 +80,13 @@ class SignupStartScreen extends React.Component {
     );
   };
 
-  handleusageInfoLinkPress = () => {
-    this.props.dispatch(navigateTo("numberInfo"));
+  handleUsageInfoLinkPress = () => {
+    this.props.dispatch(navigateTo('numberInfo'));
   };
 
   showCountryPicker = () => {
     this.hideKeyboard();
-    this.props.dispatch(navigateTo("countryPicker"));
+    this.props.dispatch(navigateTo('countryPicker'));
   };
 
   onSubmitNumber = () => {
@@ -103,53 +103,51 @@ class SignupStartScreen extends React.Component {
   };
 }
 
-let { inputBase } = Style.mixins;
-
-let getStyles = theme => ({
+const getStyles = theme => ({
   welcomeMessage: {
     marginTop: 0,
-    marginBottom: 20
+    marginBottom: 20,
   },
   numberInputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "stretch",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
     marginBottom: 8,
-    height: Style.values.buttonHeight
+    height: Style.values.buttonHeight,
   },
   countryCodeWrapper: {
     borderColor: theme.primaryBorderColor,
     borderWidth: StyleSheet.hairlineWidth,
     width: Style.values.buttonHeight,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   countryCodeWrapperActive: {
-    backgroundColor: theme.highlightColor
+    backgroundColor: theme.highlightColor,
   },
   countryCode: {
-    textAlign: "center",
-    paddingVertical: 10
+    textAlign: 'center',
+    paddingVertical: 10,
   },
   baseNumberInputWrapper: {
     borderColor: theme.primaryBorderColor,
     borderWidth: StyleSheet.hairlineWidth,
     borderLeftWidth: 0,
-    alignSelf: "stretch",
-    flex: 1
+    alignSelf: 'stretch',
+    flex: 1,
   },
   baseNumberInput: {},
   usageInfoLink: {
-    marginTop: 0
+    marginTop: 0,
   },
   usageInfoText: {
     fontSize: Style.values.smallFontSize,
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.secondaryTextColor,
-    textDecorationLine: "underline"
-  }
+    textDecorationLine: 'underline',
+  },
 });
 
 export default withStyles(getStyles)(
-  connect(signupScreenSelector)(SignupStartScreen)
+  connect(signupScreenSelector)(SignupStartScreen),
 );

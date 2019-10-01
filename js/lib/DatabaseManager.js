@@ -1,41 +1,41 @@
-import SQLite from "react-native-sqlite-storage";
-import config from "../config";
+import SQLite from 'react-native-sqlite-storage';
+import config from '../config';
 
 SQLite.enablePromise(true);
 
 const ChatMessageSchema = {
-  name: "ChatMessages",
-  primaryKey: "id",
+  name: 'ChatMessages',
+  primaryKey: 'id',
   properties: {
-    id: { type: "string", optional: true, primaryKey: true },
-    senderId: { type: "integer", optional: true },
-    recipientId: { type: "integer", optional: true },
-    createdAt: { type: "string", optional: true },
-    color: { type: "string", optional: true },
-    width: { type: "integer", optional: true },
-    height: { type: "integer", optional: true },
-    state: { type: "string", optional: true },
-    colorName: { type: "string", optional: true },
-    type: { type: "string", optional: true }
-  }
+    id: {type: 'string', optional: true, primaryKey: true},
+    senderId: {type: 'integer', optional: true},
+    recipientId: {type: 'integer', optional: true},
+    createdAt: {type: 'string', optional: true},
+    color: {type: 'string', optional: true},
+    width: {type: 'integer', optional: true},
+    height: {type: 'integer', optional: true},
+    state: {type: 'string', optional: true},
+    colorName: {type: 'string', optional: true},
+    type: {type: 'string', optional: true},
+  },
 };
 
 const MigrationSchema = {
-  name: "Migrations",
-  primaryKey: "id",
+  name: 'Migrations',
+  primaryKey: 'id',
   properties: {
-    id: { type: "string", optional: true, primaryKey: true },
-    name: { type: "string", optional: true },
-    done: { type: "integer", optional: true }
-  }
+    id: {type: 'string', optional: true, primaryKey: true},
+    name: {type: 'string', optional: true},
+    done: {type: 'integer', optional: true},
+  },
 };
 
 const typeMigration = {
-  name: "type",
+  name: 'type',
   run: _db => {
     const query = `ALTER TABLE ${ChatMessageSchema.name} ADD 'type' string`;
     return _db.executeSql(query);
-  }
+  },
 };
 
 let _db;
@@ -43,7 +43,7 @@ let _db;
 const getDb = async () => {
   if (!_db) {
     _db = await SQLite.openDatabase({
-      name: "colorchat.db"
+      name: 'colorchat.db',
     });
 
     await _db.executeSql(getCreateTableQuery(ChatMessageSchema));
@@ -68,28 +68,28 @@ const runMigration = async (migration, _db) => {
       `;
       return _db.executeSql(saveMigrationQuery);
     } catch (e) {
-      console.log("Unable to run migration :(");
+      console.log('Unable to run migration :(');
     }
   }
 };
 
 const getSqlForProperty = prop => {
   let sql = `${prop.name} ${prop.type}`;
-  if (prop.primaryKey) sql += " primary key";
-  if (!prop.optional) sql += " not null";
+  if (prop.primaryKey) sql += ' primary key';
+  if (!prop.optional) sql += ' not null';
   return sql;
 };
 
 const getCreateTableQuery = schema => {
-  const { name, properties } = schema;
+  const {name, properties} = schema;
   const props = Object.keys(properties).map(k => ({
     name: k,
-    ...properties[k]
+    ...properties[k],
   }));
 
   return `create table if not exists ${name}(${props
     .map(getSqlForProperty)
-    .join(",\n")})`;
+    .join(',\n')})`;
 };
 
 const executeSql = async query => {
@@ -110,7 +110,7 @@ const runQuery = async query => {
 
 const runCountQuery = async query => {
   const results = await executeSql(query);
-  return results[0].rows.item(0)["count(*)"];
+  return results[0].rows.item(0)['count(*)'];
 };
 
 const getConversationQuery = (userId, contactId) => {
@@ -143,7 +143,7 @@ const DatabaseManager = {
 
     return {
       messages: results,
-      total: totalCount
+      total: totalCount,
     };
   },
 
@@ -151,19 +151,19 @@ const DatabaseManager = {
     const props = ChatMessageSchema.properties;
 
     const columns = Object.keys(ChatMessageSchema.properties).filter(
-      k => typeof message[k] !== "undefined"
+      k => typeof message[k] !== 'undefined',
     );
 
     const values = columns.map(c => {
-      if (c === "createdAt") return `'${new Date(message[c]).toISOString()}'`;
+      if (c === 'createdAt') return `'${new Date(message[c]).toISOString()}'`;
       else return `'${message[c]}'`;
     });
 
     const db = await getDb();
 
     await db.executeSql(`
-      INSERT OR REPLACE INTO ChatMessages(${columns.join(",")})
-      VALUES(${values.join(",")})
+      INSERT OR REPLACE INTO ChatMessages(${columns.join(',')})
+      VALUES(${values.join(',')})
     `);
 
     return message;
@@ -186,7 +186,7 @@ const DatabaseManager = {
 
   async purgeMessages() {
     return executeSql(`DELETE FROM ChatMessages`);
-  }
+  },
 };
 
 export default DatabaseManager;

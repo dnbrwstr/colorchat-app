@@ -1,37 +1,37 @@
-import React from "react";
-import { connect } from "react-redux";
-import { View, ScrollView, Alert, Dimensions, StyleSheet } from "react-native";
-import Style from "../style";
-import BaseText from "./BaseText";
-import Header from "./Header";
-import PressableView from "./PressableView";
-import { navigateTo, navigateBack } from "../actions/NavigationActions";
+import React from 'react';
+import {connect} from 'react-redux';
+import {View, ScrollView, Alert, StyleSheet} from 'react-native';
+import Style from '../style';
+import BaseText from './BaseText';
+import Header from './Header';
+import PressableView from './PressableView';
+import {navigateTo, navigateBack} from '../store/navigation/actions';
 import {
   loadUserInfo,
   updateUserInfo,
   logout,
   deleteAccount,
-  changeTheme
-} from "../actions/AppActions";
-import withStyles from "../lib/withStyles";
-import ProfileEditor from "./ProfileEditor";
-import { ifIphoneX } from "react-native-iphone-x-helper";
-import RowButtonGroup from "./RowButtonGroup";
+} from '../store/user/actions';
+import {changeTheme} from '../store/ui/actions';
+import withStyles from '../lib/withStyles';
+import ProfileEditor from './ProfileEditor';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import RowButtonGroup from './RowButtonGroup';
 
 class SettingsScreen extends React.Component {
   state = {
-    name: this.props.user.name || "",
-    avatar: this.props.user.avatar || "#CCC",
-    scrollLocked: false
+    name: this.props.user.name || '',
+    avatar: this.props.user.avatar || '#CCC',
+    scrollLocked: false,
   };
 
   constructor(props) {
     super(props);
     this.buttons = [
-      { label: "About Color Chat", action: this.handleAboutPress },
-      { label: "Blocked users", action: this.handleBlockedUsersPress },
-      { label: "Logout", action: this.handleLogout },
-      { label: "Delete account", action: this.handleDeleteAccount }
+      {label: 'About Color Chat', action: this.handleAboutPress},
+      {label: 'Blocked users', action: this.handleBlockedUsersPress},
+      {label: 'Logout', action: this.handleLogout},
+      {label: 'Delete account', action: this.handleDeleteAccount},
     ];
   }
 
@@ -41,11 +41,11 @@ class SettingsScreen extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.user.name !== this.props.user.name) {
-      this.setState({ name: nextProps.user.name });
+      this.setState({name: nextProps.user.name});
     }
 
     if (nextProps.user.avatar !== this.props.user.avatar) {
-      this.setState({ avatar: nextProps.user.avatar });
+      this.setState({avatar: nextProps.user.avatar});
     }
   }
 
@@ -55,13 +55,13 @@ class SettingsScreen extends React.Component {
       this.props.user.avatar !== this.state.avatar
     ) {
       this.props.dispatch(
-        updateUserInfo({ name: this.state.name, avatar: this.state.avatar })
+        updateUserInfo({name: this.state.name, avatar: this.state.avatar}),
       );
     }
   };
 
   render() {
-    const { theme, styles } = this.props;
+    const {theme, styles} = this.props;
 
     return (
       <View style={styles.container}>
@@ -93,11 +93,11 @@ class SettingsScreen extends React.Component {
   }
 
   renderThemeInput() {
-    const { styles } = this.props;
+    const {styles} = this.props;
     const themeKeys = Object.keys(Style.themes);
     const themes = themeKeys.map(k => Style.themes[k]);
     const currentIndex = themes.findIndex(
-      theme => theme.label === this.props.theme.label
+      theme => theme.label === this.props.theme.label,
     );
 
     return (
@@ -112,8 +112,8 @@ class SettingsScreen extends React.Component {
               this.renderThemeOption(
                 i === currentIndex,
                 i === themes.length - 1,
-                themes[i]
-              )
+                themes[i],
+              ),
             )}
           </View>
         </View>
@@ -122,11 +122,11 @@ class SettingsScreen extends React.Component {
   }
 
   renderThemeOption = (isActive, isLast, theme) => {
-    const { styles } = this.props;
+    const {styles} = this.props;
     const optionStyles = [styles.themeOption, isLast && styles.lastThemeOption];
     const buttonInnerStyles = [
       styles.themeButtonInner,
-      isActive && styles.themeButtonInnerActive
+      isActive && styles.themeButtonInnerActive,
     ];
     return (
       <PressableView
@@ -151,24 +151,24 @@ class SettingsScreen extends React.Component {
   };
 
   handleAboutPress = () => {
-    this.props.dispatch(navigateTo("about"));
+    this.props.dispatch(navigateTo('about'));
   };
 
   handleBlockedUsersPress = () => {
-    this.props.dispatch(navigateTo("blockedUsers"));
+    this.props.dispatch(navigateTo('blockedUsers'));
   };
 
   handleLogout = () => {
-    let message = "Log out of this device?";
+    let message = 'Log out of this device?';
 
     Alert.alert(
       message,
       null,
       [
-        { text: "Cancel", onPress: () => {} },
-        { text: "Logout", onPress: this.handleLogoutConfirmation }
+        {text: 'Cancel', onPress: () => {}},
+        {text: 'Logout', onPress: this.handleLogoutConfirmation},
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
   };
 
@@ -180,8 +180,8 @@ class SettingsScreen extends React.Component {
     const message = `Are you sure you want to delete your account?`;
 
     Alert.alert(message, null, [
-      { text: "Cancel", onPress: () => {} },
-      { text: "Delete", onPress: this.handleDeleteAccountConfirmation }
+      {text: 'Cancel', onPress: () => {}},
+      {text: 'Delete', onPress: this.handleDeleteAccountConfirmation},
     ]);
   };
 
@@ -198,37 +198,37 @@ class SettingsScreen extends React.Component {
   };
 
   handleColorPickerInteractionStart = () => {
-    this.setState({ scrollLocked: true });
+    this.setState({scrollLocked: true});
   };
 
   handleColorPickerInteractionEnd = () => {
-    this.setState({ scrollLocked: false });
+    this.setState({scrollLocked: false});
   };
 }
 
 const getStyles = theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.backgroundColor
+    backgroundColor: theme.backgroundColor,
   },
   content: {
-    ...ifIphoneX({ paddingBottom: 30 })
+    ...ifIphoneX({paddingBottom: 30}),
   },
   formContainer: {
-    padding: Style.values.outerPadding
+    padding: Style.values.outerPadding,
   },
   profileEditor: {
-    marginBottom: 36
+    marginBottom: 36,
   },
   themeInputLabel: {
-    marginBottom: 6
+    marginBottom: 6,
   },
   themeOption: {
-    flexDirection: "row",
-    paddingVertical: 4
+    flexDirection: 'row',
+    paddingVertical: 4,
   },
   themeOptionActive: {
-    backgroundColor: theme.highlightColor
+    backgroundColor: theme.highlightColor,
   },
   lastThemeOption: {},
   themeButton: {
@@ -237,37 +237,37 @@ const getStyles = theme => ({
     borderRadius: 100,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: theme.primaryBorderColor,
-    marginRight: 12
+    marginRight: 12,
   },
   themeButtonInner: {
-    position: "absolute",
+    position: 'absolute',
     top: 3,
     left: 3,
     right: 3,
     bottom: 3,
     borderRadius: 12,
-    overflow: "hidden"
+    overflow: 'hidden',
   },
   themeButtonInnerActive: {
-    backgroundColor: theme.primaryBorderColor
+    backgroundColor: theme.primaryBorderColor,
   },
   themeOptionTextContainer: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   themeOptionText: {
-    lineHeight: 18
+    lineHeight: 18,
   },
   accountButtonContainer: {
-    marginTop: 30
-  }
+    marginTop: 30,
+  },
 });
 
 let settingsScreenSelector = state => {
   return {
-    user: state.user
+    user: state.user,
   };
 };
 
 export default withStyles(getStyles)(
-  connect(settingsScreenSelector)(SettingsScreen)
+  connect(settingsScreenSelector)(SettingsScreen),
 );

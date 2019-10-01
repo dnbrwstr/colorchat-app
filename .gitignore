@@ -24,7 +24,7 @@ project.xcworkspace
 
 # Cocoapods
 #
-iOS/Pods
+ios/Pods
 
 # Android/IJ
 #
@@ -42,7 +42,7 @@ npm-debug.log
 # 
 android/keystores/colorchat.keystore
 android/app/google-services.json
-iOS/ColorChat/GoogleService-Info.plist
+ios/ColorChat/GoogleService-Info.plist
 
 # Bundle artifact
 *.jsbundle

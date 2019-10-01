@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import ScrollBridge from "../lib/ScrollBridge";
-import { connect } from "react-redux";
-import Header from "./Header";
-import MessageList from "./MessageList";
-import ComposeBar from "./ComposeBar";
-import PlusButton from "./PlusButton";
-import { navigateBack, navigateTo } from "../actions/NavigationActions";
-import * as MessageActions from "../actions/MessageActions";
-import { conversationScreenSelector } from "../lib/Selectors";
-import { updateConversationUi } from "../actions/AppActions";
-import { withScreenFocusStateProvider } from "./ScreenFocusState";
-import withStyles from "../lib/withStyles";
-import { updateUnreadCount } from "../actions/NotificationActions";
-import { markConversationRead } from "../actions/ConversationActions";
-import PlaceholderMessage from "./PlaceholderMessage";
-import Style from "../style";
-import Text from "./BaseText";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import ScrollBridge from '../lib/ScrollBridge';
+import {connect} from 'react-redux';
+import Header from './Header';
+import MessageList from './MessageList';
+import ComposeBar from './ComposeBar';
+import PlusButton from './PlusButton';
+import {navigateBack, navigateTo} from '../store/navigation/actions';
+import * as MessageActions from '../store/messages/actions';
+import {conversationScreenSelector} from '../store/Selectors';
+import {updateConversationUi} from '../store/ui/actions';
+import {withScreenFocusStateProvider} from './ScreenFocusState';
+import withStyles from '../lib/withStyles';
+import {updateUnreadCount} from '../store/notifications/actions';
+import {markConversationRead} from '../store/conversations/actions';
+import PlaceholderMessage from './PlaceholderMessage';
+import Style from '../style';
+import Text from './BaseText';
 
 let {
   resendMessage,
@@ -26,7 +26,7 @@ let {
   destroyWorkingMessage,
   toggleMessageExpansion,
   loadMessages,
-  unloadOldMessages
+  unloadOldMessages,
 } = MessageActions;
 
 export class ConversationScreen extends Component {
@@ -34,7 +34,7 @@ export class ConversationScreen extends Component {
     page: 0,
     loadedAll: false,
     scrollBridge: new ScrollBridge(),
-    lastOffset: 0
+    lastOffset: 0,
   };
 
   componentDidMount() {
@@ -44,17 +44,17 @@ export class ConversationScreen extends Component {
 
   static getDerivedStateFromProps = props => {
     return {
-      loadedAll: props.messages && props.messages.length >= props.totalMessages
+      loadedAll: props.messages && props.messages.length >= props.totalMessages,
     };
   };
 
   render() {
-    const { dispatch, styles } = this.props;
+    const {dispatch, styles} = this.props;
     return (
       <View style={styles.container}>
         <Header
           onPressBack={() => dispatch(navigateBack())}
-          onPressSettings={() => dispatch(navigateTo("conversationSettings"))}
+          onPressSettings={() => dispatch(navigateTo('conversationSettings'))}
           renderTitle={this.renderHeaderTitle}
           renderSettingsButton={this.renderSettingsButton}
         />
@@ -95,7 +95,7 @@ export class ConversationScreen extends Component {
   }
 
   renderHeaderTitle = () => {
-    const { contact, styles } = this.props;
+    const {contact, styles} = this.props;
     return (
       <View style={styles.headerTitle}>
         <Text>{contact.name}</Text>
@@ -104,8 +104,8 @@ export class ConversationScreen extends Component {
   };
 
   renderSettingsButton = () => {
-    const { contact, styles } = this.props;
-    const backgroundStyle = { backgroundColor: contact.avatar || "#CCC" };
+    const {contact, styles} = this.props;
+    const backgroundStyle = {backgroundColor: contact.avatar || '#CCC'};
     const settingsStyles = [styles.settingsButton, backgroundStyle];
     return <View style={settingsStyles} />;
   };
@@ -114,7 +114,7 @@ export class ConversationScreen extends Component {
     if (this.state.loadedAll) return;
     let nextPage = ++this.state.page;
     this.props.dispatch(loadMessages(this.props.contact.id, this.state.page));
-    this.setState({ page: nextPage });
+    this.setState({page: nextPage});
   };
 
   handleBeginningReached = () => {
@@ -122,7 +122,7 @@ export class ConversationScreen extends Component {
   };
 
   handlePressCameraButton = () => {
-    this.props.dispatch(navigateTo("camera"));
+    this.props.dispatch(navigateTo('camera'));
   };
 
   handleSendMessage = message => {
@@ -132,8 +132,8 @@ export class ConversationScreen extends Component {
     this.props.dispatch(
       updateConversationUi({
         sending: true,
-        composing: false
-      })
+        composing: false,
+      }),
     );
 
     setTimeout(() => {
@@ -144,8 +144,8 @@ export class ConversationScreen extends Component {
           InteractionManager.runAfterInteractions(() => {
             this.props.dispatch(
               updateConversationUi({
-                sending: false
-              })
+                sending: false,
+              }),
             );
           });
         }, 0);
@@ -158,8 +158,8 @@ export class ConversationScreen extends Component {
 
     this.props.dispatch(
       startComposingMessage({
-        recipientId: this.props.contact.id
-      })
+        recipientId: this.props.contact.id,
+      }),
     );
   };
 
@@ -173,8 +173,8 @@ export class ConversationScreen extends Component {
           InteractionManager.runAfterInteractions(() => {
             this.props.dispatch(
               updateConversationUi({
-                cancelling: false
-              })
+                cancelling: false,
+              }),
             );
           });
         }, 0);
@@ -192,7 +192,7 @@ export class ConversationScreen extends Component {
 
   getWorkingMessage = () => {
     return this.props.messages.filter(
-      m => m.state === "composing" || m.state === "cancelling"
+      m => m.state === 'composing' || m.state === 'cancelling',
     )[0];
   };
 }
@@ -200,36 +200,36 @@ export class ConversationScreen extends Component {
 const addStyle = withStyles(theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.backgroundColor
+    backgroundColor: theme.backgroundColor,
   },
   messageListContainer: {
-    flex: 1
+    flex: 1,
   },
   newMessageButton: {
-    backgroundColor: theme.primaryButtonColor
+    backgroundColor: theme.primaryButtonColor,
   },
   cameraButton: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    left: 0
+    left: 0,
   },
   placeholderMessage: {
-    position: "absolute",
+    position: 'absolute',
     bottom: Style.values.outerPadding,
-    left: Style.values.outerPadding
+    left: Style.values.outerPadding,
   },
   headerTitle: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   setingsButton: {
     borderRadius: 100,
     width: Style.values.avatarSize,
-    height: Style.values.avatarSize
-  }
+    height: Style.values.avatarSize,
+  },
 }));
 
 export default withScreenFocusStateProvider(
-  addStyle(connect(conversationScreenSelector)(ConversationScreen))
+  addStyle(connect(conversationScreenSelector)(ConversationScreen)),
 );

@@ -1,39 +1,38 @@
-import React from "react";
-import { SectionList, View, Text, ScrollView, PixelRatio } from "react-native";
-import { connect } from "react-redux";
-import Header from "./Header";
-import Countries from "../lib/data/Countries";
-import PressableView from "./PressableView";
-import BaseText from "./BaseText";
-import { updateData } from "../actions/SignupActions";
-import { navigateTo } from "../actions/NavigationActions";
-import Style from "../style";
-import { connectWithStyles } from "../lib/withStyles";
+import React from 'react';
+import {SectionList, View, PixelRatio} from 'react-native';
+import Header from './Header';
+import Countries from '../lib/data/Countries';
+import PressableView from './PressableView';
+import BaseText from './BaseText';
+import {updateData} from '../store/signup/actions';
+import {navigateTo} from '../store/navigation/actions';
+import Style from '../style';
+import {connectWithStyles} from '../lib/withStyles';
 
 let groupedCountries = Countries.reduce((memo, country) => {
   let letter = country.label[0].toUpperCase();
   if (!memo[letter]) memo[letter] = [];
-  memo[letter].push({ ...country, key: country.label });
+  memo[letter].push({...country, key: country.label});
   return memo;
 }, {});
 
 let countrySections = Object.keys(groupedCountries).reduce((memo, key) => {
   memo.push({
     data: groupedCountries[key],
-    key: key
+    key: key,
   });
   return memo;
 }, []);
 
 class CountryPickerScreen extends React.Component {
   render() {
-    const { dispatch, styles, theme } = this.props;
+    const {dispatch, styles, theme} = this.props;
 
     return (
       <View style={styles.container}>
         <Header
           title="Select a country"
-          onPressBack={() => dispatch(navigateTo("signup"))}
+          onPressBack={() => dispatch(navigateTo('signup'))}
         />
 
         <SectionList
@@ -48,7 +47,7 @@ class CountryPickerScreen extends React.Component {
   }
 
   renderCountry = data => {
-    const { dispatch, styles } = this.props;
+    const {dispatch, styles} = this.props;
 
     let isFirst = data.index == 0;
     let isLast = (countrySections.length - 1).toString() === data.index;
@@ -56,7 +55,7 @@ class CountryPickerScreen extends React.Component {
     let countryStyles = [
       styles.country,
       isFirst && styles.firstCountry,
-      isLast && styles.lastCountry
+      isLast && styles.lastCountry,
     ];
 
     return (
@@ -72,7 +71,7 @@ class CountryPickerScreen extends React.Component {
   };
 
   renderCountryHeader = data => {
-    const { dispatch, styles } = this.props;
+    const {dispatch, styles} = this.props;
 
     return (
       <View style={styles.countryHeader} key={`section-${data.section.key}`}>
@@ -84,31 +83,31 @@ class CountryPickerScreen extends React.Component {
   };
 
   onSelect = country => {
-    let { dispatch } = this.props;
+    let {dispatch} = this.props;
 
     dispatch(
       updateData({
         country: country.label,
-        countryCode: country.code
-      })
+        countryCode: country.code,
+      }),
     );
 
-    dispatch(navigateTo("signup"));
+    dispatch(navigateTo('signup'));
   };
 }
 
 const getStyles = theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.backgroundColor
+    backgroundColor: theme.backgroundColor,
   },
   countryHeader: {
-    paddingHorizontal: Style.values.outerPadding
+    paddingHorizontal: Style.values.outerPadding,
   },
   countryHeaderInner: {
     paddingVertical: 3,
     borderBottomWidth: 1 / PixelRatio.get(),
-    borderBottomColor: theme.secondaryBorderColor
+    borderBottomColor: theme.secondaryBorderColor,
   },
   country: {
     paddingHorizontal: Style.values.outerPadding,
@@ -116,20 +115,20 @@ const getStyles = theme => ({
     height: Style.values.rowHeight,
     borderBottomWidth: 1 / PixelRatio.get(),
     borderBottomColor: theme.secondaryBorderColor,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   firstCountry: {
-    paddingTop: 18
+    paddingTop: 18,
   },
   lastCountry: {
-    paddingBottom: 27
+    paddingBottom: 27,
   },
   countryText: {
-    color: theme.primaryTextColor
+    color: theme.primaryTextColor,
   },
   countryActive: {
-    backgroundColor: theme.highlightColor
-  }
+    backgroundColor: theme.highlightColor,
+  },
 });
 
 const selector = () => ({});

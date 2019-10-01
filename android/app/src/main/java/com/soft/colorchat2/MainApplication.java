@@ -19,6 +19,10 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import org.pgsqlite.SQLitePluginPackage;
+import android.util.Log;
+import com.facebook.react.PackageList;
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,22 +37,22 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-              new MainReactPackage(),
-            new NetInfoPackage(),
-            new AsyncStoragePackage(),
-            new SvgPackage(),
-            SendSMSPackage.getInstance(),
-            new RNScreensPackage(),
-            new RNGestureHandlerPackage(),
-            new RNFirebasePackage(),
-            new RNDeviceInfo(),
-            new ReactNativeContacts(),
-            new ColorCameraPackage(),
-              new SQLitePluginPackage(),
-              new RNFirebaseMessagingPackage(),
-              new RNFirebaseNotificationsPackage()
-      );
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      packages.add(new NetInfoPackage());
+      packages.add(new AsyncStoragePackage());
+      packages.add(new SvgPackage());
+      packages.add(SendSMSPackage.getInstance());
+      packages.add(new RNScreensPackage());
+      packages.add(new RNGestureHandlerPackage());
+      packages.add(new RNFirebasePackage());
+      packages.add(new RNDeviceInfo());
+      packages.add(new ReactNativeContacts());
+      packages.add(new ColorCameraPackage());
+      packages.add(new SQLitePluginPackage());
+      packages.add(new RNFirebaseMessagingPackage());
+      packages.add(new RNFirebaseNotificationsPackage());
+      return packages;
     }
 
     @Override

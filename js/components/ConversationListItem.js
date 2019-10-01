@@ -1,21 +1,21 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import Color from "color";
-import Style from "../style";
-import InteractiveView from "./InteractiveView";
-import BaseText from "./BaseText";
-import { shortHumanDate, formatName } from "../lib/Utils";
-import { getTimestamp } from "../lib/MessageUtils";
-import withStyles from "../lib/withStyles";
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
+import Color from 'color';
+import Style from '../style';
+import InteractiveView from './InteractiveView';
+import BaseText from './BaseText';
+import {shortHumanDate, formatName} from '../lib/Utils';
+import {getTimestamp} from '../lib/MessageUtils';
+import withStyles from '../lib/withStyles';
 
-const DEFAULT_BG_COLOR = "#EFEFEF";
+const DEFAULT_BG_COLOR = '#EFEFEF';
 
 class ConversationListItem extends React.Component {
   static defaultProps = {
     onPress: () => {},
     onInteractionStart: () => {},
     onInteractionEnd: () => {},
-    onDelete: () => {}
+    onDelete: () => {},
   };
 
   componentDidMount() {
@@ -27,10 +27,10 @@ class ConversationListItem extends React.Component {
   getActiveBackgroundColor = () => {
     let color = this.getColor();
     let isLight = Color(color).luminosity() > 0.5;
-    let colorFn = isLight ? "darken" : "lighten";
+    let colorFn = isLight ? 'darken' : 'lighten';
     return Color(color)
       [colorFn](0.2)
-      .hexString();
+      .hex();
   };
 
   getColor = () => {
@@ -43,29 +43,29 @@ class ConversationListItem extends React.Component {
 
   getName = () => {
     if (this.props.contact) {
-      let { givenName, familyName } = this.props.contact;
+      let {givenName, familyName} = this.props.contact;
       return formatName(givenName, familyName);
     } else if (this.props.recipientName) {
       return this.props.recipientName;
     } else {
-      return "Unknown";
+      return 'Unknown';
     }
   };
 
   render() {
-    const { styles } = this.props;
+    const {styles} = this.props;
 
     let textStyles = [
       this.props.unread && {
-        fontWeight: "500"
-      }
+        fontWeight: '500',
+      },
     ];
 
     const avatarStyles = [
       styles.avatar,
       this.props.contact && {
-        backgroundColor: this.props.contact.avatar || "#CCC"
-      }
+        backgroundColor: this.props.contact.avatar || '#CCC',
+      },
     ];
 
     const activeStyles = [styles.itemActive];
@@ -93,13 +93,13 @@ class ConversationListItem extends React.Component {
   }
 
   renderLastMessage() {
-    const { lastMessage, styles } = this.props;
+    const {lastMessage, styles} = this.props;
 
     const lastMessageBlockStyle = [
       styles.lastMessage,
       {
-        backgroundColor: lastMessage.color
-      }
+        backgroundColor: lastMessage.color,
+      },
     ];
 
     return (
@@ -114,57 +114,57 @@ class ConversationListItem extends React.Component {
   }
 }
 
-const { rowHeight, avatarSize } = Style.values;
+const {rowHeight, avatarSize} = Style.values;
 
 const getStyles = theme => ({
   container: {
-    backgroundColor: "red"
+    backgroundColor: 'red',
   },
   item: {
     backgroundColor: theme.backgroundColor,
     paddingHorizontal: Style.values.horizontalPadding,
     height: rowHeight,
     flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderBottomColor: theme.secondaryBorderColor,
-    borderBottomWidth: StyleSheet.hairlineWidth
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   itemActive: {
-    backgroundColor: theme.highlightColor
+    backgroundColor: theme.highlightColor,
   },
   user: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   avatar: {
     backgroundColor: theme.defaultAvatarColor,
     borderRadius: 200,
     width: avatarSize,
     height: avatarSize,
-    marginRight: 15
+    marginRight: 15,
   },
   lastMessageContainer: {
     height: rowHeight,
 
     padding: 0,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   lastMessage: {
     width: 70,
     height: 40,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 2,
-    marginBottom: 2
+    marginBottom: 2,
   },
   time: {
     fontSize: 10,
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
 });
 
 export default withStyles(getStyles)(ConversationListItem);

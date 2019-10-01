@@ -1,27 +1,27 @@
-import React, { Component } from "react";
-import { View, Text, TextInput } from "react-native";
-import { connect } from "react-redux";
-import Style from "../style";
-import PressableView from "./PressableView";
-import config from "../config";
-import { rand } from "../lib/Utils";
-import BaseText from "./BaseText";
-import { navigateTo } from "../actions/NavigationActions";
-import withStyles from "../lib/withStyles";
-import { ifIphoneX } from "react-native-iphone-x-helper";
-import { getFocusStateChange } from "../lib/NavigationUtils";
+import React, {Component} from 'react';
+import {View, Text} from 'react-native';
+import {connect} from 'react-redux';
+import Style from '../style';
+import PressableView from './PressableView';
+import config from '../config';
+import {rand} from '../lib/Utils';
+import BaseText from './BaseText';
+import {navigateTo} from '../store/navigation/actions';
+import withStyles from '../lib/withStyles';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {getFocusStateChange} from '../lib/NavigationUtils';
 import {
   withScreenFocusState,
-  withScreenFocusStateProvider
-} from "./ScreenFocusState";
+  withScreenFocusStateProvider,
+} from './ScreenFocusState';
 
-let { appName } = config;
+let {appName} = config;
 
 class WelcomeScreen extends Component {
   componentDidUpdate(prevProps, prevState) {
     const change = getFocusStateChange(
       prevProps.screenFocusState,
-      this.props.screenFocusState
+      this.props.screenFocusState,
     );
 
     if (change.entered) {
@@ -38,7 +38,7 @@ class WelcomeScreen extends Component {
   }
 
   render() {
-    const { styles } = this.props;
+    const {styles} = this.props;
     return (
       <View style={styles.wrapper}>
         <View style={styles.titleContainer}>
@@ -48,11 +48,11 @@ class WelcomeScreen extends Component {
         <View style={styles.floatMessageContainer}>
           <View style={styles.floatMessage}>
             <Text style={styles.floatMessageText}>
-              {this.renderColorizedText("Chat with")}
-              {"\n"}
-              {this.renderColorizedText("colors instead")}
-              {"\n"}
-              {this.renderColorizedText("of words")}
+              {this.renderColorizedText('Chat with')}
+              {'\n'}
+              {this.renderColorizedText('colors instead')}
+              {'\n'}
+              {this.renderColorizedText('of words')}
             </Text>
           </View>
         </View>
@@ -70,9 +70,9 @@ class WelcomeScreen extends Component {
   }
 
   renderColorizedText(text) {
-    return text.split("").map((letter, i) => {
+    return text.split('').map((letter, i) => {
       return (
-        <Text key={`letter-${i}`} style={{ color: this.randomColor() }}>
+        <Text key={`letter-${i}`} style={{color: this.randomColor()}}>
           {letter}
         </Text>
       );
@@ -80,7 +80,7 @@ class WelcomeScreen extends Component {
   }
 
   handlePressNext = () => {
-    this.props.dispatch(navigateTo("signup"));
+    this.props.dispatch(navigateTo('signup'));
   };
 }
 
@@ -88,69 +88,69 @@ const addStyle = withStyles(theme => ({
   wrapper: {
     ...Style.mixins.outerWrapperBase,
     backgroundColor: theme.backgroundColor,
-    flex: 1
+    flex: 1,
   },
   welcome: {
-    flex: 1
+    flex: 1,
   },
   titleContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     height: Style.values.rowHeight,
-    backgroundColor: "transparent",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     color: theme.primaryTextColor,
     padding: 20,
-    textAlign: "center"
+    textAlign: 'center',
   },
   bottomBar: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    ...ifIphoneX({ bottom: 30 }),
+    ...ifIphoneX({bottom: 30}),
     left: 0,
     right: 0,
     height: Style.values.rowHeight,
-    backgroundColor: "transparent",
-    flexDirection: "row",
-    alignItems: "stretch"
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
   bottomBarButton: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   bottomBarButtonText: {
     color: theme.primaryTextColor,
-    textAlign: "center"
+    textAlign: 'center',
   },
   floatMessageContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "transparent"
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   floatMessage: {
     width: 200,
     height: 200,
     borderRadius: 100,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "black"
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
   },
   floatMessageText: {
     ...Style.mixins.textBase,
     color: theme.primaryTextColor,
-    textAlign: "center",
-    lineHeight: 24
-  }
+    textAlign: 'center',
+    lineHeight: 24,
+  },
 }));
 
 const addFocusState = c =>

@@ -67,7 +67,6 @@ const createScreenshotState = () => {
     working: [],
     enqueued: [],
     sending: [],
-    placeholder: [],
   };
 
   const conversations = makeArray(6).map(n => ({

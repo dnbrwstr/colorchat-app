@@ -11,6 +11,10 @@ import {
   ChangeNetworkAction,
   TriggerMemoryWarningAction,
   ChangeThemeAction,
+  AuthErrorAction,
+  AUTH_ERROR,
+  SocketDisconnectedAction,
+  SOCKET_DISCONNECTED,
 } from './types';
 import {NetInfoStateType} from '@react-native-community/netinfo';
 import {Theme} from '../../style/themes';
@@ -52,5 +56,18 @@ export const changeTheme = (newTheme: Theme): ChangeThemeAction => {
   return {
     type: CHANGE_THEME,
     theme: newTheme,
+  };
+};
+
+export const authError = (): AuthErrorAction => {
+  return {
+    type: AUTH_ERROR,
+  };
+};
+
+export const socketDisconnected = (error: string): SocketDisconnectedAction => {
+  return {
+    type: SOCKET_DISCONNECTED,
+    error: error,
   };
 };

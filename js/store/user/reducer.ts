@@ -34,7 +34,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [SUBMIT_CONFIRMATION_CODE]: (state, action: SubmitConfirmationCodeAction) => {
-    if (action.state == AsyncActionState.complete) {
+    if (action.state == AsyncActionState.Complete) {
       return {
         ...state,
         ...action.result.user,
@@ -48,12 +48,12 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
     return {
       ...state,
       deviceToken: action.deviceToken,
-      deviceTokenSaved: action.state === AsyncActionState.complete,
+      deviceTokenSaved: action.state === AsyncActionState.Complete,
     };
   },
 
   [LOAD_USER_INFO]: (state, action: LoadUserInfoAction) => {
-    if (action.state === AsyncActionState.complete) {
+    if (action.state === AsyncActionState.Complete) {
       return {
         ...state,
         ...action.result,
@@ -71,7 +71,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [BLOCK_USER]: (state, action: BlockUserAction) => {
-    if (action.state === AsyncActionState.complete) {
+    if (action.state === AsyncActionState.Complete) {
       return {
         ...state,
         ...action.result,
@@ -82,7 +82,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [UNBLOCK_USER]: (state, action: UnblockUserAction) => {
-    if (action.state === AsyncActionState.complete) {
+    if (action.state === AsyncActionState.Complete) {
       return {
         ...state,
         ...action.result,
@@ -93,7 +93,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [LOAD_BLOCKED_USERS]: (state, action: LoadBlockedUsersAction) => {
-    if (action.state === AsyncActionState.complete) {
+    if (action.state === AsyncActionState.Complete) {
       return {
         ...state,
         ...action.result,
@@ -109,7 +109,6 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
 };
 
 export default createRoutingReducer<UserState>({
-  key: 'user',
   handlers,
   initialState,
 });

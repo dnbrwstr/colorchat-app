@@ -229,7 +229,6 @@ const handlers: CaseHandlerMap<UiState> = {
 };
 
 export default createRoutingReducer({
-  key: 'ui',
   handlers,
   initialState,
 });

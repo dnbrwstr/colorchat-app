@@ -1,17 +1,14 @@
-import {mergeAll, map, zipWith} from 'ramda';
 import NavigationService from '../../lib/NavigationService';
 import * as DatabaseUtils from '../../lib/DatabaseUtils';
 import {ThunkResult} from '../createStore';
 import {
   Message,
   MessageAction,
-  SendMessageStatus,
   START_COMPOSING_MESSAGE,
   CANCEL_COMPOSING_MESSAGE,
   DESTROY_WORKING_MESSAGE,
   UPDATE_WORKING_MESSAGE,
   SEND_WORKING_MESSAGE,
-  SEND_MESSAGES,
   RESEND_MESSAGE,
   RECEIVE_MESSAGE,
   TOGGLE_MESSAGE_EXPANSION,
@@ -21,12 +18,9 @@ import {
   RawMessageData,
   FinishedMessage,
   PendingMessage,
+  WorkingMessage,
 } from './types';
-import {
-  convertFromRelativeSize,
-  convertToRelativeSize,
-  getAbsoluteSize,
-} from '../../lib/MessageUtils';
+import {getAbsoluteSize} from '../../lib/MessageUtils';
 
 export let receiveMessage = (
   messageData: RawMessageData,
@@ -59,21 +53,27 @@ const createReceiveMessageAction = (
   };
 };
 
-export const startComposingMessage = (message: Message): MessageAction => {
+export const startComposingMessage = (
+  message: WorkingMessage,
+): MessageAction => {
   return {
     type: START_COMPOSING_MESSAGE,
     message,
   };
 };
 
-export const cancelComposingMessage = (message: Message): MessageAction => {
+export const cancelComposingMessage = (
+  message: WorkingMessage,
+): MessageAction => {
   return {
     type: CANCEL_COMPOSING_MESSAGE,
     message,
   };
 };
 
-export const destroyWorkingMessage = (message: Message): MessageAction => {
+export const destroyWorkingMessage = (
+  message: WorkingMessage,
+): MessageAction => {
   return {
     type: DESTROY_WORKING_MESSAGE,
     message,
@@ -104,39 +104,10 @@ const createUpdateWorkingMessageAction = (
   };
 };
 
-export let sendWorkingMessage = (message: Message): MessageAction => {
+export let sendWorkingMessage = (message: PendingMessage): MessageAction => {
   return {
     type: SEND_WORKING_MESSAGE,
     message,
-  };
-};
-
-export let sendMessages = (
-  messages: PendingMessage[],
-  data: SendMessageStatus,
-): ThunkResult<Promise<void>> => async (dispatch, getState) => {
-  if (data.state === 'complete') {
-    map(
-      DatabaseUtils.storeMessage,
-      zipWith(
-        (a, b) => mergeAll([a, b, {state: 'complete'}]),
-        messages,
-        data.responseMessages,
-      ),
-    );
-  }
-
-  dispatch(createSendMessageAction(messages, data));
-};
-
-const createSendMessageAction = (
-  messages: PendingMessage[],
-  status: SendMessageStatus,
-): MessageAction => {
-  return {
-    type: SEND_MESSAGES,
-    messages,
-    ...status,
   };
 };
 

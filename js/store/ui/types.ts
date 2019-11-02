@@ -48,6 +48,8 @@ export const CHANGE_APP_STATE = 'changeAppState';
 export const CHANGE_NETWORK = 'changeNetwork';
 export const TRIGGER_MEMORY_WARNING = 'triggerMemoryWarning';
 export const CHANGE_THEME = 'changeTheme';
+export const SOCKET_DISCONNECTED = 'socketDisconnected';
+export const AUTH_ERROR = 'authError';
 
 export interface UpdateConversationUiAction {
   type: typeof UPDATE_CONVERSATION_UI;
@@ -70,4 +72,13 @@ export interface TriggerMemoryWarningAction {
 export interface ChangeThemeAction {
   type: typeof CHANGE_THEME;
   theme: Theme;
+}
+
+export interface SocketDisconnectedAction {
+  type: typeof SOCKET_DISCONNECTED;
+  error: string;
+}
+
+export interface AuthErrorAction {
+  type: typeof AUTH_ERROR;
 }

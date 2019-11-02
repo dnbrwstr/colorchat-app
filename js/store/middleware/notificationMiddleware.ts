@@ -8,6 +8,12 @@ import {navigateToConversation} from '../navigation/actions';
 import NavigationService from '../../lib/NavigationService';
 import {ThunkMiddleware, ThunkDispatch, ThunkAction} from 'redux-thunk';
 import {AppState} from '../createStore';
+import {
+  TRIGGER_PERMISSIONS_DIALOG,
+  CHECK_FOR_INITIAL_NOTIFICATION,
+} from '../notifications/types';
+import {UPDATE_CONVERSATION_UI} from '../ui/types';
+import {MARK_CONVERSATION_READ} from '../conversations/types';
 
 const CHANNEL_ID = 'colorchat-channel';
 
@@ -112,13 +118,13 @@ const notificationMiddleware = (
 
     if (action.type === 'init') {
       init();
-    } else if (action.type === 'triggerPermissionsDialog') {
+    } else if (action.type === TRIGGER_PERMISSIONS_DIALOG) {
       requestPermissions();
-    } else if (action.type === 'updateUnreadCount') {
+    } else if (action.type === UPDATE_CONVERSATION_UI) {
       updateUnreadCount();
-    } else if (action.type === 'markConversationRead') {
+    } else if (action.type === MARK_CONVERSATION_READ) {
       markConversationRead();
-    } else if (action.type === 'checkForInitialNotification') {
+    } else if (action.type === CHECK_FOR_INITIAL_NOTIFICATION) {
       checkForInitialNotification();
     }
   };

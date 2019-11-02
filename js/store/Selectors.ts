@@ -1,13 +1,12 @@
 import {createSelector} from 'reselect';
-import {formatName} from '../lib/Utils';
 import {AppState} from './createStore';
 import {Message} from './messages/types';
 import {MatchedContact} from './contacts/types';
 import {getReferenceDate} from '../lib/MessageUtils';
+import merge from 'ramda/es/merge';
 
-export let selectMessages = createSelector(
+export const selectMessages = createSelector(
   (state: AppState) => state.messages.working,
-  (state: AppState) => state.messages.placeholder,
   (state: AppState) => state.messages.enqueued,
   (state: AppState) => state.messages.sending,
   (state: AppState) => state.messages.static,
@@ -15,35 +14,60 @@ export let selectMessages = createSelector(
     messageTypes.reduce((memo, messages) => memo.concat(messages)),
 );
 
-export let createContactSelector = (contactId: number) => (state: AppState) =>
-  state.contacts.filter(c => c.id === contactId)[0];
+export const selectMatchedContacts = createSelector(
+  (state: AppState) => state.contacts,
+  contacts => contacts.filter(c => c.matched),
+);
 
-let createConversationSelector = (contactId: number) => (state: AppState) =>
-  state.conversations.filter(c => c.recipientId === contactId)[0];
+export const createContactSelector = (contactId: number | null) =>
+  createSelector(
+    (state: AppState) => state.contacts,
+    contacts => {
+      if (!contactId) return [];
+      contacts.filter(c => c.matched && c.id === contactId)[0];
+    },
+  );
+
+export const createConversationSelector = (contactId: number | null) =>
+  createSelector(
+    (state: AppState) => state.conversations,
+    conversations => {
+      if (!contactId) return [];
+      conversations.filter(c => c.recipientId === contactId)[0];
+    },
+  );
+
+export const selectConversationContact = createSelector(
+  (state: AppState) => state.ui.conversation.contactId,
+  (state: AppState) => state.contacts,
+  (contactId, contacts) => {
+    if (!contactId) return [];
+    return contacts.filter(c => c.matched && c.id === contactId)[0];
+  },
+);
+
+export const selectConversation = createSelector(
+  (state: AppState) => state.ui.conversation.contactId,
+  (state: AppState) => state.conversations,
+  (contactId, conversations) => {
+    return conversations.filter(c => c.recipientId === contactId)[0];
+  },
+);
 
 // Selectors
 
 export let conversationScreenSelector = createSelector(
   (state: AppState) => state.ui.conversation,
   (state: AppState) => state.user,
-  (state, ownProps) =>
-    createContactSelector(state.ui.conversation.contactId)(state),
+  selectConversationContact,
   selectMessages,
   (state: AppState) => state.messages.total,
-  (state, ownProps) =>
-    createConversationSelector(state.ui.conversation.contactId)(state),
+  selectConversation,
   (ui, user, contact, messages, totalMessages, conversation) => {
-    conversation = conversation || {};
-
     contact = contact || {
       id: conversation.recipientId,
-      name: conversation.recipientName,
       avatar: '#CCC',
     };
-
-    if (contact.givenName) {
-      contact.name = formatName(contact.givenName, contact.familyName);
-    }
 
     return {
       ...ui,
@@ -107,16 +131,13 @@ export let socketServiceSelector = (state: AppState) => {
 
 const selectSignupUIData = (state: AppState) => state.ui.signup;
 const selectSignupData = (state: AppState) => state.signup;
-const mergeArgs = <T extends {}>(...args: T[]) =>
-  args.reduce((memo, a) => ({
-    ...memo,
-    ...a,
-  }));
 
 export const signupScreenSelector = createSelector(
   selectSignupData,
   selectSignupUIData,
-  mergeArgs,
+  (signupData, signupUiData) => {
+    return merge(signupData, signupUiData);
+  },
 );
 
 const selectConfirmationCodeUIData = (state: AppState) =>
@@ -125,5 +146,7 @@ const selectConfirmationCodeUIData = (state: AppState) =>
 export const confirmationCodeScreenSelector = createSelector(
   selectSignupData,
   selectConfirmationCodeUIData,
-  mergeArgs,
+  (signupData, confirmationCodeUiData) => {
+    return merge(signupData, confirmationCodeUiData);
+  },
 );

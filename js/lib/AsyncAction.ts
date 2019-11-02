@@ -46,15 +46,11 @@ export const dispatchAsyncActions = async <
   operation: Promise<AsyncResultType<A>>,
   dispatch: Dispatch,
 ) => {
-  console.log('sidpath started');
   dispatch(asyncActionStarted(baseAction));
   try {
     const result = await operation;
-    console.log('Dispsea result', result);
     dispatch(asyncActionComplete(baseAction, result));
   } catch (e) {
-    console.log('ACIOTN ERrr', e);
-    console.log('Async Action error', e.message, e.stack);
     dispatch(asyncActionFailed(baseAction, e.mesage));
   }
 };

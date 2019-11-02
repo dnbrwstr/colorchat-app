@@ -70,6 +70,6 @@ const getStyles = theme => ({
   },
 });
 
-module.exports = withStyles(getStyles)(
+export default withStyles(getStyles)(
   connect(confirmationCodeScreenSelector)(ConfirmCodeScreen),
 );

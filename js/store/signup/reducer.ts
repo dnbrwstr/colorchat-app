@@ -21,7 +21,6 @@ const handlers: CaseHandlerMap<SignupState> = {
 };
 
 export default createRoutingReducer({
-  key: 'signup',
   handlers,
   initialState,
 });

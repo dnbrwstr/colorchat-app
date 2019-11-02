@@ -2,11 +2,17 @@ import {PermissionStatus} from 'react-native';
 import {Contact as NativeContact} from 'react-native-contacts';
 import {AsyncAction} from '../../lib/AsyncAction';
 
-export interface UnmatchedContact extends Omit<NativeContact, 'phoneNumbers'> {
+export interface BaseContact extends Omit<NativeContact, 'phoneNumbers'> {
+  matched: boolean;
   phoneNumber: string;
 }
 
-export interface MatchedContact extends UnmatchedContact {
+export interface UnmatchedContact extends BaseContact {
+  matched: false;
+  phoneNumber: string;
+}
+
+export interface MatchedContact extends BaseContact {
   matched: true;
   id: number;
   avatar: string;

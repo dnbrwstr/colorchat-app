@@ -1,8 +1,10 @@
+import {AsyncAction} from '../../lib/AsyncAction';
+
 export interface RawMessageData {
   id: string;
+  createdAt: string;
   senderId: number;
   recipientId: number;
-  createdAt: string;
   type: MessageType;
   color: string;
   colorName: string;
@@ -10,13 +12,17 @@ export interface RawMessageData {
   relativeHeight: number;
 }
 
+export type ConvertedMessageData = RawMessageData & {
+  width: number;
+  height: number;
+};
+
 export interface PendingMessage {
+  clientId: string;
+  clientTimestamp: string;
   state: 'enqueued';
   senderId: number;
   recipientId: number;
-  createdAt: string;
-  clientId: string;
-  clientTimestamp: string;
   type: MessageType;
   color: string;
   width: number;
@@ -24,14 +30,14 @@ export interface PendingMessage {
 }
 
 export interface WorkingMessage {
+  clientId: string;
+  clientTimestamp: string;
   state: 'working' | 'cancelling' | 'sending';
   recipientId: number;
+  color: string;
   width: number;
   height: number;
   type: MessageType;
-  color: string;
-  clientId: string;
-  clientTimestamp: string;
   expanded: boolean;
 }
 
@@ -51,15 +57,9 @@ export interface MessageState {
   working: Message[];
   enqueued: Message[];
   sending: Message[];
-  placeholder: Message[];
 }
 
-export type MessageSendState =
-  | 'static'
-  | 'working'
-  | 'enqueued'
-  | 'sending'
-  | 'placeholder';
+export type MessageSendState = 'static' | 'working' | 'enqueued' | 'sending';
 
 export enum MessageType {
   Default = 'default',
@@ -94,7 +94,7 @@ export interface ReceiveMessageAction {
 
 export interface StartComposingMessageAction {
   type: typeof START_COMPOSING_MESSAGE;
-  message: Message;
+  message: WorkingMessage;
 }
 
 export interface CancelComposingMessageAction {
@@ -139,30 +139,15 @@ export interface UnloadOldMessagesAction {
   type: typeof UNLOAD_OLD_MESSAGES;
 }
 
-export interface SendMessagesStartedAction {
+export interface SendMessagesBaseAction {
   type: typeof SEND_MESSAGES;
   messages: Message[];
-  state: 'started';
 }
 
-export interface SendMessagesCompleteAction {
-  type: typeof SEND_MESSAGES;
-  messages: Message[];
-  state: 'complete';
-  responseMessages: Message[];
-}
-
-export interface SendMessagesFailedAction {
-  type: typeof SEND_MESSAGES;
-  messages: PendingMessage[];
-  state: 'failed';
-  error: string;
-}
-
-export type SendMessagesAction =
-  | SendMessagesStartedAction
-  | SendMessagesCompleteAction
-  | SendMessagesFailedAction;
+export type SendMessagesAction = AsyncAction<
+  SendMessagesBaseAction,
+  RawMessageData[]
+>;
 
 export interface ResendMessageAction {
   type: typeof RESEND_MESSAGE;
@@ -179,25 +164,6 @@ export interface ResetMessagesAction {
   messages: Message[];
   total: number;
 }
-
-export interface SendMessageStart {
-  state: 'started';
-}
-
-export interface SendMessageSuccess {
-  state: 'complete';
-  responseMessages: Message[];
-}
-
-export interface SendMessageFailure {
-  state: 'failed';
-  error: 'string';
-}
-
-export type SendMessageStatus =
-  | SendMessageStart
-  | SendMessageSuccess
-  | SendMessageFailure;
 
 export type MessageAction =
   | UnloadOldMessagesAction

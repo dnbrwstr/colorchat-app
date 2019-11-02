@@ -18,12 +18,16 @@ import {NotificationAction} from './notifications/types';
 import {LoadActionTypes} from './load/types';
 import {ConversationActionTypes} from './conversations/types';
 import {ContactsActionTypes} from './contacts/types';
+import appStateMiddleware from './middleware/appStateMiddleware';
+import socketMiddleware from './middleware/socketMiddleware';
 
 const middleware = [
   thunkMiddleware as ThunkMiddleware<AppState, AnyAction>,
   saveStateMiddleware,
   navigationMiddleware,
   notificationMiddleware,
+  appStateMiddleware,
+  socketMiddleware,
 ];
 
 const reducer = combineReducers(reducers);

@@ -6,6 +6,7 @@ import {
   FinishedMessage,
   RawMessageData,
   MessageType,
+  ConvertedMessageData,
 } from '../store/messages/types';
 
 export const getReferenceDate = (message: Message) => {
@@ -19,7 +20,7 @@ export const getTimestamp = (message: Message): string => {
   );
 };
 
-const getId = (message: Message): string => {
+export const getId = (message: Message): string => {
   return (
     (message as FinishedMessage).id ||
     (message as WorkingMessage).clientTimestamp
@@ -78,9 +79,10 @@ export const convertToRelativeSize = (message: Message) => {
   };
 };
 
-export const convertFromRelativeSize = (message: RawMessageData) => {
+export const convertFromRelativeSize = (
+  message: RawMessageData,
+): ConvertedMessageData => {
   const {relativeWidth, relativeHeight} = message;
-  if (!relativeWidth || !relativeHeight) return message;
   const width = Dimensions.get('window').width * relativeWidth;
   const height = Dimensions.get('window').width * relativeHeight;
   return {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, InteractionManager} from 'react-native';
 import ScrollBridge from '../lib/ScrollBridge';
 import {connect} from 'react-redux';
 import Header from './Header';

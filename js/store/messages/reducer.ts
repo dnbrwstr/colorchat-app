@@ -13,8 +13,6 @@ import {
   ReceiveMessageAction,
   ResendMessageAction,
   ToggleMessageExpansionAction,
-  SendMessagesCompleteAction,
-  SendMessagesFailedAction,
   SendWorkingMessageAction,
   UpdateWorkingMessageAction,
   DestroyWorkingMessageAction,
@@ -32,12 +30,14 @@ import {
   UPDATE_WORKING_MESSAGE,
   SEND_WORKING_MESSAGE,
   SEND_MESSAGES,
+  RawMessageData,
 } from './types';
 import {
   RESET_COMPOSE_EVENTS,
   DELETE_CONVERSATION,
 } from '../conversations/types';
 import {LOGOUT, LogoutAction} from '../user/types';
+import {AsyncActionState} from '../../lib/AsyncAction';
 
 const {merge, findIndex, pipe, __, partial, reduce, zipWith, curry} = ramda;
 
@@ -49,7 +49,6 @@ const initialState: MessageState = {
   working: [],
   enqueued: [],
   sending: [],
-  placeholder: [],
 };
 
 const findMessageIndex = (message: Message, messages: Message[]) =>
@@ -75,7 +74,6 @@ const mapTypes = (
     working: fn(state.working),
     enqueued: fn(state.enqueued),
     sending: fn(state.sending),
-    placeholder: fn(state.placeholder),
   };
 };
 
@@ -161,12 +159,12 @@ const handleSendMessageStart = function(
 
 const handleSendMessageCompletion = function(
   state: MessageState,
-  action: SendMessagesCompleteAction,
+  action: {messages: Message[]; result: RawMessageData[]},
 ) {
   const messagePairs = zipWith(
     (message, responseMessage) => ({message, responseMessage}),
     action.messages,
-    action.responseMessages,
+    action.result,
   );
 
   return reduce(
@@ -186,7 +184,7 @@ const handleSendMessageCompletion = function(
 
 const handleSendMessageFailure = function(
   state: MessageState,
-  action: SendMessagesFailedAction,
+  action: {messages: Message[]; error: string},
 ) {
   return reduce(
     (curState, message) =>
@@ -238,11 +236,11 @@ const handlers: CaseHandlerMap<MessageState> = {
   },
 
   [SEND_MESSAGES](state, action: SendMessagesAction) {
-    if (action.state === 'started') {
+    if (action.state === AsyncActionState.Started) {
       return handleSendMessageStart(state, action);
-    } else if (action.state === 'complete') {
+    } else if (action.state === AsyncActionState.Complete) {
       return handleSendMessageCompletion(state, action);
-    } else if (action.state === 'failed') {
+    } else if (action.state === AsyncActionState.Failed) {
       return handleSendMessageFailure(state, action);
     } else {
       return state;
@@ -269,7 +267,6 @@ const handlers: CaseHandlerMap<MessageState> = {
     };
     return {
       ...state,
-      placeholder: [],
       static: [...state.static, message],
     };
   },
@@ -282,7 +279,6 @@ const handlers: CaseHandlerMap<MessageState> = {
   [RESET_COMPOSE_EVENTS](state, action) {
     return {
       ...state,
-      placeholder: [],
     };
   },
 
@@ -332,7 +328,6 @@ const handlers: CaseHandlerMap<MessageState> = {
 };
 
 export default createRoutingReducer<MessageState>({
-  key: 'messages',
   handlers: handlers,
   initialState,
 });

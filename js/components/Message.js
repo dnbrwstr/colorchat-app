@@ -62,10 +62,6 @@ class Message extends PureComponent {
     clearTimeout(this.resendTimer);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    this.resize(prevState);
-  }
-
   static getDerivedStateFromProps = (props, prevState = {}) => {
     const size = {
       width: props.width,

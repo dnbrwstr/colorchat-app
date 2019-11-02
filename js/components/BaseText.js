@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { Text, Animated } from "react-native";
-import Color from "color";
-import Style from "../style";
-import withStyles from "../lib/withStyles";
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Animated} from 'react-native';
+import Color from 'color';
+import Style from '../style';
+import withStyles from '../lib/withStyles';
 
 /**
  * General purpose wrapper for Text element
@@ -16,7 +16,7 @@ class BaseText extends React.Component {
      * Background color on which text will appear
      * If set, text color will be adjusted to ensure visibility
      */
-    visibleOn: PropTypes.string
+    visibleOn: PropTypes.string,
   };
 
   render() {
@@ -26,21 +26,21 @@ class BaseText extends React.Component {
   getStyles = () => {
     return [
       this.props.styles.text,
-      this.props.visibleOn && { color: this.getColor() },
-      this.props.style
+      this.props.visibleOn && {color: this.getColor()},
+      this.props.style,
     ];
   };
 
   getColor = () => {
-    return Color(this.props.visibleOn).luminosity() > 0.5 ? "black" : "white";
+    return Color(this.props.visibleOn).luminosity() > 0.5 ? 'black' : 'white';
   };
 }
 
 const addStyle = theme => ({
   text: {
     ...Style.mixins.textBase,
-    color: theme.primaryTextColor
-  }
+    color: theme.primaryTextColor,
+  },
 });
 
 export default withStyles(addStyle)(BaseText);

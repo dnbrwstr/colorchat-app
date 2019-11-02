@@ -1,11 +1,40 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import {Text, View, Animated} from 'react-native';
+import React, {Component, TouchEventHandler} from 'react';
+import {
+  Text,
+  View,
+  Animated,
+  StyleProp,
+  ViewStyle,
+  LayoutChangeEvent,
+  LayoutRectangle,
+  NativeTouchEvent,
+} from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import BaseText from './BaseText';
+import {LayoutEvent} from 'react-navigation';
 
 let SATURATION = 75;
+
+interface SimpleColorPickerProps {
+  style: StyleProp<ViewStyle>;
+  initialValue: string;
+  showInstructions: boolean;
+  onInteractionStart: () => void;
+  onInteractionEnd: () => void;
+  onChange: (newColor: string) => void;
+}
+
+interface SimpleColorPickerState {
+  value: string;
+  pristine: boolean;
+  size?: LayoutRectangle;
+  touchOffset: {
+    x: number;
+    y: number;
+  } | null;
+}
 
 /**
  * Color picker that allows user to select a color by swiping
@@ -14,25 +43,10 @@ let SATURATION = 75;
  *
  * Resizes to fit its container
  */
-class SimpleColorPicker extends React.Component {
-  static propTypes = {
-    /**
-     * Background color prior to user interaction
-     */
-    initialValue: PropTypes.string,
-
-    /**
-     * Custom style for container
-     */
-    style: PropTypes.any,
-
-    /**
-     * Called when picker value changes.
-     * Passes current value as an argument.
-     */
-    onChange: PropTypes.func,
-  };
-
+class SimpleColorPicker extends Component<
+  SimpleColorPickerProps,
+  SimpleColorPickerState
+> {
   static defaultProps = {
     initialValue: '#ccc',
     onChange: () => {},
@@ -40,7 +54,7 @@ class SimpleColorPicker extends React.Component {
     onInteractionEnd: () => {},
   };
 
-  state = {
+  state: SimpleColorPickerState = {
     value: this.props.initialValue,
     pristine: true,
     touchOffset: null,
@@ -77,14 +91,14 @@ class SimpleColorPicker extends React.Component {
   renderInstructions = () => {
     return (
       <View pointerEvents="none" style={style.instructions}>
-        <BaseText style={{textAlign: 'center'}} visibleOn={this.state.color}>
+        <BaseText style={{textAlign: 'center'}} visibleOn={this.state.value}>
           Swipe to{'\n'}change color
         </BaseText>
       </View>
     );
   };
 
-  onLayout = async e => {
+  onLayout = async (e: LayoutChangeEvent) => {
     this.setState({
       size: e.nativeEvent.layout,
     });
@@ -94,9 +108,8 @@ class SimpleColorPicker extends React.Component {
     this.props.onInteractionStart();
   };
 
-  onTouchMove = e => {
+  onTouchMove: TouchEventHandler = e => {
     if (!this.state.size) return;
-
     // As of react-native 0.48:
     // locationX and locationY are correct ONLY w regard to the first touch
     // move event in a given gesture, so we use pageX and pageY instead

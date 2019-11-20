@@ -25,12 +25,10 @@ const App: FC = () => {
         <OfflineMessage />
         <Router />
 
-        {/*
-        Gateway dest typedef is missing style prop...
-        // @ts-ignore */}
         <GatewayDest
           name="top"
           component={FunctionView}
+          // @ts-ignore
           style={styles.gateway}
         />
       </View>

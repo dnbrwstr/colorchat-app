@@ -8,6 +8,7 @@ import {
   MessageType,
   ConvertedMessageData,
 } from '../store/messages/types';
+import {User} from '../store/user/types';
 
 export const getReferenceDate = (message: Message) => {
   return new Date(getTimestamp(message));
@@ -24,6 +25,18 @@ export const getId = (message: Message): string => {
   return (
     (message as FinishedMessage).id ||
     (message as WorkingMessage).clientTimestamp
+  );
+};
+
+export const isExpanded = (message: Message) => {
+  return !!(message as FinishedMessage).expanded;
+};
+
+const isDefined = <T>(n: T) => typeof n !== 'undefined';
+
+export const isFromUser = (user: User, message: Message) => {
+  return (
+    isDefined(user.id) && (message as FinishedMessage).senderId === user.id
   );
 };
 

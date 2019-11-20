@@ -3,6 +3,7 @@ import {StyleSheet, Animated, StyleProp, ViewStyle} from 'react-native';
 import SimpleColorPicker from './SimpleColorPicker';
 
 interface AvatarEditorProps {
+  initialValue: string;
   style: StyleProp<ViewStyle>;
   scaleAxis: 'x' | 'y' | 'both';
   onInteractionStart: Function;
@@ -27,11 +28,15 @@ class AvatarEditor extends Component<AvatarEditorProps> {
     if (scaleX) transform.push({scaleX: this.scale});
     if (scaleY) transform.push({scaleY: this.scale});
 
-    const viewStyles = [styles.container, {transform}, style];
+    const viewStyles = ([
+      styles.container,
+      {transform},
+      style,
+    ] as any[]) as ViewStyle[];
 
     return (
       <SimpleColorPicker
-        {...this.props}
+        initialValue={this.props.initialValue}
         style={viewStyles}
         onInteractionStart={this.handleInteractionStart}
         onInteractionEnd={this.handleInteractionEnd}
@@ -68,8 +73,8 @@ class AvatarEditor extends Component<AvatarEditorProps> {
     this.animation.start();
   };
 
-  handleChange = e => {
-    this.props.onChange && this.props.onChange(e);
+  handleChange = (color: string) => {
+    this.props.onChange && this.props.onChange(color);
   };
 }
 

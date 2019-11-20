@@ -2,13 +2,8 @@ import React, {Component, ReactNode} from 'react';
 import {View, Animated, Easing} from 'react-native';
 import Color from 'color';
 import {makeArray, lerp, makeColorString, valSort, clamp} from '../lib/Utils';
-
-interface CameraColor {
-  r: number;
-  g: number;
-  b: number;
-  size: number;
-}
+import {CameraColor} from '../lib/CameraTypes';
+import {DisplayMode} from './CameraDisplayModeMenu';
 
 const getChange = (newColors?: CameraColor[], oldColors?: CameraColor[]) => {
   if (!newColors || !oldColors) return 1;
@@ -30,13 +25,16 @@ const getSize = ({size}: {size: number}) => size;
 const getLum = (color: CameraColor) => Color(color).luminosity();
 const getSat = (color: CameraColor) => Color(color).saturationl();
 
-const sortFunctions = {
+const sortFunctions: {
+  [K in DisplayMode]: (a: CameraColor, b: CameraColor) => number;
+} = {
   dominant: valSort(getSize, true),
   dark: valSort(getLum),
   grid: valSort(getLum),
   light: valSort(getLum, true),
   saturated: valSort(getSat, true),
   desaturated: valSort(getSat),
+  average: valSort(getSize),
 };
 
 const add = (memo: number, n: number) => memo + n;
@@ -44,7 +42,7 @@ const add = (memo: number, n: number) => memo + n;
 interface AnimatedColorDisplayProps {
   colors: CameraColor[];
   defaultColor: string;
-  displayMode: keyof typeof sortFunctions;
+  displayMode: DisplayMode;
   colorCount: number;
   animationLength: number;
   children: (props: AnimatedColorChildProps) => ReactNode;

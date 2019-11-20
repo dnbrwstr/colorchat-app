@@ -1,17 +1,23 @@
-import React, {FC, useState, useCallback} from 'react';
+import React, {FC, useState, useCallback, PropsWithRef, Ref} from 'react';
 import {
   TouchableWithoutFeedback,
-  View,
   Animated,
   ViewProps,
   StyleProp,
   TouchableWithoutFeedbackProps,
+  ViewStyle,
+  GestureResponderEvent,
 } from 'react-native';
 
-type PressableViewProps = TouchableWithoutFeedbackProps &
+type PressableViewProps = PropsWithRef<
   ViewProps & {
-    activeStyle?: StyleProp<View>;
-  };
+    onPress?: (e: GestureResponderEvent) => void;
+    onPressIn?: (e: GestureResponderEvent) => void;
+    onPressOut?: (e: GestureResponderEvent) => void;
+    activeStyle?: StyleProp<ViewStyle>;
+    ref?: Ref<TouchableWithoutFeedback>;
+  }
+>;
 
 const PressableViewFC: FC<PressableViewProps> = props => {
   const [isActive, setIsActive] = useState(false);
@@ -37,6 +43,7 @@ const PressableViewFC: FC<PressableViewProps> = props => {
 
   return (
     <TouchableWithoutFeedback
+      ref={props.ref}
       onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}

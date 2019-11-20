@@ -42,7 +42,7 @@ export interface WorkingMessage {
 }
 
 export type FinishedMessage = RawMessageData & {
-  state: 'static' | 'fresh';
+  state: 'static' | 'fresh' | 'complete' | 'failed';
   width: number;
   height: number;
   animateEntry?: boolean;
@@ -94,7 +94,7 @@ export interface ReceiveMessageAction {
 
 export interface StartComposingMessageAction {
   type: typeof START_COMPOSING_MESSAGE;
-  message: WorkingMessage;
+  message: Partial<WorkingMessage>;
 }
 
 export interface CancelComposingMessageAction {

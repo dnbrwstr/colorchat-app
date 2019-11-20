@@ -10,7 +10,8 @@
     "noEmit": true,
     "strict": true,
     "target": "esnext",
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "typeRoots": ["node_modules/@types"]
   },
   "exclude": [
     "node_modules",

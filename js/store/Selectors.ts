@@ -40,9 +40,11 @@ export const createConversationSelector = (contactId: number | null) =>
 export const selectConversationContact = createSelector(
   (state: AppState) => state.ui.conversation.contactId,
   (state: AppState) => state.contacts,
-  (contactId, contacts) => {
-    if (!contactId) return [];
-    return contacts.filter(c => c.matched && c.id === contactId)[0];
+  (contactId, contacts): MatchedContact => {
+    if (!contactId) return;
+    return contacts.filter(
+      c => c.matched && c.id === contactId,
+    )[0] as MatchedContact;
   },
 );
 
@@ -66,6 +68,7 @@ export let conversationScreenSelector = createSelector(
   (ui, user, contact, messages, totalMessages, conversation) => {
     contact = contact || {
       id: conversation.recipientId,
+      givenName: 'Unknown',
       avatar: '#CCC',
     };
 

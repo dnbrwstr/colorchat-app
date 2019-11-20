@@ -4,7 +4,7 @@ import {times} from 'ramda';
 import Style from '../style';
 
 const AnimatedEllipsisFC: FC<{
-  duration: number;
+  duration?: number;
 }> = ({duration = 500}) => {
   const [dotCount, setDotCount] = useState(2);
   const dotCountRef = useRef(dotCount);

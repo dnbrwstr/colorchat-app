@@ -1,26 +1,23 @@
-import PropTypes from 'prop-types';
-import React, {Component, TouchEventHandler} from 'react';
+import React, {Component} from 'react';
 import {
-  Text,
   View,
   Animated,
   StyleProp,
   ViewStyle,
   LayoutChangeEvent,
   LayoutRectangle,
-  NativeTouchEvent,
+  GestureResponderEvent,
 } from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import BaseText from './BaseText';
-import {LayoutEvent} from 'react-navigation';
 
 let SATURATION = 75;
 
 interface SimpleColorPickerProps {
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
   initialValue: string;
-  showInstructions: boolean;
+  showInstructions?: boolean;
   onInteractionStart: () => void;
   onInteractionEnd: () => void;
   onChange: (newColor: string) => void;
@@ -104,11 +101,11 @@ class SimpleColorPicker extends Component<
     });
   };
 
-  onTouchStart = e => {
+  onTouchStart = (e: GestureResponderEvent) => {
     this.props.onInteractionStart();
   };
 
-  onTouchMove: TouchEventHandler = e => {
+  onTouchMove = (e: GestureResponderEvent) => {
     if (!this.state.size) return;
     // As of react-native 0.48:
     // locationX and locationY are correct ONLY w regard to the first touch

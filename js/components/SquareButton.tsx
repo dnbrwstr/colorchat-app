@@ -1,28 +1,30 @@
 import React, {FC, useState, useRef, useCallback} from 'react';
 import {
   Animated,
-  View,
-  Text,
   StyleProp,
   NativeSyntheticEvent,
   TargetedEvent,
+  ViewStyle,
+  TextStyle,
+  ScaleTransform,
 } from 'react-native';
 import Style from '../style';
-import {useStyles} from '../lib/withStyles';
+import {useStyles, makeStyleCreator} from '../lib/withStyles';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
+import {Theme} from '../style/themes';
 
 type PressEvent = NativeSyntheticEvent<TargetedEvent>;
 
 const SquareButtonFC: FC<{
   label: string;
-  onPressIn: (e: PressEvent) => void;
-  onPressOut: (e: PressEvent) => void;
-  onPress: (e: PressEvent) => void;
-  style: StyleProp<View>;
-  activeStyle: StyleProp<View>;
-  textStyle: StyleProp<Text>;
-  activeTextStyle: StyleProp<Text>;
+  onPressIn?: (e: PressEvent) => void;
+  onPressOut?: (e: PressEvent) => void;
+  onPress?: (e: PressEvent) => void;
+  style?: StyleProp<ViewStyle>;
+  activeStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  activeTextStyle?: StyleProp<TextStyle>;
 }> = props => {
   const [isActive, setIsActive] = useState(false);
   const currentAnimation = useRef<Animated.CompositeAnimation>();
@@ -73,11 +75,15 @@ const SquareButtonFC: FC<{
 
   const {styles} = useStyles(getStyles);
 
-  let buttonStyles = [
-    styles.button,
-    props.style,
-    {transform: [{scale: animatedScale.current}]},
-  ];
+  const transform = {
+    transform: [
+      ({
+        scale: animatedScale.current,
+      } as unknown) as ScaleTransform,
+    ],
+  };
+
+  let buttonStyles = [styles.button, props.style, transform];
 
   let textStyles = [
     styles.text,
@@ -99,98 +105,7 @@ const SquareButtonFC: FC<{
   );
 };
 
-// let SquareButton = createReactClass({
-//   displayName: 'SquareButton',
-
-//   propTypes: {
-//     label: PropTypes.string,
-//     onPressIn: PropTypes.func,
-//     onPressOut: PropTypes.func,
-//     onPress: PropTypes.func,
-//     style: Animated.View.propTypes.style,
-//     activeStyle: ViewPropTypes.style,
-//     textStyle: Text.propTypes.style,
-//     activeTextStyle: ViewPropTypes.style,
-//   },
-
-//   getDefaultProps: function() {
-//     return {
-//       onPressIn: () => {},
-//       onPressOut: () => {},
-//       onPress: () => {},
-//     };
-//   },
-
-//   getInitialState() {
-//     return {
-//       active: false,
-//       animatedScale: new Animated.Value(1),
-//     };
-//   },
-
-//   handlePressIn: function() {
-//     let animation = Animated.timing(this.state.animatedScale, {
-//       toValue: 0.95,
-//       duration: 100,
-//     });
-//     this.runAnimation(animation);
-//     this.setState({active: true});
-//     this.props.onPressIn.apply(null, arguments);
-//   },
-
-//   handlePressOut: function() {
-//     this.setState({active: false});
-//     this.props.onPressOut.apply(null, arguments);
-//   },
-
-//   handlePress: function() {
-//     let animation = Animated.timing(this.state.animatedScale, {
-//       toValue: 1,
-//       duration: 100,
-//     });
-//     this.runAnimation(animation);
-//     this.props.onPress.apply(null, arguments);
-//   },
-
-//   runAnimation: function(animation) {
-//     if (this.state.currentAnimation) {
-//       this.state.currentAnimation.stop();
-//     }
-//     this.setState({currentAnimation: animation});
-//     animation.start(() => {
-//       this.setState({currentAnimation: null});
-//     });
-//   },
-
-//   render: function() {
-//     const {styles} = this.props;
-//     let buttonStyles = [
-//       styles.button,
-//       this.props.style,
-//       {transform: [{scale: this.state.animatedScale}]},
-//     ];
-
-//     let textStyles = [
-//       styles.text,
-//       this.props.textStyle,
-//       this.state.active && styles.textActive,
-//       this.state.active && this.props.activeTextStyle,
-//     ];
-
-//     return (
-//       <PressableView
-//         style={buttonStyles}
-//         activeStyle={[styles.buttonActive, this.props.activeStyle]}
-//         onPressIn={this.handlePressIn}
-//         onPress={this.handlePress}
-//       >
-//         <BaseText style={textStyles}>{this.props.label}</BaseText>
-//       </PressableView>
-//     );
-//   },
-// });
-
-let getStyles = theme => ({
+const getStyles = makeStyleCreator((theme: Theme) => ({
   button: {
     flex: 0,
     justifyContent: 'center',
@@ -205,6 +120,6 @@ let getStyles = theme => ({
     textAlign: 'center',
   },
   textActive: {},
-});
+}));
 
 export default SquareButtonFC;

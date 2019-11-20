@@ -6,7 +6,11 @@ import {
   Middleware,
   AnyAction,
 } from 'redux';
-import thunkMiddleware, {ThunkMiddleware, ThunkAction} from 'redux-thunk';
+import thunkMiddleware, {
+  ThunkMiddleware,
+  ThunkAction,
+  ThunkDispatch,
+} from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import saveStateMiddleware from './middleware/saveStateMiddleware';
 import navigationMiddleware from './middleware/navigationMiddleware';
@@ -39,6 +43,7 @@ export type StoreReadyAction = {
 export type StoreActionTypes = StoreReadyAction;
 export type AppState = ReturnType<typeof reducer>;
 export type ThunkResult<R> = ThunkAction<R, AppState, undefined, AnyAction>;
+export type AppDispatch = ThunkDispatch<AppState, undefined, AnyAction>;
 export type AppSelector = Selector<AppState, any>;
 export type AppActionTypes =
   | MessageAction

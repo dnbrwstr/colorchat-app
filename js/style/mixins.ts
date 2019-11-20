@@ -19,13 +19,13 @@ const inputBase = {
   paddingLeft: values.outerPadding,
   paddingTop: 10,
   paddingBottom: 10,
-};
+} as const;
 
 const outerWrapperBase = {
   flex: 1,
   justifyContent: 'flex-start',
   alignItems: 'stretch',
-};
+} as const;
 
 const contentWrapperBase = {
   flex: 1,
@@ -33,7 +33,7 @@ const contentWrapperBase = {
   alignItems: 'stretch',
   justifyContent: 'flex-start',
   padding: values.outerPadding,
-};
+} as const;
 
 const shadowBase = {
   shadowColor: 'black',
@@ -43,7 +43,7 @@ const shadowBase = {
   },
   shadowOpacity: 0.1,
   shadowRadius: 3,
-};
+} as const;
 
 const mixins = {
   textBase,

@@ -1,27 +1,51 @@
-import React, {useMemo, ComponentType} from 'react';
+import React, {useMemo, ComponentType, FC} from 'react';
 import {StyleSheet, ViewStyle, TextStyle, ImageStyle} from 'react-native';
-import {connect, useSelector} from 'react-redux';
+import {connect, useSelector, DispatchProp} from 'react-redux';
 import memoize from 'memoize-one';
 import {Theme} from '../style/themes';
 import {AppState} from '../store/createStore';
+import {Optionalize} from '../lib/TypeUtils';
 
 const themeSelector = (state: AppState) => ({
   theme: state.ui.theme,
 });
 
-const withStyles = (styleFn: (t: Theme) => void) => {
-  const getStyles = memoize(theme => StyleSheet.create(styleFn(theme)));
-
-  const ComponentWithStyles = <P extends object>(C: ComponentType<P>) => (
-    props: P & {theme: Theme},
-  ) => {
-    return <C {...(props as P)} styles={getStyles(props.theme)} />;
-  };
-
-  return (Component: ComponentType) =>
-    connect(themeSelector)(ComponentWithStyles(Component));
+const useTheme = () => {
+  useSelector((state: AppState) => state.ui.theme);
 };
 
+export type WithStylesProps<T extends (...args: any) => any> = {
+  theme?: Theme;
+  styles?: InjectedStyles<T>;
+};
+
+const withStyles = <T extends StyleSheet.NamedStyles<T>>(
+  styleFn: (t: Theme) => T,
+) => {
+  const getStyles = memoize(theme => StyleSheet.create(styleFn(theme)));
+  type Props = WithStylesProps<typeof getStyles>;
+
+  return <P extends Props = Props>(
+    WrappedComponent: React.ComponentType<P>,
+  ) => {
+    const theme = useTheme();
+    const styles = getStyles(theme);
+    const HOC: FC<Optionalize<P, Props>> = props => {
+      return (
+        <WrappedComponent
+          theme={theme}
+          styles={styles}
+          {...(props as P)}
+        ></WrappedComponent>
+      );
+    };
+    return HOC;
+  };
+};
+
+export type InjectedStyles<
+  T extends (...args: any) => any
+> = StyleSheet.NamedStyles<ReturnType<T>>;
 export type AnyStyleMap = {[K: string]: ViewStyle | TextStyle | ImageStyle};
 export type StyleMap<T> = {[K in keyof T]: ViewStyle | TextStyle | ImageStyle};
 
@@ -46,7 +70,7 @@ export const useStyles = <T extends StyleSheet.NamedStyles<T>>(
 export const connectWithStyles = (
   styleFn: (t: Theme) => void,
   ...args: any[]
-) => (Component: ComponentType) =>
+) => <T extends ComponentType<T>>(Component: ComponentType<T>) =>
   withStyles(styleFn)(connect(...args)(Component));
 
 export default withStyles;

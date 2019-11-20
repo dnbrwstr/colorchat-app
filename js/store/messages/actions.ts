@@ -54,7 +54,7 @@ const createReceiveMessageAction = (
 };
 
 export const startComposingMessage = (
-  message: WorkingMessage,
+  message: Partial<WorkingMessage>,
 ): MessageAction => {
   return {
     type: START_COMPOSING_MESSAGE,
@@ -104,7 +104,7 @@ const createUpdateWorkingMessageAction = (
   };
 };
 
-export let sendWorkingMessage = (message: PendingMessage): MessageAction => {
+export let sendWorkingMessage = (message: WorkingMessage): MessageAction => {
   return {
     type: SEND_WORKING_MESSAGE,
     message,

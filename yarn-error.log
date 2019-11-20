@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/danbrewster/.nvm/versions/node/v8.11.4/bin/node /Users/danbrewster/.nvm/versions/node/v8.11.4/bin/yarn add @types/react-native-firebase
+  /Users/danbrewster/.nvm/versions/node/v8.11.4/bin/node /Users/danbrewster/.nvm/versions/node/v8.11.4/bin/yarn add @types/react-navigation-stack
 
 PATH: 
-  /Users/danbrewster/google-cloud-sdk/bin:/Users/danbrewster/esp/xtensa-esp32-elf/bin:/usr/local/opt/mysql@5.7/bin:/usr/local/opt/mysql@5.7/bin:/usr/local/opt/php@7.2/sbin:/usr/local/opt/php@7.2/bin:/Users/danbrewster/.cargo/bin:/usr/local/bin:/Users/danbrewster/.nvm/versions/node/v8.11.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Users/danbrewster/bin:/Users/danbrewster/Library/Android/sdk/platform-tools:/Users/danbrewster/Library/Python/2.7/bin
+  /Users/danbrewster/google-cloud-sdk/bin:/Users/danbrewster/esp/xtensa-esp32-elf/bin::/Users/danbrewster/esp/esp-adf/esp-idf/components/esptool_py/esptool:/Users/danbrewster/esp/esp-adf/esp-idf/components/espcoredump:/Users/danbrewster/esp/esp-adf/esp-idf/components/partition_table/:/Users/danbrewster/esp/esp-adf/esp-idf/tools/:/usr/local/opt/mysql@5.7/bin:/usr/local/opt/mysql@5.7/bin:/usr/local/opt/php@7.2/sbin:/usr/local/opt/php@7.2/bin:/Users/danbrewster/.cargo/bin:/usr/local/bin:/Users/danbrewster/.nvm/versions/node/v8.11.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Users/danbrewster/bin:/Users/danbrewster/Library/Android/sdk/platform-tools:/Users/danbrewster/Library/Python/2.7/bin:/Users/danbrewster/go/bin
 
 Yarn version: 
   1.9.4
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-native-firebase: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-navigation-stack: Not found
       at Request.params.callback [as _callback] (/Users/danbrewster/.nvm/versions/node/v8.11.4/lib/node_modules/yarn/lib/cli.js:64202:18)
       at Request.self.callback (/Users/danbrewster/.nvm/versions/node/v8.11.4/lib/node_modules/yarn/lib/cli.js:137468:22)
       at emitTwo (events.js:126:13)
@@ -39,8 +39,11 @@ npm manifest:
     "dependencies": {
       "@react-native-community/async-storage": "^1.5.0",
       "@react-native-community/netinfo": "^3.2.1",
-      "bluebird": "^3.5.0",
-      "color": "^0.10.1",
+      "@types/react-native-sqlite-storage": "^3.3.1",
+      "@types/socket.io-client": "^1.4.32",
+      "bluebird": "^3.5.5",
+      "color": "^3.1.2",
+      "eventemitter3": "^4.0.0",
       "invariant": "^2.1.0",
       "memoize-one": "^5.0.0",
       "merge": "^1.2.0",
@@ -50,7 +53,7 @@ npm manifest:
       "react": "16.8.6",
       "react-gateway": "^3.0.0",
       "react-native": "0.60.5",
-      "react-native-contacts": "^3.1.2",
+      "react-native-contacts": "^5.0.3",
       "react-native-deprecated-custom-components": "^0.1.1",
       "react-native-device-info": "^0.26.2",
       "react-native-firebase": "^5.5.6",
@@ -60,12 +63,13 @@ npm manifest:
       "react-native-keyboard-aware-scrollview": "^2.0.0",
       "react-native-screens": "^2.0.0-alpha.3",
       "react-native-segmented-control-tab": "^3.4.0",
-      "react-native-sms": "github:dnbrwstr/react-native-sms",
+      "react-native-sms": "^1.9.0",
       "react-native-sqlite-storage": "^3.3.10",
       "react-native-svg": "^9.2.4",
       "react-navigation": "^3.2.1",
+      "react-navigation-hooks": "^1.1.0",
       "react-redux": "7.1.0",
-      "redux": "^4.0.1",
+      "redux": "4.0.2",
       "redux-devtools-extension": "^2.13.8",
       "redux-thunk": "^2.3.0",
       "regenerator-runtime": "^0.10.5",
@@ -82,11 +86,16 @@ npm manifest:
       "@babel/core": "^7.6.0",
       "@babel/runtime": "^7.6.0",
       "@react-native-community/eslint-config": "^0.0.5",
+      "@types/bluebird": "^3.5.27",
+      "@types/color": "^3.0.0",
       "@types/create-react-class": "^15.6.2",
       "@types/jest": "^24.0.18",
+      "@types/memoize-one": "^4.1.1",
       "@types/ramda": "^0.26.21",
       "@types/react": "^16.9.2",
+      "@types/react-gateway": "^2.8.3",
       "@types/react-native": "^0.60.13",
+      "@types/react-navigation": "^3.0.8",
       "@types/react-redux": "^7.1.2",
       "@types/react-test-renderer": "^16.9.0",
       "@types/redux": "^3.6.0",
@@ -95,7 +104,7 @@ npm manifest:
       "jest": "^24.9.0",
       "metro-react-native-babel-preset": "^0.56.0",
       "react-test-renderer": "16.8.6",
-      "typescript": "^3.6.2"
+      "typescript": "3.7"
     }
   }
 
@@ -1164,6 +1173,26 @@ Lockfile:
     dependencies:
       "@babel/types" "^7.3.0"
   
+  "@types/bluebird@^3.5.27":
+    version "3.5.27"
+    resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.27.tgz#61eb4d75dc6bfbce51cf49ee9bbebe941b2cb5d0"
+  
+  "@types/color-convert@*":
+    version "1.9.0"
+    resolved "https://registry.yarnpkg.com/@types/color-convert/-/color-convert-1.9.0.tgz#bfa8203e41e7c65471e9841d7e306a7cd8b5172d"
+    dependencies:
+      "@types/color-name" "*"
+  
+  "@types/color-name@*":
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
+  
+  "@types/color@^3.0.0":
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/@types/color/-/color-3.0.0.tgz#40f8a6bf2fd86e969876b339a837d8ff1b0a6e30"
+    dependencies:
+      "@types/color-convert" "*"
+  
   "@types/create-react-class@^15.6.2":
     version "15.6.2"
     resolved "https://registry.yarnpkg.com/@types/create-react-class/-/create-react-class-15.6.2.tgz#0e1b89153be31ded959359c2b827cceaa9d18cf6"
@@ -1212,6 +1241,10 @@ Lockfile:
     version "7.0.3"
     resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
   
+  "@types/memoize-one@^4.1.1":
+    version "4.1.1"
+    resolved "https://registry.yarnpkg.com/@types/memoize-one/-/memoize-one-4.1.1.tgz#41dd138a4335b5041f7d8fc038f9d593d88b3369"
+  
   "@types/prop-types@*":
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.2.tgz#0e58ae66773d7fd7c372a493aff740878ec9ceaa"
@@ -1222,12 +1255,36 @@ Lockfile:
     dependencies:
       ts-toolbelt "^3.8.4"
   
+  "@types/react-gateway@^2.8.3":
+    version "2.8.3"
+    resolved "https://registry.yarnpkg.com/@types/react-gateway/-/react-gateway-2.8.3.tgz#a70ac03c314bdea4048ffc99d0fe6f598c0db3cb"
+    dependencies:
+      "@types/react" "*"
+  
+  "@types/react-native-sqlite-storage@^3.3.1":
+    version "3.3.1"
+    resolved "https://registry.yarnpkg.com/@types/react-native-sqlite-storage/-/react-native-sqlite-storage-3.3.1.tgz#6d0cc439780c34d187de52e74a5f10527045f96b"
+  
+  "@types/react-native@*":
+    version "0.60.21"
+    resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.60.21.tgz#81a41cae7b232f52ab3983d854f4a0b0df79531e"
+    dependencies:
+      "@types/prop-types" "*"
+      "@types/react" "*"
+  
   "@types/react-native@^0.60.13":
     version "0.60.13"
     resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.60.13.tgz#381703a787db0f0d49895f3a17b50474f4024551"
     dependencies:
       "@types/prop-types" "*"
       "@types/react" "*"
+  
+  "@types/react-navigation@^3.0.8":
+    version "3.0.8"
+    resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-3.0.8.tgz#770d5217a4795fe8526e2a69cc6ccb8600c911e4"
+    dependencies:
+      "@types/react" "*"
+      "@types/react-native" "*"
   
   "@types/react-redux@^7.1.2":
     version "7.1.2"
@@ -1256,6 +1313,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/redux/-/redux-3.6.0.tgz#f1ebe1e5411518072e4fdfca5c76e16e74c1399a"
     dependencies:
       redux "*"
+  
+  "@types/socket.io-client@^1.4.32":
+    version "1.4.32"
+    resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.32.tgz#988a65a0386c274b1c22a55377fab6a30789ac14"
   
   "@types/stack-utils@^1.0.1":
     version "1.0.1"
@@ -1729,9 +1790,9 @@ Lockfile:
     version "0.0.4"
     resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.4.tgz#bcf13052ca54463f30f9fc7e95b9a47630a94921"
   
-  bluebird@^3.5.0:
-    version "3.5.1"
-    resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
+  bluebird@^3.5.5:
+    version "3.5.5"
+    resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
   
   bplist-creator@0.0.4:
     version "0.0.4"
@@ -1963,36 +2024,43 @@ Lockfile:
       map-visit "^1.0.0"
       object-visit "^1.0.0"
   
-  color-convert@^0.5.3:
-    version "0.5.3"
-    resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
-  
   color-convert@^1.9.0:
     version "1.9.0"
     resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.0.tgz#1accf97dd739b983bf994d56fec8f95853641b7a"
     dependencies:
       color-name "^1.1.1"
   
-  color-name@^1.0.0, color-name@^1.1.1:
+  color-convert@^1.9.1:
+    version "1.9.3"
+    resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
+    dependencies:
+      color-name "1.1.3"
+  
+  color-name@1.1.3, color-name@^1.1.1:
     version "1.1.3"
     resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
   
-  color-string@^0.3.0:
-    version "0.3.0"
-    resolved "https://registry.yarnpkg.com/color-string/-/color-string-0.3.0.tgz#27d46fb67025c5c2fa25993bfbf579e47841b991"
+  color-name@^1.0.0:
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
+  
+  color-string@^1.5.2:
+    version "1.5.3"
+    resolved "https://registry.yarnpkg.com/color-string/-/color-string-1.5.3.tgz#c9bbc5f01b58b5492f3d6857459cb6590ce204cc"
     dependencies:
       color-name "^1.0.0"
+      simple-swizzle "^0.2.2"
   
   color-support@^1.1.3:
     version "1.1.3"
     resolved "https://registry.yarnpkg.com/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   
-  color@^0.10.1:
-    version "0.10.1"
-    resolved "https://registry.yarnpkg.com/color/-/color-0.10.1.tgz#c04188df82a209ddebccecdacd3ec320f193739f"
+  color@^3.1.2:
+    version "3.1.2"
+    resolved "https://registry.yarnpkg.com/color/-/color-3.1.2.tgz#68148e7f85d41ad7649c5fa8c8106f098d229e10"
     dependencies:
-      color-convert "^0.5.3"
-      color-string "^0.3.0"
+      color-convert "^1.9.1"
+      color-string "^1.5.2"
   
   colorette@^1.0.7:
     version "1.1.0"
@@ -2645,6 +2713,10 @@ Lockfile:
   eventemitter3@^3.0.0:
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.0.tgz#090b4d6cdbd645ed10bf750d4b5407942d7ba163"
+  
+  eventemitter3@^4.0.0:
+    version "4.0.0"
+    resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.0.tgz#d65176163887ee59f386d64c82610b696a4a74eb"
   
   exec-sh@^0.3.2:
     version "0.3.2"
@@ -3348,6 +3420,10 @@ Lockfile:
   is-arrayish@^0.2.1:
     version "0.2.1"
     resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
+  
+  is-arrayish@^0.3.1:
+    version "0.3.2"
+    resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
   
   is-buffer@^1.1.5:
     version "1.1.5"
@@ -5390,9 +5466,9 @@ Lockfile:
     version "3.0.4"
     resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   
-  react-native-contacts@^3.1.2:
-    version "3.1.2"
-    resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-3.1.2.tgz#44ca24046d3ddfcaeba70da06e7e5c750fdbd7e4"
+  react-native-contacts@^5.0.3:
+    version "5.0.3"
+    resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-5.0.3.tgz#8f240e7dd09e654c1ca37f151534909a7cf8e272"
   
   react-native-deprecated-custom-components@^0.1.1:
     version "0.1.1"
@@ -5472,9 +5548,9 @@ Lockfile:
     version "3.4.0"
     resolved "https://registry.yarnpkg.com/react-native-segmented-control-tab/-/react-native-segmented-control-tab-3.4.0.tgz#8e9f32cda2909deb0f45e12eed5a4827da221804"
   
-  "react-native-sms@github:dnbrwstr/react-native-sms":
-    version "1.8.0"
-    resolved "https://codeload.github.com/dnbrwstr/react-native-sms/tar.gz/26f86a3dc733f82a46df4fe10dfe2c21a7b5ed02"
+  react-native-sms@^1.9.0:
+    version "1.9.0"
+    resolved "https://registry.yarnpkg.com/react-native-sms/-/react-native-sms-1.9.0.tgz#362d94f75664d45144433d820155d9da66adf053"
   
   react-native-sqlite-storage@^3.3.10:
     version "3.3.10"
@@ -5530,6 +5606,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-navigation-drawer/-/react-navigation-drawer-1.1.0.tgz#e39dbf493c77890c90f8ed4d83d06c87af65abf0"
     dependencies:
       react-native-tab-view "^1.2.0"
+  
+  react-navigation-hooks@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/react-navigation-hooks/-/react-navigation-hooks-1.1.0.tgz#337c41a50ebc7b9030bb9d9333cd4fd6e1f86b68"
   
   react-navigation-stack@1.0.9:
     version "1.0.9"
@@ -5690,9 +5770,9 @@ Lockfile:
       loose-envify "^1.4.0"
       symbol-observable "^1.2.0"
   
-  redux@^4.0.1:
-    version "4.0.1"
-    resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.1.tgz#436cae6cc40fbe4727689d7c8fae44808f1bfef5"
+  redux@4.0.2:
+    version "4.0.2"
+    resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.2.tgz#597cc660a99f91412e31c96c3da10ed8ace0715d"
     dependencies:
       loose-envify "^1.4.0"
       symbol-observable "^1.2.0"
@@ -6092,6 +6172,12 @@ Lockfile:
       bplist-creator "0.0.7"
       bplist-parser "0.1.1"
       plist "^3.0.1"
+  
+  simple-swizzle@^0.2.2:
+    version "0.2.2"
+    resolved "https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
+    dependencies:
+      is-arrayish "^0.3.1"
   
   sisteransi@^1.0.0:
     version "1.0.0"
@@ -6570,9 +6656,9 @@ Lockfile:
     version "0.0.6"
     resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   
-  typescript@^3.6.2:
-    version "3.6.3"
-    resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
+  typescript@3.7:
+    version "3.7.2"
+    resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
   
   ua-parser-js@^0.7.18:
     version "0.7.18"

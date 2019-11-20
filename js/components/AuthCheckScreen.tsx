@@ -1,6 +1,6 @@
-import React, {Component, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {connect, useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {navigateTo} from '../store/navigation/actions';
 import {AppState} from '../store/createStore';
 

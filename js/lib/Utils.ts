@@ -19,7 +19,9 @@ export let constrain = (number: number, min: number, max: number) => {
   return Math.min(Math.max(number, min), max);
 };
 
-let ensureDate = (date: Date | string | number) => {
+type DatePrimitive = Date | string | number;
+
+let ensureDate = (date: DatePrimitive) => {
   if (date instanceof Date) {
     return date;
   } else {
@@ -45,7 +47,7 @@ type DateFormatSettings = {
 };
 
 const createDateFormatter = (formatObj: DateFormatSettings) => (
-  date: Date,
+  date: DatePrimitive,
 ): string => {
   const refTimes = getReferenceTimes();
   const time = moment(ensureDate(date));
@@ -70,7 +72,7 @@ const createDateFormatter = (formatObj: DateFormatSettings) => (
   }
 };
 
-export let humanDate = (date: Date) => {
+export let humanDate = (date: DatePrimitive) => {
   return createDateFormatter({
     lastYear: 'MMMM Do YYYY[\n]h:mm A',
     currentYear: 'MMMM Do[\n]h:mm A',
@@ -79,7 +81,7 @@ export let humanDate = (date: Date) => {
   })(date);
 };
 
-export let shortHumanDate = (date: Date) => {
+export let shortHumanDate = (date: DatePrimitive) => {
   return createDateFormatter({
     lastYear: 'M/D/YY',
     currentYear: 'M/D',
@@ -150,6 +152,12 @@ export const valSort = <T>(sortFn: (v: T) => number, reverse = false) => (
 
 type GetElementType<T extends Array<any>> = T extends (infer U)[] ? U : never;
 type DefiniteTransform = GetElementType<Required<TransformsStyle>['transform']>;
+
+export const getTransformsArray = (styleProp: StyleProp<ViewStyle>) => {
+  const transforms = getTransforms(styleProp);
+  if (transforms instanceof Array) return transforms;
+  else return [transforms];
+};
 
 export const getTransforms = (
   styleProp: StyleProp<ViewStyle>,

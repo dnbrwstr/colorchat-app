@@ -1,11 +1,7 @@
 import React, {Component, createRef} from 'react';
 import {
   FlatList,
-  Dimensions,
   ScrollView,
-  View,
-  ScrollResponderEvent,
-  LayoutRectangle,
   ScrollViewProps,
   NativeSyntheticEvent,
   NativeScrollEvent,
@@ -13,7 +9,7 @@ import {
 } from 'react-native';
 import Style from '../style';
 import Message from './Message';
-import {Message as MessageData} from '../store/messages/types';
+import {Message as MessageData, FinishedMessage} from '../store/messages/types';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 import {getId, isFromUser, isExpanded} from '../lib/MessageUtils';
 import {User} from '../store/user/types';
@@ -29,7 +25,7 @@ interface MessageListProps {
   user: User;
   scrollLocked: boolean;
   scrollBridge: ScrollBridge;
-  onToggleMessageExpansion: (message: MessageData) => void;
+  onToggleMessageExpansion: (message: FinishedMessage) => void;
   onRetryMessageSend: (message: MessageData) => void;
   onBeginningReached: () => void;
   onEndReached: () => void;
@@ -76,7 +72,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   render() {
     return (
       <FlatList
-        ref="list"
+        ref={this.listRef}
         style={style.list}
         data={this.props.messages}
         keyExtractor={getMessageKey}
@@ -139,7 +135,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
     // Don't expand message if scroll is locked
     if (this.props.scrollLocked) return;
 
-    this.props.onToggleMessageExpansion(message);
+    this.props.onToggleMessageExpansion(message as FinishedMessage);
 
     // Return if the message is closing
     if (isExpanded(message)) return;
@@ -150,9 +146,13 @@ class MessageList extends Component<MessageListProps, MessageListState> {
     let nextOffset = nextTop - Style.values.rowHeight - getStatusBarHeight();
 
     if (nextOffset < 0) {
-      this.listRef.current?.scrollToOffset({
-        offset: this.state.scrollOffset - nextOffset,
-      });
+      // TODO: Handle case where because message has not
+      // yet expanded there isn't any space to scroll up to
+      setTimeout(() => {
+        this.listRef.current?.scrollToOffset({
+          offset: this.state.scrollOffset - nextOffset,
+        });
+      }, 100);
     }
   };
 

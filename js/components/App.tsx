@@ -7,6 +7,7 @@ import FunctionView from './FunctionView';
 import {useStyles, makeStyleCreator} from '../lib/withStyles';
 import {getStatusBarHeight, ifIphoneX} from 'react-native-iphone-x-helper';
 import {Theme} from '../style/themes';
+import Contacts from 'react-native-contacts';
 
 const App: FC = () => {
   const {styles} = useStyles(getStyles);

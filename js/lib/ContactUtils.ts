@@ -1,6 +1,9 @@
 import Bluebird from 'bluebird';
 import Contacts from 'react-native-contacts';
 import SeedNumbers from './data/SeedNumbers';
+import {Contact, MatchedContact} from '../store/contacts/types';
+import {formatName} from './Utils';
+import {Theme} from '../style/themes';
 
 export const checkPermission = Bluebird.promisify(Contacts.checkPermission);
 export const requestPermission = Bluebird.promisify(Contacts.requestPermission);
@@ -46,5 +49,32 @@ export const seedAddressBook = async () => {
     });
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const isMatchedContact = (
+  contact: Contact,
+): contact is MatchedContact => {
+  return (contact as MatchedContact).matched;
+};
+
+export const getContactName = (contact?: Contact, fallback?: string) => {
+  if (contact) {
+    const {givenName, familyName} = contact;
+    return formatName(givenName, familyName);
+  } else if (fallback) {
+    return fallback;
+  } else {
+    return 'Unknown';
+  }
+};
+
+export const getContactAvatar = (contact?: Contact, theme?: Theme) => {
+  if (contact && isMatchedContact(contact)) {
+    return contact.avatar;
+  } else if (theme) {
+    return theme.defaultAvatarColor;
+  } else {
+    return '#CCC';
   }
 };

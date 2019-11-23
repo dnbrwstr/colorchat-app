@@ -53,13 +53,7 @@ const initialState: UiState = {
     shouldRefresh: true,
   },
   inbox: {},
-  conversation: {
-    contactId: null,
-    sending: false,
-    composing: false,
-    cancelling: false,
-    loading: false,
-  },
+  conversation: undefined,
   theme: Style.themes.cream,
 };
 

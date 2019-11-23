@@ -1,9 +1,8 @@
+import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import {
   createStackNavigator,
-  createSwitchNavigator,
-  createAppContainer,
-  StackNavigatorConfig,
-} from 'react-navigation';
+  NavigationStackConfig,
+} from 'react-navigation-stack';
 import SignupStartScreen from './SignupStartScreen';
 import CountryPickerScreen from './CountryPickerScreen';
 import ConfirmCodeScreen from './ConfirmCodeScreen';
@@ -21,7 +20,7 @@ import CameraScreen from './CameraScreen';
 import ConversationSettingsScreen from './ConversationSettingsScreen';
 import BlockedUsersScreen from './BlockedUsersScreen';
 
-const defaultStackOptions: StackNavigatorConfig = {
+const defaultStackOptions: NavigationStackConfig = {
   headerMode: 'none',
 };
 

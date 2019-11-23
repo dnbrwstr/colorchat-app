@@ -2,6 +2,7 @@ import {Message} from '../messages/types';
 
 export interface Conversation {
   recipientId: number;
+  recipientName?: string;
   lastMessage?: Message;
   unread: boolean;
   partnerIsComposing?: boolean;

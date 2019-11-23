@@ -1,10 +1,9 @@
 import React, {FC, useCallback, useMemo} from 'react';
-import {Animated, Easing, ViewStyle} from 'react-native';
+import {Animated, Easing, ViewStyle, LayoutChangeEvent} from 'react-native';
 import Style from '../style';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
-import withStyles, {useStyles, makeStyleCreator} from '../lib/withStyles';
-import {LayoutEvent} from 'react-navigation';
+import {useStyles, makeStyleCreator} from '../lib/withStyles';
 import {Theme} from '../style/themes';
 
 interface ErrorMessageProps {
@@ -30,7 +29,7 @@ const ErrorMessage: FC<ErrorMessageProps> = props => {
       nativeEvent: {
         layout: {height},
       },
-    }: LayoutEvent) => {
+    }: LayoutChangeEvent) => {
       Animated.parallel([
         Animated.timing(animatedHeight, {
           duration: 150,

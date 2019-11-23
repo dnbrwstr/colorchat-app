@@ -4,7 +4,7 @@ import PressableView from './PressableView';
 import {CameraColor} from '../lib/CameraTypes';
 
 interface SingleColorDisplayProps {
-  animatedColors: Animated.Value[];
+  animatedColors: Animated.AnimatedInterpolation[];
   getColorValue: (index: number) => CameraColor;
   onSelectColor: (color: CameraColor) => void;
 }

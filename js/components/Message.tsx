@@ -1,11 +1,5 @@
-import React, {PureComponent, ReactNode, createRef} from 'react';
-import {
-  View,
-  Animated,
-  Easing,
-  TouchableWithoutFeedback,
-  LayoutRectangle,
-} from 'react-native';
+import React, {PureComponent, createRef} from 'react';
+import {View, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import measure, {NodeMeasurement} from '../lib/measure';
@@ -208,7 +202,7 @@ class Message extends PureComponent<MessageProps, MessageState> {
   renderMessage() {
     return (
       <PressableView
-        ref={this.messageRef}
+        forwardRef={this.messageRef}
         style={this.getMessageStyles()}
         onPress={this.handlePress}
       >
@@ -299,7 +293,7 @@ class Message extends PureComponent<MessageProps, MessageState> {
   }
 }
 
-let style = Style.create({
+const style = Style.create({
   message: {
     flex: 0,
     overflow: 'hidden',

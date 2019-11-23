@@ -9,8 +9,8 @@ import {Theme} from '../style/themes';
 interface GridColorDisplayProps {
   styles: InjectedStyles<typeof getStyles>;
   lastColors: CameraColor[];
-  animatedColors: Animated.Value[];
-  animatedAbsoluteSizes: Animated.Value[];
+  animatedColors: Animated.AnimatedInterpolation[];
+  animatedAbsoluteSizes: Animated.AnimatedInterpolation[];
   getColorValue: (i: number) => CameraColor;
   onSelectColor?: (color: CameraColor) => void;
 }

@@ -61,6 +61,7 @@ const runContactImport = async (askPermission: boolean, state: AppState) => {
 };
 
 const getPermission = async (shouldRequestIfMissing: boolean) => {
+  console.log('groooting position');
   let permission: ContactPermissionStatus = await checkPermission();
   if (
     (permission === 'undefined' || permission == 'denied') &&

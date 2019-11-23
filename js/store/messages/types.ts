@@ -4,6 +4,7 @@ export interface RawMessageData {
   id: string;
   createdAt: string;
   senderId: number;
+  senderName?: string;
   recipientId: number;
   type: MessageType;
   color: string;

@@ -11,7 +11,7 @@ import {CameraColor} from '../lib/CameraTypes';
 interface CameraDisplayProps {
   displayMode: DisplayMode;
   styles: InjectedStyles<typeof getStyles>;
-  colors: CameraColor[];
+  colors?: CameraColor[];
   onSelectColor: (color: CameraColor) => void;
 }
 

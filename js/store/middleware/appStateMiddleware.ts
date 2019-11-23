@@ -35,7 +35,7 @@ const appStateMiddleware = (store: MiddlewareAPI<Dispatch, StoreState>) => {
   setInitialNetworkState();
 
   return (next: Dispatch) => (action: AnyAction) => {
-    next(action);
+    return next(action);
   };
 };
 

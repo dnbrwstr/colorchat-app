@@ -4,24 +4,22 @@ import {conversationScreenSelector} from '../store/Selectors';
 import Header from './Header';
 import {navigateBack} from '../store/navigation/actions';
 import Text from './BaseText';
-import withStyles, {
-  connectWithStyles,
-  useStyles,
-  makeStyleCreator,
-  InjectedStyles,
-} from '../lib/withStyles';
+import {useStyles, makeStyleCreator} from '../lib/withStyles';
 import RowButtonGroup from './RowButtonGroup';
 import {blockUser} from '../store/user/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {Contact, MatchedContact} from '../store/contacts/types';
 import {Theme} from '../style/themes';
+import {getContactAvatar, getContactName} from '../lib/ContactUtils';
 
 interface ConversationSettingsScreenProps {}
 
 const ConversationSettingsScreen: FC<ConversationSettingsScreenProps> = props => {
   const dispatch = useDispatch();
   const {styles, theme} = useStyles(getStyles);
-  const {contact} = useSelector(conversationScreenSelector);
+  const {contact, recipientId, recipientName} = useSelector(
+    conversationScreenSelector,
+  );
 
   const handlePressBlockUser = useCallback(() => {
     Alert.alert(
@@ -29,11 +27,11 @@ const ConversationSettingsScreen: FC<ConversationSettingsScreenProps> = props =>
       '',
       [
         {text: 'Cancel', onPress: () => {}},
-        {text: 'Block', onPress: () => dispatch(blockUser(contact))},
+        {text: 'Block', onPress: () => dispatch(blockUser(recipientId))},
       ],
       {cancelable: false},
     );
-  }, [contact]);
+  }, [recipientId]);
 
   const buttons = useMemo(
     () => [
@@ -47,7 +45,7 @@ const ConversationSettingsScreen: FC<ConversationSettingsScreenProps> = props =>
 
   const avatarStyles = [
     styles.avatar,
-    {backgroundColor: (contact as MatchedContact).avatar},
+    {backgroundColor: getContactAvatar(contact, theme)},
   ];
 
   return (
@@ -56,7 +54,7 @@ const ConversationSettingsScreen: FC<ConversationSettingsScreenProps> = props =>
 
       <View style={styles.topContainer}>
         <View style={avatarStyles} />
-        <Text>{contact.givenName}</Text>
+        <Text>{getContactName(contact, recipientName)}</Text>
       </View>
 
       <RowButtonGroup style={styles.actionButtons} buttons={buttons} />
@@ -77,7 +75,7 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
     width: 150,
     height: 150,
     borderRadius: 150,
-    marginBottom: 12,
+    marginBottom: 15,
   },
   actionButtons: {},
 }));

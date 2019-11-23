@@ -20,10 +20,16 @@ import {
   SUBMIT_CONFIRMATION_CODE,
   SubmitConfirmationCodeAction,
 } from '../signup/types';
+import {LOAD_COMPLETE, LoadCompleteAction} from '../load/types';
 
 const initialState: UserState = {};
 
 const handlers: {[key: string]: CaseReducer<UserState, any>} = {
+  [LOAD_COMPLETE]: (state, action: LoadCompleteAction) => {
+    const startState = action.data.user || initialState;
+    return startState;
+  },
+
   authError: (state, action) => {
     if (state) {
       return {

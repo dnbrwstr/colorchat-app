@@ -7,7 +7,7 @@ const {rehydrate, rehydrateBlacklist, screenshotMode} = config;
 
 export const STATE_STORAGE_KEY = 'appState';
 
-export const loadState = async () => {
+export const loadState = async (): Promise<Partial<AppState>> => {
   let appState: Partial<AppState> = {};
   if (screenshotMode) {
     appState = createScreenshotState();
@@ -32,7 +32,7 @@ export const loadState = async () => {
 };
 
 export const saveState = (state: AppState) => {
-  return AsyncStorage.setItem('appState', JSON.stringify(state));
+  return AsyncStorage.setItem(STATE_STORAGE_KEY, JSON.stringify(state));
 };
 
 export default loadState;

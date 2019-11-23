@@ -98,9 +98,10 @@ class ProfileEditor extends Component<ProfileEditorProps> {
   };
 
   handleNameChange = (newName: string) => {
+    const {theme} = this.props;
     this.props.onChange &&
       this.props.onChange({
-        avatar: this.props.value.avatar || '#CCC',
+        avatar: this.props.value.avatar || theme.defaultAvatarColor,
         name: newName,
       });
   };

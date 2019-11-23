@@ -11,7 +11,10 @@ const themeSelector = (state: AppState) => ({
 });
 
 const useTheme = () => {
-  useSelector((state: AppState) => state.ui.theme);
+  return useSelector((state: AppState) => {
+    console.log(state.ui.theme);
+    return state.ui.theme;
+  });
 };
 
 export type WithStylesProps<T extends (...args: any) => any> = {
@@ -28,9 +31,11 @@ const withStyles = <T extends StyleSheet.NamedStyles<T>>(
   return <P extends Props = Props>(
     WrappedComponent: React.ComponentType<P>,
   ) => {
-    const theme = useTheme();
-    const styles = getStyles(theme);
     const HOC: FC<Optionalize<P, Props>> = props => {
+      const {theme} = useSelector(themeSelector, (last, next) => {
+        return last.theme === next.theme;
+      });
+      const styles = getStyles(theme);
       return (
         <WrappedComponent
           theme={theme}

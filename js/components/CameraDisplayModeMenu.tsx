@@ -12,7 +12,6 @@ import {
   FlingGestureHandlerStateChangeEvent,
 } from 'react-native-gesture-handler';
 import withStyles, {InjectedStyles, makeStyleCreator} from '../lib/withStyles';
-import {LayoutEvent} from 'react-navigation';
 import {Theme} from '../style/themes';
 
 const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1);
@@ -161,7 +160,7 @@ class CameraDisplayModeMenu extends Component<
     this.setState({currentIndex: nextIndex});
   };
 
-  handleLayoutContainer = ({nativeEvent: {layout}}: LayoutEvent) => {
+  handleLayoutContainer = ({nativeEvent: {layout}}: LayoutChangeEvent) => {
     this.scrollViewLayout = layout;
     this.maybeSetInitialPosition();
   };

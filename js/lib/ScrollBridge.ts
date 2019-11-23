@@ -1,16 +1,20 @@
-import {ScrollResponderEvent} from 'react-native';
+import {
+  ScrollResponderEvent,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from 'react-native';
 
 /**
  * Cuts out the middleman when relaying ScrollView events
  * Good performance, bad practice
  */
 
-type ScrollListener = (e: ScrollResponderEvent) => void;
+type ScrollListener = (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
 
 class ScrollBridge {
   callbacks: ScrollListener[] = [];
 
-  handleScroll = (e: ScrollResponderEvent) => {
+  handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     this.callbacks.forEach(cb => cb(e));
   };
 

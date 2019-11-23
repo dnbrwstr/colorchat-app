@@ -35,14 +35,14 @@ const config: ConfigList = {
     serverRoot: 'https://colorchat-core.soft.works',
     logState: false,
     logActions: false,
-    saveState: false,
+    saveState: true,
     rehydrate: true,
     logQueries: false,
     rehydrateBlacklist: [
       // 'ui',
       'notifications',
       // "messages",
-      // "theme",
+      'theme',
       'signup',
       // "user",
       // "contacts"

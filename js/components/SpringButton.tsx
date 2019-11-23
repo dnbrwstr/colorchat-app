@@ -3,13 +3,17 @@ import {Animated, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 import PressableBlob from './PressableBlob';
 
 export interface SpringButtonProps {
-  visible: boolean;
+  visible?: boolean;
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
   onPress: () => void;
 }
 
 class SpringButton extends Component<SpringButtonProps> {
+  static defaultProps = {
+    visible: true,
+  };
+
   animatedOpacity = new Animated.Value(this.props.visible ? 1 : 0);
   opacityAnimation?: Animated.CompositeAnimation;
 

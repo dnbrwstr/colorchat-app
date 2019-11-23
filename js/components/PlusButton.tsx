@@ -6,7 +6,7 @@ import {StyleProp, TextStyle} from 'react-native';
 import {Theme} from '../style/themes';
 
 interface PlusButtonProps extends RoundButtonProps {
-  textStyle: StyleProp<TextStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 const PlusButton: FC<PlusButtonProps> = props => {

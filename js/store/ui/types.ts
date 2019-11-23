@@ -1,6 +1,6 @@
 import {Theme} from '../../style/themes';
-import {AppState, AppStateStatic, AppStateStatus} from 'react-native';
-import {NetInfoState, NetInfoStateType} from '@react-native-community/netinfo';
+import {AppStateStatus} from 'react-native';
+import {NetInfoStateType} from '@react-native-community/netinfo';
 
 export interface UiAlert {
   id: string;
@@ -24,7 +24,7 @@ export interface ContactsUiState {
 }
 
 export interface ConversationUiState {
-  contactId: number | null;
+  contactId: number;
   sending: boolean;
   composing: boolean;
   cancelling: boolean;
@@ -39,7 +39,7 @@ export interface UiState {
   countryPicker: {};
   contacts: ContactsUiState;
   inbox: {};
-  conversation: ConversationUiState;
+  conversation?: ConversationUiState;
   theme: Theme;
 }
 

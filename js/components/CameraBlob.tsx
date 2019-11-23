@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Animated, Platform, StyleProp, ViewStyle, Easing} from 'react-native';
 import ColorCamera from 'react-native-color-camera';
 import PressableBlob from './PressableBlob';
-import {withScreenFocusState} from './ScreenFocusState';
 import withStyles, {InjectedStyles, makeStyleCreator} from '../lib/withStyles';
 import {Theme} from '../style/themes';
 import {CameraColorChangeEvent} from '../lib/CameraTypes';
@@ -89,9 +88,9 @@ class CameraBlob extends Component<CameraBlobProps, CameraBlobState> {
       outputRange: ['0deg', '180deg'],
     });
 
-    const rotationStyle = {
+    const rotationStyle = ({
       transform: [{rotateY: rotation}],
-    };
+    } as any) as ViewStyle;
 
     const color = this.cameraColor.interpolate({
       inputRange: [0, 1],

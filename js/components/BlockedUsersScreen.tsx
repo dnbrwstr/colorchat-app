@@ -31,7 +31,7 @@ const useBlockedUsers = () => {
   return useSelector((state: AppState) => state.user.blockedUsers || []);
 };
 
-const BlockedUsersScreenFn: FC<{}> = () => {
+const BlockedUsersScreen: FC<{}> = () => {
   const dispatch = useDispatch();
   const blockedUsers = useBlockedUsers();
   const handlePressBack = useBack();
@@ -76,7 +76,7 @@ const BlockedUserListItem: FC<ListRenderItemInfo<User>> = ({item}) => {
       '',
       [
         {text: 'Cancel', onPress: () => {}},
-        {text: 'Unblock', onPress: () => dispatch(unblockUser(item))},
+        {text: 'Unblock', onPress: () => dispatch(unblockUser(item.id))},
       ],
       {cancelable: false},
     );

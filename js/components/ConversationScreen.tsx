@@ -19,10 +19,15 @@ import Style from '../style';
 import Text from './BaseText';
 import {AppDispatch} from '../store/createStore';
 import {MatchedContact} from '../store/contacts/types';
-import {Message as MessageType, WorkingMessage} from '../store/messages/types';
+import {
+  Message as MessageType,
+  WorkingMessage,
+  Message,
+} from '../store/messages/types';
 import {Theme} from '../style/themes';
 import {FinishedMessage} from '../store/messages/types';
 import {User} from '../store/user/types';
+import {getContactName, getContactAvatar} from '../lib/ContactUtils';
 
 const {
   resendMessage,
@@ -36,7 +41,7 @@ const {
 } = MessageActions;
 
 interface ConversationScreenProps {
-  contact: MatchedContact;
+  contact?: MatchedContact;
   dispatch: AppDispatch;
   messages: MessageType[];
   totalMessages: number;
@@ -49,6 +54,8 @@ interface ConversationScreenProps {
   user: User;
   theme: Theme;
   screenFocusState: FocusState;
+  recipientName?: string;
+  recipientId: number;
 }
 
 interface ConversationScreenState {
@@ -70,7 +77,7 @@ export class ConversationScreen extends Component<
   };
 
   componentDidMount() {
-    this.props.dispatch(markConversationRead(this.props.contact.id));
+    this.props.dispatch(markConversationRead(this.props.recipientId));
     this.props.dispatch(updateUnreadCount());
   }
 
@@ -100,7 +107,6 @@ export class ConversationScreen extends Component<
             user={this.props.user}
             onBeginningReached={this.handleBeginningReached}
             onEndReached={this.handleEndReached}
-            removeClippedSubviews={true}
           />
           {this.props.partnerIsComposing && (
             <PlaceholderMessage style={styles.placeholderMessage} />
@@ -127,17 +133,19 @@ export class ConversationScreen extends Component<
   }
 
   renderHeaderTitle = () => {
-    const {contact, styles} = this.props;
+    const {contact, styles, recipientName} = this.props;
     return (
       <View style={styles.headerTitle}>
-        <Text>{contact.givenName}</Text>
+        <Text>{getContactName(contact, recipientName)}</Text>
       </View>
     );
   };
 
   renderSettingsButton = () => {
-    const {contact, styles} = this.props;
-    const backgroundStyle = {backgroundColor: contact.avatar || '#CCC'};
+    const {contact, styles, theme} = this.props;
+    const backgroundStyle = {
+      backgroundColor: getContactAvatar(contact, theme),
+    };
     const settingsStyles = [styles.settingsButton, backgroundStyle];
     return <View style={settingsStyles} />;
   };
@@ -145,7 +153,7 @@ export class ConversationScreen extends Component<
   handleEndReached = () => {
     if (this.state.loadedAll) return;
     let nextPage = ++this.state.page;
-    this.props.dispatch(loadMessages(this.props.contact.id, this.state.page));
+    this.props.dispatch(loadMessages(this.props.recipientId, this.state.page));
     this.setState({page: nextPage});
   };
 
@@ -190,7 +198,7 @@ export class ConversationScreen extends Component<
 
     this.props.dispatch(
       startComposingMessage({
-        recipientId: this.props.contact.id,
+        recipientId: this.props.recipientId,
       }),
     );
   };
@@ -218,7 +226,7 @@ export class ConversationScreen extends Component<
     this.props.dispatch(toggleMessageExpansion(message));
   };
 
-  handleRetryMessageSend = (message: FinishedMessage) => {
+  handleRetryMessageSend = (message: Message) => {
     this.props.dispatch(resendMessage(message));
   };
 

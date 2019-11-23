@@ -5,20 +5,22 @@ import PressableView from './PressableView';
 import {makeStyleCreator, useStyles} from '../lib/withStyles';
 import Text from './BaseText';
 import {Theme} from '../style/themes';
+import {isUndefined} from '../lib/Utils';
 
 interface HeaderProps {
-  showBorder: boolean;
-  title: string;
+  showBorder?: boolean;
+  title?: string;
   onPressBack?: () => void;
   onPressSettings?: () => void;
   renderTitle?: () => ReactNode;
   renderSettingsButton?: () => ReactNode;
 }
 
-const HeaderFn: FC<HeaderProps> = props => {
+const Header: FC<HeaderProps> = props => {
   const {styles} = useStyles(getStyles);
 
-  const barStyles = [styles.bar, props.showBorder && styles.borderBar];
+  const showBorder = isUndefined(props.showBorder) ? true : props.showBorder;
+  const barStyles = [styles.bar, showBorder && styles.borderBar];
 
   return (
     <View style={barStyles}>

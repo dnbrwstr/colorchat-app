@@ -36,7 +36,7 @@ const isDefined = <T>(n: T) => typeof n !== 'undefined';
 
 export const isFromUser = (user: User, message: Message) => {
   return (
-    isDefined(user.id) && (message as FinishedMessage).senderId === user.id
+    isDefined(user.id) && (message as FinishedMessage).recipientId !== user.id
   );
 };
 

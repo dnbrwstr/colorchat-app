@@ -14,17 +14,23 @@ export default <T extends RefObject<Component>>(
   ref: T,
 ): Promise<NodeMeasurement> =>
   new Promise((resolve, reject) => {
-    if (!ref.current) return;
+    if (!ref.current) {
+      console.log('unable to measure, no ref');
+      return resolve();
+    }
     const handle = findNodeHandle(ref.current);
-    if (!handle) return;
-    UIManager.measure(handle, (x, y, width, height, left, top) =>
+    if (!handle) {
+      console.log('unable to mesarteu, coudnt find handle');
+      return resolve;
+    }
+    UIManager.measure(handle, (x, y, width, height, pageX, pageY) =>
       resolve({
         x,
         y,
         width,
         height,
-        left,
-        top,
+        left: pageX,
+        top: pageY,
       }),
     );
   });

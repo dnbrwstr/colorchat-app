@@ -10,6 +10,7 @@ import withStyles, {makeStyleCreator, InjectedStyles} from '../lib/withStyles';
 import {Theme} from '../style/themes';
 import {Conversation} from '../store/conversations/types';
 import {MatchedContact, Contact} from '../store/contacts/types';
+import {getContactName, getContactAvatar} from '../lib/ContactUtils';
 
 const DEFAULT_BG_COLOR = '#EFEFEF';
 
@@ -53,17 +54,8 @@ class ConversationListItem extends Component<ConversationListItemProps> {
     }
   };
 
-  getName = () => {
-    if (this.props.contact) {
-      let {givenName, familyName} = this.props.contact;
-      return formatName(givenName, familyName);
-    } else {
-      return 'Unknown';
-    }
-  };
-
   render() {
-    const {styles} = this.props;
+    const {styles, theme} = this.props;
 
     let textStyles: StyleProp<TextStyle> = [
       this.props.unread && {
@@ -71,9 +63,7 @@ class ConversationListItem extends Component<ConversationListItemProps> {
       },
     ];
 
-    const avatarColor =
-      (this.props.contact && (this.props.contact as MatchedContact).avatar) ||
-      '#CCC';
+    const avatarColor = getContactAvatar(this.props.contact, theme);
 
     const avatarStyles = ([
       styles.avatar,
@@ -83,6 +73,7 @@ class ConversationListItem extends Component<ConversationListItemProps> {
     ] as any) as StyleProp<ViewStyle>;
 
     const activeStyles = [styles.itemActive];
+    const name = getContactName(this.props.contact, this.props.recipientName);
 
     return (
       <View style={styles.container}>
@@ -98,7 +89,7 @@ class ConversationListItem extends Component<ConversationListItemProps> {
         >
           <View style={styles.user}>
             <View style={avatarStyles} />
-            <BaseText style={textStyles}>{this.getName()}</BaseText>
+            <BaseText style={textStyles}>{name}</BaseText>
           </View>
           {this.props.lastMessage && this.renderLastMessage()}
         </InteractiveView>

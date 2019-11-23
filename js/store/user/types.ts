@@ -37,14 +37,14 @@ export type UpdateUserInfoAction = AsyncAction<UpdateUserInfoBaseAction, User>;
 
 export interface BlockUserBaseAction {
   type: typeof BLOCK_USER;
-  user: User;
+  userId: number;
 }
 
 export type BlockUserAction = AsyncAction<BlockUserBaseAction, User>;
 
 export interface UnblockUserBaseAction {
   type: typeof UNBLOCK_USER;
-  user: User;
+  userId: number;
 }
 
 export type UnblockUserAction = AsyncAction<UnblockUserBaseAction, User>;

@@ -7,6 +7,9 @@ import {
   TouchableMixin,
   Touchable,
   GestureResponderEvent,
+  StyleProp,
+  ViewStyle,
+  LayoutChangeEvent,
 } from 'react-native';
 import {merge} from 'ramda';
 import {extractSingleTouch} from 'fbjs/lib/TouchEventUtils';
@@ -21,6 +24,8 @@ const PRESS_RECT = {
 };
 
 interface InteractiveViewProps {
+  style?: StyleProp<ViewStyle>;
+  activeStyle?: StyleProp<ViewStyle>;
   swipeEnabled: boolean;
   xAxisEnabled: boolean;
   xAxisThreshold: number;
@@ -30,6 +35,9 @@ interface InteractiveViewProps {
   deleteEnabled: boolean;
   deleteAxis: 'x' | 'y';
   deleteThreshold: number;
+  onPress: () => void;
+  onPressIn: () => void;
+  onPressOut: () => void;
 }
 
 const InteractiveView = createReactClass<InteractiveViewProps, {}>({
@@ -106,11 +114,9 @@ const InteractiveView = createReactClass<InteractiveViewProps, {}>({
     );
   },
 
-  measureView: async function() {
-    let size = await measure(this.refs.content);
-
+  measureView: function(e: LayoutChangeEvent) {
     this.setState({
-      size,
+      size: e.nativeEvent.layout,
     });
   },
 

@@ -72,18 +72,19 @@ const socketMiddleware = (
     );
   };
 
-  const sendComposeEvents = function(composingMessages: Message[]) {
-    composingMessages.forEach(m => {
-      client.sendComposeEvents(composingMessages);
-    });
+  const sendComposeEvents = function() {
+    const messages = state.composingMessages;
+    if (!messages.length) return;
+    client.sendComposeEvents(messages);
   };
   setInterval(sendComposeEvents, COMPOSE_EVENT_INTERVAL);
 
   return (next: Dispatch) => (action: AnyAction) => {
-    next(action);
+    const result = next(action);
     state = selector(store.getState());
     client.setToken(state.token);
     if (client.isConnected()) sendEnqueuedMessages();
+    return result;
   };
 };
 

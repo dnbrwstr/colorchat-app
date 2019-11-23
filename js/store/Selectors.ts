@@ -3,7 +3,6 @@ import {AppState} from './createStore';
 import {Message} from './messages/types';
 import {MatchedContact} from './contacts/types';
 import {getReferenceDate} from '../lib/MessageUtils';
-import merge from 'ramda/es/merge';
 
 export const selectMessages = createSelector(
   (state: AppState) => state.messages.working,
@@ -41,7 +40,6 @@ export const selectConversationContact = createSelector(
   (state: AppState) => state.ui.conversation.contactId,
   (state: AppState) => state.contacts,
   (contactId, contacts): MatchedContact => {
-    if (!contactId) return;
     return contacts.filter(
       c => c.matched && c.id === contactId,
     )[0] as MatchedContact;
@@ -66,16 +64,12 @@ export let conversationScreenSelector = createSelector(
   (state: AppState) => state.messages.total,
   selectConversation,
   (ui, user, contact, messages, totalMessages, conversation) => {
-    contact = contact || {
-      id: conversation.recipientId,
-      givenName: 'Unknown',
-      avatar: '#CCC',
-    };
-
     return {
       ...ui,
       user,
       contact,
+      recipientId: conversation.recipientId,
+      recipientName: conversation.recipientName,
       partnerIsComposing: conversation.partnerIsComposing,
       messages,
       totalMessages,
@@ -139,7 +133,7 @@ export const signupScreenSelector = createSelector(
   selectSignupData,
   selectSignupUIData,
   (signupData, signupUiData) => {
-    return merge(signupData, signupUiData);
+    return {...signupData, ...signupUiData};
   },
 );
 
@@ -150,6 +144,6 @@ export const confirmationCodeScreenSelector = createSelector(
   selectSignupData,
   selectConfirmationCodeUIData,
   (signupData, confirmationCodeUiData) => {
-    return merge(signupData, confirmationCodeUiData);
+    return {...signupData, ...confirmationCodeUiData};
   },
 );

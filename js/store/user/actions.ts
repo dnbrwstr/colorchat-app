@@ -64,20 +64,22 @@ export const createUpdateUserInfoBaseAction = (
   };
 };
 
-export const blockUser = (blockedUser: User): ThunkResult<void> => (
+export const blockUser = (blockedUserId: number): ThunkResult<void> => (
   dispatch,
   getState,
 ) => {
   const user = getState().user;
-  const operation = Api.blockUser(blockedUser.id, user.token);
-  const baseAction = createBlockUserBaseAction(blockedUser);
+  const operation = Api.blockUser(blockedUserId, user.token);
+  const baseAction = createBlockUserBaseAction(blockedUserId);
   dispatchAsyncActions<BlockUserAction>(baseAction, operation, dispatch);
 };
 
-export const createBlockUserBaseAction = (user: User): BlockUserBaseAction => {
+export const createBlockUserBaseAction = (
+  userId: number,
+): BlockUserBaseAction => {
   return {
     type: BLOCK_USER,
-    user,
+    userId,
   };
 };
 

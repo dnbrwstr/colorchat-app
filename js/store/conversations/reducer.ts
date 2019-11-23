@@ -19,6 +19,7 @@ import {
 } from '../messages/types';
 import {BlockUserAction, BLOCK_USER} from '../user/types';
 import {getReferenceDate} from '../../lib/MessageUtils';
+import {isUndefined} from '../../lib/Utils';
 
 const initialState: ConversationState = [];
 
@@ -112,6 +113,7 @@ const handlers: CaseHandlerMap<ConversationState> = {
     return createOrUpdateConversation(
       {
         recipientId: action.message.senderId,
+        recipientName: action.message.senderName,
         lastMessage: action.message,
         unread: !action.inCurrentConversation,
         partnerIsComposing: false,
@@ -141,8 +143,8 @@ const handlers: CaseHandlerMap<ConversationState> = {
   },
 
   [BLOCK_USER]: function(state, action: BlockUserAction) {
-    if (action.user.id) {
-      return removeConversation(action.user.id, state);
+    if (!isUndefined(action.userId)) {
+      return removeConversation(action.userId, state);
     } else {
       return state;
     }

@@ -22,6 +22,7 @@ import {Theme} from '../style/themes';
 import {Message, MessageType} from '../store/messages/types';
 import {connect} from 'react-redux';
 import {AppDispatch, AppState} from '../store/createStore';
+import {cameraColorToColor} from '../lib/Utils';
 
 const interval = 250;
 
@@ -29,13 +30,13 @@ interface CameraScreenProps {
   theme: Theme;
   styles: InjectedStyles<typeof getStyles>;
   screenFocusState: FocusState;
-  contactId: number | null;
+  contactId?: number;
   message?: Message;
   dispatch: AppDispatch;
 }
 
 interface CameraScreenState {
-  colors: CameraColor[];
+  colors?: CameraColor[];
   cameraVisible: boolean;
   cameraReady: boolean;
   displayMode: DisplayMode;
@@ -46,7 +47,7 @@ class CameraScreen extends Component<CameraScreenProps, CameraScreenState> {
   cameraOpacity = new Animated.Value(1);
 
   state: CameraScreenState = {
-    colors: [],
+    colors: undefined,
     cameraVisible: false,
     cameraReady: false,
     displayMode: 'grid',
@@ -136,15 +137,15 @@ class CameraScreen extends Component<CameraScreenProps, CameraScreenState> {
 
   handleSelectColor = (color: CameraColor) => {
     this.props.dispatch(navigateBack());
-    this.props.message &&
-      this.props.contactId !== null &&
+    if (this.props.message && this.props.contactId) {
       this.props.dispatch(
         updateWorkingMessage(this.props.message, {
           type: MessageType.Picture,
-          color: Color(color).hex(),
+          color: cameraColorToColor(color).hex(),
           recipientId: this.props.contactId,
         }),
       );
+    }
   };
 }
 
@@ -205,12 +206,14 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
   },
 }));
 
-const selector = (state: AppState) => ({
-  contactId: state.ui.conversation.contactId,
-  message: state.messages.working.find(m => {
-    return m.recipientId === state.ui.conversation.contactId;
-  }),
-});
+const selector = (state: AppState) => {
+  const contactId = state.ui.conversation?.contactId;
+  const message = contactId
+    ? state.messages.working.find(m => m.recipientId === contactId)
+    : undefined;
+
+  return {contactId, message};
+};
 
 const addStyles = withStyles(getStyles);
 const addProps = connect(selector);

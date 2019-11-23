@@ -1,25 +1,29 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {navigateTo} from '../store/navigation/actions';
 import {AppState} from '../store/createStore';
 
-const AuthCheckScreen = () => {
+const AuthCheckScreen: FC = () => {
   const isAuthenticated = useSelector((state: AppState) => {
     return state.user && state.user.token;
   });
 
   const dispatch = useDispatch();
 
+  const isLoaded = useSelector((state: AppState) => {
+    return state.load.complete;
+  });
+
   useEffect(() => {
-    setTimeout(() => {
-      if (isAuthenticated) {
-        dispatch(navigateTo('app'));
-      } else {
-        dispatch(navigateTo('auth'));
-      }
-    }, 10);
-  }, []);
+    if (!isLoaded) return;
+
+    if (isAuthenticated) {
+      dispatch(navigateTo('app'));
+    } else {
+      dispatch(navigateTo('auth'));
+    }
+  }, [isLoaded]);
 
   return <View style={styles.container} />;
 };

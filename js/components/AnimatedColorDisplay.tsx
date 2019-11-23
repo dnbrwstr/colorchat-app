@@ -1,7 +1,13 @@
 import React, {Component, ReactNode} from 'react';
 import {View, Animated, Easing} from 'react-native';
 import Color from 'color';
-import {makeArray, lerp, makeColorString, valSort, clamp} from '../lib/Utils';
+import {
+  makeArray,
+  lerp,
+  makeColorString,
+  valSort,
+  cameraColorToColor,
+} from '../lib/Utils';
 import {CameraColor} from '../lib/CameraTypes';
 import {DisplayMode} from './CameraDisplayModeMenu';
 
@@ -22,8 +28,8 @@ const getChange = (newColors?: CameraColor[], oldColors?: CameraColor[]) => {
 };
 
 const getSize = ({size}: {size: number}) => size;
-const getLum = (color: CameraColor) => Color(color).luminosity();
-const getSat = (color: CameraColor) => Color(color).saturationl();
+const getLum = (color: CameraColor) => cameraColorToColor(color).luminosity();
+const getSat = (color: CameraColor) => cameraColorToColor(color).saturationl();
 
 const sortFunctions: {
   [K in DisplayMode]: (a: CameraColor, b: CameraColor) => number;
@@ -55,14 +61,14 @@ interface AnimatedColorDisplayState {
   animatedColors: Animated.AnimatedInterpolation[];
   animatedAbsoluteSizes: Animated.AnimatedInterpolation[];
   animatedRelativeSizes: Animated.AnimatedInterpolation[];
-  sourceColors: CameraColor[];
+  sourceColors?: CameraColor[];
   lastColors: CameraColor[];
   colors: CameraColor[];
   changeAmount: number;
 }
 
 export interface AnimatedColorChildProps {
-  colors: CameraColor[];
+  colors?: CameraColor[];
   lastColors: CameraColor[];
   animationPosition: Animated.Value;
   animatedColors: Animated.AnimatedInterpolation[];
@@ -94,8 +100,12 @@ class AnimatedColorDisplay extends Component<
       size: 50,
     };
 
+    const startColors = makeArray(this.props.colorCount).map(
+      () => defaultSwatch,
+    );
+
     this.state = {
-      colors: makeArray(this.props.colorCount).map(() => defaultSwatch),
+      colors: startColors,
       lastColors: new Array(this.props.colorCount).fill(defaultSwatch),
       animationPosition: new Animated.Value(0),
       colorAnimation: null,
@@ -103,7 +113,7 @@ class AnimatedColorDisplay extends Component<
       animatedColors: [],
       animatedAbsoluteSizes: [],
       animatedRelativeSizes: [],
-      sourceColors: [],
+      sourceColors: undefined,
       changeAmount: 0,
     };
   }

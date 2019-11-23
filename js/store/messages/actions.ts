@@ -121,6 +121,7 @@ export let resendMessage = (message: Message): MessageAction => {
 export let toggleMessageExpansion = (
   message: FinishedMessage,
 ): MessageAction => {
+  console.log('Forreal message toggle');
   return {
     type: TOGGLE_MESSAGE_EXPANSION,
     message,

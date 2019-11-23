@@ -1,9 +1,9 @@
-import React, {FC, useState, useCallback, useMemo} from 'react';
+import React, {FC, useState, useCallback} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 import Style from '../style';
 import ConversationListItem from './ConversationListItem';
 import {Conversation} from '../store/conversations/types';
-import {MatchedContact, Contact} from '../store/contacts/types';
+import {Contact} from '../store/contacts/types';
 
 type ConversationWithContact = Conversation & {contact: Contact};
 

@@ -15,7 +15,7 @@ type PressableViewProps = PropsWithRef<
     onPressIn?: (e: GestureResponderEvent) => void;
     onPressOut?: (e: GestureResponderEvent) => void;
     activeStyle?: StyleProp<ViewStyle>;
-    ref?: Ref<TouchableWithoutFeedback>;
+    forwardRef?: Ref<TouchableWithoutFeedback>;
   }
 >;
 
@@ -43,10 +43,11 @@ const PressableViewFC: FC<PressableViewProps> = props => {
 
   return (
     <TouchableWithoutFeedback
-      ref={props.ref}
+      ref={props.forwardRef}
       onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
+      onLayout={props.onLayout}
     >
       <Animated.View {...rest} style={style} />
     </TouchableWithoutFeedback>

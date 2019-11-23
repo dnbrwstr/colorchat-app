@@ -3,13 +3,10 @@ import {View, PixelRatio, StyleProp, ViewStyle} from 'react-native';
 import Style from '../style';
 import PressableView from './PressableView';
 import BaseText from './BaseText';
-import withStyles, {
-  useStyles,
-  makeStyleCreator,
-  InjectedStyles,
-} from '../lib/withStyles';
-import {Contact, MatchedContact} from '../store/contacts/types';
+import {useStyles, makeStyleCreator} from '../lib/withStyles';
+import {Contact} from '../store/contacts/types';
 import {Theme} from '../style/themes';
+import {getContactName, isMatchedContact} from '../lib/ContactUtils';
 
 interface ContactListItemProps {
   contact: Contact;
@@ -29,14 +26,10 @@ const ContactListItem: FC<ContactListItemProps> = props => {
     !props.contact.matched && styles.inactiveContact,
   ];
 
-  const matchedContact: MatchedContact | null = props.contact.matched
-    ? (props.contact as MatchedContact)
-    : null;
-
   const avatarStyles: StyleProp<ViewStyle> = [
     styles.contactAvatar,
-    matchedContact && {
-      backgroundColor: matchedContact.avatar,
+    isMatchedContact(props.contact) && {
+      backgroundColor: props.contact.avatar,
     },
   ];
 
@@ -49,7 +42,7 @@ const ContactListItem: FC<ContactListItemProps> = props => {
       <View style={avatarStyles} />
       <View style={styles.contactText}>
         <BaseText numberOfLines={1} style={styles.name}>
-          {props.contact.givenName} {props.contact.familyName}
+          {getContactName(props.contact)}
         </BaseText>
         <BaseText style={styles.phoneNumber} numberOfLines={1}>
           {props.contact.phoneNumber}

@@ -7,15 +7,8 @@ import {AppState} from '../store/createStore';
 import {Optionalize} from '../lib/TypeUtils';
 
 const themeSelector = (state: AppState) => ({
-  theme: state.ui.theme,
+  theme: state.theme,
 });
-
-const useTheme = () => {
-  return useSelector((state: AppState) => {
-    console.log(state.ui.theme);
-    return state.ui.theme;
-  });
-};
 
 export type WithStylesProps<T extends (...args: any) => any> = {
   theme?: Theme;

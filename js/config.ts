@@ -42,7 +42,7 @@ const config: ConfigList = {
       // 'ui',
       'notifications',
       // "messages",
-      'theme',
+      // 'theme',
       'signup',
       // "user",
       // "contacts"

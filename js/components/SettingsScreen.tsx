@@ -12,7 +12,7 @@ import {
   logout,
   deleteAccount,
 } from '../store/user/actions';
-import {changeTheme} from '../store/ui/actions';
+import {changeTheme} from '../store/theme/actions';
 import withStyles, {InjectedStyles, makeStyleCreator} from '../lib/withStyles';
 import ProfileEditor from './ProfileEditor';
 import {ifIphoneX} from 'react-native-iphone-x-helper';

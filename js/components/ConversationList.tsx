@@ -1,9 +1,11 @@
 import React, {FC, useState, useCallback} from 'react';
-import {FlatList, ListRenderItemInfo} from 'react-native';
+import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native';
 import Style from '../style';
 import ConversationListItem from './ConversationListItem';
 import {Conversation} from '../store/conversations/types';
 import {Contact} from '../store/contacts/types';
+import {useStyles, makeStyleCreator} from '../lib/withStyles';
+import {Theme} from '../style/themes';
 
 type ConversationWithContact = Conversation & {contact: Contact};
 
@@ -55,6 +57,7 @@ const ConversationList: FC<ConversationListProps> = props => {
       removeClippedSubviews={true}
       data={props.conversations}
       renderItem={renderConversation}
+      ItemSeparatorComponent={MemoizedSeparator}
       keyExtractor={keyExtractor}
       getItemLayout={getItemLayout}
       initialNumToRender={12}
@@ -62,5 +65,21 @@ const ConversationList: FC<ConversationListProps> = props => {
     />
   );
 };
+
+const Separator = () => {
+  const {styles} = useStyles(getSeparatorStyles);
+  return <View style={styles.separator} />;
+};
+
+const MemoizedSeparator = React.memo(Separator);
+
+const getSeparatorStyles = makeStyleCreator((theme: Theme) => {
+  return {
+    separator: {
+      borderBottomColor: theme.secondaryBorderColor,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+    },
+  };
+});
 
 export default ConversationList;

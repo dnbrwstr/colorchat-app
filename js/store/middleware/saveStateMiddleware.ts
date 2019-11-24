@@ -11,7 +11,6 @@ const saveStateMiddleware = (store: MiddlewareAPI<Dispatch, AppState>) => (
 ) => {
   const load = async () => {
     const state = await loadState();
-    console.log(state.conversations);
     store.dispatch(loadComplete(state));
   };
 

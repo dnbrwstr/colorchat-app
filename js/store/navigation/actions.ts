@@ -9,6 +9,7 @@ import {
   NAVIGATE_BACK,
   NavigateToConversationAction,
 } from './types';
+import {Contact} from '../contacts/types';
 
 export let navigateTo = (
   a: string | {routeName: string; params?: any},
@@ -39,6 +40,7 @@ export let navigateBack = (): NavigateBackAction => {
 
 export const navigateToConversation = (
   contactId: number,
+  contact?: Contact,
 ): ThunkResult<Promise<void>> => async (dispatch, getState) => {
   const userId = getState().user.id;
   const {messages, total} = await DatabaseUtils.loadMessages({
@@ -52,15 +54,17 @@ export const navigateToConversation = (
   }
 
   setTimeout(() => {
-    dispatch(createNavigateToConversationAction(contactId));
+    dispatch(createNavigateToConversationAction(contactId, contact));
   }, 0);
 };
 
 export const createNavigateToConversationAction = (
   contactId: number,
+  contact?: Contact,
 ): NavigateToConversationAction => {
   return {
     type: 'navigateToConversation',
     contactId,
+    contact,
   };
 };

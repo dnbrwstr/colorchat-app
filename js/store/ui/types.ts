@@ -1,4 +1,3 @@
-import {Theme} from '../../style/themes';
 import {AppStateStatus} from 'react-native';
 import {NetInfoStateType} from '@react-native-community/netinfo';
 
@@ -40,14 +39,12 @@ export interface UiState {
   contacts: ContactsUiState;
   inbox: {};
   conversation?: ConversationUiState;
-  theme: Theme;
 }
 
 export const UPDATE_CONVERSATION_UI = 'updateConversationUi';
 export const CHANGE_APP_STATE = 'changeAppState';
 export const CHANGE_NETWORK = 'changeNetwork';
 export const TRIGGER_MEMORY_WARNING = 'triggerMemoryWarning';
-export const CHANGE_THEME = 'changeTheme';
 export const SOCKET_DISCONNECTED = 'socketDisconnected';
 export const AUTH_ERROR = 'authError';
 
@@ -67,11 +64,6 @@ export interface ChangeNetworkAction {
 
 export interface TriggerMemoryWarningAction {
   type: typeof TRIGGER_MEMORY_WARNING;
-}
-
-export interface ChangeThemeAction {
-  type: typeof CHANGE_THEME;
-  theme: Theme;
 }
 
 export interface SocketDisconnectedAction {

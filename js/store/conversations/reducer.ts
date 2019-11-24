@@ -20,6 +20,8 @@ import {
 import {BlockUserAction, BLOCK_USER} from '../user/types';
 import {getReferenceDate} from '../../lib/MessageUtils';
 import {isUndefined} from '../../lib/Utils';
+import {NavigateToConversationAction} from '../navigation/types';
+import {getContactName} from '../../lib/ContactUtils';
 
 const initialState: ConversationState = [];
 
@@ -85,15 +87,19 @@ const handlers: CaseHandlerMap<ConversationState> = {
     return startState.map(c => ({...c, partnerIsComposing: false}));
   },
 
-  navigateToConversation: function(state, action) {
-    return createOrUpdateConversation(
-      {
-        recipientId: action.contactId,
-        unread: false,
-        partnerIsComposing: false,
-      },
-      state,
-    );
+  navigateToConversation: function(
+    state,
+    action: NavigateToConversationAction,
+  ) {
+    const conversationProps = {
+      recipientId: action.contactId,
+      unread: false,
+      partnerIsComposing: false,
+      recipientName: undefined,
+    };
+    if (action.contact)
+      conversationProps.recipientName = getContactName(action.contact);
+    return createOrUpdateConversation(conversationProps, state);
   },
 
   [SEND_MESSAGES]: function(state, action: SendMessagesAction) {

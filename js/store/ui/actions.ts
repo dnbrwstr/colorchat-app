@@ -1,7 +1,6 @@
 import {AppStateStatus} from 'react-native';
 import {
   ConversationUiState,
-  CHANGE_THEME,
   TRIGGER_MEMORY_WARNING,
   CHANGE_NETWORK,
   CHANGE_APP_STATE,
@@ -10,14 +9,12 @@ import {
   ChangeAppStateAction,
   ChangeNetworkAction,
   TriggerMemoryWarningAction,
-  ChangeThemeAction,
   AuthErrorAction,
   AUTH_ERROR,
   SocketDisconnectedAction,
   SOCKET_DISCONNECTED,
 } from './types';
 import {NetInfoStateType} from '@react-native-community/netinfo';
-import {Theme} from '../../style/themes';
 
 export const updateConversationUi = (
   newData: Partial<ConversationUiState>,
@@ -49,13 +46,6 @@ export const changeNetwork = (
 export const triggerMemoryWarning = (): TriggerMemoryWarningAction => {
   return {
     type: TRIGGER_MEMORY_WARNING,
-  };
-};
-
-export const changeTheme = (newTheme: Theme): ChangeThemeAction => {
-  return {
-    type: CHANGE_THEME,
-    theme: newTheme,
   };
 };
 

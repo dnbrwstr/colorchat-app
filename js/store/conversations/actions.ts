@@ -15,6 +15,7 @@ import {
   ResetComposeEventsAction,
 } from './types';
 import {ThunkResult} from '../createStore';
+import {Contact} from '../contacts/types';
 
 const COMPOSE_EVENT_TIMEOUT = 5000;
 

@@ -24,6 +24,7 @@ import {ConversationActionTypes} from './conversations/types';
 import {ContactsActionTypes} from './contacts/types';
 import appStateMiddleware from './middleware/appStateMiddleware';
 import socketMiddleware from './middleware/socketMiddleware';
+import {ThemeAction} from './theme/types';
 
 const middleware = [
   thunkMiddleware as ThunkMiddleware<AppState, AnyAction>,
@@ -51,7 +52,8 @@ export type AppActionTypes =
   | LoadActionTypes
   | ConversationActionTypes
   | ContactsActionTypes
-  | StoreActionTypes;
+  | StoreActionTypes
+  | ThemeAction;
 
 export const createStoreReadyAction = () => ({
   type: STORE_READY,

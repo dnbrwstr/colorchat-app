@@ -1,16 +1,31 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, StyleProp, TextStyle, ViewStyle} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+  Text,
+  Animated,
+} from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import InteractiveView from './InteractiveView';
 import BaseText from './BaseText';
 import {shortHumanDate, formatName} from '../lib/Utils';
 import {getTimestamp} from '../lib/MessageUtils';
-import withStyles, {makeStyleCreator, InjectedStyles} from '../lib/withStyles';
+import withStyles, {
+  makeStyleCreator,
+  InjectedStyles,
+  WithStylesProps,
+} from '../lib/withStyles';
 import {Theme} from '../style/themes';
 import {Conversation} from '../store/conversations/types';
 import {MatchedContact, Contact} from '../store/contacts/types';
 import {getContactName, getContactAvatar} from '../lib/ContactUtils';
+import {RectButton} from 'react-native-gesture-handler';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import SwipeableDelete from './SwipeableDelete';
 
 const DEFAULT_BG_COLOR = '#EFEFEF';
 
@@ -21,6 +36,7 @@ interface ConversationListItemProps extends Conversation {
   onInteractionEnd: () => void;
   onDelete: () => void;
   styles: InjectedStyles<typeof getStyles>;
+  theme: Theme;
 }
 
 class ConversationListItem extends Component<ConversationListItemProps> {
@@ -29,6 +45,10 @@ class ConversationListItem extends Component<ConversationListItemProps> {
     onInteractionStart: () => {},
     onInteractionEnd: () => {},
     onDelete: () => {},
+  };
+
+  state = {
+    highlighted: false,
   };
 
   componentDidMount() {
@@ -72,28 +92,23 @@ class ConversationListItem extends Component<ConversationListItemProps> {
       },
     ] as any) as StyleProp<ViewStyle>;
 
-    const activeStyles = [styles.itemActive];
     const name = getContactName(this.props.contact, this.props.recipientName);
 
     return (
-      <View style={styles.container}>
-        <InteractiveView
-          style={styles.item}
-          swipeEnabled={true}
-          deleteEnabled={true}
-          activeStyle={activeStyles}
+      <SwipeableDelete onPressDelete={this.props.onDelete}>
+        <RectButton
+          style={[styles.item, this.state.highlighted && styles.itemActive]}
+          onActiveStateChange={this.handleActiveStateChange}
           onPress={this.props.onPress}
-          onInteractionStart={this.props.onInteractionStart}
-          onInteractionEnd={this.props.onInteractionEnd}
-          onDelete={this.props.onDelete}
+          activeOpacity={0}
         >
           <View style={styles.user}>
             <View style={avatarStyles} />
             <BaseText style={textStyles}>{name}</BaseText>
           </View>
           {this.props.lastMessage && this.renderLastMessage()}
-        </InteractiveView>
-      </View>
+        </RectButton>
+      </SwipeableDelete>
     );
   }
 
@@ -118,13 +133,19 @@ class ConversationListItem extends Component<ConversationListItemProps> {
       </View>
     );
   }
+
+  handleActiveStateChange = (active: boolean) => {
+    this.setState({
+      highlighted: active,
+    });
+  };
 }
 
 const {rowHeight, avatarSize} = Style.values;
 
 const getStyles = makeStyleCreator((theme: Theme) => ({
   container: {
-    backgroundColor: 'red',
+    flex: 1,
   },
   item: {
     backgroundColor: theme.backgroundColor,
@@ -134,8 +155,6 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    borderBottomColor: theme.secondaryBorderColor,
-    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   itemActive: {
     backgroundColor: theme.highlightColor,

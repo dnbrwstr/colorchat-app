@@ -46,8 +46,7 @@ target 'ColorChat' do
   
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
-  target 'ColorChatTests' do
-    inherit! :search_paths
-  end
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
 end
 

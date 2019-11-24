@@ -6,6 +6,7 @@ import notifications from './notifications/reducer';
 import signup from './signup/reducer';
 import ui from './ui/reducer';
 import user from './user/reducer';
+import theme from './theme/reducer';
 
 export const reducers = {
   contacts,
@@ -16,4 +17,5 @@ export const reducers = {
   signup,
   ui,
   user,
+  theme,
 };

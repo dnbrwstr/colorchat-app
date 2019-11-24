@@ -3,11 +3,9 @@ import Style from '../../style';
 import {
   UiState,
   CHANGE_APP_STATE,
-  CHANGE_THEME,
   CHANGE_NETWORK,
   UPDATE_CONVERSATION_UI,
   UpdateConversationUiAction,
-  ChangeThemeAction,
   ChangeAppStateAction,
   ChangeNetworkAction,
 } from './types';
@@ -54,7 +52,6 @@ const initialState: UiState = {
   },
   inbox: {},
   conversation: undefined,
-  theme: Style.themes.cream,
 };
 
 const getSignupScreenTransformation = <A extends SimpleAsyncAction>(
@@ -197,10 +194,6 @@ const handlers: CaseHandlerMap<UiState> = {
         cancelling: true,
       },
     };
-  },
-
-  [CHANGE_THEME]: function(state, action: ChangeThemeAction) {
-    return {...state, theme: action.theme};
   },
 
   [CHANGE_APP_STATE]: function(state, action: ChangeAppStateAction) {

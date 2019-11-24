@@ -109,7 +109,7 @@ class ContactsScreen extends React.Component<ContactsScreenProps> {
 
   handleContactSelected = (contact: Contact) => {
     if (contact.matched) {
-      this.props.dispatch(navigateToConversation(contact.id));
+      this.props.dispatch(navigateToConversation(contact.id, contact));
     } else {
       this.props.dispatch(sendInvite(contact));
     }

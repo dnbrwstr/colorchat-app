@@ -155,6 +155,8 @@ PODS:
     - React
   - RNGestureHandler (1.5.0):
     - React
+  - RNReanimated (1.4.0):
+    - React
   - RNScreens (1.0.0-alpha.23):
     - React
   - RNSVG (9.2.4):
@@ -192,6 +194,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - STColorCamera (from `../../react-native-color-camera`)
@@ -264,6 +267,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -311,11 +316,12 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 9436928b444c5f5361960a7eea051a697c244b68
   RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
+  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSVG: 6fec2b50e65b4a01ba54155e8e546e0a1eeb16f4
   STColorCamera: 97df13579a3781295e8a4dc11bb18eca618bbeac
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: b6c11d1a5c5c53e024b920bdfd1c7d26af2f9da7
+PODFILE CHECKSUM: 527b04f8851ba90cd1650046495816b9ca23537e
 
 COCOAPODS: 1.8.4

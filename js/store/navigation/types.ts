@@ -1,3 +1,5 @@
+import {Contact} from '../contacts/types';
+
 export const NAVIGATE_TO = 'navigateTo';
 export const NAVIGATE_BACK = 'navigateBack';
 export const NAVIGATE_TO_CONVERSATION = 'navigateToConversation';
@@ -17,4 +19,5 @@ export interface NavigateBackAction {
 export interface NavigateToConversationAction {
   type: typeof NAVIGATE_TO_CONVERSATION;
   contactId: number;
+  contact?: Contact;
 }

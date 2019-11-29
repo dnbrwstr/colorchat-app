@@ -1,4 +1,4 @@
-import React, {ReactNode, FC} from 'react';
+import React, {ReactNode, FC, useState, useCallback} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Style from '../style';
 import PressableView from './PressableView';
@@ -6,19 +6,39 @@ import {makeStyleCreator, useStyles} from '../lib/withStyles';
 import Text from './BaseText';
 import {Theme} from '../style/themes';
 import {isUndefined} from '../lib/Utils';
+import {useFocusEffect} from 'react-navigation-hooks';
+import {useDispatch} from 'react-redux';
+import {navigateBack} from '../store/navigation/actions';
+import {isExpanded} from '../lib/MessageUtils';
 
 interface HeaderProps {
+  hideBackButton?: boolean;
   showBorder?: boolean;
-  title?: string;
   onPressBack?: () => void;
   onPressSettings?: () => void;
   renderTitle?: () => ReactNode;
   renderSettingsButton?: () => ReactNode;
 }
 
+const useBack = (cb?: () => void) => {
+  const dispatch = useDispatch();
+  const [canNavigateBack, setCanNavigateBack] = useState(false);
+
+  useFocusEffect(() => {
+    setCanNavigateBack(true);
+  });
+
+  return useCallback(() => {
+    if (!canNavigateBack) return;
+    dispatch(navigateBack());
+    cb && cb();
+    setCanNavigateBack(false);
+  }, [canNavigateBack, cb]);
+};
+
 const Header: FC<HeaderProps> = props => {
   const {styles} = useStyles(getStyles);
-
+  const goBack = useBack(props.onPressBack);
   const showBorder = isUndefined(props.showBorder) ? true : props.showBorder;
   const barStyles = [styles.bar, showBorder && styles.borderBar];
 
@@ -27,9 +47,9 @@ const Header: FC<HeaderProps> = props => {
       <View style={styles.background} />
 
       <View style={styles.buttonContainer}>
-        {props.onPressBack && (
+        {!props.hideBackButton && (
           <PressableView
-            onPress={props.onPressBack}
+            onPress={goBack}
             style={styles.button}
             activeStyle={[styles.buttonActive]}
           >
@@ -42,7 +62,7 @@ const Header: FC<HeaderProps> = props => {
         {props.renderTitle ? (
           props.renderTitle()
         ) : (
-          <Text style={styles.titleText}>{props.title}</Text>
+          <Text style={styles.titleText}>{props.children}</Text>
         )}
       </View>
 

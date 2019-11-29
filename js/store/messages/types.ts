@@ -1,5 +1,6 @@
 import {AsyncAction} from '../../lib/AsyncAction';
 
+// This is what actually comes in over the wire
 export interface RawMessageData {
   id: string;
   createdAt: string;
@@ -11,6 +12,7 @@ export interface RawMessageData {
   colorName: string;
   relativeWidth: number;
   relativeHeight: number;
+  echoType?: 'partner' | 'self';
 }
 
 export type ConvertedMessageData = RawMessageData & {
@@ -18,37 +20,39 @@ export type ConvertedMessageData = RawMessageData & {
   height: number;
 };
 
-export interface PendingMessage {
+export interface BaseMessage {
+  type: MessageType;
+  color: string;
+  width: number;
+  height: number;
+  recipientId: number;
+  echoType?: 'partner' | 'self';
+}
+
+export interface LocalMessage extends BaseMessage {
   clientId: string;
   clientTimestamp: string;
-  state: 'enqueued';
+}
+
+export interface PendingMessage extends LocalMessage {
+  state: 'enqueued' | 'sending';
+}
+
+export interface WorkingMessage extends LocalMessage {
+  state: 'working' | 'cancelling';
+}
+
+export interface FinishedMessage extends BaseMessage {
+  id: string;
+  createdAt: string;
   senderId: number;
-  recipientId: number;
-  type: MessageType;
-  color: string;
-  width: number;
-  height: number;
-}
-
-export interface WorkingMessage {
-  clientId: string;
-  clientTimestamp: string;
-  state: 'working' | 'cancelling' | 'sending';
-  recipientId: number;
-  color: string;
-  width: number;
-  height: number;
-  type: MessageType;
-  expanded: boolean;
-}
-
-export type FinishedMessage = RawMessageData & {
+  senderName?: string;
+  senderAvatar?: string;
+  colorName: string;
   state: 'static' | 'fresh' | 'complete' | 'failed';
-  width: number;
-  height: number;
   animateEntry?: boolean;
   expanded: boolean;
-};
+}
 
 export type Message = PendingMessage | WorkingMessage | FinishedMessage;
 
@@ -65,6 +69,7 @@ export type MessageSendState = 'static' | 'working' | 'enqueued' | 'sending';
 export enum MessageType {
   Default = 'default',
   Picture = 'picture',
+  Echo = 'echo',
 }
 
 export const START_COMPOSING_MESSAGE = 'startComposingMessage';
@@ -95,7 +100,7 @@ export interface ReceiveMessageAction {
 
 export interface StartComposingMessageAction {
   type: typeof START_COMPOSING_MESSAGE;
-  message: Partial<WorkingMessage>;
+  message: Partial<WorkingMessage> & {recipientId: number};
 }
 
 export interface CancelComposingMessageAction {
@@ -158,6 +163,7 @@ export interface ResendMessageAction {
 export interface ToggleMessageExpansionAction {
   type: typeof TOGGLE_MESSAGE_EXPANSION;
   message: FinishedMessage;
+  expanded?: boolean;
 }
 
 export interface ResetMessagesAction {

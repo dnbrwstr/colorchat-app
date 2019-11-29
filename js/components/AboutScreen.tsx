@@ -8,12 +8,9 @@ import {navigateBack} from '../store/navigation/actions';
 
 const AboutScreen: FC = () => {
   const dispatch = useDispatch();
-  const handleNavigateBack = () => {
-    dispatch(navigateBack());
-  };
 
   return (
-    <TextScreen title="About" onNavigateBack={handleNavigateBack}>
+    <TextScreen title="About">
       <BaseText>
         Color Chat is a color-based messaging application, built by Dan Brewster
         under the auspices of{' '}

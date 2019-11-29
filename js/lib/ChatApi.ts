@@ -132,6 +132,7 @@ export const loadBlockedUsers = (
 ): Promise<ApiBlockedUsersResponse> => {
   const token = ensureToken(authToken);
   const url = config.serverRoot + '/' + endpoints.blockedUsers;
+  console.log('loading blocked users from', url);
   const getRequest = () => getAuthenticated(url, token);
   return send<ApiBlockedUsersResponse>(getRequest);
 };

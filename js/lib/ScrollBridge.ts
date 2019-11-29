@@ -1,8 +1,4 @@
-import {
-  ScrollResponderEvent,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from 'react-native';
+import {NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
 
 /**
  * Cuts out the middleman when relaying ScrollView events

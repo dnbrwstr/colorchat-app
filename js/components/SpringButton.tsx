@@ -9,10 +9,22 @@ export interface SpringButtonProps {
   onPress: () => void;
 }
 
-class SpringButton extends Component<SpringButtonProps> {
+export interface SpringButtonState {
+  shouldRender: boolean;
+}
+
+class SpringButton extends Component<SpringButtonProps, SpringButtonState> {
   static defaultProps = {
     visible: true,
   };
+
+  constructor(props: SpringButtonProps) {
+    super(props);
+
+    this.state = {
+      shouldRender: !!props.visible,
+    };
+  }
 
   animatedOpacity = new Animated.Value(this.props.visible ? 1 : 0);
   opacityAnimation?: Animated.CompositeAnimation;
@@ -25,7 +37,14 @@ class SpringButton extends Component<SpringButtonProps> {
         toValue: nextOpacity,
         duration: 200,
       });
-      this.opacityAnimation.start();
+      if (nextOpacity === 1) {
+        this.setState({shouldRender: true});
+      }
+      this.opacityAnimation.start(({finished}) => {
+        if (finished && nextOpacity === 0) {
+          this.setState({shouldRender: false});
+        }
+      });
     }
   }
 
@@ -34,17 +53,21 @@ class SpringButton extends Component<SpringButtonProps> {
       opacity: this.animatedOpacity,
     };
 
-    return (
+    return this.state.shouldRender ? (
       <Animated.View style={[this.props.style, opacityStyle]}>
         <PressableBlob
           style={[styles.content, this.props.contentStyle]}
-          onPress={this.props.onPress}
+          onPress={this.handlePress}
         >
           {this.props.children}
         </PressableBlob>
       </Animated.View>
-    );
+    ) : null;
   }
+
+  handlePress = () => {
+    this.props.visible && this.props.onPress && this.props.onPress();
+  };
 }
 
 const styles = StyleSheet.create({

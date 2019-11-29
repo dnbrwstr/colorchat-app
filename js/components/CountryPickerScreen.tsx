@@ -50,10 +50,6 @@ const CountryPickerScreen: FC<{}> = props => {
     dispatch(navigateTo('signup'));
   }, []);
 
-  const handlePressBack = useCallback(() => {
-    dispatch(navigateTo('signup'));
-  }, []);
-
   const renderCountry = (data: ListRenderItemInfo<CountryListItemData>) => {
     return (
       <MemoizedCountryPickerCountry {...data} onSelect={handleSelection} />
@@ -62,7 +58,7 @@ const CountryPickerScreen: FC<{}> = props => {
 
   return (
     <View style={styles.container}>
-      <Header title="Select a country" onPressBack={handlePressBack} />
+      <Header>Select a country</Header>
       <SectionList
         initialNumToRender={16}
         maxToRenderPerBatch={16}

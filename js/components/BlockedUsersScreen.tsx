@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppState} from '../store/createStore';
 import {Theme} from '../style/themes';
 import {User} from '../store/user/types';
+import {withScreenFocusStateProvider} from './ScreenFocusState';
 
 const getItemKey = (item: User, index: number) => {
   if (item.id) {
@@ -34,21 +35,24 @@ const useBlockedUsers = () => {
 const BlockedUsersScreen: FC<{}> = () => {
   const dispatch = useDispatch();
   const blockedUsers = useBlockedUsers();
-  const handlePressBack = useBack();
   const {styles} = useStyles(getStyles);
 
   // Load blocked users on mount
   useEffect(() => {
     dispatch(loadBlockedUsers());
-  });
+  }, []);
+
+  const renderListItem = useCallback(({item}) => {
+    return <BlockedUserListItem item={item} />;
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Header title="Blocked" onPressBack={handlePressBack} />
+      <Header>Blocked</Header>
       <FlatList
         style={styles.blockedUserList}
         data={blockedUsers}
-        renderItem={BlockedUserListItem}
+        renderItem={renderListItem}
         keyExtractor={getItemKey}
         ListEmptyComponent={BlockedUsersEmptyState}
       />
@@ -76,7 +80,7 @@ const BlockedUserListItem: FC<ListRenderItemInfo<User>> = ({item}) => {
       '',
       [
         {text: 'Cancel', onPress: () => {}},
-        {text: 'Unblock', onPress: () => dispatch(unblockUser(item.id))},
+        {text: 'Unblock', onPress: () => dispatch(unblockUser(item))},
       ],
       {cancelable: false},
     );
@@ -134,4 +138,4 @@ const getBlockedUserListItemStyles = makeStyleCreator((theme: Theme) => ({
   },
 }));
 
-export default BlockedUsersScreen;
+export default withScreenFocusStateProvider(BlockedUsersScreen);

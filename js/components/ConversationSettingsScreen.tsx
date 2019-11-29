@@ -2,22 +2,21 @@ import React, {Component, FC, useCallback, useMemo} from 'react';
 import {View, Alert} from 'react-native';
 import {conversationScreenSelector} from '../store/Selectors';
 import Header from './Header';
-import {navigateBack} from '../store/navigation/actions';
 import Text from './BaseText';
 import {useStyles, makeStyleCreator} from '../lib/withStyles';
 import RowButtonGroup from './RowButtonGroup';
 import {blockUser} from '../store/user/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import {Contact, MatchedContact} from '../store/contacts/types';
 import {Theme} from '../style/themes';
 import {getContactAvatar, getContactName} from '../lib/ContactUtils';
+import {useStaticData} from '../lib/HookUtils';
 
 interface ConversationSettingsScreenProps {}
 
 const ConversationSettingsScreen: FC<ConversationSettingsScreenProps> = props => {
   const dispatch = useDispatch();
   const {styles, theme} = useStyles(getStyles);
-  const {contact, recipientId, recipientName} = useSelector(
+  const {contact, recipientId, recipientName, recipientAvatar} = useSelector(
     conversationScreenSelector,
   );
 
@@ -33,28 +32,28 @@ const ConversationSettingsScreen: FC<ConversationSettingsScreenProps> = props =>
     );
   }, [recipientId]);
 
-  const buttons = useMemo(
-    () => [
+  const buttons = useStaticData(
+    [
       {
         label: 'Block User',
         action: handlePressBlockUser,
       },
     ],
-    [],
+    [handlePressBlockUser],
   );
 
   const avatarStyles = [
     styles.avatar,
-    {backgroundColor: getContactAvatar(contact, theme)},
+    {backgroundColor: getContactAvatar(contact, recipientAvatar, theme)},
   ];
 
   return (
     <View style={styles.container}>
-      <Header title="Settings" onPressBack={() => dispatch(navigateBack())} />
+      <Header>Settings</Header>
 
       <View style={styles.topContainer}>
         <View style={avatarStyles} />
-        <Text>{getContactName(contact, recipientName)}</Text>
+        <Text>{recipientName}</Text>
       </View>
 
       <RowButtonGroup style={styles.actionButtons} buttons={buttons} />

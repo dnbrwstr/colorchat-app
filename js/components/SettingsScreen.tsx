@@ -92,7 +92,7 @@ class SettingsScreen extends React.Component<
 
     return (
       <View style={styles.container}>
-        <Header title="Settings" onPressBack={this.handleBack} />
+        <Header onPressBack={this.handleBack}>Settings</Header>
         <ScrollView scrollEnabled={!this.state.scrollLocked}>
           <View style={styles.content}>
             <View style={styles.formContainer}>
@@ -174,7 +174,6 @@ class SettingsScreen extends React.Component<
 
   handleBack = () => {
     this.maybeUpdateUser();
-    this.props.dispatch(navigateBack());
   };
 
   handleAboutPress = () => {

@@ -4,17 +4,12 @@ import Style from '../style';
 import TextScreen from './TextScreen';
 import TextLink from './TextLink';
 import BaseText from './BaseText';
-import {navigateBack} from '../store/navigation/actions';
 
 const ContactsInfoScreen: FC<{}> = () => {
   const dispatch = useDispatch();
 
-  const handleNavigateBack = useCallback(() => {
-    dispatch(navigateBack());
-  }, []);
-
   return (
-    <TextScreen title="Contacts usage" onNavigateBack={handleNavigateBack}>
+    <TextScreen title="Contacts usage">
       <BaseText>
         Color Chat uses your contacts to show you which of your friends are
         already using ColorChat{'\n\n'}

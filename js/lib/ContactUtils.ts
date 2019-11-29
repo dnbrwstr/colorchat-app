@@ -69,9 +69,15 @@ export const getContactName = (contact?: Contact, fallback?: string) => {
   }
 };
 
-export const getContactAvatar = (contact?: Contact, theme?: Theme) => {
+export const getContactAvatar = (
+  contact?: Contact,
+  fallback?: string,
+  theme?: Theme,
+) => {
   if (contact && isMatchedContact(contact)) {
     return contact.avatar;
+  } else if (fallback) {
+    return fallback;
   } else if (theme) {
     return theme.defaultAvatarColor;
   } else {

@@ -9,6 +9,7 @@ import {
   ConvertedMessageData,
 } from '../store/messages/types';
 import {User} from '../store/user/types';
+import {StoredMessage} from './DatabaseManager';
 
 export const getReferenceDate = (message: Message) => {
   return new Date(getTimestamp(message));
@@ -50,7 +51,6 @@ export const createMessage = (
     state: 'working',
     clientId: generateId(),
     clientTimestamp: new Date().toJSON(),
-    expanded: false,
     color: '#CCC',
     width: 240,
     height: 150,
@@ -59,7 +59,7 @@ export const createMessage = (
   };
 };
 
-export const createSeedMessage = (): FinishedMessage => {
+export const createSeedMessage = (): StoredMessage => {
   const senderId = Math.floor(Math.random() * 2) + 1;
   const recipientId = senderId === 1 ? 2 : 1;
   const size = Dimensions.get('window');
@@ -71,13 +71,10 @@ export const createSeedMessage = (): FinishedMessage => {
     createdAt: new Date().toJSON(),
     senderId: senderId,
     recipientId: recipientId,
-    relativeWidth,
-    relativeHeight,
     width: relativeWidth * size.width,
     height: relativeHeight * size.height,
     color: `hsl(${rand(360)}, 75%, ${rand(100)}%)`,
     colorName: 'Fake Color',
-    expanded: false,
     type: MessageType.Default,
   };
 };
@@ -100,8 +97,8 @@ export const convertFromRelativeSize = (
   const height = Dimensions.get('window').width * relativeHeight;
   return {
     ...message,
-    width,
-    height,
+    width: Math.round(width),
+    height: Math.round(height),
   };
 };
 

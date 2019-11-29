@@ -8,12 +8,14 @@ import {
   SEND_MESSAGES,
   SendMessagesAction,
   SendMessagesBaseAction,
+  FinishedMessage,
 } from '../messages/types';
 import {ComposeEventData} from '../conversations/types';
 import {ThunkDispatch} from 'redux-thunk';
 import {authError, socketDisconnected} from '../ui/actions';
 import {dispatchAsyncActions} from '../../lib/AsyncAction';
 import MessageClient, {MessageEvent} from '../../lib/MessageClient';
+import DatabaseManager from '../../lib/DatabaseManager';
 
 const COMPOSE_EVENT_INTERVAL = 1500;
 
@@ -29,6 +31,18 @@ const selector = (state: StoreState): SocketMiddlewareState => {
     composingMessages: state.messages.working,
     token: state.user.token,
   };
+};
+
+const sendMessages = async (client: MessageClient, messages: Message[]) => {
+  const result = await client.sendMessages(messages);
+  result.forEach((message, i) => {
+    DatabaseManager.storeMessage({
+      ...messages[i],
+      ...message,
+      state: 'complete',
+    });
+  });
+  return result;
 };
 
 const socketMiddleware = (
@@ -60,7 +74,7 @@ const socketMiddleware = (
   const sendEnqueuedMessages = () => {
     const messages = state.enqueuedMessages;
     if (!messages.length) return;
-    const operation = client.sendMessages(messages);
+    const operation = sendMessages(client, messages);
     const baseAction: SendMessagesBaseAction = {
       type: SEND_MESSAGES,
       messages,
@@ -82,8 +96,10 @@ const socketMiddleware = (
   return (next: Dispatch) => (action: AnyAction) => {
     const result = next(action);
     state = selector(store.getState());
-    client.setToken(state.token);
-    if (client.isConnected()) sendEnqueuedMessages();
+    setTimeout(() => {
+      client.setToken(state.token);
+      if (client.isConnected()) sendEnqueuedMessages();
+    }, 0);
     return result;
   };
 };

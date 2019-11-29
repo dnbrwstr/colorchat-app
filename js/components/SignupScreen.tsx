@@ -18,6 +18,7 @@ interface SignupScreenProps {
   theme: Theme;
   styles: InjectedStyles<typeof getStyles>;
   scrollEnabled?: boolean;
+  hideBackButton: boolean;
   renderNextButton: () => ReactNode;
   onNavigateBack?: () => void;
 }
@@ -63,10 +64,12 @@ class SignupScreen extends Component<SignupScreenProps, SignupScreenState> {
         >
           <View style={styles.content}>
             <Header
-              title={props.title}
               onPressBack={props.onNavigateBack}
               showBorder={false}
-            />
+              hideBackButton={props.hideBackButton}
+            >
+              {props.title}
+            </Header>
 
             <View style={styles.screenContent}>
               <View style={styles.screenContentInner}>{props.children}</View>

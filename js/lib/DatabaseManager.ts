@@ -23,6 +23,19 @@ interface Migration {
   run: (db: SQLite.SQLiteDatabase) => void;
 }
 
+export interface StoredMessage {
+  id: string;
+  senderId: number;
+  recipientId: number;
+  createdAt: string;
+  color: string;
+  width: number;
+  height: number;
+  state: string;
+  colorName: string;
+  type: string;
+}
+
 const ChatMessageSchema = {
   name: 'ChatMessages',
   primaryKey: 'id',
@@ -177,7 +190,7 @@ const DatabaseManager = {
     };
   },
 
-  async storeMessage(message: FinishedMessage) {
+  async storeMessage(message: StoredMessage) {
     const props = ChatMessageSchema.properties;
     const messageKeys = Object.keys(
       props,

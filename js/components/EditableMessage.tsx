@@ -18,7 +18,7 @@ import {constrain} from '../lib/Utils';
 import {withScreenFocusState, FocusState} from './ScreenFocusState';
 import {getFocusStateChange} from '../lib/NavigationUtils';
 import {AppDispatch, AppState} from '../store/createStore';
-import {Message} from '../store/messages/types';
+import {Message, MessageType} from '../store/messages/types';
 
 const MIN_MESSAGE_HEIGHT = 50;
 const MAX_MESSAGE_HEIGHT = 400;
@@ -282,6 +282,7 @@ class EditableMessage extends React.Component<
     this.props.dispatch(
       updateWorkingMessage(this.props.message, {
         color: color,
+        type: MessageType.Default,
       }),
     );
   };
@@ -293,15 +294,15 @@ let style = Style.create({
     overflow: 'hidden',
   },
   photoMessage: {
-    borderTopLeftRadius: 1000,
-    borderBottomLeftRadius: 1000,
+    // borderTopLeftRadius: 1000,
+    // borderBottomLeftRadius: 1000,
   },
 });
 
 let selectData = (state: AppState) => {
   return {
     messageCount: state.messages.total,
-    composing: state.ui.conversation.composing,
+    composing: !!state.ui.conversation?.composing,
   };
 };
 

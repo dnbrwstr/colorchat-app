@@ -8,7 +8,6 @@ import {Theme} from '../style/themes';
 
 interface TextScreenProps {
   title: string;
-  onNavigateBack: () => void;
   children?: ReactNode;
 }
 
@@ -17,11 +16,7 @@ const TextScreen: FC<TextScreenProps> = props => {
 
   return (
     <View style={styles.container}>
-      <Header
-        title={props.title}
-        onPressBack={props.onNavigateBack}
-        showBorder={false}
-      />
+      <Header showBorder={false}>{props.title}</Header>
       <View style={styles.content}>
         <BaseText style={styles.text}>{props.children}</BaseText>
       </View>

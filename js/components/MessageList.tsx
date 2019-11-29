@@ -25,7 +25,10 @@ interface MessageListProps {
   user: User;
   scrollLocked: boolean;
   scrollBridge: ScrollBridge;
-  onToggleMessageExpansion: (message: FinishedMessage) => void;
+  messageExpanded: boolean;
+  onMessageEchoed: (message: FinishedMessage) => void;
+  onMessageExpanded: (message: FinishedMessage) => void;
+  onMessageCollapsed: (message: FinishedMessage) => void;
   onRetryMessageSend: (message: MessageData) => void;
   onBeginningReached: () => void;
   onEndReached: () => void;
@@ -46,6 +49,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   ) {
     return (
       this.props.messages !== nextProps.messages ||
+      this.props.messageExpanded !== nextProps.messageExpanded ||
       this.props.scrollLocked !== nextProps.scrollLocked ||
       this.props.user.id !== nextProps.user.id
     );
@@ -92,11 +96,16 @@ class MessageList extends Component<MessageListProps, MessageListState> {
       this.handleScroll(e);
     };
 
+    const scrollEnabled = this.props.messageExpanded
+      ? false
+      : !this.props.scrollLocked;
+
     return (
       <ScrollView
         {...props}
         onScroll={onScroll}
-        scrollEnabled={!this.props.scrollLocked}
+        contentContainerStyle={style.scrollView}
+        scrollEnabled={scrollEnabled}
       />
     );
   };
@@ -104,11 +113,12 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   renderMessage = ({item}: ListRenderItemInfo<MessageData>) => {
     return (
       <Message
-        onToggleExpansion={this.handleToggleMessageExpansion}
+        onExpand={this.handleMessageExpanded}
+        onCollapse={this.handleMessageCollapsed}
         onRetrySend={this.handleRetryMessageSend}
+        onPressEcho={this.handleMessageEchoed}
         fromCurrentUser={isFromUser(this.props.user, item)}
         message={item}
-        {...item}
       />
     );
   };
@@ -127,37 +137,36 @@ class MessageList extends Component<MessageListProps, MessageListState> {
     if (this.props.scrollBridge) this.props.scrollBridge.handleScroll(e);
   };
 
-  handleToggleMessageExpansion = async (
+  handleMessageExpanded = async (
     message: MessageData,
     position: NodeMeasurement,
     nextSize: {width: number; height: number},
   ) => {
-    // Don't expand message if scroll is locked
-    if (this.props.scrollLocked) return;
+    if (this.props.scrollLocked || this.props.messageExpanded) return;
 
-    this.props.onToggleMessageExpansion(message as FinishedMessage);
-
-    // Return if the message is closing
-    if (isExpanded(message)) return;
+    this.props.onMessageExpanded(message);
 
     // Note that top and bottom are flipped here
     // as we're using an InvertibleScrollView
     let nextTop = position.top + position.height - nextSize.height;
     let nextOffset = nextTop - Style.values.rowHeight - getStatusBarHeight();
 
-    if (nextOffset < 0) {
-      // TODO: Handle case where because message has not
-      // yet expanded there isn't any space to scroll up to
-      setTimeout(() => {
-        this.listRef.current?.scrollToOffset({
-          offset: this.state.scrollOffset - nextOffset,
-        });
-      }, 100);
-    }
+    this.listRef.current?.scrollToOffset({
+      offset: this.state.scrollOffset - nextOffset,
+    });
+  };
+
+  handleMessageCollapsed = (message: MessageData) => {
+    if (this.props.scrollLocked) return;
+    this.props.onMessageCollapsed(message);
   };
 
   handleRetryMessageSend = (message: MessageData) => {
     this.props.onRetryMessageSend(message);
+  };
+
+  handleMessageEchoed = (message: MessageData) => {
+    this.props.onMessageEchoed(message);
   };
 }
 
@@ -171,6 +180,7 @@ let style = Style.create({
   list: {
     overflow: 'hidden',
   },
+  scrollView: {},
 });
 
 export default MessageList;

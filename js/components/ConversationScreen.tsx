@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useCallback} from 'react';
 import {View, InteractionManager, StyleProp, ViewStyle} from 'react-native';
 import ScrollBridge from '../lib/ScrollBridge';
 import {connect} from 'react-redux';
@@ -6,7 +6,7 @@ import Header from './Header';
 import MessageList from './MessageList';
 import ComposeBar from './ComposeBar';
 import PlusButton from './PlusButton';
-import {navigateBack, navigateTo} from '../store/navigation/actions';
+import {navigateTo} from '../store/navigation/actions';
 import * as MessageActions from '../store/messages/actions';
 import {conversationScreenSelector} from '../store/Selectors';
 import {updateConversationUi} from '../store/ui/actions';
@@ -20,14 +20,17 @@ import Text from './BaseText';
 import {AppDispatch} from '../store/createStore';
 import {MatchedContact} from '../store/contacts/types';
 import {
-  Message as MessageType,
+  Message as MessageData,
   WorkingMessage,
   Message,
+  MessageType,
 } from '../store/messages/types';
 import {Theme} from '../style/themes';
 import {FinishedMessage} from '../store/messages/types';
 import {User} from '../store/user/types';
 import {getContactName, getContactAvatar} from '../lib/ContactUtils';
+import {useFocusEffect} from 'react-navigation-hooks';
+import {isUndefined} from '../lib/Utils';
 
 const {
   resendMessage,
@@ -43,7 +46,7 @@ const {
 interface ConversationScreenProps {
   contact?: MatchedContact;
   dispatch: AppDispatch;
-  messages: MessageType[];
+  messages: MessageData[];
   totalMessages: number;
   style: StyleProp<ViewStyle>;
   styles: InjectedStyles<typeof getStyles>;
@@ -55,7 +58,9 @@ interface ConversationScreenProps {
   theme: Theme;
   screenFocusState: FocusState;
   recipientName?: string;
+  recipientAvatar?: string;
   recipientId: number;
+  hasExpandedMessages: boolean;
 }
 
 interface ConversationScreenState {
@@ -92,7 +97,6 @@ export class ConversationScreen extends Component<
     return (
       <View style={styles.container}>
         <Header
-          onPressBack={() => dispatch(navigateBack())}
           onPressSettings={() => dispatch(navigateTo('conversationSettings'))}
           renderTitle={this.renderHeaderTitle}
           renderSettingsButton={this.renderSettingsButton}
@@ -101,12 +105,15 @@ export class ConversationScreen extends Component<
           <MessageList
             scrollBridge={this.state.scrollBridge}
             onRetryMessageSend={this.handleRetryMessageSend}
-            onToggleMessageExpansion={this.handleToggleMessageExpansion}
+            onMessageExpanded={this.handleMessageExpanded}
+            onMessageCollapsed={this.handleMessageCollapsed}
             scrollLocked={this.props.composing}
+            messageExpanded={this.props.hasExpandedMessages}
             messages={this.props.messages}
             user={this.props.user}
             onBeginningReached={this.handleBeginningReached}
             onEndReached={this.handleEndReached}
+            onMessageEchoed={this.handleMessageEchoed}
           />
           {this.props.partnerIsComposing && (
             <PlaceholderMessage style={styles.placeholderMessage} />
@@ -117,6 +124,7 @@ export class ConversationScreen extends Component<
           style={styles.newMessageButton}
           onPress={this.handleStartComposing}
           visible={
+            !this.props.hasExpandedMessages &&
             !this.props.composing &&
             !this.props.sending &&
             !this.props.cancelling
@@ -136,7 +144,7 @@ export class ConversationScreen extends Component<
     const {contact, styles, recipientName} = this.props;
     return (
       <View style={styles.headerTitle}>
-        <Text>{getContactName(contact, recipientName)}</Text>
+        <Text>{recipientName}</Text>
       </View>
     );
   };
@@ -144,7 +152,11 @@ export class ConversationScreen extends Component<
   renderSettingsButton = () => {
     const {contact, styles, theme} = this.props;
     const backgroundStyle = {
-      backgroundColor: getContactAvatar(contact, theme),
+      backgroundColor: getContactAvatar(
+        contact,
+        this.props.recipientAvatar,
+        theme,
+      ),
     };
     const settingsStyles = [styles.settingsButton, backgroundStyle];
     return <View style={settingsStyles} />;
@@ -158,6 +170,10 @@ export class ConversationScreen extends Component<
   };
 
   handleBeginningReached = () => {
+    this.setState({
+      page: 2,
+      loadedAll: false,
+    });
     this.props.dispatch(unloadOldMessages());
   };
 
@@ -222,12 +238,35 @@ export class ConversationScreen extends Component<
     }, 1000);
   };
 
-  handleToggleMessageExpansion = (message: FinishedMessage) => {
-    this.props.dispatch(toggleMessageExpansion(message));
+  handleMessageExpanded = (message: FinishedMessage) => {
+    if (this.props.hasExpandedMessages) return;
+    this.props.dispatch(toggleMessageExpansion(message, true));
+  };
+
+  handleMessageCollapsed = (message: FinishedMessage) => {
+    this.props.dispatch(toggleMessageExpansion(message, false));
   };
 
   handleRetryMessageSend = (message: Message) => {
     this.props.dispatch(resendMessage(message));
+  };
+
+  handleMessageEchoed = (message: FinishedMessage) => {
+    if (this.props.composing) return;
+    const userId = this.props.user.id;
+    const recipientId = message.recipientId;
+    const isPartnerEcho = userId === recipientId;
+    this.props.dispatch(toggleMessageExpansion(message, false));
+    this.props.dispatch(
+      startComposingMessage({
+        recipientId: this.props.recipientId,
+        color: message.color,
+        type: MessageType.Echo,
+        echoType: isPartnerEcho ? 'partner' : 'self',
+        width: message.width,
+        height: message.height,
+      }),
+    );
   };
 
   getWorkingMessage = (): WorkingMessage => {

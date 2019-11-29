@@ -1,30 +1,16 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  StyleProp,
-  TextStyle,
-  ViewStyle,
-  Text,
-  Animated,
-} from 'react-native';
+import {View, StyleProp, TextStyle, ViewStyle} from 'react-native';
 import Color from 'color';
 import Style from '../style';
-import InteractiveView from './InteractiveView';
 import BaseText from './BaseText';
 import {shortHumanDate, formatName} from '../lib/Utils';
 import {getTimestamp} from '../lib/MessageUtils';
-import withStyles, {
-  makeStyleCreator,
-  InjectedStyles,
-  WithStylesProps,
-} from '../lib/withStyles';
+import withStyles, {makeStyleCreator, InjectedStyles} from '../lib/withStyles';
 import {Theme} from '../style/themes';
 import {Conversation} from '../store/conversations/types';
 import {MatchedContact, Contact} from '../store/contacts/types';
 import {getContactName, getContactAvatar} from '../lib/ContactUtils';
 import {RectButton} from 'react-native-gesture-handler';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import SwipeableDelete from './SwipeableDelete';
 
 const DEFAULT_BG_COLOR = '#EFEFEF';
@@ -75,7 +61,7 @@ class ConversationListItem extends Component<ConversationListItemProps> {
   };
 
   render() {
-    const {styles, theme} = this.props;
+    const {styles, theme, recipientAvatar} = this.props;
 
     let textStyles: StyleProp<TextStyle> = [
       this.props.unread && {
@@ -83,7 +69,11 @@ class ConversationListItem extends Component<ConversationListItemProps> {
       },
     ];
 
-    const avatarColor = getContactAvatar(this.props.contact, theme);
+    const avatarColor = getContactAvatar(
+      this.props.contact,
+      recipientAvatar,
+      theme,
+    );
 
     const avatarStyles = ([
       styles.avatar,
@@ -91,8 +81,6 @@ class ConversationListItem extends Component<ConversationListItemProps> {
         backgroundColor: avatarColor,
       },
     ] as any) as StyleProp<ViewStyle>;
-
-    const name = getContactName(this.props.contact, this.props.recipientName);
 
     return (
       <SwipeableDelete onPressDelete={this.props.onDelete}>
@@ -104,7 +92,7 @@ class ConversationListItem extends Component<ConversationListItemProps> {
         >
           <View style={styles.user}>
             <View style={avatarStyles} />
-            <BaseText style={textStyles}>{name}</BaseText>
+            <BaseText style={textStyles}>{this.props.recipientName}</BaseText>
           </View>
           {this.props.lastMessage && this.renderLastMessage()}
         </RectButton>

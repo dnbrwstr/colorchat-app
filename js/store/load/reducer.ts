@@ -1,4 +1,4 @@
-import createRoutingReducer, {ActionHandlerMap} from '../createRoutingReducer';
+import createRoutingReducer, {CaseHandlerMap} from '../createRoutingReducer';
 import {
   LOAD_KEY,
   LoadState,
@@ -11,17 +11,16 @@ const initialState: LoadState = {
   complete: false,
 };
 
-const handlers: ActionHandlerMap<LoadState> = {
+const handlers: CaseHandlerMap<LoadState> = {
   [LOAD_COMPLETE](state, action: LoadCompleteAction) {
     return {
       ...state,
-      complete: true
-    }
+      complete: true,
+    };
   },
 };
 
-export default createRoutingReducer<LoadState, LoadActionTypes>({
-  key: LOAD_KEY,
+export default createRoutingReducer({
   handlers,
   initialState,
 });

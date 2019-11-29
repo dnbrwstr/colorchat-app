@@ -17,3 +17,6 @@ export const useAnimatedValue = (initialValue: number) => {
     return new Animated.Value(initialValue);
   }, []);
 };
+
+export const useStaticData = <T>(initialValue: T, deps: any[]) =>
+  useMemo(() => initialValue, deps);

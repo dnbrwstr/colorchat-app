@@ -36,7 +36,7 @@ const ConfirmCodeScreen: FC<ConfirmCodeScreenProps> = props => {
   return (
     <SignupScreen
       title="Confirm code"
-      onNavigateBack={() => dispatch(navigateTo('signup'))}
+      showBackButton={true}
       renderNextButton={renderNextButton}
     >
       {error ? (

@@ -69,10 +69,12 @@ class InboxScreen extends React.Component<InboxScreenProps> {
     return (
       <View style={styles.container}>
         <Header
-          title={'Color Chat'}
+          hideBackButton={true}
           onPressSettings={this.handleSettingsPressed}
           renderSettingsButton={this.renderSettingsButton}
-        />
+        >
+          Color Chat
+        </Header>
         {this.props.conversations.length
           ? this.renderConversations()
           : this.renderEmptyMessage()}
@@ -131,7 +133,9 @@ class InboxScreen extends React.Component<InboxScreenProps> {
   handleConversationSelected = (
     conversation: Conversation & {contact: Contact},
   ) => {
-    this.props.dispatch(navigateToConversation(conversation.recipientId));
+    this.props.dispatch(
+      navigateToConversation(conversation.recipientId, conversation.contact),
+    );
   };
 
   handleConversationDeleted = (conversation: Conversation) => {

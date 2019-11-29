@@ -50,14 +50,10 @@ class ContactsScreen extends React.Component<ContactsScreenProps> {
   };
 
   render() {
-    const {styles, theme} = this.props;
-
+    const {styles} = this.props;
     return (
       <View style={styles.container}>
-        <Header
-          title={'Contacts'}
-          onPressBack={() => this.props.dispatch(navigateBack())}
-        />
+        <Header>Contacts</Header>
         {this.renderContent()}
       </View>
     );

@@ -1,6 +1,6 @@
 import {__, times, compose} from 'ramda';
 import {createSeedMessage} from './MessageUtils';
-import DatabaseManager from './DatabaseManager';
+import DatabaseManager, {StoredMessage} from './DatabaseManager';
 import {FinishedMessage} from '../store/messages/types';
 
 const DEFAULT_PAGE_NUMBER = 0;
@@ -32,7 +32,7 @@ export const loadMessages = async (options: LoadMessagesOptions) => {
   );
 };
 
-export const storeMessage = (message: FinishedMessage) => {
+export const storeMessage = (message: StoredMessage) => {
   return DatabaseManager.storeMessage(message);
 };
 
@@ -49,5 +49,7 @@ export const purgeMessages = () => {
 };
 
 export const seedMessages = (messageCount: number) => {
-  times(compose(storeMessage, createSeedMessage), messageCount);
+  for (let i = 0; i < messageCount; ++i) {
+    storeMessage(createSeedMessage());
+  }
 };

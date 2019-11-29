@@ -1,5 +1,8 @@
 import io from 'socket.io-client';
-import {convertToRelativeSize} from '../lib/MessageUtils';
+import {
+  convertToRelativeSize,
+  convertFromRelativeSize,
+} from '../lib/MessageUtils';
 import config from '../config';
 import {RawMessageData, Message} from '../store/messages/types';
 import {ComposeEventData} from '../store/conversations/types';
@@ -36,6 +39,7 @@ class MessageClient {
     }
     if (token) {
       // Recreate client if we have a token
+      this.token = token;
       this.socket = this.createSocket();
     } else {
       // Otherwise die
@@ -58,7 +62,7 @@ class MessageClient {
     });
 
     client.on(MessageEvent.Message, (data: RawMessageData, ack: Function) => {
-      this.emit(MessageEvent.Message, data);
+      this.emit(MessageEvent.Message, convertFromRelativeSize(data));
       ack();
     });
 

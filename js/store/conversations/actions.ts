@@ -15,7 +15,6 @@ import {
   ResetComposeEventsAction,
 } from './types';
 import {ThunkResult} from '../createStore';
-import {Contact} from '../contacts/types';
 
 const COMPOSE_EVENT_TIMEOUT = 5000;
 
@@ -32,6 +31,8 @@ export const markConversationRead = (
   contactId: number,
 ): ThunkResult<void> => async (dispatch, getState) => {
   const userId = getState().user.id;
+  if (!userId) return;
+
   await DatabaseManager.markConversationRead(userId, contactId);
 
   dispatch(createMarkConversationReadAction(contactId));
@@ -51,16 +52,14 @@ let composeTimeout: number;
 export const receiveComposeEvent = (
   data: ComposeEventData,
 ): ThunkResult<void> => (dispatch, getState) => {
-  const {contactId} = getState().ui.conversation;
+  const contactId = getState().ui.conversation?.contactId;
+  const routeName = NavigationService.getCurrentRoute()?.routeName;
 
-  if (
-    NavigationService.getCurrentRoute().routeName !== 'conversation' ||
-    contactId !== data.senderId
-  ) {
+  if (routeName !== 'conversation' || contactId !== data.senderId) {
     return;
   }
 
-  dispatch(receiveComposeEvent(data));
+  dispatch(createReceiveComposeEventAction(data));
 
   clearTimeout(composeTimeout);
 

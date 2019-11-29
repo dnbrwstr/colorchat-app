@@ -1,5 +1,11 @@
 import React, {PureComponent, createRef} from 'react';
-import {View, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
+import {
+  View,
+  Animated,
+  Easing,
+  TouchableWithoutFeedback,
+  Dimensions,
+} from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import measure, {NodeMeasurement} from '../lib/measure';
@@ -12,25 +18,33 @@ import {
   MessageType,
   FinishedMessage,
 } from '../store/messages/types';
+import {isExpanded} from '../lib/MessageUtils';
+import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 
 const SPRING_TENSION = 150;
 const SPRING_FRICTION = 10;
 
-const EXPANDED_MIN_WIDTH = 320;
-const EXPANDED_MIN_HEIGHT = 320;
+const EXPANDED_MIN_WIDTH = 290;
+const EXPANDED_MIN_HEIGHT = 290;
 
 const FAILED_MIN_WIDTH = 250;
 const FAILED_MIN_HEIGHT = 100;
 
-const getBorderRadius = (w: number, h: number) => Math.min(w, h / 2);
+const getBorderRadius = (w: number, h: number) => 1;
+const getMaxHeight = () =>
+  Dimensions.get('window').height -
+  Style.values.rowHeight -
+  getStatusBarHeight();
 
 type MessageProps = {
-  onToggleExpansion: (
+  onExpand: (
     message: MessageData,
     layout: NodeMeasurement,
     size: {width: number; height: number},
   ) => void;
+  onCollapse: (message: MessageData) => void;
   onRetrySend: (message: MessageData) => void;
+  onPressEcho: (message: MessageData) => void;
   message: MessageData;
   fromCurrentUser: boolean;
 };
@@ -39,11 +53,12 @@ interface MessageState {
   hasEntered: boolean;
   width: number;
   height: number;
-  borderRadius: number;
+  contentOpacity: number;
   animatedWidth: Animated.Value;
   animatedHeight: Animated.Value;
-  animatedBorderRadius: Animated.Value;
+  animatedContentOpacity: Animated.Value;
   retrying: boolean;
+  contentsActive: boolean;
 }
 
 class Message extends PureComponent<MessageProps, MessageState> {
@@ -56,22 +71,19 @@ class Message extends PureComponent<MessageProps, MessageState> {
 
     const animateEntry = !!(props.message as FinishedMessage).animateEntry;
 
-    const width = props.message.width;
-    const height = animateEntry ? 0 : props.message.height;
-    const borderRadius =
-      this.props.message.type === MessageType.Picture
-        ? getBorderRadius(width, height)
-        : 0;
+    const width = Math.round(props.message.width);
+    const height = animateEntry ? 0 : Math.round(props.message.height);
 
     this.state = {
       width,
       height,
-      borderRadius,
+      contentOpacity: 0,
       animatedWidth: new Animated.Value(width),
       animatedHeight: new Animated.Value(height),
-      animatedBorderRadius: new Animated.Value(borderRadius),
+      animatedContentOpacity: new Animated.Value(0),
       hasEntered: !animateEntry,
       retrying: false,
+      contentsActive: false,
     };
   }
 
@@ -92,57 +104,59 @@ class Message extends PureComponent<MessageProps, MessageState> {
     prevState: MessageState,
   ) => {
     const {message} = props;
-    const size = {
+    const state = {
       width: message.width,
       height: message.height,
-      borderRadius:
-        message.type === MessageType.Picture
-          ? getBorderRadius(message.width, message.height)
-          : 0,
+      contentOpacity: 0,
+      contentsActive: prevState.contentsActive,
     };
 
     if (!prevState.hasEntered) {
-      size.width = 0;
-      size.height = 0;
+      state.height = 0;
     } else if (
       message.state === 'complete' ||
       message.state === 'fresh' ||
       (message.state === 'failed' && prevState.retrying)
     ) {
       if (message.expanded) {
-        size.width = Math.max(message.width, EXPANDED_MIN_WIDTH);
-        size.height = Math.max(message.height, EXPANDED_MIN_HEIGHT);
-        size.borderRadius = 0;
+        state.width = Math.max(message.width, Dimensions.get('window').width);
+        state.height = Math.max(message.height, getMaxHeight());
+        state.contentOpacity = 1;
+        state.contentsActive = true;
       }
     } else if (message.state === 'failed') {
-      size.width = Math.max(message.width, FAILED_MIN_WIDTH);
-      size.height = Math.max(message.height, FAILED_MIN_HEIGHT);
-      size.borderRadius = 0;
+      state.width = Math.max(message.width, FAILED_MIN_WIDTH);
+      state.height = Math.max(message.height, FAILED_MIN_HEIGHT);
+      state.contentOpacity = 0;
     } else if (message.state === 'cancelling') {
-      size.height = 0;
+      state.height = 0;
     }
 
-    return size;
+    state.width = Math.round(state.width);
+    state.height = Math.round(state.height);
+
+    return state;
   };
 
   componentDidUpdate(prevProps: MessageProps, prevState: MessageState) {
     if (this.props.message.state === 'working') {
       this.state.animatedWidth.setValue(this.state.width);
       this.state.animatedHeight.setValue(this.state.height);
-      this.state.animatedBorderRadius.setValue(this.state.borderRadius);
+      this.state.animatedContentOpacity.setValue(this.state.contentOpacity);
     } else {
       this.resize(prevState);
     }
   }
 
   resize(prevState: MessageState) {
-    const {width, height, borderRadius} = this.state;
+    const {width, height, contentOpacity} = this.state;
 
     const shouldSizeWidth = width !== prevState.width;
     const shouldSizeHeight = height !== prevState.height;
-    const shouldSizeBorderRadius = borderRadius !== prevState.borderRadius;
+    const shouldChangeContentOpacity =
+      contentOpacity !== prevState.contentOpacity;
 
-    if (!shouldSizeWidth && !shouldSizeHeight && !shouldSizeBorderRadius) {
+    if (!shouldSizeWidth && !shouldSizeHeight && !shouldChangeContentOpacity) {
       return;
     }
 
@@ -170,10 +184,10 @@ class Message extends PureComponent<MessageProps, MessageState> {
           ...baseOpts,
           toValue: height,
         }),
-      shouldSizeBorderRadius &&
-        Animated.timing(this.state.animatedBorderRadius, {
-          toValue: borderRadius,
-          duration: 200,
+      shouldChangeContentOpacity &&
+        Animated.timing(this.state.animatedContentOpacity, {
+          toValue: contentOpacity,
+          duration: 100,
           easing: Easing.linear,
         }),
     ].filter(a => {
@@ -182,8 +196,15 @@ class Message extends PureComponent<MessageProps, MessageState> {
     }) as Animated.CompositeAnimation[];
 
     this.currentAnimation = Animated.parallel(animations);
-    this.currentAnimation.start(() => {
+    this.currentAnimation.start(({finished}) => {
       this.currentAnimation = undefined;
+      if (
+        finished &&
+        !isExpanded(this.props.message) &&
+        this.state.contentsActive
+      ) {
+        this.setState({contentsActive: false});
+      }
     });
   }
 
@@ -214,7 +235,6 @@ class Message extends PureComponent<MessageProps, MessageState> {
   renderContent() {
     const {message} = this.props;
     const finishedMessage = message as FinishedMessage;
-    const isExpanded = finishedMessage.expanded;
 
     if (message.state === 'failed' && !this.state.retrying) {
       return (
@@ -227,23 +247,57 @@ class Message extends PureComponent<MessageProps, MessageState> {
           </View>
         </View>
       );
-    } else if (isExpanded === true) {
-      const rgb = new Color(finishedMessage.color).rgb();
+    } else if (this.state.contentsActive) {
+      const opacityStyle = {
+        opacity: this.state.animatedContentOpacity,
+      };
+      const borderColor =
+        Color(finishedMessage.color).luminosity() > 0.5 ? 'black' : 'white';
       return (
         <View style={style.textContainer}>
-          <BaseText style={[style.text]} visibleOn={finishedMessage.color}>
+          <BaseText
+            style={[style.text, opacityStyle]}
+            visibleOn={finishedMessage.color}
+          >
             {finishedMessage.colorName}
             {'\n'}
             {finishedMessage.color}
-            {/* {"\n"}
-            {`r: ${rgb.r} \ng: ${rgb.g} \nb:${rgb.b}`} */}
           </BaseText>
           <BaseText
-            style={[style.timestamp, style.text]}
+            style={[style.timestamp, style.text, opacityStyle]}
             visibleOn={finishedMessage.color}
           >
             {humanDate(finishedMessage.createdAt)}
           </BaseText>
+
+          {finishedMessage.type === MessageType.Picture && (
+            <BaseText
+              style={[style.messageType, style.text, opacityStyle]}
+              visibleOn={finishedMessage.color}
+            >
+              Capture with camera
+            </BaseText>
+          )}
+
+          {finishedMessage.type === MessageType.Echo && (
+            <BaseText
+              style={[style.messageType, style.text, opacityStyle]}
+              visibleOn={finishedMessage.color}
+            >
+              Echo
+            </BaseText>
+          )}
+
+          <Animated.View
+            style={[style.echoButton, opacityStyle, {borderColor}]}
+          >
+            <PressableView
+              style={style.echoButtonContent}
+              onPress={this.handlePressEcho}
+            >
+              <BaseText visibleOn={finishedMessage.color}>Echo</BaseText>
+            </PressableView>
+          </Animated.View>
         </View>
       );
     } else {
@@ -260,12 +314,28 @@ class Message extends PureComponent<MessageProps, MessageState> {
       }, 500);
     } else if (
       this.props.message.state === 'complete' ||
-      this.props.message.state === 'fresh'
+      this.props.message.state === 'fresh' ||
+      this.props.message.state === 'static'
     ) {
+      this.toggleExpansion();
+    }
+  };
+
+  handlePressEcho = async () => {
+    this.props.onPressEcho(this.props.message);
+  };
+
+  toggleExpansion = async () => {
+    if (isExpanded(this.props.message)) {
+      this.props.onCollapse && this.props.onCollapse(this.props.message);
+    } else {
       const position = await measure(this.messageRef);
-      this.props.onToggleExpansion(this.props.message, position, {
-        width: Math.max(this.props.message.width, EXPANDED_MIN_WIDTH),
-        height: Math.max(this.props.message.height, EXPANDED_MIN_HEIGHT),
+      this.props.onExpand(this.props.message, position, {
+        width: Math.max(
+          this.props.message.width,
+          Dimensions.get('window').width,
+        ),
+        height: Math.max(this.props.message.height, getMaxHeight()),
       });
     }
   };
@@ -279,16 +349,6 @@ class Message extends PureComponent<MessageProps, MessageState> {
         height: this.state.animatedHeight,
         backgroundColor: this.props.message.color,
       },
-      this.props.message.type === MessageType.Picture &&
-        (this.props.fromCurrentUser
-          ? {
-              borderBottomLeftRadius: this.state.animatedBorderRadius,
-              borderTopLeftRadius: this.state.animatedBorderRadius,
-            }
-          : {
-              borderTopRightRadius: this.state.animatedBorderRadius,
-              borderBottomRightRadius: this.state.animatedBorderRadius,
-            }),
     ];
   }
 }
@@ -305,12 +365,12 @@ const style = Style.create({
     alignSelf: 'flex-start',
   },
   sentPicture: {
-    borderTopLeftRadius: 1000,
-    borderBottomLeftRadius: 1000,
+    // borderTopLeftRadius: 1000,
+    // borderBottomLeftRadius: 1000,
   },
   receivedPicture: {
-    borderTopRightRadius: 1000,
-    borderBottomRightRadius: 1000,
+    // borderTopRightRadius: 1000,
+    // borderBottomRightRadius: 1000,
   },
   textContainer: {
     flex: 1,
@@ -322,6 +382,23 @@ const style = Style.create({
   },
   timestamp: {
     textAlign: 'right',
+  },
+  messageType: {
+    position: 'absolute',
+    bottom: 16,
+    left: 16,
+  },
+  echoButton: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  echoButtonContent: {
+    padding: Style.values.basePadding * 1.5,
+    paddingVertical: Style.values.basePadding,
+    flex: 1,
   },
   text: {
     width: '50%',

@@ -38,10 +38,11 @@ import {
 } from '../conversations/types';
 import {LOGOUT, LogoutAction} from '../user/types';
 import {AsyncActionState} from '../../lib/AsyncAction';
+import {isUndefined} from '../../lib/Utils';
 
 const {merge, findIndex, pipe, __, partial, reduce, zipWith, curry} = ramda;
 
-const KEEP_LOADED_COUNT = 50;
+const KEEP_LOADED_COUNT = 40;
 
 const initialState: MessageState = {
   total: 0,
@@ -77,7 +78,7 @@ const mapTypes = (
   };
 };
 
-const addMessage = (
+const addMessageAtBeginning = (
   type: MessageSendState,
   message: Message,
   state: MessageState,
@@ -88,6 +89,21 @@ const addMessage = (
     return {
       ...state,
       [type]: [message, ...state[type]],
+    };
+  }
+};
+
+const addMessageAtEnd = (
+  type: MessageSendState,
+  message: Message,
+  state: MessageState,
+): MessageState => {
+  if (findMessageIndex(message, state[type]) !== -1) {
+    return state;
+  } else {
+    return {
+      ...state,
+      [type]: [...state[type], message],
     };
   }
 };
@@ -138,7 +154,7 @@ const changeMessageType = (
     return state;
   } else {
     const stateWithoutMessage = removeMessage(fromType, message, state);
-    return addMessage(toType, message, stateWithoutMessage);
+    return addMessageAtBeginning(toType, message, stateWithoutMessage);
   }
 };
 
@@ -207,7 +223,11 @@ const handlers: CaseHandlerMap<MessageState> = {
     state: MessageState,
     action: StartComposingMessageAction,
   ) {
-    return addMessage('working', createMessage(action.message), state);
+    return addMessageAtBeginning(
+      'working',
+      createMessage(action.message),
+      state,
+    );
   },
 
   [CANCEL_COMPOSING_MESSAGE](state, action: CancelComposingMessageAction) {
@@ -265,14 +285,13 @@ const handlers: CaseHandlerMap<MessageState> = {
       state: 'fresh',
       animateEntry: true,
     };
-    return {
-      ...state,
-      static: [...state.static, message],
-    };
+    return addMessageAtBeginning('static', message, state);
   },
 
   [TOGGLE_MESSAGE_EXPANSION](state, action: ToggleMessageExpansionAction) {
-    const expanded = !action.message.expanded;
+    const expanded = isUndefined(action.expanded)
+      ? !action.message.expanded
+      : action.expanded;
     return updateMessage('static', action.message, {expanded}, state);
   },
 
@@ -293,10 +312,12 @@ const handlers: CaseHandlerMap<MessageState> = {
 
   [LOAD_MESSAGES](state, action: LoadMessagesAction) {
     if (action.state === 'complete') {
+      action.messages.forEach(m => {
+        state = addMessageAtEnd('static', m, state);
+      });
       return {
         ...state,
         total: action.total,
-        static: [...state.static, ...action.messages],
       };
     } else {
       return state;

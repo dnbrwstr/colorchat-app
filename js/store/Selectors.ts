@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 import {AppState} from './createStore';
-import {Message} from './messages/types';
+import {Message, FinishedMessage} from './messages/types';
 import {MatchedContact} from './contacts/types';
 import {getReferenceDate} from '../lib/MessageUtils';
 
@@ -64,15 +64,19 @@ export let conversationScreenSelector = createSelector(
   (state: AppState) => state.messages.total,
   selectConversation,
   (ui, user, contact, messages, totalMessages, conversation) => {
+    const expanded = messages.some(m => (m as FinishedMessage).expanded);
+    conversation = conversation || {};
     return {
       ...ui,
       user,
       contact,
       recipientId: conversation.recipientId,
       recipientName: conversation.recipientName,
+      recipientAvatar: conversation.recipientAvatar,
       partnerIsComposing: conversation.partnerIsComposing,
       messages,
       totalMessages,
+      hasExpandedMessages: expanded,
     };
   },
 );

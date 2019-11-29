@@ -17,7 +17,14 @@ import {
   SEND_MESSAGES,
   SendMessagesAction,
 } from '../messages/types';
-import {BlockUserAction, BLOCK_USER} from '../user/types';
+import {
+  BlockUserAction,
+  BLOCK_USER,
+  LOGOUT,
+  LogoutAction,
+  DELETE_ACCOUNT,
+  DeleteAccountAction,
+} from '../user/types';
 import {getReferenceDate} from '../../lib/MessageUtils';
 import {isUndefined} from '../../lib/Utils';
 import {NavigateToConversationAction} from '../navigation/types';
@@ -78,6 +85,10 @@ const updateConversationIfExists = (
   }
 };
 
+const getConversation = (recipientId: number, state: ConversationState) => {
+  return state.find(c => c.recipientId === recipientId);
+};
+
 const removeConversation = (contactId: number, state: ConversationState) =>
   filter(c => c.recipientId !== contactId, state);
 
@@ -91,14 +102,14 @@ const handlers: CaseHandlerMap<ConversationState> = {
     state,
     action: NavigateToConversationAction,
   ) {
-    const conversationProps = {
+    const conversationProps: Conversation = {
       recipientId: action.contactId,
       unread: false,
       partnerIsComposing: false,
-      recipientName: undefined,
     };
-    if (action.contact)
+    if (action.contact) {
       conversationProps.recipientName = getContactName(action.contact);
+    }
     return createOrUpdateConversation(conversationProps, state);
   },
 
@@ -116,10 +127,15 @@ const handlers: CaseHandlerMap<ConversationState> = {
   },
 
   [RECEIVE_MESSAGE]: function(state, action: ReceiveMessageAction) {
+    const conversation = getConversation(action.message.senderId, state);
+
     return createOrUpdateConversation(
       {
         recipientId: action.message.senderId,
-        recipientName: action.message.senderName,
+        recipientAvatar:
+          action.message.senderAvatar || conversation?.recipientAvatar,
+        recipientName:
+          conversation?.recipientName || action.message.senderName || 'Unknown',
         lastMessage: action.message,
         unread: !action.inCurrentConversation,
         partnerIsComposing: false,
@@ -158,6 +174,14 @@ const handlers: CaseHandlerMap<ConversationState> = {
 
   [DELETE_CONVERSATION]: function(state, action: DeleteConversationAction) {
     return removeConversation(action.conversation.recipientId, state);
+  },
+
+  [LOGOUT]: function(state, action: LogoutAction) {
+    return initialState;
+  },
+
+  [DELETE_ACCOUNT]: function(state, action: DeleteAccountAction) {
+    return initialState;
   },
 };
 

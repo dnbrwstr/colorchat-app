@@ -17,7 +17,6 @@ import {
   UNLOAD_OLD_MESSAGES,
   RawMessageData,
   FinishedMessage,
-  PendingMessage,
   WorkingMessage,
 } from './types';
 import {getAbsoluteSize} from '../../lib/MessageUtils';
@@ -42,7 +41,7 @@ export let receiveMessage = (
   dispatch(createReceiveMessageAction(inCurrentConversation, message));
 };
 
-const createReceiveMessageAction = (
+const createReceiveMesswageAction = (
   inCurrentConversation: boolean,
   message: FinishedMessage,
 ): MessageAction => {
@@ -54,7 +53,7 @@ const createReceiveMessageAction = (
 };
 
 export const startComposingMessage = (
-  message: Partial<WorkingMessage>,
+  message: Partial<WorkingMessage> & {recipientId: number},
 ): MessageAction => {
   return {
     type: START_COMPOSING_MESSAGE,
@@ -120,11 +119,12 @@ export let resendMessage = (message: Message): MessageAction => {
 
 export let toggleMessageExpansion = (
   message: FinishedMessage,
+  expanded?: boolean,
 ): MessageAction => {
-  console.log('Forreal message toggle');
   return {
     type: TOGGLE_MESSAGE_EXPANSION,
     message,
+    expanded,
   };
 };
 

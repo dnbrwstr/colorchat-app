@@ -6,6 +6,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   ListRenderItemInfo,
+  Platform,
 } from 'react-native';
 import Style from '../style';
 import Message from './Message';
@@ -149,7 +150,8 @@ class MessageList extends Component<MessageListProps, MessageListState> {
     // Note that top and bottom are flipped here
     // as we're using an InvertibleScrollView
     let nextTop = position.top + position.height - nextSize.height;
-    let nextOffset = nextTop - Style.values.rowHeight - getStatusBarHeight();
+    let nextOffset = nextTop - Style.values.rowHeight;
+    if (Platform.OS === 'ios') nextOffset -= getStatusBarHeight();
 
     this.listRef.current?.scrollToOffset({
       offset: this.state.scrollOffset - nextOffset,

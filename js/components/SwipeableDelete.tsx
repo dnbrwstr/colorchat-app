@@ -1,4 +1,4 @@
-import React, {FC, useMemo, useState, useCallback} from 'react';
+import React, {FC, useMemo, useState, useCallback, useRef} from 'react';
 import Animated, {Easing} from 'react-native-reanimated';
 import {
   PanGestureHandler,
@@ -204,15 +204,17 @@ const SwipeableDelete: FC<SwipeableDeleteProps> = props => {
 
   const [isExiting, setIsExiting] = useState(false);
   const [hasSetHeight, setHasSetHeight] = useState(false);
-  const animatedHeight: Animated.Value<number> = useMemo(
-    () => new Animated.Value(0),
-    [],
-  );
+  const animatedHeightRef: React.MutableRefObject<Animated.Value<
+    number
+  >> = useRef(new Animated.Value(0));
 
   const handleLayout = useCallback((e: LayoutChangeEvent) => {
-    console.log('set height');
-    animatedHeight.setValue(e.nativeEvent.layout.height);
-    setHasSetHeight(true);
+    animatedHeightRef.current.setValue(e.nativeEvent.layout.height);
+    // HACK: Not really sure what's going on here, but on Androi reanimated
+    // will apply the older animated height value if we call this synchronously
+    setTimeout(() => {
+      setHasSetHeight(true);
+    }, 0);
   }, []);
 
   const [deleteButtonIsActive, setDeleteButtonIsActive] = useState(false);
@@ -222,7 +224,7 @@ const SwipeableDelete: FC<SwipeableDeleteProps> = props => {
 
   const runDelete = useCallback(() => {
     if (isExiting) return;
-    timing(animatedHeight, {
+    timing(animatedHeightRef.current, {
       toValue: 0,
       duration: 100,
       easing: Easing.out(Easing.ease),
@@ -268,7 +270,7 @@ const SwipeableDelete: FC<SwipeableDeleteProps> = props => {
         },
       );
     }
-  }, [animatedHeight, isExiting]);
+  }, [isExiting]);
 
   const {children, style, ...rest} = props;
 
@@ -284,7 +286,7 @@ const SwipeableDelete: FC<SwipeableDeleteProps> = props => {
         style={[
           styles.container,
           style,
-          animatedHeight && {height: animatedHeight},
+          hasSetHeight && {height: animatedHeightRef.current},
         ]}
         onLayout={!hasSetHeight ? handleLayout : undefined}
       >

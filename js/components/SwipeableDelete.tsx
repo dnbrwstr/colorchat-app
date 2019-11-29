@@ -86,6 +86,7 @@ const swipeableDeleteTrans = (
   dragX: Animated.Value<number>,
   prevDragX: Animated.Value<number>,
   dragVX: Animated.Value<number>,
+  dragVY: Animated.Value<number>,
   transX: Animated.Value<number>,
   clock: Animated.Clock,
 ) => {
@@ -102,6 +103,9 @@ const swipeableDeleteTrans = (
   );
 
   return block([
+    debug('state', state),
+    debug('transX', transX),
+    debug('dragVX', dragVX),
     cond(
       eq(state, State.ACTIVE),
       [
@@ -111,7 +115,8 @@ const swipeableDeleteTrans = (
       ],
       0,
     ),
-    cond(not(eq(state, State.ACTIVE)), [
+    cond(and(not(eq(state, State.ACTIVE)), not(eq(state, State.FAILED))), [
+      cond(lessThan(abs(dragVX), abs(dragVY)), set(dragVX, 0)),
       set(prevDragX, 0),
       set(
         transX,
@@ -132,6 +137,7 @@ const makeSwipeableDelete = (config: {
   dragX: Animated.Value<number>;
   prevDragX: Animated.Value<number>;
   dragVX: Animated.Value<number>;
+  dragVY: Animated.Value<number>;
   transX: Animated.Value<number>;
   clock: Animated.Clock;
 }) =>
@@ -140,6 +146,7 @@ const makeSwipeableDelete = (config: {
     config.dragX,
     config.prevDragX,
     config.dragVX,
+    config.dragVY,
     config.transX,
     config.clock,
   );
@@ -157,6 +164,7 @@ const useSwipeableDelete = () => {
       dragX: new Value(0),
       prevDragX: new Value(0),
       dragVX: new Value(0),
+      dragVY: new Value(0),
       transX: new Value(0),
       clock: new Clock(),
     };
@@ -164,6 +172,7 @@ const useSwipeableDelete = () => {
     const eventConfig = {
       translationX: animatedValues.dragX,
       velocityX: animatedValues.dragVX,
+      velocityY: animatedValues.dragVY,
       state: animatedValues.state,
     };
 
@@ -278,7 +287,8 @@ const SwipeableDelete: FC<SwipeableDeleteProps> = props => {
     <PanGestureHandler
       {...rest}
       maxPointers={1}
-      minDist={1}
+      activeOffsetX={[-30, 30]}
+      failOffsetY={[-10, 10]}
       onGestureEvent={handleGestureEvent}
       onHandlerStateChange={handleGestureEvent}
     >

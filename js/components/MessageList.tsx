@@ -1,4 +1,4 @@
-import React, {Component, createRef} from 'react';
+import React, {Component, createRef, FC} from 'react';
 import {
   FlatList,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   NativeScrollEvent,
   ListRenderItemInfo,
   Platform,
+  View,
 } from 'react-native';
 import Style from '../style';
 import Message from './Message';
@@ -77,6 +78,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   render() {
     return (
       <FlatList
+        ListFooterComponent={MessageListSpacer}
         ref={this.listRef}
         style={style.list}
         data={this.props.messages}
@@ -172,6 +174,10 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   };
 }
 
+const MessageListSpacer: FC<{}> = () => {
+  return <View style={style.spacer} />;
+};
+
 let style = Style.create({
   outerContainer: {
     flex: 1,
@@ -182,7 +188,12 @@ let style = Style.create({
   list: {
     overflow: 'hidden',
   },
-  scrollView: {},
+  scrollView: {
+    paddingBottom: 0,
+  },
+  spacer: {
+    height: 500,
+  },
 });
 
 export default MessageList;

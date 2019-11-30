@@ -1,3 +1,4 @@
+import {BackHandler} from 'react-native';
 import {
   NavigationActions,
   NavigationRoute,
@@ -23,6 +24,19 @@ function getActiveRoute(navigationState: {
 export default {
   setTopLevelNavigator(navigatorRef: NavigationContainerComponent | null) {
     navigator = navigatorRef;
+
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (!navigator) return;
+      const currentRoute = getActiveRoute(navigator.state.nav);
+      if (!currentRoute) return;
+      // Returning true will prevent react-navigation from responding
+      // to the back button press event. The code below prevents back
+      // navigation on the inbox screem.
+      if (currentRoute.routeName === 'inbox') {
+        BackHandler.exitApp();
+        return true;
+      }
+    });
   },
 
   navigate<T extends {}>(routeName: string, params: T) {

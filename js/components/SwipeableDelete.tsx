@@ -103,9 +103,6 @@ const swipeableDeleteTrans = (
   );
 
   return block([
-    debug('state', state),
-    debug('transX', transX),
-    debug('dragVX', dragVX),
     cond(
       eq(state, State.ACTIVE),
       [

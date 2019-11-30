@@ -28,14 +28,17 @@ const appStateMiddleware = (store: MiddlewareAPI<Dispatch, StoreState>) => {
     onNetworkChange(state);
   };
 
-  AppState.addEventListener('change', onAppStateChange);
-  AppState.addEventListener('memoryWarning', onMemoryWarning);
-  NetInfo.addEventListener(onNetworkChange);
+  setTimeout(() => {
+    AppState.addEventListener('change', onAppStateChange);
+    AppState.addEventListener('memoryWarning', onMemoryWarning);
+    NetInfo.addEventListener(onNetworkChange);
+    setInitialNetworkState();
+  }, 0);
 
-  setInitialNetworkState();
-
-  return (next: Dispatch) => (action: AnyAction) => {
-    return next(action);
+  return (next: Dispatch) => {
+    return (action: AnyAction) => {
+      return next(action);
+    };
   };
 };
 

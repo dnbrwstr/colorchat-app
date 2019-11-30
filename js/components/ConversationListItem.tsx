@@ -33,10 +33,6 @@ class ConversationListItem extends Component<ConversationListItemProps> {
     onDelete: () => {},
   };
 
-  state = {
-    highlighted: false,
-  };
-
   componentDidMount() {
     if (this.props.contact && !(this.props.contact as MatchedContact).avatar) {
       // Should retrieve avatar if it's missing
@@ -85,8 +81,7 @@ class ConversationListItem extends Component<ConversationListItemProps> {
     return (
       <SwipeableDelete onPressDelete={this.props.onDelete}>
         <RectButton
-          style={[styles.item, this.state.highlighted && styles.itemActive]}
-          onActiveStateChange={this.handleActiveStateChange}
+          style={[styles.item]}
           onPress={this.props.onPress}
           activeOpacity={0}
         >
@@ -121,12 +116,6 @@ class ConversationListItem extends Component<ConversationListItemProps> {
       </View>
     );
   }
-
-  handleActiveStateChange = (active: boolean) => {
-    this.setState({
-      highlighted: active,
-    });
-  };
 }
 
 const {rowHeight, avatarSize} = Style.values;
@@ -143,9 +132,6 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-  },
-  itemActive: {
-    backgroundColor: theme.highlightColor,
   },
   user: {
     flex: 1,

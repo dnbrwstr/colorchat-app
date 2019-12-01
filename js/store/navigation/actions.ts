@@ -42,10 +42,11 @@ export const navigateToConversation = (
   contactId: number,
   contact?: Contact,
 ): ThunkResult<Promise<void>> => async (dispatch, getState) => {
-  const userId = getState().user.id;
+  const user = getState().user;
+  if (!user) return;
   const {messages, total} = await DatabaseUtils.loadMessages({
     contactId,
-    userId,
+    userId: user.id,
     page: 0,
   });
 

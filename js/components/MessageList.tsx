@@ -8,6 +8,7 @@ import {
   ListRenderItemInfo,
   Platform,
   View,
+  StyleSheet,
 } from 'react-native';
 import Style from '../style';
 import Message from './Message';
@@ -147,7 +148,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   ) => {
     if (this.props.scrollLocked || this.props.messageExpanded) return;
 
-    this.props.onMessageExpanded(message);
+    this.props.onMessageExpanded(message as FinishedMessage);
 
     // Note that top and bottom are flipped here
     // as we're using an InvertibleScrollView
@@ -162,7 +163,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
 
   handleMessageCollapsed = (message: MessageData) => {
     if (this.props.scrollLocked) return;
-    this.props.onMessageCollapsed(message);
+    this.props.onMessageCollapsed(message as FinishedMessage);
   };
 
   handleRetryMessageSend = (message: MessageData) => {
@@ -170,7 +171,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   };
 
   handleMessageEchoed = (message: MessageData) => {
-    this.props.onMessageEchoed(message);
+    this.props.onMessageEchoed(message as FinishedMessage);
   };
 }
 
@@ -178,7 +179,7 @@ const MessageListSpacer: FC<{}> = () => {
   return <View style={style.spacer} />;
 };
 
-let style = Style.create({
+let style = StyleSheet.create({
   outerContainer: {
     flex: 1,
   },

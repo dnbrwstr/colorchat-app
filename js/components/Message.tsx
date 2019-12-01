@@ -5,6 +5,7 @@ import {
   Easing,
   TouchableWithoutFeedback,
   Dimensions,
+  StyleSheet,
 } from 'react-native';
 import Color from 'color';
 import Style from '../style';
@@ -18,7 +19,7 @@ import {
   MessageType,
   FinishedMessage,
 } from '../store/messages/types';
-import {isExpanded} from '../lib/MessageUtils';
+import {isExpanded, getId, getTimestamp} from '../lib/MessageUtils';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 
 const SPRING_TENSION = 150;
@@ -353,7 +354,7 @@ class Message extends PureComponent<MessageProps, MessageState> {
   }
 }
 
-const style = Style.create({
+const style = StyleSheet.create({
   message: {
     flex: 0,
     overflow: 'hidden',
@@ -363,14 +364,6 @@ const style = Style.create({
   },
   received: {
     alignSelf: 'flex-start',
-  },
-  sentPicture: {
-    // borderTopLeftRadius: 1000,
-    // borderBottomLeftRadius: 1000,
-  },
-  receivedPicture: {
-    // borderTopRightRadius: 1000,
-    // borderBottomRightRadius: 1000,
   },
   textContainer: {
     flex: 1,

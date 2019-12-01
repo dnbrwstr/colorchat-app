@@ -9,32 +9,43 @@ import config from '../config';
 import {Theme} from '../style/themes';
 
 interface ContactsImportPromptProps {
+  importError: string | null;
   onPressImport: () => void;
   onRequestInfo: () => void;
 }
 
 const ContactsImportPrompt: FC<ContactsImportPromptProps> = props => {
+  const {importError} = props;
   const {styles} = useStyles(getStyles);
+
+  const strings = importError
+    ? {
+        info: importError,
+        button: 'Retry',
+      }
+    : {
+        info: `${config.appName} uses your\ncontacts to determine\nwho you can chat with`,
+        button: 'Import contacts',
+      };
 
   return (
     <View style={styles.container}>
-      <BaseText style={styles.messageText}>
-        {config.appName} uses your{'\n'}contacts to determine{'\n'}who you can
-        chat with
-      </BaseText>
+      <BaseText style={styles.messageText}>{strings.info}</BaseText>
 
       <SquareButton
-        label="Import Contacts"
+        label={strings.button}
         onPress={props.onPressImport}
         style={styles.button}
         textStyle={styles.buttonText}
       />
 
-      <PressableView style={styles.infoLink} onPress={props.onRequestInfo}>
-        <BaseText style={styles.infoLinkText}>
-          More about how Color Chat{'\n'}uses your contacts
-        </BaseText>
-      </PressableView>
+      {!importError && (
+        <PressableView style={styles.infoLink} onPress={props.onRequestInfo}>
+          <BaseText style={styles.infoLinkText}>
+            More about how Color Chat{'\n'}uses your contacts
+          </BaseText>
+        </PressableView>
+      )}
     </View>
   );
 };

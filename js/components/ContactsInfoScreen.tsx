@@ -1,13 +1,11 @@
 import React, {FC, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
-import Style from '../style';
 import TextScreen from './TextScreen';
 import TextLink from './TextLink';
 import BaseText from './BaseText';
+import {StyleSheet} from 'react-native';
 
 const ContactsInfoScreen: FC<{}> = () => {
-  const dispatch = useDispatch();
-
   return (
     <TextScreen title="Contacts usage">
       <BaseText>
@@ -29,7 +27,7 @@ const ContactsInfoScreen: FC<{}> = () => {
   );
 };
 
-let style = Style.create({
+const style = StyleSheet.create({
   container: {},
   link: {
     textDecorationLine: 'underline',

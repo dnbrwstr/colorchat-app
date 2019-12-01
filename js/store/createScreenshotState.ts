@@ -1,5 +1,6 @@
 import {makeArray, rand} from '../lib/Utils';
 import {createSeedMessage, convertFromRelativeSize} from '../lib/MessageUtils';
+import {MessageType} from './messages/types';
 
 const randomColor = () => `rgb(${rand(255)},${rand(255)},${rand(255)})`;
 
@@ -44,25 +45,29 @@ const createScreenshotState = () => {
 
   const contacts = makeArray(12).map(n => ({
     id: n + 1,
-    mathed: true,
+    matched: true,
     avatar: randomColor(),
     givenName: names[n],
     familyName: '',
+    phoneNumber: '+14013911814',
   }));
 
-  console.log(contacts);
-
+  const messageCount = 12 * 15;
   const messages = {
-    total: null,
-    static: makeArray(12 * 15).map(n => {
+    total: messageCount,
+    static: makeArray(messageCount).map(n => {
       const contactId = (n % 12) + 1;
       const [senderId, recipientId] =
         Math.random() > 0.5 ? [0, contactId] : [contactId, 0];
+      const state = 'static' as const;
       return {
-        ...convertFromRelativeSize(createSeedMessage()),
+        ...createSeedMessage(),
         senderId,
         recipientId,
-      };
+        expanded: false,
+        state,
+        type: MessageType.Default,
+      } as const;
     }),
     working: [],
     enqueued: [],

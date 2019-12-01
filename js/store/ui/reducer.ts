@@ -31,6 +31,7 @@ import {
   SimpleAsyncAction,
   AsyncActionFailedResult,
 } from '../../lib/AsyncAction';
+import {NAVIGATE_TO_CONVERSATION} from '../navigation/types';
 
 const initialState: UiState = {
   appState: 'active',
@@ -74,7 +75,6 @@ const getSignupScreenTransformation = <A extends SimpleAsyncAction>(
 
 const handlers: CaseHandlerMap<UiState> = {
   [REGISTER_PHONE_NUMBER]: function(state, action: RegisterPhoneNumberAction) {
-    console.log('REfister saction', action);
     return {
       ...state,
       signup: {
@@ -146,10 +146,14 @@ const handlers: CaseHandlerMap<UiState> = {
     };
   },
 
-  navigateToConversation: function(state, action) {
+  [NAVIGATE_TO_CONVERSATION]: function(state, action) {
     return {
       ...state,
       conversation: {
+        sending: false,
+        composing: false,
+        cancelling: false,
+        loading: false,
         ...state.conversation,
         contactId: action.contactId,
       },
@@ -160,6 +164,10 @@ const handlers: CaseHandlerMap<UiState> = {
     state,
     action: UpdateConversationUiAction,
   ) {
+    if (!state.conversation) {
+      return state;
+    }
+
     return {
       ...state,
       conversation: {
@@ -173,6 +181,13 @@ const handlers: CaseHandlerMap<UiState> = {
     state,
     action: StartComposingMessageAction,
   ) {
+    console.log('maube make compo true');
+    if (!state.conversation) {
+      return state;
+    }
+
+    console.log('make compose trye');
+
     return {
       ...state,
       conversation: {
@@ -186,14 +201,18 @@ const handlers: CaseHandlerMap<UiState> = {
     state,
     action: CancelComposingMessageAction,
   ) {
-    return {
-      ...state,
-      conversation: {
-        ...state.conversation,
-        composing: false,
-        cancelling: true,
-      },
-    };
+    if (state.conversation) {
+      return {
+        ...state,
+        conversation: {
+          ...state.conversation,
+          composing: false,
+          cancelling: true,
+        },
+      };
+    } else {
+      return state;
+    }
   },
 
   [CHANGE_APP_STATE]: function(state, action: ChangeAppStateAction) {

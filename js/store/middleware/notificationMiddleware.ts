@@ -88,7 +88,7 @@ const notificationMiddleware = (
 
     // Present notification only if we're not already in the conversation with that contact
     if (
-      currentRoute.routeName !== 'conversation' ||
+      currentRoute?.routeName !== 'conversation' ||
       state.ui.conversation.contactId != messageData.senderId
     ) {
       const localNotification = new firebase.notifications.Notification()

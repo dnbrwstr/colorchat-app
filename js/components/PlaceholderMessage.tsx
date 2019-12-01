@@ -1,15 +1,6 @@
 import React, {FC, useEffect} from 'react';
-import {
-  Animated,
-  Image,
-  View,
-  requireNativeComponent,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
-import Style from '../style';
+import {Animated, View, StyleProp, ViewStyle, StyleSheet} from 'react-native';
 import {useAnimatedValue} from '../lib/HookUtils';
-import {useStyles} from '../lib/withStyles';
 
 const MIN_SIZE = 40;
 const MAX_SIZE = 55;
@@ -71,7 +62,7 @@ const PlaceholderMessage: FC<{
   );
 };
 
-const style = Style.create({
+const style = StyleSheet.create({
   container: {
     width: MAX_SIZE,
     justifyContent: 'center',

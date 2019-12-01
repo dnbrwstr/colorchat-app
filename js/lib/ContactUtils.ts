@@ -7,7 +7,9 @@ import {Theme} from '../style/themes';
 
 export const checkPermission = Bluebird.promisify(Contacts.checkPermission);
 export const requestPermission = Bluebird.promisify(Contacts.requestPermission);
-export const getAll = Bluebird.promisify(Contacts.getAll);
+export const getAll: () => Promise<Contacts.Contact[]> = Bluebird.promisify(
+  Contacts.getAll,
+);
 export const addContact = (contact: Partial<Contacts.Contact>) =>
   // @ts-ignore force add contact to accept a partial contact
   // rather than having to specify evey single prop to add

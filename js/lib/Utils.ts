@@ -1,7 +1,7 @@
 import moment, {Moment} from 'moment';
 import {TransformsStyle, StyleProp, ViewStyle} from 'react-native';
-import {CameraColor} from './CameraTypes';
 import Color from 'color';
+import {DetectedColor} from 'react-native-color-camera';
 
 export let bindObjectMethods = (object: {[key: string]: any}) => {
   for (var key in object) {
@@ -52,7 +52,7 @@ export const isUndefined = (a: any): a is undefined => {
   return typeof a === 'undefined';
 };
 
-export const cameraColorToColor = ({r, g, b}: CameraColor) =>
+export const cameraColorToColor = ({r, g, b}: DetectedColor) =>
   new Color({r, g, b});
 
 const createDateFormatter = (formatObj: DateFormatSettings) => (

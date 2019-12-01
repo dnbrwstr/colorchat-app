@@ -8,7 +8,6 @@ import {
   SEND_MESSAGES,
   SendMessagesAction,
   SendMessagesBaseAction,
-  FinishedMessage,
 } from '../messages/types';
 import {ComposeEventData} from '../conversations/types';
 import {ThunkDispatch} from 'redux-thunk';
@@ -29,7 +28,7 @@ const selector = (state: StoreState): SocketMiddlewareState => {
   return {
     enqueuedMessages: state.messages.enqueued,
     composingMessages: state.messages.working,
-    token: state.user.token,
+    token: state.user?.token,
   };
 };
 
@@ -72,13 +71,16 @@ const socketMiddleware = (
   });
 
   const sendEnqueuedMessages = () => {
+    console.log('mbe send enqueued');
     const messages = state.enqueuedMessages;
     if (!messages.length) return;
+    console.log('sending enqueued');
     const operation = sendMessages(client, messages);
     const baseAction: SendMessagesBaseAction = {
       type: SEND_MESSAGES,
       messages,
     };
+    console.log('Dispatch fial');
     dispatchAsyncActions<SendMessagesAction>(
       baseAction,
       operation,
@@ -98,7 +100,8 @@ const socketMiddleware = (
     state = selector(store.getState());
     setTimeout(() => {
       client.setToken(state.token);
-      if (client.isConnected()) sendEnqueuedMessages();
+      console.log('sending?');
+      sendEnqueuedMessages();
     }, 0);
     return result;
   };

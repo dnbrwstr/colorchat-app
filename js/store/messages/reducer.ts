@@ -150,11 +150,11 @@ const changeMessageType = (
   message: Message,
   state: MessageState,
 ): MessageState => {
+  state = removeMessage(fromType, message, state);
   if (findMessageIndex(message, state[toType]) !== -1) {
     return state;
   } else {
-    const stateWithoutMessage = removeMessage(fromType, message, state);
-    return addMessageAtBeginning(toType, message, stateWithoutMessage);
+    return addMessageAtBeginning(toType, message, state);
   }
 };
 
@@ -202,20 +202,13 @@ const handleSendMessageFailure = function(
   state: MessageState,
   action: {messages: Message[]; error: string},
 ) {
-  return reduce(
-    (curState, message) =>
-      pipe(
-        partial(changeMessageType, ['enqueued', 'static', message]),
-        partial(changeMessageType, ['sending', 'static', message]),
-        partial(updateMessage, [
-          'static',
-          message,
-          {state: 'failed', error: action.error},
-        ]),
-      )(curState),
-    state,
-    action.messages,
-  );
+  state = action.messages.reduce((state, message) => {
+    state = changeMessageType('enqueued', 'static', message, state);
+    state = changeMessageType('sending', 'static', message, state);
+    state = updateMessage('static', message, {state: 'failed'}, state);
+    return state;
+  }, state);
+  return state;
 };
 
 const handlers: CaseHandlerMap<MessageState> = {

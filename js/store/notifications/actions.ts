@@ -35,6 +35,8 @@ export const saveDeviceToken = (
   deviceToken: string,
 ): ThunkResult<Promise<void>> => async (dispatch, getState) => {
   const user = getState().user;
+  if (!user) return;
+
   const data = {
     deviceId: DeviceInfo.getUniqueID(),
     deviceToken: deviceToken,

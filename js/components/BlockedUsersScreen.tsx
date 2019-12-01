@@ -10,10 +10,10 @@ import {navigateBack} from '../store/navigation/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState} from '../store/createStore';
 import {Theme} from '../style/themes';
-import {User} from '../store/user/types';
+import {User, ApiUser} from '../store/user/types';
 import {withScreenFocusStateProvider} from './ScreenFocusState';
 
-const getItemKey = (item: User, index: number) => {
+const getItemKey = (item: ApiUser, index: number) => {
   if (item.id) {
     return item.id.toString();
   } else {
@@ -29,7 +29,7 @@ const useBack = () => {
 };
 
 const useBlockedUsers = () => {
-  return useSelector((state: AppState) => state.user.blockedUsers || []);
+  return useSelector((state: AppState) => state.user?.blockedUsers || []);
 };
 
 const BlockedUsersScreen: FC<{}> = () => {
@@ -42,8 +42,8 @@ const BlockedUsersScreen: FC<{}> = () => {
     dispatch(loadBlockedUsers());
   }, []);
 
-  const renderListItem = useCallback(({item}) => {
-    return <BlockedUserListItem item={item} />;
+  const renderListItem = useCallback(({item}: ListRenderItemInfo<ApiUser>) => {
+    return <BlockedUserListItem user={item} />;
   }, []);
 
   return (
@@ -70,7 +70,11 @@ const BlockedUsersEmptyState: FC<{}> = () => {
   );
 };
 
-const BlockedUserListItem: FC<ListRenderItemInfo<User>> = ({item}) => {
+interface BlockedUserListItemProps {
+  user: ApiUser;
+}
+
+const BlockedUserListItem: FC<BlockedUserListItemProps> = ({user}) => {
   const dispatch = useDispatch();
   const {styles} = useStyles(getBlockedUserListItemStyles);
 
@@ -80,15 +84,15 @@ const BlockedUserListItem: FC<ListRenderItemInfo<User>> = ({item}) => {
       '',
       [
         {text: 'Cancel', onPress: () => {}},
-        {text: 'Unblock', onPress: () => dispatch(unblockUser(item))},
+        {text: 'Unblock', onPress: () => dispatch(unblockUser(user.id))},
       ],
       {cancelable: false},
     );
-  }, [item]);
+  }, [user]);
 
   return (
     <PressableView style={styles.user} onPress={handlePressUnblock}>
-      <Text>{item.name}</Text>
+      <Text>{user.name}</Text>
       <View style={styles.unblockButton}>
         <Text style={styles.unblockButtonText}>Unblock</Text>
       </View>

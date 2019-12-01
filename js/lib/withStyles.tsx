@@ -65,10 +65,4 @@ export const useStyles = <T extends StyleSheet.NamedStyles<T>>(
   return {theme, styles};
 };
 
-export const connectWithStyles = (
-  styleFn: (t: Theme) => void,
-  ...args: any[]
-) => <T extends ComponentType<T>>(Component: ComponentType<T>) =>
-  withStyles(styleFn)(connect(...args)(Component));
-
 export default withStyles;

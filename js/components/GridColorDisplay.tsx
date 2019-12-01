@@ -3,16 +3,16 @@ import {View, Animated} from 'react-native';
 import {makeArray} from '../lib/Utils';
 import PressableBlob from './PressableBlob';
 import withStyles, {InjectedStyles, makeStyleCreator} from '../lib/withStyles';
-import {CameraColor} from '../lib/CameraTypes';
 import {Theme} from '../style/themes';
+import {DetectedColor} from 'react-native-color-camera';
 
 interface GridColorDisplayProps {
   styles: InjectedStyles<typeof getStyles>;
-  lastColors: CameraColor[];
+  lastColors: DetectedColor[];
   animatedColors: Animated.AnimatedInterpolation[];
   animatedAbsoluteSizes: Animated.AnimatedInterpolation[];
-  getColorValue: (i: number) => CameraColor;
-  onSelectColor?: (color: CameraColor) => void;
+  getColorValue: (i: number) => DetectedColor;
+  onSelectColor?: (color: DetectedColor) => void;
 }
 
 class GridColorDisplay extends Component<GridColorDisplayProps> {

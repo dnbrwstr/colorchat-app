@@ -34,11 +34,7 @@ const ConfirmCodeScreen: FC<ConfirmCodeScreenProps> = props => {
   );
 
   return (
-    <SignupScreen
-      title="Confirm code"
-      showBackButton={true}
-      renderNextButton={renderNextButton}
-    >
+    <SignupScreen title="Confirm code" renderNextButton={renderNextButton}>
       {error ? (
         <ErrorMessage
           message={error.toString()}

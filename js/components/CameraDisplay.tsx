@@ -6,13 +6,13 @@ import GridColorDisplay from './GridColorDisplay';
 import SingleColorDisplay from './SingleColorDisplay';
 import {DisplayMode} from './CameraDisplayModeMenu';
 import {Theme} from '../style/themes';
-import {CameraColor} from '../lib/CameraTypes';
+import {DetectedColor} from 'react-native-color-camera';
 
 interface CameraDisplayProps {
   displayMode: DisplayMode;
   styles: InjectedStyles<typeof getStyles>;
-  colors?: CameraColor[];
-  onSelectColor: (color: CameraColor) => void;
+  colors?: DetectedColor[];
+  onSelectColor: (color: DetectedColor) => void;
 }
 
 interface CameraDisplayState {

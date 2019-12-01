@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
 import {Animated, Platform, StyleProp, ViewStyle, Easing} from 'react-native';
-import ColorCamera from 'react-native-color-camera';
+import ColorCamera, {
+  CameraLocation,
+  DetectedColorChangeEvent,
+} from 'react-native-color-camera';
 import PressableBlob from './PressableBlob';
 import withStyles, {InjectedStyles, makeStyleCreator} from '../lib/withStyles';
 import {Theme} from '../style/themes';
-import {CameraColorChangeEvent} from '../lib/CameraTypes';
-
-const AnimatedColorCamera = Animated.createAnimatedComponent(ColorCamera);
 
 const initialColor = Platform.OS === 'android' ? 0 : 1;
 
 interface CameraBlobProps {
-  location: string;
+  location: CameraLocation;
   style: StyleProp<ViewStyle>;
   styles: InjectedStyles<typeof getStyles>;
   theme: Theme;
   onPress: () => void;
-  onColorChange: (e: CameraColorChangeEvent) => void;
+  onColorChange: (e: DetectedColorChangeEvent) => void;
   eventInterval: number;
 }
 
 interface CameraBlobState {
   hasEntered: boolean;
-  location: string;
+  location: CameraLocation;
 }
 
 class CameraBlob extends Component<CameraBlobProps, CameraBlobState> {
@@ -105,8 +105,8 @@ class CameraBlob extends Component<CameraBlobProps, CameraBlobState> {
         style={[styles.cameraContainer, rotationStyle, style]}
         key="camera"
       >
-        <AnimatedColorCamera
-          style={[styles.camera]}
+        <ColorCamera
+          style={styles.camera}
           onColorChange={this.props.onColorChange}
           eventInterval={this.props.eventInterval}
           location={this.state.location}

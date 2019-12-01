@@ -31,7 +31,7 @@ interface InboxScreenProps {
   dispatch: AppDispatch;
   conversations: Conversation[];
   contacts: {[key: string]: MatchedContact};
-  user: User;
+  user: User | null;
 }
 
 class InboxScreen extends React.Component<InboxScreenProps> {
@@ -89,7 +89,7 @@ class InboxScreen extends React.Component<InboxScreenProps> {
         style={{
           width: Style.values.avatarSize,
           height: Style.values.avatarSize,
-          backgroundColor: this.props.user.avatar,
+          backgroundColor: this.props.user?.avatar,
           borderRadius: 100,
         }}
       />

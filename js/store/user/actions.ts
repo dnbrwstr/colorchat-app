@@ -24,6 +24,7 @@ import {
   DELETE_ACCOUNT,
   DeleteAccountBaseAction,
   DeleteAccountAction,
+  ApiUser,
 } from './types';
 import * as Api from '../../lib/ChatApi';
 
@@ -32,6 +33,7 @@ export const loadUserInfo = (): ThunkResult<Promise<void>> => async (
   getState,
 ) => {
   const user = getState().user;
+  if (!user) return;
   const operation = Api.getUserInfo(user.token);
   const baseAction = createLoadUserInfoBaseAction(user);
   dispatchAsyncActions<LoadUserInfoAction>(baseAction, operation, dispatch);
@@ -50,6 +52,7 @@ export let updateUserInfo = (
   data: Partial<User>,
 ): ThunkResult<Promise<void>> => async (dispatch, getState) => {
   const user = getState().user;
+  if (!user) return;
   const operation = Api.updateUserInfo(data, user.token);
   const baseAction = createUpdateUserInfoBaseAction(data);
   dispatchAsyncActions<UpdateUserInfoAction>(baseAction, operation, dispatch);
@@ -69,6 +72,7 @@ export const blockUser = (blockedUserId: number): ThunkResult<void> => (
   getState,
 ) => {
   const user = getState().user;
+  if (!user) return;
   const operation = Api.blockUser(blockedUserId, user.token);
   const baseAction = createBlockUserBaseAction(blockedUserId);
   dispatchAsyncActions<BlockUserAction>(baseAction, operation, dispatch);
@@ -83,22 +87,23 @@ export const createBlockUserBaseAction = (
   };
 };
 
-export const unblockUser = (blockedUser: User): ThunkResult<void> => (
+export const unblockUser = (userId: number): ThunkResult<void> => (
   dispatch,
   getState,
 ) => {
   const user = getState().user;
-  const operation = Api.unblockUser(blockedUser.id, user.token);
-  const baseAction = createUnblockUserBaseAction(blockedUser);
+  if (!user) return;
+  const operation = Api.unblockUser(userId, user.token);
+  const baseAction = createUnblockUserBaseAction(userId);
   dispatchAsyncActions<UnblockUserAction>(baseAction, operation, dispatch);
 };
 
 export const createUnblockUserBaseAction = (
-  user: User,
+  userId: number,
 ): UnblockUserBaseAction => {
   return {
     type: UNBLOCK_USER,
-    user,
+    userId: userId,
   };
 };
 
@@ -107,6 +112,7 @@ export const loadBlockedUsers = (): ThunkResult<void> => (
   getState,
 ) => {
   const user = getState().user;
+  if (!user) return;
   const operation = Api.loadBlockedUsers(user.token);
   const baseAction = createLoadBlockedUsersBaseAction();
   dispatchAsyncActions<LoadBlockedUsersAction>(baseAction, operation, dispatch);
@@ -125,6 +131,7 @@ export const deleteAccount = (): ThunkResult<Promise<void>> => async (
   getState,
 ) => {
   const user = getState().user;
+  if (!user) return;
   const operation = runDeleteAccount(user.token);
   const baseAction = createDeleteAccountBaseAction();
   dispatchAsyncActions<DeleteAccountAction>(baseAction, operation, dispatch);

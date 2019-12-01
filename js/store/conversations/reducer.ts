@@ -115,11 +115,11 @@ const handlers: CaseHandlerMap<ConversationState> = {
 
   [SEND_MESSAGES]: function(state, action: SendMessagesAction) {
     if (!action.messages.length) return state;
-
+    const lastMessage = action.messages[action.messages.length - 1];
     return createOrUpdateConversation(
       {
-        recipientId: last(action.messages).recipientId,
-        lastMessage: last(action.messages),
+        recipientId: lastMessage.recipientId,
+        lastMessage: lastMessage,
         unread: false,
       },
       state,

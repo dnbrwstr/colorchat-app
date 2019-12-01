@@ -21,9 +21,9 @@ export type AsyncActionSuccessResult<T extends any = any> = {
 };
 
 export type AsyncActionResult<B, R> =
-  | B & AsyncActionStartedResult
-  | B & AsyncActionFailedResult
-  | B & AsyncActionSuccessResult<R>;
+  | (B & AsyncActionStartedResult)
+  | (B & AsyncActionFailedResult)
+  | (B & AsyncActionSuccessResult<R>);
 
 export type AsyncAction<B, R = any> = AsyncActionResult<B, R>;
 
@@ -51,7 +51,7 @@ export const dispatchAsyncActions = async <
     const result = await operation;
     dispatch(asyncActionComplete(baseAction, result));
   } catch (e) {
-    dispatch(asyncActionFailed(baseAction, e.mesage));
+    dispatch(asyncActionFailed(baseAction, e.message));
   }
 };
 

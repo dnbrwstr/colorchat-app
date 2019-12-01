@@ -4,6 +4,7 @@ import {
   ImportContactsAction,
   Contact,
   MatchedContact,
+  ContactMatchData,
 } from './types';
 import {AsyncActionState} from '../../lib/AsyncAction';
 
@@ -13,14 +14,23 @@ let handlers: {[key: string]: CaseReducer<ContactsState, any>} = {
   importContacts: (state, action: ImportContactsAction) => {
     if (action.state !== AsyncActionState.Complete) return state;
 
-    const contacts: Contact[] = action.result.contacts;
-    action.result.matches.forEach(m => {
-      contacts[m.index] = {
-        ...contacts[m.index],
-        matched: true,
-        id: m.userId,
-        avatar: m.avatar,
-      };
+    const matches = action.result.matches.reduce((memo, m) => {
+      memo[m.index] = m;
+      return memo;
+    }, [] as ContactMatchData[]);
+
+    const contacts: Contact[] = action.result.contacts.map((c, i) => {
+      return matches[i]
+        ? {
+            ...c,
+            matched: true,
+            id: matches[i].userId,
+            avatar: matches[i].avatar,
+          }
+        : {
+            ...c,
+            matched: false,
+          };
     });
 
     return contacts.sort((a, b) => {

@@ -9,8 +9,8 @@ const DEFAULT_MESSAGES_PER_PAGE = 20;
 interface LoadMessagesOptions {
   userId: number;
   contactId: number;
-  page: number;
-  per: number;
+  page?: number;
+  per?: number;
 }
 
 export const loadMessages = async (options: LoadMessagesOptions) => {

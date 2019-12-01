@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -11,7 +12,10 @@
     "strict": true,
     "target": "esnext",
     "noImplicitAny": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "paths": {
+      "react-native-color-camera": ["../react-native-color-camera"]
+    }
   },
   "exclude": [
     "node_modules",

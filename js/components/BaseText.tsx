@@ -6,6 +6,7 @@ import {useStyles} from '../lib/withStyles';
 import {Theme} from '../style/themes';
 
 interface BaseTextProps extends TextProps {
+  style?: any;
   visibleOn?: string;
 }
 

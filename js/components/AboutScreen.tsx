@@ -1,14 +1,10 @@
 import React, {FC} from 'react';
-import {useDispatch} from 'react-redux';
-import Style from '../style';
 import TextScreen from './TextScreen';
 import BaseText from './BaseText';
 import TextLink from './TextLink';
-import {navigateBack} from '../store/navigation/actions';
+import {StyleSheet} from 'react-native';
 
 const AboutScreen: FC = () => {
-  const dispatch = useDispatch();
-
   return (
     <TextScreen title="About">
       <BaseText>
@@ -30,7 +26,7 @@ const AboutScreen: FC = () => {
   );
 };
 
-let style = Style.create({
+const style = StyleSheet.create({
   link: {
     textDecorationLine: 'underline',
   },

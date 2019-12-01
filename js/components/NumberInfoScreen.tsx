@@ -1,19 +1,12 @@
-import React, {FC, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
-import Style from '../style';
+import React, {FC} from 'react';
 import TextScreen from './TextScreen';
 import BaseText from './BaseText';
-import {navigateTo} from '../store/navigation/actions';
 import TextLink from './TextLink';
+import {StyleSheet} from 'react-native';
 
 const NumberInfoScreen: FC<{}> = props => {
-  const dispatch = useDispatch();
-  const navigateBack = useCallback(() => {
-    dispatch(navigateTo('signup'));
-  }, []);
-
   return (
-    <TextScreen title="Your Phone Number" onNavigateBack={navigateBack}>
+    <TextScreen title="Your Phone Number">
       <BaseText>
         Color Chat uses your phone number to authenticate you and to connect you
         with friends already on Color Chat.{'\n\n'}
@@ -39,7 +32,7 @@ const NumberInfoScreen: FC<{}> = props => {
   );
 };
 
-const style = Style.create({
+const style = StyleSheet.create({
   container: {},
   link: {
     textDecorationLine: 'underline',

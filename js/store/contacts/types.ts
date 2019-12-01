@@ -2,9 +2,21 @@ import {PermissionStatus} from 'react-native';
 import {Contact as NativeContact} from 'react-native-contacts';
 import {AsyncAction} from '../../lib/AsyncAction';
 
-export interface BaseContact extends Omit<NativeContact, 'phoneNumbers'> {
+export interface RawContactWithNumber
+  extends Omit<NativeContact, 'phoneNumbers'> {
+  phoneNumber: string;
+}
+
+export type ContactMap = {
+  [key: string]: RawContactWithNumber;
+};
+
+export interface BaseContact
+  extends Omit<Partial<NativeContact>, 'phoneNumbers'> {
   matched: boolean;
   phoneNumber: string;
+  givenName: string;
+  familyName: string;
 }
 
 export interface UnmatchedContact extends BaseContact {
@@ -37,17 +49,13 @@ export type ImportContactsBaseAction = {
 
 export interface ImportContactsResult {
   matches: ContactMatchData[];
-  contacts: UnmatchedContact[];
+  contacts: RawContactWithNumber[];
 }
 
 export type ImportContactsAction = AsyncAction<
   ImportContactsBaseAction,
   ImportContactsResult
 >;
-
-export type ContactMap = {
-  [key: string]: UnmatchedContact;
-};
 
 export type ContactPermissionStatus =
   | PermissionStatus

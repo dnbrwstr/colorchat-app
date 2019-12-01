@@ -13,16 +13,16 @@ import {navigateBack} from '../store/navigation/actions';
 import {updateWorkingMessage} from '../store/messages/actions';
 import GradientMask from './GradientMask';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import {
-  CameraLocation,
-  CameraColorChangeEvent,
-  CameraColor,
-} from '../lib/CameraTypes';
 import {Theme} from '../style/themes';
 import {Message, MessageType} from '../store/messages/types';
 import {connect} from 'react-redux';
 import {AppDispatch, AppState} from '../store/createStore';
 import {cameraColorToColor} from '../lib/Utils';
+import {
+  DetectedColor,
+  DetectedColorChangeEvent,
+  CameraLocation,
+} from 'react-native-color-camera';
 
 const interval = 250;
 
@@ -36,7 +36,7 @@ interface CameraScreenProps {
 }
 
 interface CameraScreenState {
-  colors?: CameraColor[];
+  colors?: DetectedColor[];
   cameraVisible: boolean;
   cameraReady: boolean;
   displayMode: DisplayMode;
@@ -123,7 +123,7 @@ class CameraScreen extends Component<CameraScreenProps, CameraScreenState> {
     this.setState({cameraLocation});
   };
 
-  handleColorChange = ({nativeEvent: {colors}}: CameraColorChangeEvent) => {
+  handleColorChange = ({nativeEvent: {colors}}: DetectedColorChangeEvent) => {
     this.setState({colors});
   };
 
@@ -135,7 +135,7 @@ class CameraScreen extends Component<CameraScreenProps, CameraScreenState> {
     this.props.dispatch(navigateBack());
   };
 
-  handleSelectColor = (color: CameraColor) => {
+  handleSelectColor = (color: DetectedColor) => {
     this.props.dispatch(navigateBack());
     if (this.props.message && this.props.contactId) {
       this.props.dispatch(

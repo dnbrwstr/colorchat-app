@@ -31,7 +31,6 @@ const handlers: CaseHandlerMap<NotificationsState> = {
 };
 
 export default createRoutingReducer({
-  key: 'notifications',
   handlers,
   initialState,
 });

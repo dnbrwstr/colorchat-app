@@ -1,17 +1,25 @@
 import {AsyncAction} from '../../lib/AsyncAction';
-export type User = {
-  id?: number;
+import {ApiBlockedUsersResponse, ApiAccount} from 'js/lib/ChatApi';
+
+export interface User {
+  id: number;
+  token: string;
+  phoneNumber: string;
   name?: string;
-  phoneNumber?: string;
   avatar?: string;
-  token?: string;
   deviceToken?: string;
   deviceTokenSaved?: boolean;
-  blockedUsers?: User[];
+  blockedUsers?: ApiUser[];
   unreadCount?: number;
-};
+}
 
-export type UserState = User;
+export interface ApiUser {
+  id: number;
+  avatar: string;
+  name: string;
+}
+
+export type UserState = User | null;
 
 export const LOAD_USER_INFO = 'loadUserInfo';
 export const UPDATE_USER_INFO = 'updateUserInfo';
@@ -26,28 +34,40 @@ export interface LoadUserInfoBaseAction {
   user: User;
 }
 
-export type LoadUserInfoAction = AsyncAction<LoadUserInfoBaseAction, User>;
+export type LoadUserInfoAction = AsyncAction<
+  LoadUserInfoBaseAction,
+  ApiAccount
+>;
 
 export interface UpdateUserInfoBaseAction {
   type: typeof UPDATE_USER_INFO;
   data: Partial<User>;
 }
 
-export type UpdateUserInfoAction = AsyncAction<UpdateUserInfoBaseAction, User>;
+export type UpdateUserInfoAction = AsyncAction<
+  UpdateUserInfoBaseAction,
+  Partial<User>
+>;
 
 export interface BlockUserBaseAction {
   type: typeof BLOCK_USER;
   userId: number;
 }
 
-export type BlockUserAction = AsyncAction<BlockUserBaseAction, User>;
+export type BlockUserAction = AsyncAction<
+  BlockUserBaseAction,
+  ApiBlockedUsersResponse
+>;
 
 export interface UnblockUserBaseAction {
   type: typeof UNBLOCK_USER;
   userId: number;
 }
 
-export type UnblockUserAction = AsyncAction<UnblockUserBaseAction, User>;
+export type UnblockUserAction = AsyncAction<
+  UnblockUserBaseAction,
+  ApiBlockedUsersResponse
+>;
 
 export interface LoadBlockedUsersBaseAction {
   type: typeof LOAD_BLOCKED_USERS;
@@ -55,7 +75,7 @@ export interface LoadBlockedUsersBaseAction {
 
 export type LoadBlockedUsersAction = AsyncAction<
   LoadBlockedUsersBaseAction,
-  User
+  ApiBlockedUsersResponse
 >;
 
 export interface LogoutAction {

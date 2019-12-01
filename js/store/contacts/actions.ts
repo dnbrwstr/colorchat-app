@@ -19,6 +19,7 @@ import {
   ContactMap,
   MatchedContact,
   ImportContactsBaseAction,
+  RawContactWithNumber,
 } from './types';
 import {selectUserToken} from '../user/selectors';
 import {AsyncActionState, dispatchAsyncActions} from '../../lib/AsyncAction';
@@ -27,7 +28,7 @@ const {SettingsApp} = NativeModules;
 
 const {serverRoot, inviteLink} = config;
 
-export let importContacts = ({
+export const importContacts = ({
   askPermission,
 }: ContactImportOptions): ThunkResult<Promise<void>> => async (
   dispatch,
@@ -81,21 +82,6 @@ const getPermission = async (shouldRequestIfMissing: boolean) => {
   return permission === 'authorized' || permission === 'granted';
 };
 
-const createImportStartedAction = (): ImportContactsAction => {
-  return {
-    type: IMPORT_CONTACTS,
-    state: AsyncActionState.Started,
-  };
-};
-
-const createImportFailedAction = (error: string): ImportContactsAction => {
-  return {
-    type: IMPORT_CONTACTS,
-    state: AsyncActionState.Failed,
-    error: error,
-  };
-};
-
 const getContactsByNumber = async (): Promise<ContactMap> => {
   const rawContacts = await getAll();
   // Map each unique phone number to a contact
@@ -114,7 +100,7 @@ const getContactsByNumber = async (): Promise<ContactMap> => {
 const normalizeNumber = (n: string) => n.replace(/[^\+\d]/g, '');
 
 const filterBlockedContacts = (
-  contacts: UnmatchedContact[],
+  contacts: RawContactWithNumber[],
   matches: ContactMatchData[],
 ) => {
   const finalMatches: ContactMatchData[] = [];
@@ -127,13 +113,6 @@ const filterBlockedContacts = (
     matches: finalMatches,
     contacts: contacts.filter((c, i) => blockedIndexes.indexOf(i) === -1),
   };
-};
-
-const loadAvatar = (contact: MatchedContact): ThunkResult<void> => (
-  dispatch,
-  getState,
-) => {
-  const phoneNumber = contact.phoneNumber;
 };
 
 export let sendInvite = (

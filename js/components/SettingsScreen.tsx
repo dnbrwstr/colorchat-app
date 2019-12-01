@@ -22,7 +22,7 @@ import {AppDispatch, AppState} from '../store/createStore';
 import {Theme} from '../style/themes';
 
 interface SettingsScreenProps {
-  user: User;
+  user: User | null;
   dispatch: AppDispatch;
   theme: Theme;
   styles: InjectedStyles<typeof getStyles>;
@@ -39,8 +39,8 @@ class SettingsScreen extends React.Component<
   SettingsScreenState
 > {
   state = {
-    name: this.props.user.name || '',
-    avatar: this.props.user.avatar || '#CCC',
+    name: this.props.user?.name || '',
+    avatar: this.props.user?.avatar || '#CCC',
     scrollLocked: false,
   };
 
@@ -67,19 +67,19 @@ class SettingsScreen extends React.Component<
     nextProps: SettingsScreenProps,
     nextState: SettingsScreenState,
   ) {
-    if (nextProps.user.name !== this.props.user.name) {
-      this.setState({name: nextProps.user.name || ''});
+    if (nextProps.user?.name !== this.props.user?.name) {
+      this.setState({name: nextProps.user?.name || ''});
     }
 
-    if (nextProps.user.avatar !== this.props.user.avatar) {
-      this.setState({avatar: nextProps.user.avatar || ''});
+    if (nextProps.user?.avatar !== this.props.user?.avatar) {
+      this.setState({avatar: nextProps.user?.avatar || ''});
     }
   }
 
   maybeUpdateUser = () => {
     if (
-      this.props.user.name !== this.state.name ||
-      this.props.user.avatar !== this.state.avatar
+      this.props.user?.name !== this.state.name ||
+      this.props.user?.avatar !== this.state.avatar
     ) {
       this.props.dispatch(
         updateUserInfo({name: this.state.name, avatar: this.state.avatar}),

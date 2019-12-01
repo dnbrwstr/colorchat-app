@@ -9,9 +9,13 @@ interface NavigationHandlerMap {
 }
 
 const navigationMiddleware = (store: MiddlewareAPI) => (next: Dispatch) => {
+  const navigate = (routeName: string, params?: any) => {
+    NavigationService.navigate(routeName, params || {});
+  };
+
   const handlers: NavigationHandlerMap = {
     navigateTo: function(state, action) {
-      NavigationService.navigate(action.routeName, action.params);
+      navigate(action.routeName, action.params);
     },
 
     navigateBack: function() {
@@ -19,38 +23,38 @@ const navigationMiddleware = (store: MiddlewareAPI) => (next: Dispatch) => {
     },
 
     navigateToConversation: function() {
-      NavigationService.navigate('conversation');
+      navigate('conversation');
     },
 
     authError: function(state, action) {
-      NavigationService.navigate('auth');
+      navigate('auth');
     },
 
     registerPhoneNumber: function(state, action) {
       if (action.state !== 'complete') return;
-      NavigationService.navigate('confirmCode');
+      navigate('confirmCode');
     },
 
     submitConfirmationCode: function(state, action) {
       if (action.state !== 'complete') return;
-      NavigationService.navigate('notifications');
+      navigate('notifications');
     },
 
     submitNotificationName: function(state, action) {
-      NavigationService.navigate('app');
+      navigate('app');
     },
 
     blockUser: function(state, action) {
       if (action.state !== 'complete') return;
-      NavigationService.navigate('inbox');
+      navigate('inbox');
     },
 
     logout: function(state, action) {
-      NavigationService.navigate('welcome');
+      navigate('welcome');
     },
 
     deleteAccount: function(state, action) {
-      NavigationService.navigate('welcome');
+      navigate('welcome');
     },
   };
 

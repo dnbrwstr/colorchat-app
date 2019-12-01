@@ -7,6 +7,7 @@ import {
   ViewStyle,
   NativeTouchEvent,
   NativeSyntheticEvent,
+  StyleSheet,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
@@ -288,15 +289,12 @@ class EditableMessage extends React.Component<
   };
 }
 
-let style = Style.create({
+let style = StyleSheet.create({
   message: {
     flex: 0,
     overflow: 'hidden',
   },
-  photoMessage: {
-    // borderTopLeftRadius: 1000,
-    // borderBottomLeftRadius: 1000,
-  },
+  photoMessage: {},
 });
 
 let selectData = (state: AppState) => {

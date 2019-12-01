@@ -5,6 +5,7 @@ import {
   NativeSyntheticEvent,
   TargetedEvent,
   ViewStyle,
+  StyleSheet,
 } from 'react-native';
 import Style from '../style';
 import AnimatedEllipsis from './AnimatedEllipsis';
@@ -63,7 +64,7 @@ const LoaderButton: FC<LoaderButtonProps> = props => {
   );
 };
 
-const style = Style.create({
+const style = StyleSheet.create({
   ellipsisContainer: {
     position: 'absolute',
     top: Style.values.outerPadding,

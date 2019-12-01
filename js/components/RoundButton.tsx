@@ -1,6 +1,7 @@
 import React, {Component, FC} from 'react';
 import Style from '../style';
 import SpringButton, {SpringButtonProps} from './SpringButton';
+import {StyleSheet} from 'react-native';
 
 const BUTTON_SIZE = 50;
 
@@ -12,7 +13,7 @@ const RoundButton: FC<RoundButtonProps> = props => {
   return <SpringButton {...props} style={style} contentStyle={contentStyle} />;
 };
 
-const styles = Style.create({
+const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     bottom: 20,

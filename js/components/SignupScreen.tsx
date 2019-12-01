@@ -18,7 +18,7 @@ interface SignupScreenProps {
   theme: Theme;
   styles: InjectedStyles<typeof getStyles>;
   scrollEnabled?: boolean;
-  hideBackButton: boolean;
+  hideBackButton?: boolean;
   renderNextButton: () => ReactNode;
   onNavigateBack?: () => void;
 }

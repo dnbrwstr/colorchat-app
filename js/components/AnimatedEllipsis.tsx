@@ -3,7 +3,7 @@ import {View, LayoutAnimation, StyleSheet} from 'react-native';
 import {times} from 'ramda';
 import Style from '../style';
 
-const AnimatedEllipsisFC: FC<{
+const AnimatedEllipsis: FC<{
   duration?: number;
 }> = ({duration = 500}) => {
   const [dotCount, setDotCount] = useState(2);
@@ -33,55 +33,9 @@ const AnimatedEllipsisFC: FC<{
   );
 };
 
-// let AnimatedEllipsis = createReactClass({
-//   displayName: 'AnimatedEllipsis',
-//   mixins: [TimerMixin],
+const size = 2;
 
-//   getDefaultProps: function() {
-//     return {
-//       duration: 2000,
-//     };
-//   },
-
-//   getInitialState: function() {
-//     return {
-//       dots: 2,
-//     };
-//   },
-
-//   componentDidMount: function() {
-//     this.setIntervalTimer('update', this.step, this.props.duration);
-//   },
-
-//   componentWillUnmount: function() {
-//     this.clearAllTimers();
-//   },
-
-//   step: function() {},
-
-//   render: function() {
-//     let dots = times(i => {
-//       let dotStyle = [
-//         style.dot,
-//         i < this.state.dots && {
-//           opacity: 1,
-//           width: 5,
-//           height: 5,
-//           borderRadius: 2.5,
-//           margin: 5 / 3,
-//         },
-//       ];
-
-//       return <View style={dotStyle} key={`dot-${i}`} />;
-//     }, 3);
-
-//     return <View style={style.container}>{dots}</View>;
-//   },
-// });
-
-let size = 2;
-
-let style = Style.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -106,4 +60,4 @@ let style = Style.create({
   },
 });
 
-export default AnimatedEllipsisFC;
+export default AnimatedEllipsis;

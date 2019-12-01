@@ -15,10 +15,12 @@ import ContactsImportPrompt from './ContactsImportPrompt';
 import {Theme} from '../style/themes';
 import {AppDispatch, AppState} from '../store/createStore';
 import {Contact} from '../store/contacts/types';
+import BaseText from './BaseText';
 
 interface ContactsScreenProps {
   contacts: Contact[];
   importInProgress: boolean;
+  importError: string | null;
   isTransitioning: boolean;
   shouldRefresh: boolean;
   dispatch: AppDispatch;
@@ -72,6 +74,7 @@ class ContactsScreen extends React.Component<ContactsScreenProps> {
   renderImportPrompt = () => {
     return (
       <ContactsImportPrompt
+        importError={this.props.importError}
         onRequestInfo={this.handleShowContactsInfo}
         onPressImport={this.handleImportButtonPressed}
       />

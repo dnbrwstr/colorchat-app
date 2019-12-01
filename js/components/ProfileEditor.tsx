@@ -5,7 +5,6 @@ import AvatarEditor from './AvatarEditor';
 import BaseText from './BaseText';
 import BaseTextInput from './BaseTextInput';
 import {Theme} from '../style/themes';
-import {User} from '../store/user/types';
 
 const avatarDescription = `Touch and drag to change\nyour avatar color`;
 const nameDescription = `Your friends will see this in push notifications when you message them`;
@@ -19,7 +18,7 @@ interface ProfileEditorProps {
   style?: StyleProp<ViewStyle>;
   styles: InjectedStyles<typeof getStyles>;
   theme: Theme;
-  value: User;
+  value: ProfileData;
   onColorPickerInteractionStart: () => void;
   onColorPickerInteractionEnd: () => void;
   onChange: (user: ProfileData) => void;

@@ -21,7 +21,7 @@ const errorMessages: {[actionKey: string]: {[errorKey: string]: string}} = {
 /**
  * Exponentialish-holdoff values
  */
-const retryIntervals = [1000, 2000, 5000, 10000];
+const retryIntervals = [500, 500, 1000, 1000];
 
 /**
  * Keep tabs on a network request, dispatching events

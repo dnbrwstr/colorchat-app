@@ -24,8 +24,7 @@ export const getTimestamp = (message: Message): string => {
 
 export const getId = (message: Message): string => {
   return (
-    (message as FinishedMessage).id ||
-    (message as WorkingMessage).clientTimestamp
+    (message as FinishedMessage).id || (message as WorkingMessage).clientId
   );
 };
 

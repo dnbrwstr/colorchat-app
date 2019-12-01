@@ -27,6 +27,7 @@ export default {
 
     BackHandler.addEventListener('hardwareBackPress', () => {
       if (!navigator) return;
+      // @ts-ignore Nav exists!!!
       const currentRoute = getActiveRoute(navigator.state.nav);
       if (!currentRoute) return;
       // Returning true will prevent react-navigation from responding

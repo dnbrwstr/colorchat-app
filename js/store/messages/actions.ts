@@ -35,13 +35,13 @@ export let receiveMessage = (
 
   const {ui} = getState();
   let inCurrentConversation =
-    NavigationService.getCurrentRoute().routeName === 'conversation' &&
-    ui.conversation.contactId === message.senderId;
+    NavigationService.getCurrentRoute()?.routeName === 'conversation' &&
+    ui.conversation?.contactId === message.senderId;
 
   dispatch(createReceiveMessageAction(inCurrentConversation, message));
 };
 
-const createReceiveMesswageAction = (
+const createReceiveMessageAction = (
   inCurrentConversation: boolean,
   message: FinishedMessage,
 ): MessageAction => {
@@ -137,7 +137,7 @@ export let loadMessages = (
   dispatch(createLoadMessagesStartedAction(contactId));
 
   const state = getState();
-  const userId = state.user ? state.user.id : -1;
+  const userId = state.user?.id ? state.user.id : -1;
 
   const {messages, total} = await DatabaseUtils.loadMessages({
     contactId,

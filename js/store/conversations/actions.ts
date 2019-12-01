@@ -30,7 +30,7 @@ export const deleteConversation = (
 export const markConversationRead = (
   contactId: number,
 ): ThunkResult<void> => async (dispatch, getState) => {
-  const userId = getState().user.id;
+  const userId = getState().user?.id;
   if (!userId) return;
 
   await DatabaseManager.markConversationRead(userId, contactId);

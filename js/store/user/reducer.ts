@@ -21,8 +21,9 @@ import {
   SubmitConfirmationCodeAction,
 } from '../signup/types';
 import {LOAD_COMPLETE, LoadCompleteAction} from '../load/types';
+import {AUTH_ERROR} from '../ui/types';
 
-const initialState: UserState = {};
+const initialState: UserState = null;
 
 const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   [LOAD_COMPLETE]: (state, action: LoadCompleteAction) => {
@@ -30,13 +31,8 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
     return startState;
   },
 
-  authError: (state, action) => {
-    if (state) {
-      return {
-        ...state,
-        token: undefined,
-      };
-    } else return state;
+  [AUTH_ERROR]: (state, action) => {
+    return initialState;
   },
 
   [SUBMIT_CONFIRMATION_CODE]: (state, action: SubmitConfirmationCodeAction) => {
@@ -51,6 +47,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [SAVE_DEVICE_TOKEN]: (state, action: SaveDeviceTokenAction) => {
+    if (!state) return null;
     return {
       ...state,
       deviceToken: action.deviceToken,
@@ -59,6 +56,8 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [LOAD_USER_INFO]: (state, action: LoadUserInfoAction) => {
+    if (!state) return null;
+
     if (action.state === AsyncActionState.Complete) {
       return {
         ...state,
@@ -70,6 +69,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [UPDATE_USER_INFO]: (state, action: UpdateUserInfoAction) => {
+    if (!state) return null;
     return {
       ...state,
       ...action.data,
@@ -77,6 +77,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [BLOCK_USER]: (state, action: BlockUserAction) => {
+    if (!state) return null;
     if (action.state === AsyncActionState.Complete) {
       return {
         ...state,
@@ -88,6 +89,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [UNBLOCK_USER]: (state, action: UnblockUserAction) => {
+    if (!state) return null;
     if (action.state === AsyncActionState.Complete) {
       return {
         ...state,
@@ -99,6 +101,7 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [LOAD_BLOCKED_USERS]: (state, action: LoadBlockedUsersAction) => {
+    if (!state) return null;
     if (action.state === AsyncActionState.Complete) {
       return {
         ...state,

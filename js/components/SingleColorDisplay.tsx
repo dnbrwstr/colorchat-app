@@ -1,12 +1,12 @@
 import React, {FC, useCallback} from 'react';
 import {Animated} from 'react-native';
 import PressableView from './PressableView';
-import {CameraColor} from '../lib/CameraTypes';
+import {DetectedColor} from 'react-native-color-camera';
 
 interface SingleColorDisplayProps {
   animatedColors: Animated.AnimatedInterpolation[];
-  getColorValue: (index: number) => CameraColor;
-  onSelectColor: (color: CameraColor) => void;
+  getColorValue: (index: number) => DetectedColor;
+  onSelectColor: (color: DetectedColor) => void;
 }
 
 const SingleColorDisplay: FC<SingleColorDisplayProps> = props => {

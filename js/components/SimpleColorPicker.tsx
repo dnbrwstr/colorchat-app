@@ -7,9 +7,9 @@ import {
   LayoutChangeEvent,
   LayoutRectangle,
   GestureResponderEvent,
+  StyleSheet,
 } from 'react-native';
 import Color from 'color';
-import Style from '../style';
 import BaseText from './BaseText';
 
 let SATURATION = 75;
@@ -149,7 +149,7 @@ class SimpleColorPicker extends Component<
   };
 }
 
-let style = Style.create({
+let style = StyleSheet.create({
   container: {
     height: 200,
     flex: 0,

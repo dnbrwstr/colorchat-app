@@ -37,7 +37,7 @@ export const createConversationSelector = (contactId: number | null) =>
   );
 
 export const selectConversationContact = createSelector(
-  (state: AppState) => state.ui.conversation.contactId,
+  (state: AppState) => state.ui.conversation?.contactId,
   (state: AppState) => state.contacts,
   (contactId, contacts): MatchedContact => {
     return contacts.filter(
@@ -47,7 +47,7 @@ export const selectConversationContact = createSelector(
 );
 
 export const selectConversation = createSelector(
-  (state: AppState) => state.ui.conversation.contactId,
+  (state: AppState) => state.ui.conversation?.contactId,
   (state: AppState) => state.conversations,
   (contactId, conversations) => {
     return conversations.filter(c => c.recipientId === contactId)[0];
@@ -121,14 +121,6 @@ export let inboxScreenSelector = createSelector(
     };
   },
 );
-
-export let socketServiceSelector = (state: AppState) => {
-  return {
-    enqueuedMessages: state.messages.enqueued,
-    composingMessages: state.messages.working,
-    token: state.user.token,
-  };
-};
 
 const selectSignupUIData = (state: AppState) => state.ui.signup;
 const selectSignupData = (state: AppState) => state.signup;

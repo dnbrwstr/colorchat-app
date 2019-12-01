@@ -4,6 +4,7 @@ import {AppState} from './store/createStore';
  * Note: enabling seedAddressBook here will trigger
  * a contacts permissions request on app startup
  */
+
 export type AppConfig = {
   appName: string;
   screenshotMode: boolean;

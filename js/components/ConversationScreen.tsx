@@ -54,7 +54,7 @@ interface ConversationScreenProps {
   partnerIsComposing?: boolean;
   sending: boolean;
   cancelling: boolean;
-  user: User;
+  user: User | null;
   theme: Theme;
   screenFocusState: FocusState;
   recipientName?: string;
@@ -94,6 +94,7 @@ export class ConversationScreen extends Component<
 
   render() {
     const {dispatch, styles} = this.props;
+    if (!this.props.user) return null;
     return (
       <View style={styles.container}>
         <Header
@@ -210,7 +211,9 @@ export class ConversationScreen extends Component<
   };
 
   handleStartComposing = () => {
+    console.log('maybe start composing');
     if (this.props.composing) return;
+    console.log('really start composing');
 
     this.props.dispatch(
       startComposingMessage({
@@ -253,7 +256,7 @@ export class ConversationScreen extends Component<
 
   handleMessageEchoed = (message: FinishedMessage) => {
     if (this.props.composing) return;
-    const userId = this.props.user.id;
+    const userId = this.props.user?.id;
     const recipientId = message.recipientId;
     const isPartnerEcho = userId === recipientId;
     this.props.dispatch(toggleMessageExpansion(message, false));

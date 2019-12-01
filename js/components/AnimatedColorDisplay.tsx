@@ -8,10 +8,13 @@ import {
   valSort,
   cameraColorToColor,
 } from '../lib/Utils';
-import {CameraColor} from '../lib/CameraTypes';
 import {DisplayMode} from './CameraDisplayModeMenu';
+import {DetectedColor} from 'react-native-color-camera';
 
-const getChange = (newColors?: CameraColor[], oldColors?: CameraColor[]) => {
+const getChange = (
+  newColors?: DetectedColor[],
+  oldColors?: DetectedColor[],
+) => {
   if (!newColors || !oldColors) return 1;
 
   return newColors.reduce((memo, color, i) => {
@@ -28,11 +31,12 @@ const getChange = (newColors?: CameraColor[], oldColors?: CameraColor[]) => {
 };
 
 const getSize = ({size}: {size: number}) => size;
-const getLum = (color: CameraColor) => cameraColorToColor(color).luminosity();
-const getSat = (color: CameraColor) => cameraColorToColor(color).saturationl();
+const getLum = (color: DetectedColor) => cameraColorToColor(color).luminosity();
+const getSat = (color: DetectedColor) =>
+  cameraColorToColor(color).saturationl();
 
 const sortFunctions: {
-  [K in DisplayMode]: (a: CameraColor, b: CameraColor) => number;
+  [K in DisplayMode]: (a: DetectedColor, b: DetectedColor) => number;
 } = {
   dominant: valSort(getSize, true),
   dark: valSort(getLum),
@@ -46,7 +50,7 @@ const sortFunctions: {
 const add = (memo: number, n: number) => memo + n;
 
 interface AnimatedColorDisplayProps {
-  colors: CameraColor[];
+  colors?: DetectedColor[];
   defaultColor: string;
   displayMode: DisplayMode;
   colorCount: number;
@@ -61,20 +65,20 @@ interface AnimatedColorDisplayState {
   animatedColors: Animated.AnimatedInterpolation[];
   animatedAbsoluteSizes: Animated.AnimatedInterpolation[];
   animatedRelativeSizes: Animated.AnimatedInterpolation[];
-  sourceColors?: CameraColor[];
-  lastColors: CameraColor[];
-  colors: CameraColor[];
+  sourceColors?: DetectedColor[];
+  lastColors: DetectedColor[];
+  colors: DetectedColor[];
   changeAmount: number;
 }
 
 export interface AnimatedColorChildProps {
-  colors?: CameraColor[];
-  lastColors: CameraColor[];
+  colors?: DetectedColor[];
+  lastColors: DetectedColor[];
   animationPosition: Animated.Value;
   animatedColors: Animated.AnimatedInterpolation[];
   animatedRelativeSizes: Animated.AnimatedInterpolation[];
   animatedAbsoluteSizes: Animated.AnimatedInterpolation[];
-  getColorValue: (i: number) => CameraColor;
+  getColorValue: (i: number) => DetectedColor;
 }
 
 class AnimatedColorDisplay extends Component<

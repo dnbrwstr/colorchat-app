@@ -120,7 +120,7 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    marginBottom: 8,
+    marginBottom: 12,
     height: Style.values.buttonHeight,
   },
   countryCodeWrapper: {

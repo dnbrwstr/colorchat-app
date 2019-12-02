@@ -36,7 +36,12 @@ import {
   RESET_COMPOSE_EVENTS,
   DELETE_CONVERSATION,
 } from '../conversations/types';
-import {LOGOUT, LogoutAction} from '../user/types';
+import {
+  LOGOUT,
+  LogoutAction,
+  DeleteAccountAction,
+  DELETE_ACCOUNT,
+} from '../user/types';
 import {AsyncActionState} from '../../lib/AsyncAction';
 import {isUndefined} from '../../lib/Utils';
 
@@ -337,6 +342,10 @@ const handlers: CaseHandlerMap<MessageState> = {
   },
 
   [LOGOUT](state, action: LogoutAction) {
+    return initialState;
+  },
+
+  [DELETE_ACCOUNT](state, action: DeleteAccountAction) {
     return initialState;
   },
 };

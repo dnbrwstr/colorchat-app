@@ -11,6 +11,8 @@ interface ErrorMessageProps {
   onRemove: () => void;
 }
 
+const padding = 7;
+
 const ErrorMessage: FC<ErrorMessageProps> = props => {
   const {styles} = useStyles(getStyles);
   const animatedHeight = useMemo(() => new Animated.Value(0), []);
@@ -33,7 +35,7 @@ const ErrorMessage: FC<ErrorMessageProps> = props => {
       Animated.parallel([
         Animated.timing(animatedHeight, {
           duration: 150,
-          toValue: height + 10,
+          toValue: height + padding,
           easing: Easing.out(Easing.ease),
         }),
         Animated.timing(animatedOpacity, {
@@ -88,7 +90,7 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
     flex: 0,
     opacity: 0,
     overflow: 'hidden',
-    paddingBottom: 10,
+    paddingBottom: padding,
   },
   messageActive: {
     opacity: 0.7,

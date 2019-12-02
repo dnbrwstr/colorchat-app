@@ -1,5 +1,5 @@
 import React, {FC, useState, useEffect} from 'react';
-import {View, Animated, StyleSheet, Platform} from 'react-native';
+import {View, Animated, StyleSheet, Platform, Keyboard} from 'react-native';
 import {GatewayDest} from 'react-gateway';
 import Router from './Router';
 import OfflineMessage from './OfflineMessage';

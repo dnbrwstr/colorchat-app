@@ -37,9 +37,9 @@ class MessageClient {
       this.socket.disconnect();
       this.socket = undefined;
     }
-    if (token) {
+    this.token = token;
+    if (this.token) {
       // Recreate client if we have a token
-      this.token = token;
       this.socket = this.createSocket();
     } else {
       // Otherwise die
@@ -77,7 +77,7 @@ class MessageClient {
 
     client.on(MessageEvent.Error, (e: string) => {
       if (authErrors.indexOf(e) !== -1) {
-        this.emit(MessageEvent.Error);
+        this.emit(MessageEvent.AuthError);
       }
     });
 

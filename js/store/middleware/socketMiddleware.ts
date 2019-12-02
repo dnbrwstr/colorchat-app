@@ -71,16 +71,15 @@ const socketMiddleware = (
   });
 
   const sendEnqueuedMessages = () => {
-    console.log('mbe send enqueued');
     const messages = state.enqueuedMessages;
     if (!messages.length) return;
-    console.log('sending enqueued');
+
     const operation = sendMessages(client, messages);
     const baseAction: SendMessagesBaseAction = {
       type: SEND_MESSAGES,
       messages,
     };
-    console.log('Dispatch fial');
+
     dispatchAsyncActions<SendMessagesAction>(
       baseAction,
       operation,
@@ -100,7 +99,6 @@ const socketMiddleware = (
     state = selector(store.getState());
     setTimeout(() => {
       client.setToken(state.token);
-      console.log('sending?');
       sendEnqueuedMessages();
     }, 0);
     return result;

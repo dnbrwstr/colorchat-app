@@ -20,6 +20,7 @@ import {
   WorkingMessage,
 } from './types';
 import {getAbsoluteSize} from '../../lib/MessageUtils';
+import {markConversationRead} from '../conversations/actions';
 
 export let receiveMessage = (
   messageData: RawMessageData,
@@ -39,6 +40,13 @@ export let receiveMessage = (
     ui.conversation?.contactId === message.senderId;
 
   dispatch(createReceiveMessageAction(inCurrentConversation, message));
+
+  if (inCurrentConversation && ui.conversation) {
+    const conversation = ui.conversation;
+    setTimeout(() => {
+      dispatch(markConversationRead(conversation.contactId));
+    }, 100);
+  }
 };
 
 const createReceiveMessageAction = (

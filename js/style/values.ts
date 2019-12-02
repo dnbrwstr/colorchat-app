@@ -15,6 +15,7 @@ const rowHeight = 64;
 
 const values = {
   smallFontSize: 14,
+  smallFontLeading: 18,
   largeFontSize: 22,
   borderWidth: 1 / PixelRatio.get(),
   basePadding: 10,

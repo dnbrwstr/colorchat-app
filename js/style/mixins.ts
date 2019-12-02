@@ -2,6 +2,7 @@ import values from './values';
 
 const textBase = {
   fontSize: 16,
+  lineHeight: 22,
 };
 
 const grayBottomBorder = {

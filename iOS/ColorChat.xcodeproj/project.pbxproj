@@ -14,10 +14,6 @@
 		6C30602E2244A28300708924 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C30602D2244A28300708924 /* Empty.swift */; };
 		6CDF4CAC232A0A7A00692943 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8C41E632106BB5F0069B2FC /* libRNFirebase.a */; };
 		6CF9EE44222DADD800B994A4 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CF9EE10222DADD800B994A4 /* JavaScriptCore.framework */; };
-		C841D4071ECD3BA7006D5EEB /* ParseBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C841D4021ECD3BA7006D5EEB /* ParseBridge.m */; };
-		C841D4081ECD3BA7006D5EEB /* SettingsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C841D4041ECD3BA7006D5EEB /* SettingsApp.m */; };
-		C841D40F1ECD3BDA006D5EEB /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40C1ECD3BDA006D5EEB /* Bolts.framework */; };
-		C841D4101ECD3BDA006D5EEB /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D40D1ECD3BDA006D5EEB /* Parse.framework */; };
 		C841D4131ECE0BD5006D5EEB /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */; };
 		C85535A41F607615006AAF31 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C85535A31F607615006AAF31 /* GoogleService-Info.plist */; };
 		E0072F8AFE7064A6D9E1367E /* libPods-ColorChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F08C1D259C652674BF8D0BB4 /* libPods-ColorChat.a */; };
@@ -62,12 +58,6 @@
 		6CF9EEAF222DF37300B994A4 /* libreact-native-sqlite-storage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-sqlite-storage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA83DFB075120947C9BCDFB /* Pods-ColorChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChatTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests.release.xcconfig"; sourceTree = "<group>"; };
 		C80402CD1F605FD7004D6DAB /* ColorChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ColorChat.entitlements; path = ColorChat/ColorChat.entitlements; sourceTree = "<group>"; };
-		C841D4011ECD3BA7006D5EEB /* ParseBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseBridge.h; path = ColorChat/ParseBridge.h; sourceTree = "<group>"; };
-		C841D4021ECD3BA7006D5EEB /* ParseBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseBridge.m; path = ColorChat/ParseBridge.m; sourceTree = "<group>"; };
-		C841D4031ECD3BA7006D5EEB /* SettingsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsApp.h; path = ColorChat/SettingsApp.h; sourceTree = "<group>"; };
-		C841D4041ECD3BA7006D5EEB /* SettingsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsApp.m; path = ColorChat/SettingsApp.m; sourceTree = "<group>"; };
-		C841D40C1ECD3BDA006D5EEB /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
-		C841D40D1ECD3BDA006D5EEB /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		C85535A31F607615006AAF31 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ColorChat/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F08C1D259C652674BF8D0BB4 /* libPods-ColorChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ColorChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,8 +71,6 @@
 			files = (
 				6CF9EE44222DADD800B994A4 /* JavaScriptCore.framework in Frameworks */,
 				C841D4131ECE0BD5006D5EEB /* libsqlite3.0.tbd in Frameworks */,
-				C841D40F1ECD3BDA006D5EEB /* Bolts.framework in Frameworks */,
-				C841D4101ECD3BDA006D5EEB /* Parse.framework in Frameworks */,
 				E0072F8AFE7064A6D9E1367E /* libPods-ColorChat.a in Frameworks */,
 				6CDF4CAC232A0A7A00692943 /* libRNFirebase.a in Frameworks */,
 			);
@@ -117,10 +105,6 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				6C30602D2244A28300708924 /* Empty.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				C841D4011ECD3BA7006D5EEB /* ParseBridge.h */,
-				C841D4021ECD3BA7006D5EEB /* ParseBridge.m */,
-				C841D4031ECD3BA7006D5EEB /* SettingsApp.h */,
-				C841D4041ECD3BA7006D5EEB /* SettingsApp.m */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				C85535A31F607615006AAF31 /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -175,8 +159,6 @@
 			children = (
 				6CF9EE10222DADD800B994A4 /* JavaScriptCore.framework */,
 				C841D4121ECE0BD5006D5EEB /* libsqlite3.0.tbd */,
-				C841D40C1ECD3BDA006D5EEB /* Bolts.framework */,
-				C841D40D1ECD3BDA006D5EEB /* Parse.framework */,
 				F08C1D259C652674BF8D0BB4 /* libPods-ColorChat.a */,
 				0E760EFF1704E546880FC7C9 /* libPods-ColorChatTests.a */,
 				6CF9EEAF222DF37300B994A4 /* libreact-native-sqlite-storage.a */,
@@ -355,10 +337,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C841D4081ECD3BA7006D5EEB /* SettingsApp.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				6C30602E2244A28300708924 /* Empty.swift in Sources */,
-				C841D4071ECD3BA7006D5EEB /* ParseBridge.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

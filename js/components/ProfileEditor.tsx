@@ -117,6 +117,7 @@ var getStyles = makeStyleCreator((theme: Theme) => ({
   },
   fieldDescription: {
     fontSize: 13,
+    lineHeight: 16,
     width: 250,
     color: theme.secondaryTextColor,
     marginTop: 10,

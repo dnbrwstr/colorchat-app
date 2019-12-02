@@ -171,8 +171,13 @@ class Message extends PureComponent<MessageProps, MessageState> {
       duration: 200,
     };
 
-    const heightFn = height > 20 ? 'spring' : 'timing';
-    const widthFn = width > 20 ? 'spring' : 'timing';
+    const expanded = isExpanded(this.props.message);
+    const heightFn = height > 20 && !expanded ? 'spring' : 'timing';
+    const widthFn = width > 20 && !expanded ? 'spring' : 'timing';
+
+    if (expanded && height > 20) {
+      baseOpts.duration = 300;
+    }
 
     const animations = [
       shouldSizeWidth &&
@@ -273,7 +278,7 @@ class Message extends PureComponent<MessageProps, MessageState> {
 
           {finishedMessage.type === MessageType.Picture && (
             <BaseText
-              style={[style.messageType, style.text, opacityStyle]}
+              style={[style.messageType, opacityStyle]}
               visibleOn={finishedMessage.color}
             >
               Capture with camera
@@ -282,7 +287,7 @@ class Message extends PureComponent<MessageProps, MessageState> {
 
           {finishedMessage.type === MessageType.Echo && (
             <BaseText
-              style={[style.messageType, style.text, opacityStyle]}
+              style={[style.messageType, opacityStyle]}
               visibleOn={finishedMessage.color}
             >
               Echo
@@ -380,6 +385,7 @@ const style = StyleSheet.create({
     position: 'absolute',
     bottom: 16,
     left: 16,
+    minWidth: EXPANDED_MIN_WIDTH,
   },
   echoButton: {
     position: 'absolute',

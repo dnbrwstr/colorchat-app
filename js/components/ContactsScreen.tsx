@@ -4,18 +4,14 @@ import {View} from 'react-native';
 import ContactList from './ContactList';
 import AnimatedEllipsis from './AnimatedEllipsis';
 import {importContacts, sendInvite} from '../store/contacts/actions';
-import {
-  navigateToConversation,
-  navigateBack,
-  navigateTo,
-} from '../store/navigation/actions';
+import {navigateToConversation, navigateTo} from '../store/navigation/actions';
 import Header from './Header';
 import withStyles, {makeStyleCreator, InjectedStyles} from '../lib/withStyles';
 import ContactsImportPrompt from './ContactsImportPrompt';
 import {Theme} from '../style/themes';
 import {AppDispatch, AppState} from '../store/createStore';
 import {Contact} from '../store/contacts/types';
-import BaseText from './BaseText';
+import {checkPermission} from '../lib/ContactUtils';
 
 interface ContactsScreenProps {
   contacts: Contact[];
@@ -29,8 +25,11 @@ interface ContactsScreenProps {
 }
 
 class ContactsScreen extends React.Component<ContactsScreenProps> {
-  componentDidMount() {
-    this.importContacts(false);
+  async componentDidMount() {
+    const permission = await checkPermission();
+    if (permission === 'authorized') {
+      this.importContacts(false);
+    }
   }
 
   componentDidUpdate(prevProps: ContactsScreenProps) {

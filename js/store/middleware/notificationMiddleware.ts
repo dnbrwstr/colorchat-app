@@ -6,11 +6,12 @@ import {receiveMessage} from '../messages/actions';
 import {updateUserInfo} from '../user/actions';
 import {navigateToConversation} from '../navigation/actions';
 import NavigationService from '../../lib/NavigationService';
-import {ThunkMiddleware, ThunkDispatch, ThunkAction} from 'redux-thunk';
-import {AppState} from '../createStore';
+import {ThunkDispatch} from 'redux-thunk';
+import {AppState, STORE_READY} from '../createStore';
 import {
   TRIGGER_PERMISSIONS_DIALOG,
   CHECK_FOR_INITIAL_NOTIFICATION,
+  UPDATE_UNREAD_COUNT,
 } from '../notifications/types';
 import {UPDATE_CONVERSATION_UI} from '../ui/types';
 import {MARK_CONVERSATION_READ} from '../conversations/types';
@@ -116,11 +117,13 @@ const notificationMiddleware = (
   return (next: Dispatch) => (action: AnyAction) => {
     next(action);
 
-    if (action.type === 'init') {
+    if (action.type === STORE_READY) {
       init();
     } else if (action.type === TRIGGER_PERMISSIONS_DIALOG) {
       requestPermissions();
     } else if (action.type === UPDATE_CONVERSATION_UI) {
+      updateUnreadCount();
+    } else if (action.type === UPDATE_UNREAD_COUNT) {
       updateUnreadCount();
     } else if (action.type === MARK_CONVERSATION_READ) {
       markConversationRead();

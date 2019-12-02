@@ -98,9 +98,11 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
   },
   name: {
     marginTop: -1,
+    lineHeight: 22,
   },
   phoneNumber: {
     fontSize: 12,
+    lineHeight: 16,
     color: theme.secondaryTextColor,
   },
 }));

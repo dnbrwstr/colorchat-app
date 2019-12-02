@@ -5,15 +5,18 @@ import {
   deleteAuthenticated,
   putAuthenticatedJSON,
   postJSON,
+  postAuthenticatedJSON,
 } from './RequestHelpers';
 import config from '../config';
 import {PlatformOSType} from 'react-native';
+import {ContactMatchData} from 'js/store/contacts/types';
 
 const endpoints = {
   authenticate: 'auth',
   confirmNumber: 'auth/confirm',
   account: 'account',
   blockedUsers: 'account/blocked',
+  matchContacts: 'match',
 };
 
 export interface ApiAccount {
@@ -51,6 +54,8 @@ export interface ApiConfirmNumberResponse {
   };
 }
 
+export type ApiContactMatchResponse = ContactMatchData[];
+
 const ensureToken = (authToken?: string): string => {
   if (!authToken) {
     throw new Error('Missing user token');
@@ -72,9 +77,8 @@ export const registerPhoneNumber = async (
   baseNumber: string,
 ): Promise<ApiRegisterResponse> => {
   const url = config.serverRoot + '/' + endpoints.authenticate;
-  console.log('REgistrong', url, {baseNumber, countryCode});
   const getRequest = () => postJSON(url, {baseNumber, countryCode});
-  return send<ApiRegisterResponse>(getRequest);
+  return send<ApiRegisterResponse>(getRequest, 'registerPhoneNumber');
 };
 
 export const submitConfirmationCode = async (
@@ -83,7 +87,7 @@ export const submitConfirmationCode = async (
 ): Promise<ApiConfirmNumberResponse> => {
   const url = config.serverRoot + '/' + endpoints.confirmNumber;
   const getRequest = () => postJSON(url, {phoneNumber, code});
-  return send<ApiConfirmNumberResponse>(getRequest);
+  return send<ApiConfirmNumberResponse>(getRequest, 'submitConfirmationCode');
 };
 
 export const getUserInfo = async (authToken?: string): Promise<ApiAccount> => {
@@ -100,6 +104,16 @@ export const updateUserInfo = (
   const url = config.serverRoot + '/' + endpoints.account;
   const getRequest = () => putAuthenticatedJSON(url, data, token);
   return send<ApiAccount>(getRequest);
+};
+
+export const getMatchedContacts = (
+  phoneNumbers: string[],
+  authToken?: string,
+): Promise<ApiContactMatchResponse> => {
+  const token = ensureToken(authToken);
+  const url = config.serverRoot + '/' + endpoints.matchContacts;
+  const getRequest = () => postAuthenticatedJSON(url, {phoneNumbers}, token);
+  return send<ApiContactMatchResponse>(getRequest);
 };
 
 const getBlockUrl = (userId: number) =>
@@ -141,5 +155,5 @@ export const deleteAccount = (authToken?: string): Promise<void> => {
   const token = ensureToken(authToken);
   const url = config.serverRoot + '/' + endpoints.account;
   const getRequest = () => deleteAuthenticated(url, token);
-  return send(getRequest);
+  return send<any>(getRequest);
 };

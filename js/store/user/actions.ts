@@ -145,6 +145,6 @@ export const createDeleteAccountBaseAction = (): DeleteAccountBaseAction => {
 
 export const runDeleteAccount = async (authToken?: string) => {
   await Api.deleteAccount(authToken);
-  await purgeMessages();
   Alert.alert('Your account has been deleted! Enjoy your day :)');
+  await purgeMessages();
 };

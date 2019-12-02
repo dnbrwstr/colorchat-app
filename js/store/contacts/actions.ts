@@ -1,8 +1,6 @@
-import {Platform, PermissionsAndroid, NativeModules} from 'react-native';
+import {Platform, PermissionsAndroid, Linking} from 'react-native';
 import SendSMS, {AndroidSuccessTypes} from 'react-native-sms';
-import {postAuthenticatedJSON} from '../../lib/RequestHelpers';
 import config from '../../config';
-import send from '../../lib/send';
 import {
   checkPermission,
   requestPermission,
@@ -17,16 +15,13 @@ import {
   ImportContactsAction,
   IMPORT_CONTACTS,
   ContactMap,
-  MatchedContact,
   ImportContactsBaseAction,
   RawContactWithNumber,
 } from './types';
-import {selectUserToken} from '../user/selectors';
-import {AsyncActionState, dispatchAsyncActions} from '../../lib/AsyncAction';
+import {dispatchAsyncActions} from '../../lib/AsyncAction';
+import {getMatchedContacts} from '../../lib/ChatApi';
 
-const {SettingsApp} = NativeModules;
-
-const {serverRoot, inviteLink} = config;
+const {inviteLink} = config;
 
 export const importContacts = ({
   askPermission,
@@ -47,22 +42,14 @@ const runContactImport = async (askPermission: boolean, state: AppState) => {
     throw new Error('Permission denied');
   }
 
-  const token = selectUserToken(state);
-  if (!token) {
-    throw new Error('Unable to match contacts, no user token!');
-  }
-
   const contactsByNumber = await getContactsByNumber();
   const phoneNumbers = Object.keys(contactsByNumber);
   const contacts = phoneNumbers.map(k => contactsByNumber[k]);
-  const url = serverRoot + '/match';
-  const getRequest = () => postAuthenticatedJSON(url, {phoneNumbers}, token);
-  const matches = await send<ContactMatchData[]>(getRequest);
+  const matches = await getMatchedContacts(phoneNumbers, state.user?.token);
   return filterBlockedContacts(contacts, matches);
 };
 
 const getPermission = async (shouldRequestIfMissing: boolean) => {
-  console.log('groooting position');
   let permission: ContactPermissionStatus = await checkPermission();
   if (
     (permission === 'undefined' || permission == 'denied') &&
@@ -71,7 +58,7 @@ const getPermission = async (shouldRequestIfMissing: boolean) => {
     if (Platform.OS === 'ios') {
       permission = await requestPermission();
       if (permission === 'denied' && shouldRequestIfMissing) {
-        SettingsApp.openSettings();
+        Linking.openSettings();
       }
     } else {
       permission = await PermissionsAndroid.request(

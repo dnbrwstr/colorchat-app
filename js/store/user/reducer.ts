@@ -13,6 +13,8 @@ import {
   UpdateUserInfoAction,
   LOAD_USER_INFO,
   LoadUserInfoAction,
+  DELETE_ACCOUNT,
+  DeleteAccountAction,
 } from './types';
 import {SAVE_DEVICE_TOKEN, SaveDeviceTokenAction} from '../notifications/types';
 import {AsyncActionState} from '../../lib/AsyncAction';
@@ -113,6 +115,10 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [LOGOUT]: (state, action: LogoutAction) => {
+    return initialState;
+  },
+
+  [DELETE_ACCOUNT]: (state, action: DeleteAccountAction) => {
     return initialState;
   },
 };

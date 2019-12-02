@@ -1,12 +1,5 @@
 import React, {Component, ReactNode} from 'react';
-import {
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Keyboard,
-  Platform,
-  EmitterSubscription,
-} from 'react-native';
+import {View, ScrollView, KeyboardAvoidingView} from 'react-native';
 import Style from '../style';
 import Header from './Header';
 import withStyles, {makeStyleCreator, InjectedStyles} from '../lib/withStyles';
@@ -30,30 +23,12 @@ interface SignupScreenState {
 class SignupScreen extends Component<SignupScreenProps, SignupScreenState> {
   static defaultProps = {scrollEnabled: true};
 
-  state: SignupScreenState = {
-    keyboardAvoidingViewKeyCounter: 0,
-  };
-
-  keyboardHideListener?: EmitterSubscription;
-
-  componentDidMount() {
-    this.keyboardHideListener = Keyboard.addListener(
-      Platform.OS === 'android' ? 'keyboardDidHide' : 'keyboardWillHide',
-      this.handleKeyboardHidden,
-    );
-  }
-
-  componentWillUnmount() {
-    this.keyboardHideListener?.remove();
-  }
-
   render() {
     const {props} = this;
     const {theme, styles} = props;
     return (
       <KeyboardAvoidingView
-        key={`kav-${this.state.keyboardAvoidingViewKeyCounter}`}
-        behavior={Platform.OS === 'ios' ? 'height' : undefined}
+        behavior={'height'}
         style={styles.wrapper}
         keyboardVerticalOffset={getStatusBarHeight()}
       >
@@ -61,6 +36,8 @@ class SignupScreen extends Component<SignupScreenProps, SignupScreenState> {
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
           scrollEnabled={this.props.scrollEnabled}
+          keyboardDismissMode={'interactive'}
+          keyboardShouldPersistTaps={'handled'}
         >
           <View style={styles.content}>
             <Header
@@ -80,13 +57,6 @@ class SignupScreen extends Component<SignupScreenProps, SignupScreenState> {
       </KeyboardAvoidingView>
     );
   }
-
-  handleKeyboardHidden = () => {
-    this.setState({
-      keyboardAvoidingViewKeyCounter:
-        this.state.keyboardAvoidingViewKeyCounter + 1,
-    });
-  };
 }
 
 const getStyles = makeStyleCreator((theme: Theme) => ({

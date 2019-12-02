@@ -30,31 +30,30 @@ const retryIntervals = [500, 500, 1000, 1000];
  */
 const send = async <R = never>(
   getRequest: () => Promise<Response>,
+  requestType: string = 'default',
   attempt: number = 0,
 ): Promise<R> => {
   let res;
   try {
-    console.log('Send, waiting for reponse');
     res = await getRequest();
   } catch (err) {
     if (typeof retryIntervals[attempt] !== 'undefined') {
-      console.log('Request failed with', err, ', retrying');
       await wait(retryIntervals[attempt]);
-      return send<R>(getRequest, ++attempt);
+      return send<R>(getRequest, requestType, ++attempt);
     } else {
-      console.log('Request failed:', err);
       const {isConnected} = await NetInfo.fetch();
       const errorType = isConnected ? 'serverUnreachable' : 'noNetwork';
-      throw new Error(errorMessages.default[errorType]);
+      throw new Error(
+        errorMessages[requestType][errorType] ||
+          errorMessages['default'][errorType],
+      );
     }
   }
 
   if (res.ok) {
-    console.log('send got ok');
     const rawData: R = await res.json();
     return rawData;
   } else {
-    console.log('send baddd');
     throw new Error(errorMessages.default[500]);
   }
 };

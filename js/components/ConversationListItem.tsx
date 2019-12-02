@@ -3,13 +3,13 @@ import {View, StyleProp, TextStyle, ViewStyle} from 'react-native';
 import Color from 'color';
 import Style from '../style';
 import BaseText from './BaseText';
-import {shortHumanDate, formatName} from '../lib/Utils';
+import {shortHumanDate} from '../lib/Utils';
 import {getTimestamp} from '../lib/MessageUtils';
 import withStyles, {makeStyleCreator, InjectedStyles} from '../lib/withStyles';
 import {Theme} from '../style/themes';
 import {Conversation} from '../store/conversations/types';
 import {MatchedContact, Contact} from '../store/contacts/types';
-import {getContactName, getContactAvatar} from '../lib/ContactUtils';
+import {getContactAvatar} from '../lib/ContactUtils';
 import {RectButton} from 'react-native-gesture-handler';
 import SwipeableDelete from './SwipeableDelete';
 

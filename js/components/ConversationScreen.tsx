@@ -28,9 +28,7 @@ import {
 import {Theme} from '../style/themes';
 import {FinishedMessage} from '../store/messages/types';
 import {User} from '../store/user/types';
-import {getContactName, getContactAvatar} from '../lib/ContactUtils';
-import {useFocusEffect} from 'react-navigation-hooks';
-import {isUndefined} from '../lib/Utils';
+import {getContactAvatar} from '../lib/ContactUtils';
 
 const {
   resendMessage,

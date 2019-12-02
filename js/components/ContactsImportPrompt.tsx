@@ -18,15 +18,31 @@ const ContactsImportPrompt: FC<ContactsImportPromptProps> = props => {
   const {importError} = props;
   const {styles} = useStyles(getStyles);
 
-  const strings = importError
-    ? {
-        info: importError,
-        button: 'Retry',
-      }
-    : {
-        info: `${config.appName} uses your\ncontacts to determine\nwho you can chat with`,
-        button: 'Import contacts',
-      };
+  const states = {
+    default: {
+      info: `${config.appName} uses your contacts to\ndetermine who you can chat with`,
+      button: 'Import contacts',
+    },
+    needsPermission: {
+      info: `${config.appName} uses your contacts to\ndetermine who you can chat with`,
+      button: 'Allow access',
+    },
+    serverError: {
+      info: importError,
+      button: 'Retry',
+    },
+  };
+
+  let state: keyof typeof states = 'default';
+  if (props.importError) {
+    if (props.importError && props.importError === 'Permission denied') {
+      state = 'needsPermission';
+    } else {
+      state = 'serverError';
+    }
+  }
+
+  const strings = states[state];
 
   return (
     <View style={styles.container}>
@@ -39,13 +55,11 @@ const ContactsImportPrompt: FC<ContactsImportPromptProps> = props => {
         textStyle={styles.buttonText}
       />
 
-      {!importError && (
-        <PressableView style={styles.infoLink} onPress={props.onRequestInfo}>
-          <BaseText style={styles.infoLinkText}>
-            More about how Color Chat{'\n'}uses your contacts
-          </BaseText>
-        </PressableView>
-      )}
+      <PressableView style={styles.infoLink} onPress={props.onRequestInfo}>
+        <BaseText style={styles.infoLinkText}>
+          More about how Color Chat{'\n'}uses your contacts
+        </BaseText>
+      </PressableView>
     </View>
   );
 };
@@ -71,12 +85,13 @@ const getStyles = makeStyleCreator((theme: Theme) => ({
     color: theme.primaryButtonTextColor,
   },
   infoLink: {
-    marginTop: 20,
+    marginTop: 24,
   },
   infoLinkText: {
     textDecorationLine: 'underline',
     textAlign: 'center',
     fontSize: Style.values.smallFontSize,
+    lineHeight: Style.values.smallFontLeading,
   },
 }));
 

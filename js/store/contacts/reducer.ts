@@ -1,17 +1,38 @@
-import createRoutingReducer, {CaseReducer} from '../createRoutingReducer';
+import createRoutingReducer, {CaseHandlerMap} from '../createRoutingReducer';
 import {
   ContactsState,
   ImportContactsAction,
   Contact,
-  MatchedContact,
   ContactMatchData,
+  IMPORT_CONTACTS,
+  RawContactWithNumber,
 } from './types';
 import {AsyncActionState} from '../../lib/AsyncAction';
+import {
+  LOGOUT,
+  LogoutAction,
+  DELETE_ACCOUNT,
+  DeleteAccountAction,
+} from '../user/types';
 
-let initialState: ContactsState = [];
+const initialState: ContactsState = [];
 
-let handlers: {[key: string]: CaseReducer<ContactsState, any>} = {
-  importContacts: (state, action: ImportContactsAction) => {
+const createContact = (
+  rawContact: RawContactWithNumber,
+  matchData: ContactMatchData,
+): Contact => {
+  return (
+    (matchData && {
+      ...rawContact,
+      id: matchData.userId,
+      avatar: matchData.avatar,
+      matched: true,
+    }) || {...rawContact, matched: false}
+  );
+};
+
+const handlers: CaseHandlerMap<ContactsState> = {
+  [IMPORT_CONTACTS]: (state, action: ImportContactsAction) => {
     if (action.state !== AsyncActionState.Complete) return state;
 
     const matches = action.result.matches.reduce((memo, m) => {
@@ -19,23 +40,13 @@ let handlers: {[key: string]: CaseReducer<ContactsState, any>} = {
       return memo;
     }, [] as ContactMatchData[]);
 
-    const contacts: Contact[] = action.result.contacts.map((c, i) => {
-      return matches[i]
-        ? {
-            ...c,
-            matched: true,
-            id: matches[i].userId,
-            avatar: matches[i].avatar,
-          }
-        : {
-            ...c,
-            matched: false,
-          };
-    });
+    const contacts: Contact[] = action.result.contacts.map((c, i) =>
+      createContact(c, matches[i]),
+    );
 
     return contacts.sort((a, b) => {
-      const aMatched = (a as MatchedContact).matched;
-      const bMatched = (b as MatchedContact).matched;
+      const aMatched = a.matched;
+      const bMatched = b.matched;
       const aName = a.givenName + a.familyName;
       const bName = b.givenName + b.familyName;
       if (aMatched && !bMatched) return -1;
@@ -44,6 +55,14 @@ let handlers: {[key: string]: CaseReducer<ContactsState, any>} = {
       else if (aName > bName) return 1;
       else return 0;
     });
+  },
+
+  [LOGOUT]: (state, action: LogoutAction) => {
+    return initialState;
+  },
+
+  [DELETE_ACCOUNT]: (state, action: DeleteAccountAction) => {
+    return initialState;
   },
 };
 

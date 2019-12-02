@@ -16,7 +16,7 @@ const TextScreen: FC<TextScreenProps> = props => {
 
   return (
     <View style={styles.container}>
-      <Header showBorder={false}>{props.title}</Header>
+      <Header>{props.title}</Header>
       <View style={styles.content}>
         <BaseText style={styles.text}>{props.children}</BaseText>
       </View>

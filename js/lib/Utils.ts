@@ -55,6 +55,8 @@ export const isUndefined = (a: any): a is undefined => {
 export const cameraColorToColor = ({r, g, b}: DetectedColor) =>
   new Color({r, g, b});
 
+export const isLight = (color: string) => Color(color).luminosity() > 0.5;
+
 const createDateFormatter = (formatObj: DateFormatSettings) => (
   date: DatePrimitive,
 ): string => {
@@ -102,6 +104,8 @@ export let shortHumanDate = (date: DatePrimitive) => {
 export let formatName = (firstName: string, lastName: string) => {
   return [firstName, lastName].filter(n => !!n).join(' ');
 };
+
+export const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1);
 
 const timers: {[key: string]: Date} = {};
 

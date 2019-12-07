@@ -58,7 +58,6 @@ interface ConversationScreenProps {
   recipientName?: string;
   recipientAvatar?: string;
   recipientId: number;
-  hasExpandedMessages: boolean;
 }
 
 interface ConversationScreenState {
@@ -107,7 +106,6 @@ export class ConversationScreen extends Component<
             onMessageExpanded={this.handleMessageExpanded}
             onMessageCollapsed={this.handleMessageCollapsed}
             scrollLocked={this.props.composing}
-            messageExpanded={this.props.hasExpandedMessages}
             messages={this.props.messages}
             user={this.props.user}
             onBeginningReached={this.handleBeginningReached}
@@ -123,7 +121,6 @@ export class ConversationScreen extends Component<
           style={styles.newMessageButton}
           onPress={this.handleStartComposing}
           visible={
-            !this.props.hasExpandedMessages &&
             !this.props.composing &&
             !this.props.sending &&
             !this.props.cancelling
@@ -209,10 +206,7 @@ export class ConversationScreen extends Component<
   };
 
   handleStartComposing = () => {
-    console.log('maybe start composing');
     if (this.props.composing) return;
-    console.log('really start composing');
-
     this.props.dispatch(
       startComposingMessage({
         recipientId: this.props.recipientId,
@@ -240,7 +234,6 @@ export class ConversationScreen extends Component<
   };
 
   handleMessageExpanded = (message: FinishedMessage) => {
-    if (this.props.hasExpandedMessages) return;
     this.props.dispatch(toggleMessageExpansion(message, true));
   };
 

@@ -9,6 +9,7 @@ import {
   Platform,
   View,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 import Style from '../style';
 import Message from './Message';
@@ -28,7 +29,6 @@ interface MessageListProps {
   user: User;
   scrollLocked: boolean;
   scrollBridge: ScrollBridge;
-  messageExpanded: boolean;
   onMessageEchoed: (message: FinishedMessage) => void;
   onMessageExpanded: (message: FinishedMessage) => void;
   onMessageCollapsed: (message: FinishedMessage) => void;
@@ -52,7 +52,6 @@ class MessageList extends Component<MessageListProps, MessageListState> {
   ) {
     return (
       this.props.messages !== nextProps.messages ||
-      this.props.messageExpanded !== nextProps.messageExpanded ||
       this.props.scrollLocked !== nextProps.scrollLocked ||
       this.props.user.id !== nextProps.user.id
     );
@@ -100,9 +99,7 @@ class MessageList extends Component<MessageListProps, MessageListState> {
       this.handleScroll(e);
     };
 
-    const scrollEnabled = this.props.messageExpanded
-      ? false
-      : !this.props.scrollLocked;
+    const scrollEnabled = !this.props.scrollLocked;
 
     return (
       <ScrollView
@@ -146,19 +143,28 @@ class MessageList extends Component<MessageListProps, MessageListState> {
     position: NodeMeasurement,
     nextSize: {width: number; height: number},
   ) => {
-    if (this.props.scrollLocked || this.props.messageExpanded) return;
+    if (this.props.scrollLocked) return;
 
     this.props.onMessageExpanded(message as FinishedMessage);
 
     // Note that top and bottom are flipped here
     // as we're using an InvertibleScrollView
-    let nextTop = position.top + position.height - nextSize.height;
-    let nextOffset = nextTop - Style.values.rowHeight;
-    if (Platform.OS === 'ios') nextOffset -= getStatusBarHeight();
+    const nextTop = position.top + position.height - nextSize.height;
+    const nextBottom = position.top + position.height;
 
-    this.listRef.current?.scrollToOffset({
-      offset: this.state.scrollOffset - nextOffset,
-    });
+    if (nextTop < Style.values.rowHeight) {
+      let offset = nextTop - Style.values.rowHeight;
+      if (Platform.OS === 'ios') offset -= getStatusBarHeight();
+
+      this.listRef.current?.scrollToOffset({
+        offset: this.state.scrollOffset - offset,
+      });
+    } else if (nextBottom > Dimensions.get('window').height) {
+      const offset = nextBottom - Dimensions.get('window').height;
+      this.listRef.current?.scrollToOffset({
+        offset: this.state.scrollOffset - offset,
+      });
+    }
   };
 
   handleMessageCollapsed = (message: MessageData) => {

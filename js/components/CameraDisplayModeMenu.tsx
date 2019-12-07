@@ -13,8 +13,7 @@ import {
 } from 'react-native-gesture-handler';
 import withStyles, {InjectedStyles, makeStyleCreator} from '../lib/withStyles';
 import {Theme} from '../style/themes';
-
-const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1);
+import {capitalize} from '../lib/Utils';
 
 const options = [
   'light',

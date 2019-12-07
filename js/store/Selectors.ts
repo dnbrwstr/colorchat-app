@@ -76,7 +76,6 @@ export let conversationScreenSelector = createSelector(
       partnerIsComposing: conversation.partnerIsComposing,
       messages,
       totalMessages,
-      hasExpandedMessages: expanded,
     };
   },
 );

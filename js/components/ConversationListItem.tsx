@@ -82,8 +82,9 @@ class ConversationListItem extends Component<ConversationListItemProps> {
       <SwipeableDelete onPressDelete={this.props.onDelete}>
         <RectButton
           style={[styles.item]}
+          underlayColor={theme.highlightColor}
           onPress={this.props.onPress}
-          activeOpacity={0}
+          activeOpacity={1}
         >
           <View style={styles.user}>
             <View style={avatarStyles} />

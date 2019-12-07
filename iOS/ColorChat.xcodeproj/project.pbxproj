@@ -27,13 +27,6 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
-		C8C41ECA2106FD7B0069B2FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 95688E1A1D38251600F72D63;
-			remoteInfo = SendSMS;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +42,6 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ColorChat/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ColorChat/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ColorChat/main.m; sourceTree = "<group>"; };
-		38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SendSMS.xcodeproj; path = "../node_modules/react-native-sms/SendSMS.xcodeproj"; sourceTree = "<group>"; };
 		4794F251534389E2C288B329 /* Pods-ColorChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChat/Pods-ColorChat.release.xcconfig"; sourceTree = "<group>"; };
 		6AB3733FAF5C53F9BC3905F8 /* Pods-ColorChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorChatTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColorChatTests/Pods-ColorChatTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6C30602C2244A28200708924 /* ColorChat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ColorChat-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -118,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				098F76C6A9E54ECB9C336C53 /* RNFirebase.xcodeproj */,
-				38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -170,14 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				C8C41E632106BB5F0069B2FC /* libRNFirebase.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C8C41EC72106FD7A0069B2FC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C8C41ECB2106FD7B0069B2FC /* libSendSMS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -255,10 +238,6 @@
 					ProductGroup = C8C41E5F2106BB5F0069B2FC /* Products */;
 					ProjectRef = 098F76C6A9E54ECB9C336C53 /* RNFirebase.xcodeproj */;
 				},
-				{
-					ProductGroup = C8C41EC72106FD7A0069B2FC /* Products */;
-					ProjectRef = 38DCD9A59B5840F18CEB6AE6 /* SendSMS.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -273,13 +252,6 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = C8C41E622106BB5F0069B2FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C8C41ECB2106FD7B0069B2FC /* libSendSMS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSendSMS.a;
-			remoteRef = C8C41ECA2106FD7B0069B2FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -365,7 +337,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ColorChat/ColorChat.entitlements;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 33;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = GXRKD3PLUA;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -405,7 +377,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ColorChat/ColorChat.entitlements;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 33;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = GXRKD3PLUA;
 				FRAMEWORK_SEARCH_PATHS = (

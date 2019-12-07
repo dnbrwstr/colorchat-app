@@ -55,7 +55,7 @@ const config: ConfigList = {
   production: {
     appName: 'Color Chat',
     screenshotMode: false,
-    inviteLink: 'https://soft.works/colorchat',
+    inviteLink: 'https://colorchat.soft.works',
     serverRoot: 'https://colorchat-core.soft.works',
     logState: false,
     logActions: false,

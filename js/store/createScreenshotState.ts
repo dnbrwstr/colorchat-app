@@ -1,6 +1,7 @@
 import {makeArray, rand} from '../lib/Utils';
 import {createSeedMessage, convertFromRelativeSize} from '../lib/MessageUtils';
 import {MessageType} from './messages/types';
+import themes from '../style/themes';
 
 const randomColor = () => `rgb(${rand(255)},${rand(255)},${rand(255)})`;
 
@@ -77,6 +78,7 @@ const createScreenshotState = () => {
   const conversations = makeArray(6).map(n => ({
     recipientId: contacts[n].id,
     recipientName: contacts[n].givenName,
+    recipientAvatar: contacts[n].avatar,
     lastMessage: messages.static[rand(messages.static.length)],
     unread: false,
     partnerIsComposing: false,
@@ -87,6 +89,7 @@ const createScreenshotState = () => {
     contacts,
     messages,
     conversations,
+    theme: themes.dark,
   };
 };
 

@@ -215,12 +215,10 @@ const SwipeableDelete: FC<SwipeableDeleteProps> = props => {
   >> = useRef(new Animated.Value(0));
 
   const handleLayout = useCallback((e: LayoutChangeEvent) => {
-    animatedHeightRef.current.setValue(e.nativeEvent.layout.height);
-    // HACK: Not really sure what's going on here, but on Androi reanimated
-    // will apply the older animated height value if we call this synchronously
-    setTimeout(() => {
-      setHasSetHeight(true);
-    }, 0);
+    // Note: Reanimated does not apply the correct height unless we create
+    // a new Animated.Value here
+    animatedHeightRef.current = new Animated.Value(e.nativeEvent.layout.height);
+    setHasSetHeight(true);
   }, []);
 
   const [deleteButtonIsActive, setDeleteButtonIsActive] = useState(false);

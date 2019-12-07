@@ -124,6 +124,8 @@ PODS:
     - React
   - react-native-netinfo (3.2.1):
     - React
+  - react-native-sms (1.10.0):
+    - React
   - react-native-sqlite-storage (3.3.11):
     - React
   - React-RCTActionSheet (0.60.6):
@@ -180,6 +182,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-sms (from `../node_modules/react-native-sms`)
   - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -239,6 +242,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-contacts"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-sms:
+    :path: "../node_modules/react-native-sms"
   react-native-sqlite-storage:
     :path: "../node_modules/react-native-sqlite-storage"
   React-RCTActionSheet:
@@ -302,6 +307,7 @@ SPEC CHECKSUMS:
   React-jsinspector: a58b86545a0185f69768e78ac96ca9fe43fa3694
   react-native-contacts: 7d0b7ccd5f00df82ceca035935fc9d6e63af5aec
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
+  react-native-sms: 12219e91750e7b778b29bde402c5eca843e8d66c
   react-native-sqlite-storage: c7d77c26a0b82a304d7158d3515f188665e3ef72
   React-RCTActionSheet: 49f6a67a7efa6688f637296383d453b97ef13645
   React-RCTAnimation: e8047438b2927ebbe630bbf600c7309374075df3
@@ -322,6 +328,6 @@ SPEC CHECKSUMS:
   STColorCamera: 97df13579a3781295e8a4dc11bb18eca618bbeac
   yoga: 5079887aa3e4c62142d6bcee493022643ee4d730
 
-PODFILE CHECKSUM: 527b04f8851ba90cd1650046495816b9ca23537e
+PODFILE CHECKSUM: f26391e1319b5c9e7da4af936dfb9a498721ae79
 
 COCOAPODS: 1.8.4

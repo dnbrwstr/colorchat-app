@@ -1,6 +1,7 @@
 import NavigationService from '../../lib/NavigationService';
 import {AppState} from '../createStore';
 import {AnyAction, MiddlewareAPI, Dispatch} from 'redux';
+import config from '../../config';
 
 type NavigationHandler = (state: AppState, action: AnyAction) => void;
 
@@ -27,7 +28,9 @@ const navigationMiddleware = (store: MiddlewareAPI) => (next: Dispatch) => {
     },
 
     authError: function(state, action) {
-      navigate('auth');
+      if (!config.screenshotMode) {
+        navigate('auth');
+      }
     },
 
     registerPhoneNumber: function(state, action) {

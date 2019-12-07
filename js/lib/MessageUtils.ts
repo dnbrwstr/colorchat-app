@@ -63,7 +63,7 @@ export const createSeedMessage = (): StoredMessage => {
   const recipientId = senderId === 1 ? 2 : 1;
   const size = Dimensions.get('window');
   const relativeWidth = Math.random() * 0.8 + 0.3;
-  const relativeHeight = Math.random() / 2 + 0.05;
+  const relativeHeight = Math.random() / 3 + 0.05;
   return {
     id: generateId(),
     state: 'static',

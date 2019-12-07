@@ -1,5 +1,5 @@
 import {Platform, PermissionsAndroid, Linking} from 'react-native';
-import SendSMS, {AndroidSuccessTypes} from 'react-native-sms';
+import SendSMS from 'react-native-sms';
 import config from '../../config';
 import {
   checkPermission,
@@ -113,7 +113,7 @@ export let sendInvite = (
     {
       body: message,
       recipients: [number],
-      successTypes: [AndroidSuccessTypes.all],
+      successTypes: ['all'],
       // @ts-ignore This is used but missing in the typing!
       allowAndroidSendWithoutReadPermission: true,
     },

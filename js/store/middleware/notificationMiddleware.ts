@@ -53,7 +53,8 @@ const notificationMiddleware = (
   };
 
   const updateUnreadCount = async () => {
-    const userId = store.getState().user.id;
+    const userId = store.getState().user?.id;
+    if (!userId) return;
     const count = await getUnreadCount(userId);
     store.dispatch(updateUserInfo({unreadCount: count}));
     firebase.notifications().setBadge(count);

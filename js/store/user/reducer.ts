@@ -24,6 +24,7 @@ import {
 } from '../signup/types';
 import {LOAD_COMPLETE, LoadCompleteAction} from '../load/types';
 import {AUTH_ERROR} from '../ui/types';
+import config from '../../config';
 
 const initialState: UserState = null;
 
@@ -34,7 +35,11 @@ const handlers: {[key: string]: CaseReducer<UserState, any>} = {
   },
 
   [AUTH_ERROR]: (state, action) => {
-    return initialState;
+    if (config.screenshotMode) {
+      return state;
+    } else {
+      return initialState;
+    }
   },
 
   [SUBMIT_CONFIRMATION_CODE]: (state, action: SubmitConfirmationCodeAction) => {

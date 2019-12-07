@@ -44,6 +44,7 @@ import {
 } from '../user/types';
 import {AsyncActionState} from '../../lib/AsyncAction';
 import {isUndefined} from '../../lib/Utils';
+import {LOAD_COMPLETE, LoadCompleteAction} from '../load/types';
 
 const {merge, findIndex, pipe, __, partial, reduce, zipWith, curry} = ramda;
 
@@ -217,6 +218,10 @@ const handleSendMessageFailure = function(
 };
 
 const handlers: CaseHandlerMap<MessageState> = {
+  [LOAD_COMPLETE](state, action: LoadCompleteAction) {
+    return action.data.messages || initialState;
+  },
+
   [START_COMPOSING_MESSAGE](
     state: MessageState,
     action: StartComposingMessageAction,
@@ -301,7 +306,6 @@ const handlers: CaseHandlerMap<MessageState> = {
 
   [DELETE_CONVERSATION](state, action) {
     const id = action.conversation.recipientId;
-
     return {
       ...state,
       ...mapTypes(messages => messages.filter(m => isWithUser(id, m)), state),

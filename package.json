@@ -32,7 +32,7 @@
     "react-native-invertible-scroll-view": "^1.1.1",
     "react-native-iphone-x-helper": "^1.2.0",
     "react-native-keyboard-aware-scrollview": "^2.0.0",
-    "react-native-reanimated": "^1.4.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-segmented-control-tab": "^3.4.0",
     "react-native-sms": "^1.10.0",
